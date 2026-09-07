@@ -1,10 +1,10 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "Indian_Tourist_Visa_2016_stamped.jpg",
+  "file_analyzed": "U.S._passport_card.jpg",
   "live_image": null,
   "risk_level": "REVIEW",
   "risk_reason": "Critical checks not available: ocr_extraction, mrz_parser, ocr_mrz_consistency.",
-  "forensic_risk_score": 0.438,
+  "forensic_risk_score": 0.445,
   "active_detectors_evaluated": 25,
   "detector_signals": [
     {
@@ -31,9 +31,9 @@
       "detector_name": "document_classifier",
       "score": 0.25,
       "confidence": "medium",
-      "explanation": "Classified as passport (score 0.35).",
+      "explanation": "Classified as visa (score 0.35).",
       "status": "passed",
-      "doc_type": "passport"
+      "doc_type": "visa"
     },
     {
       "detector_name": "field_validator",
@@ -74,42 +74,42 @@
       "detector_name": "cfa_demosaicing_analysis",
       "score": 0.85,
       "confidence": "medium",
-      "explanation": "Bayer CFA grid residual ratio computed at 1.32. Lacks physical camera Bayer filter demosaicing signature.",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.14. Lacks physical camera Bayer filter demosaicing signature.",
       "status": "flagged"
     },
     {
       "detector_name": "hf_vision_transformer",
-      "score": 0.09,
+      "score": 0.02,
       "confidence": "high",
-      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 9%.",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 1%.",
       "status": "passed"
     },
     {
       "detector_name": "resampling_interpolation_analysis",
       "score": 0.8,
       "confidence": "medium",
-      "explanation": "Periodic interpolation artifacts detected (metric: 24187.67). Image shows signs of AI upscaling or non-native resampling.",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1760.44). Image shows signs of AI upscaling or non-native resampling.",
       "status": "flagged"
     },
     {
       "detector_name": "ela_compression",
-      "score": 0.12,
+      "score": 0.08,
       "confidence": "medium",
-      "explanation": "Error Level Analysis computed pixel difference variance of 1.84.",
+      "explanation": "Error Level Analysis computed pixel difference variance of 1.14.",
       "status": "passed"
     },
     {
       "detector_name": "histogram_color_forensics",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Color channel entropy computed at 6.91 bits. Standard natural RGB channel distribution.",
+      "explanation": "Color channel entropy computed at 7.14 bits. Standard natural RGB channel distribution.",
       "status": "passed"
     },
     {
       "detector_name": "frequency_domain_fft",
       "score": 0.8,
       "confidence": "medium",
-      "explanation": "FFT spectral power calculated at 154.79 dB. High-frequency grid noise detected.",
+      "explanation": "FFT spectral power calculated at 176.59 dB. High-frequency grid noise detected.",
       "status": "flagged"
     },
     {
@@ -121,10 +121,10 @@
     },
     {
       "detector_name": "blur_sharpness_analysis",
-      "score": 0.75,
+      "score": 0.15,
       "confidence": "medium",
-      "explanation": "Excessive edge sharpening detected (sharpness metric: 16454.11).",
-      "status": "flagged"
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1787.61).",
+      "status": "passed"
     },
     {
       "detector_name": "perceptual_hashing",
@@ -135,10 +135,10 @@
     },
     {
       "detector_name": "jpeg_ghost_analysis",
-      "score": 0.15,
+      "score": 0.85,
       "confidence": "medium",
-      "explanation": "JPEG Ghost variance computed at 6.97. Normal multi-stage JPEG compression curve.",
-      "status": "passed"
+      "explanation": "JPEG Ghost variance computed at 1.49. Suspicious uniform compression grid detected.",
+      "status": "flagged"
     },
     {
       "detector_name": "jpeg_quantization_analysis",
@@ -151,21 +151,21 @@
       "detector_name": "inpainting_trace_analysis",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Inpainting edge boundary dispersion ratio computed at 0.8. Uniform pixel edge continuity verified across image patches.",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 0.98. Uniform pixel edge continuity verified across image patches.",
       "status": "passed"
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.8,
+      "score": 1.0,
       "confidence": "high",
-      "explanation": "The document exhibits multiple signs of digital manipulation, including a photograph that appears to be pasted or digitally inserted, inconsistent text clarity, and a red stamp with distorted elements. The blue arrival stamp is unusually crisp and uniform, suggesting it may have been digitally overlaid onto a lower-resolution base document.",
+      "explanation": "The document clearly displays 'EXEMPLAR' prominently across its face, indicating it is a sample or demonstration card and not a genuine identity document for travel.",
       "status": "flagged"
     },
     {
       "detector_name": "photo_patch_forensics",
-      "score": 0.42,
+      "score": 0.405,
       "confidence": "high",
-      "explanation": "Photo-patch forensics on document face crop. ELA score=0.04 (Error Level Analysis computed pixel difference variance of 0.65.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 11874.03). Image shows signs ).",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.17.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 947.84). Image shows signs of).",
       "status": "flagged"
     },
     {

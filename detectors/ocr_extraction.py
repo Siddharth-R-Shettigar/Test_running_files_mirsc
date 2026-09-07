@@ -22,7 +22,6 @@ def get_reader():
         )
     return _reader
 
-
 def clean_mrz_text(raw_text: str) -> str:
     cleaned = raw_text.upper().replace(" ", "")
     cleaned = re.sub(r'[«\(\{\[\<_\-\–\—\~]', '<', cleaned)

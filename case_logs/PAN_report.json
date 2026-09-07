@@ -1,0 +1,325 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "PAN.jpeg",
+  "live_image": null,
+  "risk_level": "REVIEW",
+  "risk_reason": "Critical checks not available: mrz_parser, ocr_mrz_consistency.",
+  "forensic_risk_score": 0.357,
+  "active_detectors_evaluated": 25,
+  "detector_signals": [
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "Extracted 13 tokens. Found 0 MRZ candidates.",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "3TRa",
+          "confidence": 0.7,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "ParHTST",
+          "confidence": 0.796,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "RAR",
+          "confidence": 0.393,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "INCOMETAX DEPARTMENT",
+          "confidence": 0.977,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "GOVT. OF INDIA",
+          "confidence": 0.953,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "D MANIKANDAN",
+          "confidence": 0.997,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "DURAISAMY",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "16/07/1986",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Permanent Account Number",
+          "confidence": 0.98,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "BNZPM2501F",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "D. manickamabr",
+          "confidence": 0.863,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "0408011",
+          "confidence": 0.947,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Signature",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        }
+      ],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Could not build two MRZ lines from OCR (got 0: []).",
+      "status": "unavailable",
+      "fields": {},
+      "issues": [
+        "Two MRZ lines are required."
+      ]
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Classified as 'pan' (score 0.44). Matched 2 keyword(s).",
+      "status": "passed",
+      "doc_type": "pan"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Skipped; no MRZ fields available.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Skipped; need OCR fields + MRZ fields.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "PAN format is valid. Taxpayer type: 'P'.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.75. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.02,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 2%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1771.85). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.02,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.35.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.62 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 157.42 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1210.63).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.22. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.68. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "The document shows no obvious signs of tampering such as misaligned text, replaced photograph, or altered dates. The layout and visible security features like the hologram and ghost image appear consistent with a genuine PAN card, although the image resolution is not ideal for microscopic inspection.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.41,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.24.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 732.67). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; face match skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; liveness skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; duplicate-ID skipped.",
+      "status": "unavailable"
+    }
+  ],
+  "human_summary": "This image of a PAN card is likely authentic, though it has been digitally processed or upscaled. While some detectors flagged technical anomalies\u2014specifically, a lack of original camera metadata and signs of digital upscaling (resampling)\u2014these are typical for documents that have been cropped, scanned, or saved through mobile apps rather than maliciously forged. Crucially, the document's content is entirely consistent, featuring a valid national ID format and clear text matching a real PAN structure. Furthermore, advanced AI models found no signs of photo manipulation, pixel cloning, or synthetic generation, rating the probability of the image being AI-generated at a negligible 2%. Consequently, the evidence points to a genuine physical ID card that has merely undergone standard digital saving or image enhancement."
+}

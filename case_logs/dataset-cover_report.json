@@ -1,0 +1,542 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "dataset-cover.jpg",
+  "live_image": null,
+  "risk_level": "REVIEW",
+  "risk_reason": "Critical checks not available: mrz_parser.",
+  "forensic_risk_score": 0.432,
+  "active_detectors_evaluated": 25,
+  "detector_signals": [
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "Extracted 30 tokens. Found 2 MRZ candidates.",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "PASSPORT",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "CANADA",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "PASSEPORT",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Type/Type",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Issuing Country/Pays \u00e9metteur",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Passport No./N\u00b0 de passport",
+          "confidence": 0.961,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "P",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "CAN",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "HK888152",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Surname/Nom",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "CLARK",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Given names/Pr\u00e9noms",
+          "confidence": 0.996,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "RACHEL",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Nationality/Nationalit\u00e9",
+          "confidence": 0.99,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "CANADIAN/CANADIENNE",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Date of birth/Date de naissance",
+          "confidence": 0.975,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Sex/Sexe",
+          "confidence": 0.996,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "01 NOV/NOV 98",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "F",
+          "confidence": 0.981,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Place of birth/Lieu de naissance",
+          "confidence": 0.993,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "CONSORT CAN",
+          "confidence": 0.98,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Date ofIssue/Date de delivrance",
+          "confidence": 0.979,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "13 JUNE/JUIN 19",
+          "confidence": 0.989,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Date of expiry/Date d'expiration",
+          "confidence": 0.984,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "13 JUNE/JUIN 29",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Authority/Autorit\u00e9",
+          "confidence": 0.994,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "JUN2029",
+          "confidence": 0.882,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "GATINEAU",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "P<CANCLARK<<RACHEL<<<<<<<<<<<<<<<<<<<<<<<<",
+          "confidence": 0.925,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "HK888152<5CAN9811018M2906130<<<<<<<<<<<<06",
+          "confidence": 0.994,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        }
+      ],
+      "mrz_lines": [
+        "P<CANCLARK<<RACHEL<<<<<<<<<<<<<<<<<<<<<<<<",
+        "HK888152<5CAN9811018M2906130<<<<<<<<<<<<06"
+      ]
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "MRZ parsing error: invalid literal for int() with base 10: '<'",
+      "status": "unavailable",
+      "fields": {
+        "doc_type": "P",
+        "country_code": "CAN",
+        "surname": "CLARK",
+        "given_names": "RACHEL",
+        "passport_number": "HK888152",
+        "nationality": "CAN",
+        "dob": "981101",
+        "sex": "M",
+        "expiry": "290613",
+        "personal_number": "06"
+      },
+      "issues": [
+        "invalid literal for int() with base 10: '<'"
+      ]
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as 'passport' (score 0.66). Matched 3 keyword(s).",
+      "status": "passed",
+      "doc_type": "passport"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.7,
+      "confidence": "high",
+      "explanation": "Validation failures: passport_number",
+      "status": "flagged",
+      "field_results": [
+        {
+          "field": "passport_number",
+          "status": "flagged",
+          "value": "HK888152",
+          "explanation": "Passport number 'HK888152' is INVALID (expected 1 letter + 7 digits)."
+        },
+        {
+          "field": "dob",
+          "status": "passed",
+          "value": "1998-11-01",
+          "explanation": "DOB 1998-11-01 is valid (age ~27)."
+        },
+        {
+          "field": "expiry",
+          "status": "passed",
+          "value": "2029-06-13",
+          "explanation": "Document valid until 2029-06-13."
+        },
+        {
+          "field": "sex",
+          "status": "passed",
+          "value": "M",
+          "explanation": "Sex 'M' is valid."
+        },
+        {
+          "field": "country_code",
+          "status": "passed",
+          "value": "CAN",
+          "explanation": "Country code 'CAN' is valid."
+        }
+      ]
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "All OCR and MRZ fields match.",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 1.99. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.08,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 7%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 4537.01). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.04,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.58.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 7.04 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 168.57 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 2296.12).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 0.89. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.76. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.85,
+      "confidence": "high",
+      "explanation": "The sex field in the Machine Readable Zone (MRZ) shows 'M' (Male), which contradicts the visually printed 'F' (Female) on the document, indicating a strong risk of tampering or fraud.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.4,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.0 (Error Level Analysis computed pixel difference variance of 0.06.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 964.6). Image shows signs of ).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; face match skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; liveness skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; duplicate-ID skipped.",
+      "status": "unavailable"
+    }
+  ],
+  "human_summary": "This image is **highly likely to be digitally manipulated and fraudulent** rather than an authentic passport scan. The most glaring red flag is a major logical contradiction: the visually printed gender on the passport is listed as \"F\" (Female), but the Machine Readable Zone (MRZ) text at the bottom is coded as \"M\" (Male), which is a classic sign of careless tampering. Additionally, the passport number \"HK888152\" is invalid because Canadian passports require a specific format of one letter followed by seven digits, whereas this document uses two letters. Finally, independent forensic tests detected digital anomalies like artificial upscaling and compression inconsistencies, proving the image has been digitally edited. While several identity-matching and live-photo checks were skipped because no live comparison image was provided, the physical and textual evidence of tampering is already overwhelming."
+}

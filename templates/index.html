@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KAVACH | Document Integrity Console</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">K</span><span>KAVACH</span><small>DOCUMENT INTEGRITY CONSOLE</small></div>
+      <nav class="top-actions" aria-label="Prototype actions">
+        <button id="sample-button" class="text-button" type="button">Load sample</button>
+        <button id="reset-button" class="text-button" type="button">Reset</button>
+        <div class="system-state"><span class="pulse"></span> LOCAL ANALYSIS NODE</div>
+      </nav>
+    </header>
+
+    <section class="intro">
+      <p class="eyebrow">VERIFIABLE EVIDENCE / 01</p>
+      <h1>Read the image.<br><em>Question the story.</em></h1>
+      <p class="lede">A forensic screening prototype for identity documents and their digital traces.</p>
+    </section>
+
+    <section class="workspace">
+      <form id="upload-form" class="dropzone">
+        <input id="image-input" name="image" type="file" accept=".jpg,.jpeg,.png,.webp" hidden>
+        <label for="image-input" class="drop-label">
+          <span class="upload-icon">+</span>
+          <strong>Drop an image to begin</strong>
+          <span>JPG, PNG or WEBP / up to your server limit</span>
+        </label>
+        <div id="file-name" class="file-name"></div>
+        <button id="analyze-button" type="submit" disabled>Analyze document <span>→</span></button>
+      </form>
+
+      <aside class="briefing">
+        <p class="eyebrow">SCREENING BRIEF</p>
+        <h2>Signals, not verdicts.</h2>
+        <p>KAVACH combines image forensics, document structure, provenance and identity signals into one reviewable evidence trail.</p>
+        <div class="briefing-rule"></div>
+        <p class="muted">No image leaves this local prototype.</p>
+      </aside>
+    </section>
+
+    <section id="loading" class="loading hidden"><span class="spinner"></span> Running forensic passes...</section>
+    <section id="error" class="error hidden"></section>
+    <section id="report" class="report hidden">
+      <div class="report-head">
+        <div><p class="eyebrow">ANALYSIS RESULT</p><h2 id="filename">Document report</h2></div>
+        <div id="risk-badge" class="risk-badge">REVIEW</div>
+      </div>
+      <div class="summary-grid">
+        <div class="score-panel"><span class="label">FORENSIC RISK</span><strong id="risk-score">--</strong><span class="muted">out of 1.00</span></div>
+        <div class="reason-panel"><span class="label">SYSTEM ASSESSMENT</span><p id="risk-reason">--</p></div>
+      </div>
+      <div class="signals-head"><h3>Detector signals</h3><div class="signal-tools"><button class="filter-button active" data-filter="all" type="button">All</button><button class="filter-button" data-filter="flagged" type="button">Flagged</button><button class="filter-button" data-filter="unavailable" type="button">Unavailable</button><button id="export-button" class="export-button" type="button">Export JSON</button></div></div>
+      <p id="detector-count" class="detector-count muted"></p>
+      <div id="signals" class="signals"></div>
+    </section>
+    <footer>Prototype console <span>·</span> Evidence should support human review, never replace it.</footer>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

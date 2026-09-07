@@ -1,0 +1,604 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport-1.jpeg",
+  "live_image": null,
+  "risk_level": "HIGH RISK",
+  "risk_reason": "MRZ check digits or structure failed.",
+  "forensic_risk_score": 0.466,
+  "active_detectors_evaluated": 25,
+  "detector_signals": [
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "Extracted 35 tokens. Found 2 MRZ candidates.",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "SBON",
+          "confidence": 0.646,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "00000244",
+          "confidence": 0.896,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "REPUBLIC OF EOLIE",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "PASSEPORT",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "PASSPORT",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Type/Type",
+          "confidence": 0.99,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Pays \u00e9metteur/isuing Country",
+          "confidence": 0.838,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Passeport N\u00b0/Passpoit N",
+          "confidence": 0.872,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "P",
+          "confidence": 0.991,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "EOL",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "PP3000000",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Nom/Sumame",
+          "confidence": 0.963,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "SMITH",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Prenoms/Givennames",
+          "confidence": 0.905,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "JANE",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Nationate/Nationalty",
+          "confidence": 0.881,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Sexe/Sex TallelHeighf",
+          "confidence": 0.793,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "EOLIAN",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "1,70m",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Date de nalssacelDate of birth",
+          "confidence": 0.789,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Lieu de naissancerPlace ofbet",
+          "confidence": 0.743,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "14.07.1981",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "THYRENION",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Date de deliurance/Date ofissue",
+          "confidence": 0.853,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "01.01.2013",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Autoril\u00e8\u00e9 de delivancellssuing Authority",
+          "confidence": 0.841,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Signature du inlaio",
+          "confidence": 0.829,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "INTERIOR MINISTRY",
+          "confidence": 0.974,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Holder's signatum",
+          "confidence": 0.953,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Signature",
+          "confidence": 0.99,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Date d'expiratiosDate of expiry",
+          "confidence": 0.884,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "31.12.2022",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "PP3000000",
+          "confidence": 0.969,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "P<EOLSMITH<<JANE<<<<<<<<<<<<<<<<<<<<<<<<<<<<",
+          "confidence": 0.981,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "01PP300009E0L8107145F2212315<<<<<<<<<<<<<<02",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        }
+      ],
+      "mrz_lines": [
+        "P<EOLSMITH<<JANE<<<<<<<<<<<<<<<<<<<<<<<<<<<<",
+        "01PP300009E0L8107145F2212315<<<<<<<<<<<<<<02"
+      ]
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.7,
+      "confidence": "high",
+      "explanation": "MRZ issues: Passport number check digit FAIL (expected 2, got 9); Composite check digit FAIL (expected 5, got 2)",
+      "status": "flagged",
+      "fields": {
+        "doc_type": "P",
+        "country_code": "EOL",
+        "surname": "SMITH",
+        "given_names": "JANE",
+        "passport_number": "01PP30000",
+        "nationality": "E0L",
+        "dob": "810714",
+        "sex": "F",
+        "expiry": "221231",
+        "personal_number": "",
+        "check_digit_results": {
+          "passport_number": "FAIL",
+          "dob": "PASS",
+          "expiry": "PASS",
+          "personal_number": "PASS",
+          "composite": "FAIL"
+        },
+        "date_validity_results": {
+          "dob": "PASS",
+          "expiry": "PASS"
+        }
+      },
+      "issues": [
+        "Passport number check digit FAIL (expected 2, got 9)",
+        "Composite check digit FAIL (expected 5, got 2)"
+      ]
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Classified as 'passport' (score 0.44). Matched 2 keyword(s).",
+      "status": "passed",
+      "doc_type": "passport"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.7,
+      "confidence": "high",
+      "explanation": "Validation failures: passport_number, expiry",
+      "status": "flagged",
+      "field_results": [
+        {
+          "field": "passport_number",
+          "status": "flagged",
+          "value": "01PP30000",
+          "explanation": "Passport number '01PP30000' is INVALID (expected 1 letter + 7 digits)."
+        },
+        {
+          "field": "dob",
+          "status": "passed",
+          "value": "1981-07-14",
+          "explanation": "DOB 1981-07-14 is valid (age ~45)."
+        },
+        {
+          "field": "expiry",
+          "status": "flagged",
+          "value": "2022-12-31",
+          "explanation": "Document EXPIRED on 2022-12-31."
+        },
+        {
+          "field": "sex",
+          "status": "passed",
+          "value": "F",
+          "explanation": "Sex 'F' is valid."
+        },
+        {
+          "field": "country_code",
+          "status": "passed",
+          "value": "EOL",
+          "explanation": "Country code 'EOL' is valid."
+        }
+      ]
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "All OCR and MRZ fields match.",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 7.05. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.23,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 23%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 4476.94). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.03,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.47.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.5 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 175.22 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.75,
+      "confidence": "medium",
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 2755.62).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.7. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.51. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "The document shows strong signs of digital tampering, including an incorrect MRZ check digit for the passport number, poor integration of the main photograph, and a suspicious green smudge over the ghost image suggesting an attempt to obscure security features.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.4,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.0 (Error Level Analysis computed pixel difference variance of 0.07.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 695.91). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; face match skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; liveness skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; duplicate-ID skipped.",
+      "status": "unavailable"
+    }
+  ],
+  "human_summary": "Based on the forensic analysis, this passport image is **highly likely to be digitally manipulated and fraudulent**. While certain identity-matching and liveness tests were skipped because no live \"selfie\" was provided for comparison, the evidence of document tampering is overwhelming. First, the passport's Machine Readable Zone (MRZ) at the bottom fails basic security logic, containing mathematically incorrect \"check digits\" and an invalid passport number format that proves the text was artificially generated. Second, visual analysis flagged clear physical tampering, including a poorly blended main portrait photo and a suspicious green smudge placed to intentionally obscure the secondary \"ghost\" security image. Finally, underlying digital tests detected artificial upscaling, aggressive sharpening, and a complete lack of a real camera's sensor fingerprint, confirming the file is a heavily edited computer graphic rather than a genuine photograph of a physical document."
+}

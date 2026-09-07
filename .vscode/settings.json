@@ -1,3 +1,4 @@
 {
-    "window.autoDetectColorScheme": false
+    "window.autoDetectColorScheme": false,
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }

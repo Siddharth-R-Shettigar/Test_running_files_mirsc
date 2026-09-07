@@ -1,21 +1,61 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "pass.jpg",
+  "file_analyzed": "adhaar_card.jpeg",
   "live_image": null,
   "risk_level": "REVIEW",
-  "risk_reason": "Combined forensic risk is moderate.",
-  "forensic_risk_score": 0.404,
+  "risk_reason": "Critical checks not available: mrz_parser, ocr_mrz_consistency.",
+  "forensic_risk_score": 0.382,
   "active_detectors_evaluated": 25,
   "detector_signals": [
     {
       "detector_name": "ocr_extraction",
       "score": 0.0,
       "confidence": "high",
-      "explanation": "Extracted 31 tokens. Found 1 MRZ candidates.",
+      "explanation": "Extracted 31 tokens. Found 0 MRZ candidates.",
       "status": "passed",
       "fields": [
         {
-          "text": "PASSPORT",
+          "text": "Government of India",
+          "confidence": 0.978,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "3ITET",
+          "confidence": 0.443,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "ad  13",
+          "confidence": 0.721,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "o",
+          "confidence": 0.605,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Bhushan Diwakar",
           "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
@@ -25,37 +65,7 @@
           }
         },
         {
-          "text": "UNITEDSTATESOFAMERICA",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "PASSEPORT",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "PASAPORTE",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Type/Type/Tipo Code/Code/Codigo Passport No./No. du Passeport/No de Pasaporte",
+          "text": "/DOB:05/07/2002",
           "confidence": 0.985,
           "bounding_box": {
             "x1": 0,
@@ -65,8 +75,8 @@
           }
         },
         {
-          "text": "P",
-          "confidence": 1.0,
+          "text": "4906 5637 6032",
+          "confidence": 0.996,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -75,8 +85,8 @@
           }
         },
         {
-          "text": "USA",
-          "confidence": 1.0,
+          "text": "\u6211\u4e50",
+          "confidence": 0.504,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -85,77 +95,7 @@
           }
         },
         {
-          "text": "910239248",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Surname / Nom / Apellidos",
-          "confidence": 0.976,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "DELAPAZ",
-          "confidence": 0.999,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Given Names/Pr\u00e9noms/Nombres",
-          "confidence": 0.999,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "MICHELLE",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Nationality / Nationalit\u00e9it\u00e9/Nacionalidad",
-          "confidence": 0.984,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "UNITED STATES OF AMERICA",
-          "confidence": 0.999,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Date of birth/Date de naissance/ Fecha de nacimiento",
+          "text": "/Male",
           "confidence": 0.985,
           "bounding_box": {
             "x1": 0,
@@ -165,8 +105,8 @@
           }
         },
         {
-          "text": "07 Aug 1999",
-          "confidence": 0.968,
+          "text": "T (3,3/",
+          "confidence": 0.604,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -175,8 +115,8 @@
           }
         },
         {
-          "text": "Place of birth / Lieu de naissance / Lugar de nacimiento",
-          "confidence": 0.985,
+          "text": "3",
+          "confidence": 0.687,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -185,7 +125,7 @@
           }
         },
         {
-          "text": "Sex/Sexe/Sexo",
+          "text": "Aadhaar is proof of identity, not of citizenship",
           "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
@@ -195,8 +135,8 @@
           }
         },
         {
-          "text": "CALIFORNIA, U.S.A.",
-          "confidence": 0.972,
+          "text": "or date of birth. It should be used with verification (online",
+          "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -205,8 +145,8 @@
           }
         },
         {
-          "text": "\u00c8",
-          "confidence": 0.877,
+          "text": "authentication or scanning of QR code / offline XML).",
+          "confidence": 0.986,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -215,27 +155,7 @@
           }
         },
         {
-          "text": "Date of issue / Date de d\u00e9livrance / Fecha de expedici\u00f3n",
-          "confidence": 0.992,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Authority/Autorit\u00e9/Autoridad",
-          "confidence": 0.999,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "06 Feb 2008",
+          "text": "4906 5637 6032",
           "confidence": 0.998,
           "bounding_box": {
             "x1": 0,
@@ -245,7 +165,27 @@
           }
         },
         {
-          "text": "United States",
+          "text": ",",
+          "confidence": 0.421,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Unique Identification Authority of India",
+          "confidence": 0.989,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "AADHAAR",
           "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
@@ -255,7 +195,87 @@
           }
         },
         {
-          "text": "Date of expiration/Date d'expiration/Fecha de caducidad",
+          "text": "T: /ot faoter faaah, Fote  - 9, ais",
+          "confidence": 0.627,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "et 23",
+          "confidence": 0.773,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "\uff0c\uff0c-99",
+          "confidence": 0.502,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": ", , 121006",
+          "confidence": 0.888,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Address: S/O Dinesh Diwakar, Flat no - 1,",
+          "confidence": 0.987,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Ground Floor, 1B, Sector-11C, Faridabad",
+          "confidence": 0.994,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Sector 7, PO:Faridabad Sector 7",
+          "confidence": 0.996,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "DIST:Faridabad, Haryana, 121006",
+          "confidence": 0.985,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "AADHAAR",
           "confidence": 0.998,
           "bounding_box": {
             "x1": 0,
@@ -265,7 +285,17 @@
           }
         },
         {
-          "text": "Department of State",
+          "text": "4906 5637 6032",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "1947",
           "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
@@ -275,17 +305,7 @@
           }
         },
         {
-          "text": "05 Feb 2018",
-          "confidence": 0.977,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Endorsements/Mentions Sp\u00e9ciales/Anotaciones",
+          "text": "help@uidai.gov.in",
           "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
@@ -295,27 +315,7 @@
           }
         },
         {
-          "text": "SEEPAGE27",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "P<DELAPAZ<<MICHELLE<<<<<<<<<<<<<<<<<<<<<<<<",
-          "confidence": 0.919,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "9102392482USA6401171F1812051900781200<129676",
+          "text": "www.uidai.gov.in",
           "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
@@ -325,102 +325,47 @@
           }
         }
       ],
-      "mrz_lines": [
-        "P<DELAPAZ<<MICHELLE<<<<<<<<<<<<<<<<<<<<<<<<"
-      ]
+      "mrz_lines": []
     },
     {
       "detector_name": "mrz_parser",
-      "score": 0.0,
-      "confidence": "high",
-      "explanation": "All MRZ check digits valid.",
-      "status": "passed",
-      "fields": {
-        "doc_type": "P",
-        "country_code": "DEL",
-        "surname": "APAZ",
-        "given_names": "MICHELLE",
-        "passport_number": "910239248",
-        "nationality": "USA",
-        "dob": "640117",
-        "sex": "F",
-        "expiry": "181205",
-        "personal_number": "9007812001296",
-        "check_digit_results": {
-          "passport_number": "PASS",
-          "dob": "PASS",
-          "expiry": "PASS",
-          "personal_number": "PASS",
-          "composite": "PASS"
-        },
-        "date_validity_results": {
-          "dob": "PASS",
-          "expiry": "PASS"
-        }
-      },
-      "issues": []
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Could not build two MRZ lines from OCR (got 0: []).",
+      "status": "unavailable",
+      "fields": {},
+      "issues": [
+        "Two MRZ lines are required."
+      ]
     },
     {
       "detector_name": "document_classifier",
       "score": 0.25,
       "confidence": "high",
-      "explanation": "Classified as 'passport' (score 0.66). Matched 3 keyword(s).",
+      "explanation": "Classified as 'aadhaar' (score 0.66). Matched 3 keyword(s).",
       "status": "passed",
-      "doc_type": "passport"
+      "doc_type": "aadhaar"
     },
     {
       "detector_name": "field_validator",
-      "score": 0.7,
-      "confidence": "high",
-      "explanation": "Validation failures: passport_number, expiry",
-      "status": "flagged",
-      "field_results": [
-        {
-          "field": "passport_number",
-          "status": "flagged",
-          "value": "910239248",
-          "explanation": "Passport number '910239248' is INVALID (expected 1 letter + 7 digits)."
-        },
-        {
-          "field": "dob",
-          "status": "passed",
-          "value": "1964-01-17",
-          "explanation": "DOB 1964-01-17 is valid (age ~62)."
-        },
-        {
-          "field": "expiry",
-          "status": "flagged",
-          "value": "2018-12-05",
-          "explanation": "Document EXPIRED on 2018-12-05."
-        },
-        {
-          "field": "sex",
-          "status": "passed",
-          "value": "F",
-          "explanation": "Sex 'F' is valid."
-        },
-        {
-          "field": "country_code",
-          "status": "passed",
-          "value": "DEL",
-          "explanation": "Country code 'DEL' is valid."
-        }
-      ]
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Skipped; no MRZ fields available.",
+      "status": "unavailable"
     },
     {
       "detector_name": "ocr_mrz_consistency",
-      "score": 0.0,
-      "confidence": "high",
-      "explanation": "All OCR and MRZ fields match.",
-      "status": "passed",
-      "mismatches": []
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Skipped; need OCR fields + MRZ fields.",
+      "status": "unavailable"
     },
     {
       "detector_name": "national_id_validator",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
-      "status": "unavailable"
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "Aadhaar number and checksum are valid.",
+      "status": "passed"
     },
     {
       "detector_name": "exiftool",
@@ -440,42 +385,42 @@
       "detector_name": "cfa_demosaicing_analysis",
       "score": 0.85,
       "confidence": "medium",
-      "explanation": "Bayer CFA grid residual ratio computed at 4.29. Lacks physical camera Bayer filter demosaicing signature.",
+      "explanation": "Bayer CFA grid residual ratio computed at 3.11. Lacks physical camera Bayer filter demosaicing signature.",
       "status": "flagged"
     },
     {
       "detector_name": "hf_vision_transformer",
-      "score": 0.25,
+      "score": 0.36,
       "confidence": "high",
-      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 25%.",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 36%.",
       "status": "passed"
     },
     {
       "detector_name": "resampling_interpolation_analysis",
       "score": 0.8,
       "confidence": "medium",
-      "explanation": "Periodic interpolation artifacts detected (metric: 971.08). Image shows signs of AI upscaling or non-native resampling.",
+      "explanation": "Periodic interpolation artifacts detected (metric: 3229.67). Image shows signs of AI upscaling or non-native resampling.",
       "status": "flagged"
     },
     {
       "detector_name": "ela_compression",
-      "score": 0.09,
+      "score": 0.03,
       "confidence": "medium",
-      "explanation": "Error Level Analysis computed pixel difference variance of 1.32.",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.52.",
       "status": "passed"
     },
     {
       "detector_name": "histogram_color_forensics",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Color channel entropy computed at 7.23 bits. Standard natural RGB channel distribution.",
+      "explanation": "Color channel entropy computed at 7.48 bits. Standard natural RGB channel distribution.",
       "status": "passed"
     },
     {
       "detector_name": "frequency_domain_fft",
       "score": 0.8,
       "confidence": "medium",
-      "explanation": "FFT spectral power calculated at 170.83 dB. High-frequency grid noise detected.",
+      "explanation": "FFT spectral power calculated at 179.5 dB. High-frequency grid noise detected.",
       "status": "flagged"
     },
     {
@@ -487,10 +432,10 @@
     },
     {
       "detector_name": "blur_sharpness_analysis",
-      "score": 0.15,
+      "score": 0.75,
       "confidence": "medium",
-      "explanation": "Standard physical lens focus distribution (sharpness metric: 832.61).",
-      "status": "passed"
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 2881.02).",
+      "status": "flagged"
     },
     {
       "detector_name": "perceptual_hashing",
@@ -503,35 +448,35 @@
       "detector_name": "jpeg_ghost_analysis",
       "score": 0.85,
       "confidence": "medium",
-      "explanation": "JPEG Ghost variance computed at 0.64. Suspicious uniform compression grid detected.",
+      "explanation": "JPEG Ghost variance computed at 2.32. Suspicious uniform compression grid detected.",
       "status": "flagged"
     },
     {
       "detector_name": "jpeg_quantization_analysis",
-      "score": 0.1,
-      "confidence": "low",
-      "explanation": "Non-JPEG file format. Quantization table inspection bypassed.",
-      "status": "unavailable"
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
     },
     {
       "detector_name": "inpainting_trace_analysis",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.29. Uniform pixel edge continuity verified across image patches.",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.37. Uniform pixel edge continuity verified across image patches.",
       "status": "passed"
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.9,
+      "score": 0.3,
       "confidence": "high",
-      "explanation": "The document shows significant signs of fraud: the photo depicts an adult but the date of issue indicates the passport was issued when the holder was 8 years old. Additionally, there are multiple inconsistencies between the visually presented dates (DOB, DOE) and the Machine Readable Zone (MRZ) dates, including a miscalculated check digit in the MRZ's expiration date.",
-      "status": "flagged"
+      "explanation": "The document's layout, text, and numerical details appear consistent with genuine Aadhaar cards. A very subtle halo around the photograph could suggest minor digital alteration or printing anomaly, but it is not definitive.",
+      "status": "passed"
     },
     {
       "detector_name": "photo_patch_forensics",
       "score": 0.105,
       "confidence": "high",
-      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.18.). Resampling score=0.2 (Standard organic pixel continuity verified (metric: 337.16).).",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.1.). Resampling score=0.2 (Standard organic pixel continuity verified (metric: 206.55).).",
       "status": "passed"
     },
     {
@@ -556,5 +501,5 @@
       "status": "unavailable"
     }
   ],
-  "human_summary": "GEMINI_API_KEY missing; skipping AI-generated summary."
+  "human_summary": "This image is **likely a digitally manipulated or reconstructed file** rather than an authentic, direct photograph of a physical document. While the document's text and the Aadhaar card number are structurally valid and verified by the system, the digital file itself shows clear signs of artificial processing. Multiple forensic detectors flagged severe anomalies, such as a complete lack of natural camera sensor signatures and evidence of \"AI upscaling\" or heavy image resizing (resampling). Additionally, suspicious compression patterns (known as JPEG ghosts) and unnatural edge sharpening suggest the image was digitally edited or recreated rather than captured organically. Consequently, while the identity details printed on the card may be real, the image file itself is not an authentic, unaltered photograph."
 }
