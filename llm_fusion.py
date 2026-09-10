@@ -20,15 +20,9 @@ except ModuleNotFoundError:
 
 
 def _text_model_name() -> str:
-    """
-    Model for human summary (text only).
-    Falls back to GEMINI_VISION_MODEL / pool default if unset.
-    """
-    return (
-        os.getenv("GEMINI_TEXT_MODEL", "").strip()
-        or os.getenv("GEMINI_VISION_MODEL", "").strip()
-        or gemini_model_name()
-    )
+    # Text-only officer summary. Override with Codespaces secret / .env if needed.
+    # Does NOT need a different product line from vision; payload has NO image.
+    return os.getenv("GEMINI_TEXT_MODEL", "gemini-2.5-flash").strip() or "gemini-2.5-flash"
 
 
 def generate_human_summary(report: dict) -> str:
