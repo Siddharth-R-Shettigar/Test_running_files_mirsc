@@ -1,0 +1,4 @@
+{
+  "error": "Unsupported file type: .json",
+  "human_summary": "MANUAL REVIEW is required for this document. The KAVACH system did not return any risk assessment or specific findings. This is because critical checks like OCR, MRZ validation, or face matching results were unavailable. Consequently, no forensic analysis signals were obtained. The officer should manually verify all document details and the traveler's identity."
+}
