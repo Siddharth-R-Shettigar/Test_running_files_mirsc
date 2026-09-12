@@ -45,7 +45,6 @@ parse_mrz = _safe_import("detectors.mrz_parser", "parse_mrz")
 classify_document = _safe_import("detectors.document_classifier", "classify_document")
 validate_document_fields = _safe_import("detectors.field_validator", "validate_document_fields")
 check_ocr_mrz_consistency = _safe_import("detectors.ocr_mrz_consistency", "check_ocr_mrz_consistency")
-check_qr_consistency = _safe_import("detectors.qr_barcode", "check_qr_consistency")
 validate_national_id = _safe_import("detectors.national_id_validator", "validate_national_id")
 
 
@@ -143,28 +142,43 @@ def _run_safe(fn, *args, detector_name="unknown", score_means_risk=True, **kwarg
 
 
 def _risk_level(signals, forensic_risk):
-    """Fail-closed style decision from statuses + forensic blend."""
+    """
+    Fail-closed risk decision from detector statuses + weighted forensic score.
+
+    MRZ-specific hard rules only apply when the document_classifier routed
+    the document through the MRZ pipeline (passport / visa).
+    Aadhaar and driving_licence never reach those checks.
+    """
     statuses = {s["detector_name"]: s for s in signals}
 
     def st(name):
         return statuses.get(name, {}).get("status")
 
-    # Hard problems → HIGH RISK
+    # Read MRZ routing flag set by the classifier
+    clf = statuses.get("document_classifier", {})
+    is_mrz_doc = bool(clf.get("needs_mrz", False))
+
+    # ── Hard failures → HIGH RISK ────────────────────────────────────────────
     if st("face_verification") == "flagged":
         return "HIGH RISK", "Face on document does not match live capture."
-    if st("ocr_mrz_consistency") == "flagged":
+    if is_mrz_doc and st("ocr_mrz_consistency") == "flagged":
         return "HIGH RISK", "OCR and MRZ data disagree."
-    if st("mrz_parser") == "flagged":
+    if is_mrz_doc and st("mrz_parser") == "flagged":
         return "HIGH RISK", "MRZ check digits or structure failed."
 
-    # Missing critical evidence → REVIEW (never auto PASS)
+    # ── Missing critical evidence → REVIEW ──────────────────────────────────
     critical_missing = []
-    for name in ("ocr_extraction", "mrz_parser", "ocr_mrz_consistency"):
-        if st(name) in ("failed", "unavailable", None):
-            critical_missing.append(name)
+    if st("ocr_extraction") in ("failed", "unavailable", None):
+        critical_missing.append("ocr_extraction")
+    # For MRZ docs, failed MRZ parse or failed cross-check is also critical
+    if is_mrz_doc:
+        for name in ("mrz_parser", "ocr_mrz_consistency"):
+            if st(name) == "failed":
+                critical_missing.append(name)
     if critical_missing:
         return "REVIEW", f"Critical checks not available: {', '.join(critical_missing)}."
 
+    # ── Soft failures → REVIEW ───────────────────────────────────────────────
     if st("liveness_analysis") == "flagged":
         return "REVIEW", "Liveness check suggests possible presentation attack."
     if st("duplicate_identity_check") == "flagged":
@@ -172,12 +186,13 @@ def _risk_level(signals, forensic_risk):
     if st("photo_patch_forensics") == "flagged":
         return "REVIEW", "Document face photo region shows forensic anomalies."
 
+    # ── Forensic score thresholds ────────────────────────────────────────────
     if forensic_risk >= 0.55:
         return "HIGH RISK", "Combined forensic risk is high."
     if forensic_risk >= 0.35:
         return "REVIEW", "Combined forensic risk is moderate."
 
-    # Any other flagged signal → at least REVIEW
+    # ── Any remaining flagged signal → REVIEW ────────────────────────────────
     flagged = [s["detector_name"] for s in signals if s.get("status") == "flagged"]
     if flagged:
         return "REVIEW", f"Flagged signals: {', '.join(flagged[:6])}."
@@ -328,12 +343,9 @@ def analyze_media(image_path, live_image_path=None):
             }
     signals.append(_normalize("ocr_extraction", ocr_raw, score_means_risk=False))
 
+    # Build flat OCR text blob for classifier
     ocr_text = ""
-    mrz_lines = []
-    ocr_fields_for_consistency = {}
     if isinstance(ocr_raw, dict):
-        mrz_lines = ocr_raw.get("mrz_lines") or []
-        # Build a flat text blob for classifier
         parts = []
         for f in ocr_raw.get("fields") or []:
             if isinstance(f, dict) and f.get("text"):
@@ -342,123 +354,156 @@ def analyze_media(image_path, live_image_path=None):
                 parts.append(f)
         ocr_text = " ".join(parts)
 
-    # ----- 2) MRZ -----
-    mrz_raw = None
-    mrz_fields = {}
-    mrz_lines = _collect_mrz_lines(ocr_raw if isinstance(ocr_raw, dict) else {})
+    # ----- 2) Document classification (runs before MRZ to gate the pipeline) -----
+    # Supported types: passport, visa, aadhaar, driving_licence
+    # passport / visa  → needs_mrz = True  → MRZ pipeline runs
+    # aadhaar / dl     → needs_mrz = False → MRZ pipeline skipped entirely
+    doc_type = "unknown"
+    needs_mrz = False
 
-    if parse_mrz is not None and len(mrz_lines) >= 2:
-        try:
-            mrz_raw = parse_mrz(mrz_lines)
-            mrz_fields = (mrz_raw or {}).get("fields") or {}
-        except Exception as e:
+    if classify_document is not None:
+        clf_raw = _run_safe(
+            classify_document,
+            image_path,
+            ocr_text,
+            detector_name="document_classifier",
+            score_means_risk=False,
+        )
+        signals.append(clf_raw)
+        doc_type = clf_raw.get("doc_type", "unknown")
+        needs_mrz = bool(clf_raw.get("needs_mrz", False))
+    else:
+        signals.append(
+            _normalize(
+                "document_classifier",
+                {
+                    "status": "unavailable",
+                    "score": 0.0,
+                    "confidence": "low",
+                    "explanation": "document_classifier not loaded.",
+                },
+                score_means_risk=False,
+            )
+        )
+
+    # ----- 3) MRZ pipeline — passport / visa only -----
+    mrz_fields = {}
+    ocr_fields_for_consistency = {}
+
+    if needs_mrz:
+        # 3a) Parse MRZ from OCR output
+        mrz_raw = None
+        mrz_lines = _collect_mrz_lines(ocr_raw if isinstance(ocr_raw, dict) else {})
+
+        if parse_mrz is not None and len(mrz_lines) >= 2:
+            try:
+                mrz_raw = parse_mrz(mrz_lines)
+                mrz_fields = (mrz_raw or {}).get("fields") or {}
+            except Exception as e:
+                mrz_raw = {
+                    "status": "failed",
+                    "score": 0.0,
+                    "confidence": "low",
+                    "explanation": str(e),
+                    "fields": {},
+                }
+        elif parse_mrz is not None:
             mrz_raw = {
-                "status": "failed",
+                "status": "unavailable",
                 "score": 0.0,
                 "confidence": "low",
-                "explanation": str(e),
+                "explanation": (
+                    f"'{doc_type}' requires MRZ but could not build two lines from OCR "
+                    f"(got {len(mrz_lines)}: {mrz_lines})."
+                ),
                 "fields": {},
+                "issues": ["Two MRZ lines are required."],
             }
-    elif parse_mrz is not None:
-        mrz_raw = {
-            "status": "unavailable",
-            "score": 0.0,
-            "confidence": "low",
-            "explanation": f"Could not build two MRZ lines from OCR (got {len(mrz_lines)}: {mrz_lines}).",
-            "fields": {},
-            "issues": ["Two MRZ lines are required."],
-        }
-    signals.append(_normalize("mrz_parser", mrz_raw, score_means_risk=False))
+        signals.append(_normalize("mrz_parser", mrz_raw, score_means_risk=False))
 
-    # Map common MRZ fields for consistency checker (best-effort)
-    if mrz_fields:
-        ocr_fields_for_consistency = {
-            "passport_number": mrz_fields.get("passport_number") or mrz_fields.get("document_number") or "",
-            "dob": mrz_fields.get("dob") or mrz_fields.get("date_of_birth") or "",
-            "expiry": mrz_fields.get("expiry") or mrz_fields.get("date_of_expiry") or "",
-            "surname": mrz_fields.get("surname") or mrz_fields.get("primary_identifier") or "",
-            "nationality": mrz_fields.get("nationality") or mrz_fields.get("country_code") or "",
-        }
-        # Prefer explicit OCR fields if the OCR module later adds them; for now MRZ vs MRZ is weak.
-        # Real OCR field parsing can improve this later.
+        # Build consistency dict from parsed MRZ fields
+        if mrz_fields:
+            ocr_fields_for_consistency = {
+                "passport_number": mrz_fields.get("passport_number") or mrz_fields.get("document_number") or "",
+                "dob":             mrz_fields.get("dob") or mrz_fields.get("date_of_birth") or "",
+                "expiry":          mrz_fields.get("expiry") or mrz_fields.get("date_of_expiry") or "",
+                "surname":         mrz_fields.get("surname") or mrz_fields.get("primary_identifier") or "",
+                "nationality":     mrz_fields.get("nationality") or mrz_fields.get("country_code") or "",
+            }
 
-    # ----- 3) Document class -----
-    if classify_document is not None:
-        signals.append(
-            _run_safe(
-                classify_document,
-                image_path,
-                ocr_text,
-                detector_name="document_classifier",
-                score_means_risk=False,
+        # 3b) Field validation
+        if validate_document_fields is not None and mrz_fields:
+            signals.append(
+                _run_safe(
+                    validate_document_fields,
+                    mrz_fields,
+                    doc_type,
+                    detector_name="field_validator",
+                    score_means_risk=False,
+                )
             )
-        )
-
-    # ----- 4) Field validation -----
-    if validate_document_fields is not None and mrz_fields:
-        signals.append(
-            _run_safe(
-                validate_document_fields,
-                mrz_fields,
-                "passport",
-                detector_name="field_validator",
-                score_means_risk=False,
+        else:
+            signals.append(
+                _normalize(
+                    "field_validator",
+                    {
+                        "status": "unavailable",
+                        "score": 0.0,
+                        "confidence": "low",
+                        "explanation": (
+                            f"Skipped; '{doc_type}' needs MRZ but parsing yielded no fields."
+                        ),
+                    },
+                    score_means_risk=False,
+                )
             )
-        )
+
+        # 3c) OCR ↔ MRZ cross-check
+        if check_ocr_mrz_consistency is not None and mrz_fields:
+            signals.append(
+                _run_safe(
+                    check_ocr_mrz_consistency,
+                    ocr_fields_for_consistency,
+                    mrz_fields,
+                    detector_name="ocr_mrz_consistency",
+                    score_means_risk=False,
+                )
+            )
+        else:
+            signals.append(
+                _normalize(
+                    "ocr_mrz_consistency",
+                    {
+                        "status": "unavailable",
+                        "score": 0.0,
+                        "confidence": "low",
+                        "explanation": "Skipped; no MRZ fields to cross-check against.",
+                    },
+                    score_means_risk=False,
+                )
+            )
+
     else:
-        signals.append(
-            _normalize(
-                "field_validator",
-                {
-                    "status": "unavailable",
-                    "score": 0.0,
-                    "confidence": "low",
-                    "explanation": "Skipped; no MRZ fields available.",
-                },
-                score_means_risk=False,
-            )
+        # Aadhaar / driving_licence / unknown — MRZ not applicable, record transparent skips
+        skip_reason = (
+            f"Not applicable: '{doc_type}' does not carry an MRZ strip."
+            if doc_type != "unknown"
+            else "Document type unknown; MRZ pipeline skipped."
         )
+        for name in ("mrz_parser", "field_validator", "ocr_mrz_consistency"):
+            signals.append(
+                _normalize(
+                    name,
+                    {
+                        "status": "unavailable",
+                        "score": 0.0,
+                        "confidence": "low",
+                        "explanation": skip_reason,
+                    },
+                    score_means_risk=False,
+                )
+            )
 
-    # ----- 5) OCR ↔ MRZ -----
-    if check_ocr_mrz_consistency is not None and mrz_fields:
-        # Until OCR exposes named fields, compare using MRZ-derived dict as placeholder
-        # so the module still runs; subgroup1 can improve OCR field keys later.
-        signals.append(
-            _run_safe(
-                check_ocr_mrz_consistency,
-                ocr_fields_for_consistency,
-                mrz_fields,
-                detector_name="ocr_mrz_consistency",
-                score_means_risk=False,
-            )
-        )
-    else:
-        signals.append(
-            _normalize(
-                "ocr_mrz_consistency",
-                {
-                    "status": "unavailable",
-                    "score": 0.0,
-                    "confidence": "low",
-                    "explanation": "Skipped; need OCR fields + MRZ fields.",
-                },
-                score_means_risk=False,
-            )
-        )
-
-    # ----- 6) QR (optional) -----
-    if check_qr_consistency is not None:
-        signals.append(
-            _run_safe(
-                check_qr_consistency,
-                image_path,
-                ocr_fields_for_consistency,
-                detector_name="qr_barcode",
-                score_means_risk=False,
-            )
-        )
-
-    # ----- 6b) National ID (Aadhaar / PAN) when OCR finds one -----
     national_hits = _find_national_ids(ocr_text)
     if validate_national_id is not None and national_hits:
         # Validate the first hit (or loop all if you prefer)
