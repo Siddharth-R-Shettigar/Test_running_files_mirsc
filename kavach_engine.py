@@ -43,6 +43,7 @@ run_duplicate_id_detector = _safe_import("detectors.duplicate_id_detector", "run
 extract_text = _safe_import("detectors.ocr_extraction", "extract_text")
 parse_mrz = _safe_import("detectors.mrz_parser", "parse_mrz")
 classify_document = _safe_import("detectors.document_classifier", "classify_document")
+extract_fields_from_ocr = _safe_import("detectors.ocr_field_extractor", "extract_fields_from_ocr")
 validate_document_fields = _safe_import("detectors.field_validator", "validate_document_fields")
 check_ocr_mrz_consistency = _safe_import("detectors.ocr_mrz_consistency", "check_ocr_mrz_consistency")
 validate_national_id = _safe_import("detectors.national_id_validator", "validate_national_id")

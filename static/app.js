@@ -33,14 +33,43 @@ input.addEventListener('change', () => selectFile(input.files[0]));
 }));
 dropzone.addEventListener('drop', event => selectFile(event.dataTransfer.files[0]));
 
+function inferSummaryText(data) {
+  return data.human_summary || data.summary || data.reasoning || data.risk_reason || 'No assessment available.';
+}
+
+function inferSummaryColor(data) {
+  if (data.summary_color) return data.summary_color;
+
+  const verdict = (data.verdict || '').toLowerCase();
+  if (verdict.includes('fake')) return 'red';
+  if (verdict.includes('real')) return 'green';
+  if (data.risk_level === 'HIGH RISK') return 'red';
+  if (data.risk_level === 'PASS') return 'green';
+  return 'amber';
+}
+
+function inferSummaryLabel(data) {
+  if (data.summary_label) return data.summary_label;
+  if (data.risk_level) return data.risk_level;
+  if (data.verdict === 'likely_fake') return 'HIGH RISK';
+  if (data.verdict === 'likely_real') return 'PASS';
+  return 'REVIEW';
+}
+
 function showReport(data) {
   latestReport = data;
   const signals = data.detector_signals || [];
+  const badge = document.querySelector('#risk-badge');
+  const summaryText = inferSummaryText(data);
+  const summaryColor = inferSummaryColor(data);
+  const summaryLabel = inferSummaryLabel(data);
+  const normalizedScore = Number(data.forensic_risk_score ?? ((Number(data.final_score ?? 0) / 100) || 0)).toFixed(2);
+
   document.querySelector('#filename').textContent = data.file_analyzed || 'Document report';
-  document.querySelector('#risk-badge').textContent = data.risk_level || 'REVIEW';
-  document.querySelector('#risk-badge').classList.toggle('high-risk', data.risk_level === 'HIGH RISK');
-  document.querySelector('#risk-score').textContent = Number(data.forensic_risk_score ?? 0).toFixed(2);
-  document.querySelector('#risk-reason').textContent = data.risk_reason || 'No assessment available.';
+  badge.textContent = summaryLabel;
+  badge.className = `risk-badge ${summaryColor}`;
+  document.querySelector('#risk-score').textContent = normalizedScore;
+  document.querySelector('#risk-reason').textContent = summaryText;
   document.querySelector('#detector-count').textContent = `${signals.length} checks evaluated`;
   document.querySelector('#signals').innerHTML = signals.map(signal => `
     <article class="signal ${signal.status || ''}">

@@ -14,7 +14,8 @@ MONTH_MAP = {
 def normalize_date(raw: str) -> str:
     """
     Convert human-readable date to YYMMDD.
-    Handles: 'JAN 1981', '30 NOV 2009', '29 NOV 2019'
+    Handles: 'JAN 1981', '30 NOV 2009', '29 NOV 2019',
+    and numeric forms like '14.07.1981', '14/07/1981', '14-07-1981'.
     Returns '' if unparseable.
     """
     raw = raw.upper().strip()
@@ -34,7 +35,54 @@ def normalize_date(raw: str) -> str:
         yy = m.group(3)[2:]
         return f"{yy}{mon}{dd}"
 
+    # Format: DD.MM.YYYY / DD/MM/YYYY / DD-MM-YYYY
+    m = re.match(r'^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})$', raw)
+    if m:
+        dd = m.group(1).zfill(2)
+        mon = m.group(2).zfill(2)
+        yy = m.group(3)[2:]
+        return f"{yy}{mon}{dd}"
+
     return ""
+
+
+# Matches any of the human-readable date shapes normalize_date understands.
+DATE_LIKE_RE = re.compile(
+    r'^([A-Z]{3}\s+\d{4}|\d{1,2}\s+[A-Z]{3}\s+\d{4}|\d{1,2}[.\-/]\d{1,2}[.\-/]\d{4})$'
+)
+
+
+def _find_value_near_label(texts: list, label_keywords: list, window: int = 4, value_check=None):
+    """
+    Bilingual passport layouts frequently put two field labels side by side
+    on one row, with both values on the row below (e.g. 'Date de naissance/
+    Date of birth' next to 'Lieu de naissance/Place of birth'). That means
+    the value for a label is often NOT the very next OCR token — it can be
+    a few tokens further along, after the other label(s) on that row.
+
+    This scans a small forward window after the matched label for the first
+    token that passes value_check (or, if value_check is None, the first
+    non-empty token that doesn't itself look like another field label).
+    """
+    for i, t in enumerate(texts):
+        tu = t.upper()
+        if not any(kw in tu for kw in label_keywords):
+            continue
+        for j in range(i + 1, min(i + 1 + window, len(texts))):
+            candidate = texts[j].strip()
+            if not candidate:
+                continue
+            if value_check is not None:
+                if value_check(candidate):
+                    return candidate
+                continue
+            # Default: skip tokens that look like another label (contain '/'
+            # the way these bilingual headers do) and accept the first that doesn't.
+            if "/" not in candidate:
+                return candidate
+        # Found the label but no usable value nearby — keep scanning in case
+        # the same label text appears again elsewhere.
+    return None
 
 
 def extract_fields_from_ocr(ocr_result: dict) -> dict:
@@ -45,86 +93,91 @@ def extract_fields_from_ocr(ocr_result: dict) -> dict:
     Returns a dict compatible with what mrz_parser would return in 'fields'.
     """
     fields_list = ocr_result.get("fields", [])
-    lines = ocr_result.get("lines", [])
     extracted = {}
 
     texts = [f["text"].strip() for f in fields_list]
     full = " ".join(texts).upper()
 
     # ── Surname ──────────────────────────────────────────────────────────────
-    for i, t in enumerate(texts):
-        if "SURNAME" in t.upper() and i + 1 < len(texts):
-            # Next token after label is the value
-            candidate = texts[i + 1].upper().strip()
-            if candidate and not any(skip in candidate for skip in ["GIVEN", "NAME", "SEX", "DATE"]):
-                extracted["surname"] = candidate
-                break
+    surname = _find_value_near_label(
+        texts, ["SURNAME"],
+        value_check=lambda c: c.upper() == c and c.isalpha() and len(c) > 1
+    )
+    if surname:
+        extracted["surname"] = surname.upper()
 
     # ── Given names ──────────────────────────────────────────────────────────
-    for i, t in enumerate(texts):
-        if "GIVEN" in t.upper() and i + 1 < len(texts):
-            candidate = texts[i + 1].upper().strip()
-            if candidate and len(candidate) > 1:
-                extracted["given_names"] = candidate
-                break
+    given = _find_value_near_label(
+        texts, ["GIVEN"],
+        value_check=lambda c: c.upper() == c and c.isalpha() and len(c) > 1
+    )
+    if given:
+        extracted["given_names"] = given.upper()
 
     # ── Sex ──────────────────────────────────────────────────────────────────
-    for i, t in enumerate(texts):
-        if t.upper() == "SEX" and i + 1 < len(texts):
-            val = texts[i + 1].upper().strip()
-            if val in ("M", "F", "X"):
-                extracted["sex"] = val
-                break
-        # Sometimes M appears directly next to sex label
-        if t.upper() in ("M", "F") and i > 0 and "SEX" in texts[i-1].upper():
-            extracted["sex"] = t.upper()
-            break
+    sex = _find_value_near_label(
+        texts, ["SEX"],
+        value_check=lambda c: c.upper() in ("M", "F", "X")
+    )
+    if sex:
+        extracted["sex"] = sex.upper()
 
     # ── DOB ──────────────────────────────────────────────────────────────────
-    # Look for pattern like "JAN 1981" or "01 JAN 1981"
-    dob_pattern = re.search(
-        r'\b([A-Z]{3}\s+\d{4}|\d{1,2}\s+[A-Z]{3}\s+\d{4})\b', full
+    dob_raw = _find_value_near_label(
+        texts, ["DATE DE NAISSANCE", "DATE OF BIRTH"],
+        value_check=lambda c: bool(DATE_LIKE_RE.match(c.upper()))
     )
-    if dob_pattern:
-        extracted["dob"] = normalize_date(dob_pattern.group(1))
+    if dob_raw:
+        extracted["dob"] = normalize_date(dob_raw)
+    else:
+        # Fallback: scan the whole text for any date-like token.
+        for t in texts:
+            if DATE_LIKE_RE.match(t.upper()):
+                d = normalize_date(t)
+                if d:
+                    extracted["dob"] = d
+                    break
 
     # ── Expiry ───────────────────────────────────────────────────────────────
-    # Look for "Expires On DD MON YYYY" — find the date after "EXPIRES"
-    expires_idx = next((i for i, t in enumerate(texts) if "EXPIRE" in t.upper()), None)
-    if expires_idx is not None:
-        # Check next 1-2 tokens for a date
-        for j in range(expires_idx + 1, min(expires_idx + 3, len(texts))):
-            candidate = texts[j].upper().strip()
-            d = normalize_date(candidate)
-            if d:
-                extracted["expiry"] = d
-                break
-            # Handle "29 NOV 20" (truncated) — just store what we have
-            if re.match(r'\d{1,2}\s+[A-Z]{3}', candidate):
-                extracted["expiry"] = candidate  # partial, better than nothing
-                break
+    expiry_raw = _find_value_near_label(
+        texts, ["EXPIRATION", "EXPIRY", "DATE OF EXPIRY"],
+        value_check=lambda c: bool(DATE_LIKE_RE.match(c.upper()))
+    )
+    if expiry_raw:
+        extracted["expiry"] = normalize_date(expiry_raw)
 
     # ── Nationality / Country code ────────────────────────────────────────────
-    for i, t in enumerate(texts):
-        if "NATIONALITY" in t.upper() and i + 1 < len(texts):
-            val = texts[i + 1].upper().strip()
-            if re.match(r'^[A-Z]{2,3}$', val):
-                extracted["country_code"] = val
-                extracted["nationality"] = val
-                break
+    # NOTE: printed passports often show the spelled-out nationality
+    # ("EOLIAN") rather than the ISO-3166 alpha-3 code the MRZ uses ("EOL").
+    # This captures whichever is printed; if it's a full word, comparing it
+    # directly against the MRZ code will still show a mismatch downstream
+    # unless a nationality-word -> country-code lookup is added to the
+    # comparison step itself.
+    nat = _find_value_near_label(
+        texts, ["NATIONALITY"],
+        value_check=lambda c: c.isalpha() and 2 <= len(c) <= 20
+    )
+    if nat:
+        nat = nat.upper()
+        extracted["nationality"] = nat
+        if re.match(r'^[A-Z]{2,3}$', nat):
+            extracted["country_code"] = nat
 
     # ── Passport / Card number ────────────────────────────────────────────────
-    for i, t in enumerate(texts):
-        if any(kw in t.upper() for kw in ["PASSPORT CARD NO", "CARD NO", "PASSPORT NO"]):
-            if i + 1 < len(texts):
-                val = texts[i + 1].replace(" ", "").upper()
-                extracted["passport_number"] = val
-                break
-    # Fallback: look for pattern like C03005988
+    passport_no = _find_value_near_label(
+        texts, ["PASSPORT CARD NO", "CARD NO", "PASSPORT NO", "PASSPORT NR", "PASSPORT N"],
+        value_check=lambda c: bool(re.match(r'^[A-Z]{0,3}\d{6,9}$', c.replace(" ", "").upper()))
+    )
+    if passport_no:
+        extracted["passport_number"] = passport_no.replace(" ", "").upper()
+
+    # Fallback: look for a bare token that looks like a passport number
+    # anywhere in the document (1-3 letters followed by 6-9 digits).
     if "passport_number" not in extracted:
         for t in texts:
-            if re.match(r'^[A-Z]\d{7,8}$', t.replace(" ", "").upper()):
-                extracted["passport_number"] = t.upper()
+            candidate = t.replace(" ", "").upper()
+            if re.match(r'^[A-Z]{1,3}\d{6,9}$', candidate):
+                extracted["passport_number"] = candidate
                 break
 
     return extracted

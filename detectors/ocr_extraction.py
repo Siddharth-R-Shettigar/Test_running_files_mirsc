@@ -30,13 +30,77 @@ def clean_mrz_text(raw_text: str) -> str:
 
 
 def extract_mrz_candidates(lines: list) -> list:
+    """
+    First pass: look for lines that already look like a full MRZ line
+    on their own (len >= 25 and enough '<' or a leading document-type char).
+    """
     mrz_candidates = []
     for line in lines:
         cleaned = clean_mrz_text(line)
         if len(cleaned) >= 25:
             if cleaned.count('<') >= 2 or cleaned.startswith(('P<', 'I<', 'C<', 'V<', 'A<')):
                 mrz_candidates.append(cleaned)
+            # Fallback: MRZ line 2 (numbers/dates/checksums) can end up with
+            # very few or zero '<' if OCR drops the filler character entirely.
+            # Accept it if it's overwhelmingly alnum with a high digit ratio.
+            elif sum(c.isdigit() for c in cleaned) >= 10:
+                mrz_candidates.append(cleaned)
     return mrz_candidates
+
+
+def _group_fields_into_rows(fields: list, y_tolerance_ratio: float = 0.6) -> list:
+    """
+    PaddleOCR's text detector returns one box per detected text region, not
+    necessarily one box per printed line. Long, dense monospaced text (like
+    the MRZ block at the bottom of a passport) frequently gets split across
+    several boxes. This reconstructs full rows by grouping fields whose
+    vertical spans overlap, then joining them left-to-right by x position.
+
+    Returns a list of reconstructed row strings (raw, uncleaned).
+    """
+    if not fields:
+        return []
+
+    # Sort by vertical position first so nearby rows end up adjacent.
+    boxes = []
+    for f in fields:
+        bb = f.get("bounding_box", {})
+        y1, y2 = bb.get("y1", 0), bb.get("y2", 0)
+        x1 = bb.get("x1", 0)
+        text = f.get("text", "")
+        if not text:
+            continue
+        height = max(y2 - y1, 1)
+        y_center = (y1 + y2) / 2
+        boxes.append({
+            "text": text,
+            "x1": x1,
+            "y_center": y_center,
+            "height": height,
+        })
+
+    boxes.sort(key=lambda b: b["y_center"])
+
+    rows = []
+    used = [False] * len(boxes)
+
+    for i, b in enumerate(boxes):
+        if used[i]:
+            continue
+        tolerance = b["height"] * y_tolerance_ratio
+        row = [b]
+        used[i] = True
+        for j in range(i + 1, len(boxes)):
+            if used[j]:
+                continue
+            if abs(boxes[j]["y_center"] - b["y_center"]) <= tolerance:
+                row.append(boxes[j])
+                used[j] = True
+        row.sort(key=lambda b: b["x1"])
+        row_text = "".join(item["text"] for item in row)
+        rows.append(row_text)
+
+    return rows
 
 
 def extract_text(image_path: str) -> dict:
@@ -94,7 +158,24 @@ def extract_text(image_path: str) -> dict:
                 })
 
         full_text = " ".join(all_texts)
+
+        # Pass 1: check raw detected lines individually.
         mrz_candidates = extract_mrz_candidates(lines)
+
+        # Pass 2: reconstruct rows from bounding boxes in case the MRZ line
+        # was split across multiple detection boxes, then check those too.
+        reconstructed_rows = _group_fields_into_rows(fields)
+        mrz_candidates += extract_mrz_candidates(reconstructed_rows)
+
+        # De-duplicate while preserving order.
+        seen = set()
+        uniq_mrz = []
+        for c in mrz_candidates:
+            if c not in seen:
+                seen.add(c)
+                uniq_mrz.append(c)
+        mrz_candidates = uniq_mrz
+
         avg_conf = round(float(np.mean([f["confidence"] for f in fields])), 3) if fields else 0.0
 
         return {
@@ -138,6 +219,6 @@ if __name__ == "__main__":
     print(result["full_text"] if result["full_text"] else "(empty)")
 
     if result["lines"]:
-        print("\n--- Lines ---")
+        print("\n--- Lines (raw, as detected by PaddleOCR) ---")
         for i, line in enumerate(result["lines"], 1):
             print(f"{i:02d}. {line}")
