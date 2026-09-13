@@ -1,0 +1,629 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "poland_pass.png",
+  "live_image": null,
+  "risk_level": "REVIEW",
+  "risk_reason": "Document face photo region shows forensic anomalies.",
+  "forensic_risk_score": 0.467,
+  "active_detectors_evaluated": 23,
+  "detector_signals": [
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "Extracted 39 tokens. Found 3 MRZ candidates.",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "RZECZPOSPOLITA POLSKA / REPUBLIC OF POLAND",
+          "confidence": 0.994,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "PASZPORT",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "TYP/TYPE",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "KOD/CODE",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "NUMERPASZPORTU/PASSPORT No.",
+          "confidence": 0.976,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "P",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "POL",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "24339875",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "PASSPORT",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "1. NAZWISKO/SURNAME",
+          "confidence": 0.982,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "STANISZEWSKI",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "2. IMIONA/GIVEN NAMES",
+          "confidence": 0.97,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "u000d",
+          "confidence": 0.359,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "MAKSYM",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "3. DATA URODZENIA/DATE OF BIRTH",
+          "confidence": 0.98,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "4. MIEJSCE URODZENIA/PLACE OF BIRTH",
+          "confidence": 0.973,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "09 WRZ/SEP 78",
+          "confidence": 0.989,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "POZNAN",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "5. OBYWATELSTWO/NATIONALITY",
+          "confidence": 0.983,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "6. NUMER PIESEL/PERSONAL ID No.",
+          "confidence": 0.98,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "POLSKIE/ POLISH",
+          "confidence": 0.984,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "78090928074",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "BOG HONOR QUCYZNA",
+          "confidence": 0.884,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "7. DATA WYDANIA/DATE OF ISSUE",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "8.PLEC/SEX",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "GP O RP",
+          "confidence": 0.852,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "08 CZE/JUN 24",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "M/M",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "9. DATA WAŽOŠCI/DATE OF EXPIRY",
+          "confidence": 0.969,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "2034",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "06 CZE/JUN 34",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "10.ORGAN WYDAJCY/AUTHORITY",
+          "confidence": 0.991,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "11. PODPIS POSIADACZA/HOLDER'S SIGNATURE",
+          "confidence": 0.996,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "78090928074",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "WOJEWODA",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "WARMINSKO-MAZURSKI/1/",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Aride Me",
+          "confidence": 0.889,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "P<P0LSTANISZEWSKI<<MAKSYM<<<<<<<<<<<<<<<<<<<",
+          "confidence": 0.954,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "24339875<9P0L7809095M340606178090928074<<<40",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        }
+      ],
+      "mrz_lines": [
+        "P<P0LSTANISZEWSKI<<MAKSYM<<<<<<<<<<<<<<<<<<<",
+        "24339875<9P0L7809095M340606178090928074<<<40",
+        "RZECZPOSPOLITAPOLSKAREPUBLICOFPOLANDPASZPORTTYPTYPEKODCODENUMERPASZPORTUPASSPORTNOPPOL24339875PASSPORT1NAZWISKOSURNAMESTANISZEWSKI2IMIONAGIVENNAMESU000DMAKSYM3DATAURODZENIADATEOFBIRTH4MIEJSCEURODZENIAPLACEOFBIRTH09WRZSEP78POZNAN5OBYWATELSTWONATIONALITY6NUMERPIESELPERSONALIDNOPOLSKIEPOLISH78090928074BOGHONORQUCYZNA7DATAWYDANIADATEOFISSUE8PLECSEXGPORP08CZEJUN24MM9DATAWAOCIDATEOFEXPIRY203406CZEJUN3410ORGANWYDAJCYAUTHORITY11PODPISPOSIADACZAHOLDERSSIGNATURE78090928074WOJEWODAWARMINSKO<MAZURSKI1ARIDEMEP<P0LSTANISZEWSKI<<MAKSYM<<<<<<<<<<<<<<<<<<<24339875<9P0L7809095M340606178090928074<<<40"
+      ]
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as 'passport' (score 0.66). Matched 3 keyword(s). MRZ pipeline will be activated.",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "All MRZ check digits valid.",
+      "status": "passed",
+      "fields": {
+        "doc_type": "P",
+        "country_code": "P0L",
+        "surname": "STANISZEWSKI",
+        "given_names": "MAKSYM",
+        "passport_number": "24339875",
+        "nationality": "P0L",
+        "dob": "780909",
+        "sex": "M",
+        "expiry": "340606",
+        "personal_number": "78090928074",
+        "check_digit_results": {
+          "passport_number": "PASS",
+          "dob": "PASS",
+          "expiry": "PASS",
+          "personal_number": "PASS",
+          "composite": "PASS"
+        },
+        "date_validity_results": {
+          "dob": "PASS",
+          "expiry": "PASS"
+        }
+      },
+      "issues": []
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.7,
+      "confidence": "high",
+      "explanation": "Validation failures: passport_number, country_code",
+      "status": "flagged",
+      "field_results": [
+        {
+          "field": "passport_number",
+          "status": "flagged",
+          "value": "24339875",
+          "explanation": "Passport number '24339875' is INVALID (expected 1 letter + 7 digits)."
+        },
+        {
+          "field": "dob",
+          "status": "passed",
+          "value": "1978-09-09",
+          "explanation": "DOB 1978-09-09 is valid (age ~48)."
+        },
+        {
+          "field": "expiry",
+          "status": "passed",
+          "value": "2034-06-06",
+          "explanation": "Document valid until 2034-06-06."
+        },
+        {
+          "field": "sex",
+          "status": "passed",
+          "value": "M",
+          "explanation": "Sex 'M' is valid."
+        },
+        {
+          "field": "country_code",
+          "status": "flagged",
+          "value": "P0L",
+          "explanation": "Country code 'P0L' is INVALID."
+        }
+      ]
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "All OCR and MRZ fields match.",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.59. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.65,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 65%.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1789.34). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.1,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 1.43.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.6 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 173.21 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1194.5).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.68. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "The main photograph of the male holder does not match the secondary, embedded holographic photograph of a female, strongly indicating a photo substitution or document alteration.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.405,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.08.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 899.4). Image shows signs of ).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; face match skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; liveness skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; duplicate-ID skipped.",
+      "status": "unavailable"
+    }
+  ],
+  "human_summary": "poland_pass.png | \u001b[33mNeeds review\u001b[0m | Validation failures: passport_number, country_code"
+}

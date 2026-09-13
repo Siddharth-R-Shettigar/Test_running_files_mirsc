@@ -1,0 +1,609 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "portuguese.png",
+  "live_image": null,
+  "risk_level": "REVIEW",
+  "risk_reason": "Document face photo region shows forensic anomalies.",
+  "forensic_risk_score": 0.37,
+  "active_detectors_evaluated": 23,
+  "detector_signals": [
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "Extracted 37 tokens. Found 3 MRZ candidates.",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "República Portuguesa Portuguese Republic République Portugaise",
+          "confidence": 0.991,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Passaporte",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Tipo Type",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Código do País Code",
+          "confidence": 0.993,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Passport",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Passaporte no Passport no. Passeport no",
+          "confidence": 0.935,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "P",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "PRT",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Passeport",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "L940632",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "1. Apoldo(s) aame Nom",
+          "confidence": 0.596,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "TAPIA",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "2. Nome(s) própriofs) Given names Préooms",
+          "confidence": 0.875,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "JUAN",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "3. Nacionalidade Notionality Notionalité",
+          "confidence": 0.952,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "4. Altura Height Tollle",
+          "confidence": 0.895,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "PORTUGUESA",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "1.85 m",
+          "confidence": 0.977,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "6. Data do nascimento Dote ofblrth Dotedennisronce",
+          "confidence": 0.792,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "6. N de identificação pessoal Personalno. No personnel",
+          "confidence": 0.834,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "08 AGO/AUG 88",
+          "confidence": 0.959,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "762173394",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "8. Lacal de nascimento Place ef birth Liew de nolssance",
+          "confidence": 0.88,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "M",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "SANTIAGO",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": ". Iarda wpissão Dute oflssuo Dotede déllvraace",
+          "confidence": 0.71,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "10. Autoridade Authority Autorta",
+          "confidence": 0.867,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "27.10.2014",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "SEF-SERV ESTR E FRONTEIRAS",
+          "confidence": 0.966,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "I Valido atà Dalo of expiry Date d'expiration",
+          "confidence": 0.824,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "12. Assinatura do titular",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "24.10.2024",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Holder's signature Signatura-du fituldire",
+          "confidence": 0.753,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "A02",
+          "confidence": 0.597,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "NS",
+          "confidence": 0.595,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "P<TAPIA<JUAN<DASEC<<<<<<<<<<<<<<<<<<<<<<<<<<",
+          "confidence": 0.989,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "L940632<<3PRT7811274M2410247762173394<<<<<26",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        }
+      ],
+      "mrz_lines": [
+        "P<TAPIA<JUAN<DASEC<<<<<<<<<<<<<<<<<<<<<<<<<<",
+        "L940632<<3PRT7811274M2410247762173394<<<<<26",
+        "REPBLICAPORTUGUESAPORTUGUESEREPUBLICRPUBLIQUEPORTUGAISEPASSAPORTETIPOTYPECDIGODOPASCODEPASSPORTPASSAPORTENOPASSPORTNOPASSEPORTNOPPRTPASSEPORTL9406321APOLDO<SAAMENOMTAPIA2NOME<SPRPRIOFSGIVENNAMESPROOMSJUAN3NACIONALIDADENOTIONALITYNOTIONALIT4ALTURAHEIGHTTOLLLEPORTUGUESA185M6DATADONASCIMENTODOTEOFBLRTHDOTEDENNISRONCE6NDEIDENTIFICAOPESSOALPERSONALNONOPERSONNEL08AGOAUG887621733948LACALDENASCIMENTOPLACEEFBIRTHLIEWDENOLSSANCEMSANTIAGOIARDAWPISSODUTEOFLSSUODOTEDEDLLVRAACE10AUTORIDADEAUTHORITYAUTORTA27102014SEF<SERVESTREFRONTEIRASIVALIDOATDALOOFEXPIRYDATEDEXPIRATION12ASSINATURADOTITULAR24102024HOLDERSSIGNATURESIGNATURA<DUFITULDIREA02NSP<TAPIA<JUAN<DASEC<<<<<<<<<<<<<<<<<<<<<<<<<<L940632<<3PRT7811274M2410247762173394<<<<<26"
+      ]
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Classified as 'passport' (score 0.44). Matched 2 keyword(s). MRZ pipeline will be activated.",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "All MRZ check digits valid.",
+      "status": "passed",
+      "fields": {
+        "doc_type": "P",
+        "country_code": "TAP",
+        "surname": "IA JUAN DASEC",
+        "given_names": "",
+        "passport_number": "L940632",
+        "nationality": "PRT",
+        "dob": "781127",
+        "sex": "M",
+        "expiry": "241024",
+        "personal_number": "762173394",
+        "check_digit_results": {
+          "passport_number": "PASS",
+          "dob": "PASS",
+          "expiry": "PASS",
+          "personal_number": "PASS",
+          "composite": "PASS"
+        },
+        "date_validity_results": {
+          "dob": "PASS",
+          "expiry": "PASS"
+        }
+      },
+      "issues": []
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.7,
+      "confidence": "high",
+      "explanation": "Validation failures: passport_number, expiry",
+      "status": "flagged",
+      "field_results": [
+        {
+          "field": "passport_number",
+          "status": "flagged",
+          "value": "L940632",
+          "explanation": "Passport number 'L940632' is INVALID (expected 1 letter + 7 digits)."
+        },
+        {
+          "field": "dob",
+          "status": "passed",
+          "value": "1978-11-27",
+          "explanation": "DOB 1978-11-27 is valid (age ~47)."
+        },
+        {
+          "field": "expiry",
+          "status": "flagged",
+          "value": "2024-10-24",
+          "explanation": "Document EXPIRED on 2024-10-24."
+        },
+        {
+          "field": "sex",
+          "status": "passed",
+          "value": "M",
+          "explanation": "Sex 'M' is valid."
+        },
+        {
+          "field": "country_code",
+          "status": "passed",
+          "value": "TAP",
+          "explanation": "Country code 'TAP' is valid."
+        }
+      ]
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "All OCR and MRZ fields match.",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.7,
+      "confidence": "high",
+      "explanation": "Aadhaar checksum failed — number is likely fabricated.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 1.48. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.14,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 13%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1906.96). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.1,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 1.55.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.45 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 165.74 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1318.24).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.16. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM inspection failed: HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Read timed out. (read timeout=60)",
+      "status": "failed"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.4,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.0 (Error Level Analysis computed pixel difference variance of 0.07.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 493.95). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; face match skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; liveness skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; duplicate-ID skipped.",
+      "status": "unavailable"
+    }
+  ],
+  "human_summary": "portuguese.png | Needs review | Forensic anomalies on face photo, data validation failed, live image unavailable."
+}

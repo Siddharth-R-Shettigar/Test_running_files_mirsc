@@ -3,15 +3,15 @@
   "file_analyzed": "adhaar_card.jpeg",
   "live_image": null,
   "risk_level": "REVIEW",
-  "risk_reason": "Critical checks not available: mrz_parser, ocr_mrz_consistency.",
-  "forensic_risk_score": 0.382,
+  "risk_reason": "Combined forensic risk is moderate.",
+  "forensic_risk_score": 0.363,
   "active_detectors_evaluated": 25,
   "detector_signals": [
     {
       "detector_name": "ocr_extraction",
       "score": 0.0,
       "confidence": "high",
-      "explanation": "Extracted 31 tokens. Found 0 MRZ candidates.",
+      "explanation": "Extracted 31 tokens. Found 1 MRZ candidates.",
       "status": "passed",
       "fields": [
         {
@@ -85,7 +85,7 @@
           }
         },
         {
-          "text": "\u6211\u4e50",
+          "text": "我乐",
           "confidence": 0.504,
           "bounding_box": {
             "x1": 0,
@@ -215,7 +215,7 @@
           }
         },
         {
-          "text": "\uff0c\uff0c-99",
+          "text": "，，-99",
           "confidence": 0.502,
           "bounding_box": {
             "x1": 0,
@@ -325,13 +325,24 @@
           }
         }
       ],
-      "mrz_lines": []
+      "mrz_lines": [
+        "GOVERNMENTOFINDIA3ITETAD13OBHUSHANDIWAKARDOB05072002490656376032MALET<333AADHAARISPROOFOFIDENTITYNOTOFCITIZENSHIPORDATEOFBIRTHITSHOULDBEUSEDWITHVERIFICATION<ONLINEAUTHENTICATIONORSCANNINGOFQRCODEOFFLINEXML490656376032UNIQUEIDENTIFICATIONAUTHORITYOFINDIAAADHAARTOTFAOTERFAAAHFOTE<9AISET23<99121006ADDRESSSODINESHDIWAKARFLATNO<1GROUNDFLOOR1BSECTOR<11CFARIDABADSECTOR7POFARIDABADSECTOR7DISTFARIDABADHARYANA121006AADHAAR4906563760321947HELPUIDAIGOVINWWWUIDAIGOVIN"
+      ]
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as 'aadhaar' (score 0.66). Matched 3 keyword(s). No MRZ required for this document type.",
+      "status": "passed",
+      "doc_type": "aadhaar",
+      "needs_mrz": false
     },
     {
       "detector_name": "mrz_parser",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "Could not build two MRZ lines from OCR (got 0: []).",
+      "explanation": "'aadhaar' requires MRZ but could not build two lines from OCR (got 1).",
       "status": "unavailable",
       "fields": {},
       "issues": [
@@ -339,25 +350,17 @@
       ]
     },
     {
-      "detector_name": "document_classifier",
-      "score": 0.25,
-      "confidence": "high",
-      "explanation": "Classified as 'aadhaar' (score 0.66). Matched 3 keyword(s).",
-      "status": "passed",
-      "doc_type": "aadhaar"
-    },
-    {
       "detector_name": "field_validator",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "Skipped; no MRZ fields available.",
+      "explanation": "Skipped; 'aadhaar' needs MRZ but parsing yielded no fields.",
       "status": "unavailable"
     },
     {
       "detector_name": "ocr_mrz_consistency",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "Skipped; need OCR fields + MRZ fields.",
+      "explanation": "Skipped; no MRZ fields to cross-check against.",
       "status": "unavailable"
     },
     {
@@ -467,9 +470,9 @@
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.3,
+      "score": 0.1,
       "confidence": "high",
-      "explanation": "The document's layout, text, and numerical details appear consistent with genuine Aadhaar cards. A very subtle halo around the photograph could suggest minor digital alteration or printing anomaly, but it is not definitive.",
+      "explanation": "The document appears generally authentic with no obvious signs of a pasted photograph, retyped text, or altered dates. Layout and security features seem consistent with a genuine Aadhaar card.",
       "status": "passed"
     },
     {
@@ -501,5 +504,5 @@
       "status": "unavailable"
     }
   ],
-  "human_summary": "This image is **likely a digitally manipulated or reconstructed file** rather than an authentic, direct photograph of a physical document. While the document's text and the Aadhaar card number are structurally valid and verified by the system, the digital file itself shows clear signs of artificial processing. Multiple forensic detectors flagged severe anomalies, such as a complete lack of natural camera sensor signatures and evidence of \"AI upscaling\" or heavy image resizing (resampling). Additionally, suspicious compression patterns (known as JPEG ghosts) and unnatural edge sharpening suggest the image was digitally edited or recreated rather than captured organically. Consequently, while the identity details printed on the card may be real, the image file itself is not an authentic, unaltered photograph."
+  "human_summary": "adhaar_card.jpeg | Needs review | Forensic flags for manipulation; live image checks skipped."
 }

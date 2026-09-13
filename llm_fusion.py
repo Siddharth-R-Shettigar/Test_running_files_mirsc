@@ -1,5 +1,5 @@
-import os
 import json
+import os
 import requests
 from dotenv import load_dotenv
 
@@ -12,25 +12,80 @@ try:
         gemini_model_name,
     )
 except ModuleNotFoundError:
-    from detectors.gemini_key_pool import (  # type: ignore
-        get_next_gemini_key,
-        mark_key_cooling,
-        gemini_model_name,
-    )
+    try:
+        from detectors.gemini_key_pool import (  # type: ignore
+            get_next_gemini_key,
+            mark_key_cooling,
+            gemini_model_name,
+        )
+    except Exception:
+        def get_next_gemini_key():
+            return None, 0
+
+        def mark_key_cooling(*args, **kwargs):
+            return None
+
+        gemini_model_name = "gemini-2.5-flash"
 
 
 def _text_model_name() -> str:
     # Text-only officer summary. Override with Codespaces secret / .env if needed.
-    # Does NOT need a different product line from vision; payload has NO image.
     return os.getenv("GEMINI_TEXT_MODEL", "gemini-2.5-flash").strip() or "gemini-2.5-flash"
 
 
-def generate_human_summary(report: dict) -> str:
-    """
-    Officer-facing plain-English summary from a full KAVACH engine report.
-    Uses the same Gemini key pool as vision_llm_inspector (Codespaces secrets / .env).
-    """
-    # Slim the report so we don't burn tokens on huge OCR field lists
+def _ansi(text, code):
+    return f"\033[{code}m{text}\033[0m"
+
+
+def _risk_to_verdict(risk_level):
+    if risk_level == "PASS":
+        return "Genuine"
+    if risk_level == "REVIEW":
+        return "Needs review"
+    if risk_level == "HIGH RISK":
+        return "Likely fake"
+    return "Unknown"
+
+
+def _color_for_verdict(verdict):
+    if verdict == "Genuine":
+        return _ansi(verdict, "32")   # green
+    if verdict == "Needs review":
+        return _ansi(verdict, "33")   # yellow/orange
+    if verdict == "Likely fake":
+        return _ansi(verdict, "31")   # red
+    return _ansi(verdict, "36")     # cyan fallback
+
+
+def _pick_reason(report):
+    signals = report.get("detector_signals", []) or []
+
+    # Strongest negative reason first
+    for s in signals:
+        if not isinstance(s, dict):
+            continue
+
+        status = str(s.get("status", "")).lower()
+        explanation = (s.get("explanation") or "").strip()
+        if status == "flagged" and explanation:
+            # Prefer the meaningful detector reasons
+            if s.get("detector_name") in {
+                "ocr_mrz_consistency",
+                "mrz_parser",
+                "field_validator",
+                "photo_patch_forensics",
+                "vision_llm_sanity_analysis",
+                "resampling_interpolation_analysis",
+                "frequency_domain_fft",
+                "cfa_demosaicing_analysis",
+            }:
+                return explanation
+
+    # Fallback to top-level reason
+    return report.get("risk_reason") or "No reason provided."
+
+
+def _slim_report(report):
     slim = {
         "engine": report.get("engine"),
         "file_analyzed": report.get("file_analyzed"),
@@ -41,9 +96,11 @@ def generate_human_summary(report: dict) -> str:
         "active_detectors_evaluated": report.get("active_detectors_evaluated"),
         "detector_signals": [],
     }
+
     for s in report.get("detector_signals") or []:
         if not isinstance(s, dict):
             continue
+
         slim["detector_signals"].append(
             {
                 "detector_name": s.get("detector_name"),
@@ -54,24 +111,38 @@ def generate_human_summary(report: dict) -> str:
             }
         )
 
+    return slim
+
+
+def _fallback_summary(report: dict) -> str:
+    file_name = report.get("file_analyzed", "unknown file")
+    risk_level = report.get("risk_level", "UNKNOWN")
+    verdict = _risk_to_verdict(risk_level)
+    reason = _pick_reason(report)
+
+    return (
+        f"{file_name} | "
+        f"{_color_for_verdict(verdict)} | "
+        f"{reason}"
+    )
+
+
+def _llm_summary(slim: dict) -> str:
     prompt = f"""
 You are a border-control assistant. An automated system (KAVACH) screened an identity document.
-Below is a JSON summary: overall risk_level plus per-check signals.
-Scores are risk-oriented (higher = more suspicious) unless status is unavailable/failed.
 
-Rules:
-- Trust risk_level and critical failures (OCR/MRZ/face mismatch) more than a single weak forensic flag.
-- If critical checks are unavailable, say the officer should review manually (fail-closed).
-- Do NOT invent passport numbers, names, or facts not in the JSON.
-- Write for a non-technical officer.
-
-Report JSON:
+Below is a JSON summary of the run:
 {json.dumps(slim, indent=2)}
 
-Write 4-6 plain English sentences:
-1) Overall recommendation (PASS / REVIEW / HIGH RISK — use the report's risk_level if present).
-2) The 2-3 strongest reasons.
-3) Any important limitations (skipped face, missing OCR, low confidence).
+Write exactly one crisp line for an officer, in this exact style:
+<file_name> | <Genuine / Needs review / Likely fake> | <very short reason>
+
+Rules:
+- Keep it to one line only.
+- Use the report's risk_level and strongest signals.
+- Do NOT invent facts.
+- Use short, plain English.
+- If critical checks were skipped or unavailable, say that briefly.
 """
 
     model = _text_model_name()
@@ -95,6 +166,7 @@ Write 4-6 plain English sentences:
                 headers={"Content-Type": "application/json"},
                 timeout=45,
             )
+
             if res.status_code == 429:
                 mark_key_cooling(api_key, 65.0)
                 last_error = "Rate limited; tried next key."
@@ -115,10 +187,28 @@ Write 4-6 plain English sentences:
                     continue
                 continue
 
-            return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            return text.strip()
 
         except Exception as e:
             last_error = str(e)
             continue
 
-    return f"LLM summary unavailable after key rotation. Last error: {last_error}"
+    return _fallback_summary(slim)
+
+
+def generate_human_summary(report: dict) -> str:
+    """
+    Officer-facing single-line summary from a full KAVACH engine report.
+    Uses Gemini when available; otherwise falls back to a local rule-based summary.
+    """
+    slim = _slim_report(report)
+
+    try:
+        llm_text = _llm_summary(slim)
+        if llm_text and llm_text.strip():
+            return llm_text.strip()
+    except Exception:
+        pass
+
+    return _fallback_summary(report)

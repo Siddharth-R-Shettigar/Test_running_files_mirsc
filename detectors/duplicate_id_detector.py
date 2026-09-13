@@ -241,6 +241,95 @@ def _person_id_for(image_path: str) -> str:
 # ---------------------------------------------------------------------
 # Pipeline entry point - this is what kavach_engine.py calls
 # ---------------------------------------------------------------------
+def _resolve_image_path(image_path: str) -> str:
+    """Resolve a user-supplied image path to a real file, including common workspace folders."""
+    if image_path and os.path.exists(image_path):
+        return image_path
+
+    candidates = [
+        os.path.join("images", image_path),
+        os.path.join("uploads", image_path),
+        os.path.join("test_images", image_path),
+    ]
+
+    for candidate in candidates:
+        if os.path.exists(candidate):
+            return candidate
+
+    return image_path
+
+
+def _extract_embedding(image_path: str):
+    """Reads an image, extracts the main face embedding, and returns it with a derived person_id."""
+    resolved_image_path = _resolve_image_path(image_path)
+
+    try:
+        import cv2
+    except ImportError:
+        raise RuntimeError("opencv-python is not installed; duplicate identity check unavailable.")
+
+    try:
+        from insightface.app import FaceAnalysis  # noqa: F401 (import-check only)
+    except ImportError:
+        raise RuntimeError("insightface is not installed; duplicate identity check unavailable.")
+
+    img = cv2.imread(resolved_image_path)
+    if img is None:
+        raise RuntimeError(f"Could not read image file: {resolved_image_path}")
+
+    faces = _get_face_app().get(img)
+
+    if not faces:
+        raise RuntimeError("No face detected in image; duplicate identity check unavailable.")
+
+    largest_face = max(faces, key=lambda f: (f.bbox[2] - f.bbox[0]) * (f.bbox[3] - f.bbox[1]))
+    embedding = largest_face.normed_embedding
+    person_id = _person_id_for(resolved_image_path)
+    return embedding, person_id
+
+
+def compare_two_images(image_path_a: str, image_path_b: str) -> dict:
+    """Compares two images directly and reports whether they look like the same person."""
+    try:
+        embedding_a, person_id_a = _extract_embedding(image_path_a)
+        embedding_b, person_id_b = _extract_embedding(image_path_b)
+    except Exception as e:
+        return _build_result(
+            score=0.0,
+            confidence="low",
+            explanation=f"Duplicate identity check failed to process the two images: {e}",
+            status="failed",
+        )
+
+    similarity = cosine_similarity(embedding_a, embedding_b)
+    score = max(0.0, min(1.0, similarity))
+
+    if similarity > SIMILARITY_THRESHOLD:
+        margin = similarity - SIMILARITY_THRESHOLD
+        confidence = "high" if margin > 0.05 else "medium"
+        return _build_result(
+            score=round(score, 4),
+            confidence=confidence,
+            explanation=(
+                f"HIGH RISK: The faces in '{person_id_a}' and '{person_id_b}' match with similarity "
+                f"{similarity:.4f}, above the {SIMILARITY_THRESHOLD} duplicate-identity threshold."
+            ),
+            status="flagged",
+        )
+
+    margin = SIMILARITY_THRESHOLD - similarity
+    confidence = "high" if margin > 0.05 else "medium"
+    return _build_result(
+        score=round(score, 4),
+        confidence=confidence,
+        explanation=(
+            f"No duplicate identity detected. The faces in '{person_id_a}' and '{person_id_b}' had "
+            f"similarity {similarity:.4f}, below the {SIMILARITY_THRESHOLD} threshold."
+        ),
+        status="passed",
+    )
+
+
 def run_duplicate_id_detector(image_path: str) -> dict:
     """
     Standard detector interface: takes an image path, returns the
@@ -250,50 +339,7 @@ def run_duplicate_id_detector(image_path: str) -> dict:
     detector_pipeline list.
     """
     try:
-        import cv2
-    except ImportError:
-        return _build_result(
-            score=0.0,
-            confidence="low",
-            explanation="opencv-python is not installed; duplicate identity check unavailable.",
-            status="unavailable",
-        )
-
-    try:
-        from insightface.app import FaceAnalysis  # noqa: F401 (import-check only)
-    except ImportError:
-        return _build_result(
-            score=0.0,
-            confidence="low",
-            explanation="insightface is not installed; duplicate identity check unavailable.",
-            status="unavailable",
-        )
-
-    try:
-        img = cv2.imread(image_path)
-        if img is None:
-            return _build_result(
-                score=0.0,
-                confidence="low",
-                explanation="Could not read image file.",
-                status="failed",
-            )
-
-        app = _get_face_app()
-        faces = app.get(img)
-
-        if not faces:
-            return _build_result(
-                score=0.0,
-                confidence="low",
-                explanation="No face detected in image; duplicate identity check unavailable.",
-                status="unavailable",
-            )
-
-        largest_face = max(faces, key=lambda f: (f.bbox[2] - f.bbox[0]) * (f.bbox[3] - f.bbox[1]))
-        embedding = largest_face.normed_embedding
-        person_id = _person_id_for(image_path)
-
+        embedding, person_id = _extract_embedding(image_path)
         result = check_duplicate_identity(embedding, person_id=person_id)
 
         # Only add clean checks to the trusted known-faces store.
@@ -326,28 +372,20 @@ def _get_face_app():
 
 
 # ---------------------------------------------------------------------
-# Manual test / demo when run directly: python detectors/duplicate_id_detector.py
+# CLI entry point:
+#   python -m detectors.duplicate_id_detector <image_path>
+#   python -m detectors.duplicate_id_detector <image_path_a> <image_path_b>
 # ---------------------------------------------------------------------
 if __name__ == "__main__":
-    demo_store = os.path.join("data", "known_faces_demo.json")
+    import sys
 
-    rng = np.random.default_rng(42)
-    original_embedding = rng.normal(size=EMBEDDING_DIM)
-    save_known_faces(
-        [{"person_id": "ID001", "embedding": original_embedding.tolist()}],
-        demo_store,
-    )
+    if len(sys.argv) == 2:
+        image_path = sys.argv[1]
+        result = run_duplicate_id_detector(image_path)
+    elif len(sys.argv) == 3:
+        result = compare_two_images(sys.argv[1], sys.argv[2])
+    else:
+        print("Usage: python -m detectors.duplicate_id_detector <image_path> OR python -m detectors.duplicate_id_detector <image_path_a> <image_path_b>")
+        sys.exit(1)
 
-    print("Test 1: Same face, different ID -> should FLAG")
-    duplicate_attempt = original_embedding + rng.normal(scale=0.01, size=EMBEDDING_DIM)
-    result_1 = check_duplicate_identity(duplicate_attempt, person_id="ID002", store_path=demo_store)
-    print(json.dumps(result_1, indent=2))
-
-    print("\nTest 2: Different face, new ID -> should PASS")
-    new_face = rng.normal(size=EMBEDDING_DIM)
-    result_2 = check_duplicate_identity(new_face, person_id="ID003", store_path=demo_store)
-    print(json.dumps(result_2, indent=2))
-
-    print("\nTest 3: save_new_face_vector helper")
-    save_new_face_vector("ID003", new_face, store_path=demo_store)
-    print(f"known_faces now has {len(load_known_faces(demo_store))} records in {demo_store}")
+    print(json.dumps(result, indent=2))
