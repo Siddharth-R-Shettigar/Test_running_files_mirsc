@@ -5,8 +5,15 @@
   "risk_level": "REVIEW",
   "risk_reason": "Document face photo region shows forensic anomalies.",
   "forensic_risk_score": 0.467,
-  "active_detectors_evaluated": 23,
+  "active_detectors_evaluated": 28,
   "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.06,
+      "confidence": "high",
+      "explanation": "Image clarity is 94.0% (93-100%). Excellent quality – running PaddleOCR only.",
+      "status": "passed"
+    },
     {
       "detector_name": "ocr_extraction",
       "score": 0.0,
@@ -156,7 +163,7 @@
         },
         {
           "text": "3. DATA URODZENIA/DATE OF BIRTH",
-          "confidence": 0.98,
+          "confidence": 0.979,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -196,7 +203,7 @@
         },
         {
           "text": "5. OBYWATELSTWO/NATIONALITY",
-          "confidence": 0.983,
+          "confidence": 0.972,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -206,7 +213,7 @@
         },
         {
           "text": "6. NUMER PIESEL/PERSONAL ID No.",
-          "confidence": 0.98,
+          "confidence": 0.981,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -266,7 +273,7 @@
         },
         {
           "text": "GP O RP",
-          "confidence": 0.852,
+          "confidence": 0.856,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -376,7 +383,7 @@
         },
         {
           "text": "Aride Me",
-          "confidence": 0.889,
+          "confidence": 0.893,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -386,7 +393,7 @@
         },
         {
           "text": "P<P0LSTANISZEWSKI<<MAKSYM<<<<<<<<<<<<<<<<<<<",
-          "confidence": 0.954,
+          "confidence": 0.947,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -593,7 +600,7 @@
       "detector_name": "vision_llm_sanity_analysis",
       "score": 0.9,
       "confidence": "high",
-      "explanation": "The main photograph of the male holder does not match the secondary, embedded holographic photograph of a female, strongly indicating a photo substitution or document alteration.",
+      "explanation": "The main photo shows a man, but the smaller security photo within the 'Bog Honor Ojczyzna' element depicts a different person, a woman, which is a major inconsistency and a strong sign of tampering. The stated gender 'M/M' also conflicts with the security photo.",
       "status": "flagged"
     },
     {
@@ -602,6 +609,34 @@
       "confidence": "high",
       "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.08.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 899.4). Image shows signs of ).",
       "status": "flagged"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "GENUINE GRADIENT",
+      "status": "passed"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=8.43, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.426,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=20.9, val_std=28.1, hue_std=34.3). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
     },
     {
       "detector_name": "face_verification",
@@ -625,5 +660,5 @@
       "status": "unavailable"
     }
   ],
-  "human_summary": "poland_pass.png | \u001b[33mNeeds review\u001b[0m | Validation failures: passport_number, country_code"
+  "human_summary": "poland_pass.png | Needs review | Face photo anomalies, security photo mismatch."
 }
