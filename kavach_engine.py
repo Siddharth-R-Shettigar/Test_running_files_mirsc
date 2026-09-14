@@ -599,6 +599,10 @@ def analyze_media(image_path, live_image_path=None):
         (run_inpainting_detector, "inpainting", 1.5, False),
         (run_vision_llm_inspector, "vision_llm_sanity_analysis", 1.5, False),
         (run_photo_tampering_detector, "photo_patch_forensics", 2.0, False),
+        (run_microtext_detector, "microtext_analysis", 0.35, False),
+        (run_rainbow_gradient_detector, "rainbow_gradient", 0.35, False),
+        (run_guilloche_detector, "guilloche_pattern", 0.35, False),
+        (run_hologram_detector, "hologram_shift", 0.25, False),
     ]
 
     weighted_sum = 0.0
