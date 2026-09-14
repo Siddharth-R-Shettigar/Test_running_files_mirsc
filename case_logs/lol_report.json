@@ -1,22 +1,22 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "PAN.jpeg",
+  "file_analyzed": "lol.jpeg",
   "live_image": null,
   "risk_level": "REVIEW",
   "risk_reason": "Critical checks not available: mrz_parser, ocr_mrz_consistency.",
-  "forensic_risk_score": 0.357,
+  "forensic_risk_score": 0.499,
   "active_detectors_evaluated": 25,
   "detector_signals": [
     {
       "detector_name": "ocr_extraction",
       "score": 0.0,
       "confidence": "high",
-      "explanation": "Extracted 13 tokens. Found 0 MRZ candidates.",
+      "explanation": "Extracted 12 tokens. Found 0 MRZ candidates.",
       "status": "passed",
       "fields": [
         {
-          "text": "3TRa",
-          "confidence": 0.7,
+          "text": "TESTING",
+          "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -25,8 +25,8 @@
           }
         },
         {
-          "text": "ParHTST",
-          "confidence": 0.796,
+          "text": "SPECIMEN",
+          "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -35,8 +35,8 @@
           }
         },
         {
-          "text": "RAR",
-          "confidence": 0.393,
+          "text": "HIRAT RCR / GOVERNMENT OF INDIA",
+          "confidence": 0.895,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -45,8 +45,8 @@
           }
         },
         {
-          "text": "INCOMETAX DEPARTMENT",
-          "confidence": 0.977,
+          "text": "SPECIMEN IDENTITY CARD (DEMO)",
+          "confidence": 0.999,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -55,8 +55,8 @@
           }
         },
         {
-          "text": "GOVT. OF INDIA",
-          "confidence": 0.953,
+          "text": "Name: Bob Mathew",
+          "confidence": 0.994,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -65,7 +65,57 @@
           }
         },
         {
-          "text": "D MANIKANDAN",
+          "text": "Date of Birth: 12/05/1985",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Gender: Male",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "45/121, Palm Grove Lane,",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Fort Kochi,",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Kerala - 682001",
+          "confidence": 0.961,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "-1234-5678-9012",
           "confidence": 0.997,
           "bounding_box": {
             "x1": 0,
@@ -75,67 +125,7 @@
           }
         },
         {
-          "text": "DURAISAMY",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "16/07/1986",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Permanent Account Number",
-          "confidence": 0.98,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "BNZPM2501F",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "D. manickamabr",
-          "confidence": 0.863,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "0408011",
-          "confidence": 0.947,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Signature",
+          "text": "SPECIMEN",
           "confidence": 1.0,
           "bounding_box": {
             "x1": 0,
@@ -160,11 +150,11 @@
     },
     {
       "detector_name": "document_classifier",
-      "score": 0.25,
-      "confidence": "medium",
-      "explanation": "Classified as 'pan' (score 0.44). Matched 2 keyword(s).",
-      "status": "passed",
-      "doc_type": "pan"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Classified as 'unknown' (score 0.0). Matched 0 keyword(s).",
+      "status": "unavailable",
+      "doc_type": "unknown"
     },
     {
       "detector_name": "field_validator",
@@ -182,10 +172,10 @@
     },
     {
       "detector_name": "national_id_validator",
-      "score": 0.0,
-      "confidence": "high",
-      "explanation": "PAN format is valid. Taxpayer type: 'P'.",
-      "status": "passed"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
     },
     {
       "detector_name": "exiftool",
@@ -205,42 +195,42 @@
       "detector_name": "cfa_demosaicing_analysis",
       "score": 0.85,
       "confidence": "medium",
-      "explanation": "Bayer CFA grid residual ratio computed at 2.75. Lacks physical camera Bayer filter demosaicing signature.",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.34. Lacks physical camera Bayer filter demosaicing signature.",
       "status": "flagged"
     },
     {
       "detector_name": "hf_vision_transformer",
-      "score": 0.02,
+      "score": 0.5,
       "confidence": "high",
-      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 2%.",
-      "status": "passed"
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 50%.",
+      "status": "flagged"
     },
     {
       "detector_name": "resampling_interpolation_analysis",
       "score": 0.8,
       "confidence": "medium",
-      "explanation": "Periodic interpolation artifacts detected (metric: 1771.85). Image shows signs of AI upscaling or non-native resampling.",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1541.51). Image shows signs of AI upscaling or non-native resampling.",
       "status": "flagged"
     },
     {
       "detector_name": "ela_compression",
-      "score": 0.02,
+      "score": 0.01,
       "confidence": "medium",
-      "explanation": "Error Level Analysis computed pixel difference variance of 0.35.",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.21.",
       "status": "passed"
     },
     {
       "detector_name": "histogram_color_forensics",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Color channel entropy computed at 6.62 bits. Standard natural RGB channel distribution.",
+      "explanation": "Color channel entropy computed at 7.5 bits. Standard natural RGB channel distribution.",
       "status": "passed"
     },
     {
       "detector_name": "frequency_domain_fft",
       "score": 0.8,
       "confidence": "medium",
-      "explanation": "FFT spectral power calculated at 157.42 dB. High-frequency grid noise detected.",
+      "explanation": "FFT spectral power calculated at 168.02 dB. High-frequency grid noise detected.",
       "status": "flagged"
     },
     {
@@ -254,7 +244,7 @@
       "detector_name": "blur_sharpness_analysis",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Standard physical lens focus distribution (sharpness metric: 1210.63).",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1000.09).",
       "status": "passed"
     },
     {
@@ -268,7 +258,7 @@
       "detector_name": "jpeg_ghost_analysis",
       "score": 0.85,
       "confidence": "medium",
-      "explanation": "JPEG Ghost variance computed at 1.22. Suspicious uniform compression grid detected.",
+      "explanation": "JPEG Ghost variance computed at 0.53. Suspicious uniform compression grid detected.",
       "status": "flagged"
     },
     {
@@ -280,24 +270,24 @@
     },
     {
       "detector_name": "inpainting_trace_analysis",
-      "score": 0.15,
+      "score": 0.8,
       "confidence": "medium",
-      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.68. Uniform pixel edge continuity verified across image patches.",
-      "status": "passed"
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 2.55. Suspicious localized generative inpainting or region patching detected.",
+      "status": "flagged"
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.1,
+      "score": 1.0,
       "confidence": "high",
-      "explanation": "The document appears generally authentic with consistent layout, text, and security features. There are no clear signs of a replaced photograph, retyped text, or altered dates.",
-      "status": "passed"
+      "explanation": "The document is explicitly labeled as 'DEMO', 'SPECIMEN IDENTITY CARD', and 'TESTING SPECIMEN' in multiple places, indicating it is not a genuine identification document. Presenting it as such would be a strong attempt at fraud.",
+      "status": "flagged"
     },
     {
       "detector_name": "photo_patch_forensics",
-      "score": 0.41,
+      "score": 0.105,
       "confidence": "high",
-      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.24.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 732.67). Image shows signs of).",
-      "status": "flagged"
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.15.). Resampling score=0.2 (Standard organic pixel continuity verified (metric: 413.61).).",
+      "status": "passed"
     },
     {
       "detector_name": "face_verification",
@@ -321,5 +311,5 @@
       "status": "unavailable"
     }
   ],
-  "human_summary": "The KAVACH system recommends a **REVIEW** for this identity document. Crucial checks, such as parsing the Machine Readable Zone (MRZ) and verifying consistency between MRZ and OCR fields, could not be performed because an MRZ was not detected. Furthermore, forensic analysis detected multiple anomalies, including signs of AI upscaling or non-native resampling, unusual image compression, and high-frequency grid noise, which suggest potential image manipulation. Please note that face verification and liveness checks were skipped because no live image was provided for comparison."
+  "human_summary": "The KAVACH system recommends a **MANUAL REVIEW** for this identity document. The most significant concern is that the document is explicitly marked as a 'DEMO' and 'TESTING SPECIMEN', indicating it is not a genuine identity card and may be an attempt at fraud. Critical checks, such as reading the Machine Readable Zone (MRZ) and verifying consistency with extracted text, were unavailable because the system could not properly process the document. Several other forensic analyses also flagged signs of digital alteration, including synthetic image characteristics and resampling artifacts. Please be aware that face verification and liveness checks were not performed because no live image was provided."
 }

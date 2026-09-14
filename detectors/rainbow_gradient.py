@@ -44,3 +44,32 @@ if __name__ == "__main__":
 
     result = analyze_gradient(sys.argv[1])
     print(json.dumps(result, indent=2))
+
+def run_rainbow_gradient_detector(image_path: str) -> dict:
+    try:
+        raw = analyze_gradient(image_path)
+        if not isinstance(raw, dict) or raw.get("error"):
+            return {
+                "detector_name": "rainbow_gradient",
+                "score": 0.5,
+                "confidence": "low",
+                "explanation": str(raw.get("error", raw)),
+                "status": "unavailable",
+            }
+        genuine = "GENUINE" in str(raw.get("verdict", "")).upper()
+        score = 0.25 if genuine else 0.65
+        return {
+            "detector_name": "rainbow_gradient",
+            "score": score,
+            "confidence": "low",
+            "explanation": raw.get("verdict", "Gradient check complete."),
+            "status": "passed" if genuine else "flagged",
+        }
+    except Exception as e:
+        return {
+            "detector_name": "rainbow_gradient",
+            "score": 0.5,
+            "confidence": "low",
+            "explanation": str(e),
+            "status": "failed",
+        }

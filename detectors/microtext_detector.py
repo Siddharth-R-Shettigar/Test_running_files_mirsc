@@ -74,3 +74,35 @@ if __name__ == "__main__":
 
     result = detect_microtext(sys.argv[1])
     print(json.dumps(result, indent=2))
+
+def run_microtext_detector(image_path: str) -> dict:
+    try:
+        raw = detect_microtext(image_path)
+        if not isinstance(raw, dict) or raw.get("error"):
+            return {
+                "detector_name": "microtext_analysis",
+                "score": 0.5,
+                "confidence": "low",
+                "explanation": str(raw.get("error", raw)),
+                "status": "unavailable",
+            }
+        present = bool(raw.get("microtext_detected"))
+        # Risk high if microtext NOT present
+        score = 0.25 if present else 0.7
+        conf_num = float(raw.get("confidence", 50))
+        conf = "high" if conf_num >= 70 else ("medium" if conf_num >= 40 else "low")
+        return {
+            "detector_name": "microtext_analysis",
+            "score": score,
+            "confidence": "low",  # force low for phone
+            "explanation": raw.get("verdict", "Microtext check complete."),
+            "status": "passed" if present else "flagged",
+        }
+    except Exception as e:
+        return {
+            "detector_name": "microtext_analysis",
+            "score": 0.5,
+            "confidence": "low",
+            "explanation": str(e),
+            "status": "failed",
+        }

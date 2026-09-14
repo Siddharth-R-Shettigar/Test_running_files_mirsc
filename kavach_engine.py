@@ -37,6 +37,11 @@ run_quantization_detector = _safe_import("detectors.quantization_detector", "run
 run_inpainting_detector = _safe_import("detectors.inpainting_detector", "run_inpainting_detector")
 run_vision_llm_inspector = _safe_import("detectors.vision_llm_inspector", "run_vision_llm_inspector")
 run_photo_tampering_detector = _safe_import("detectors.photo_tampering_detector", "run_photo_tampering_detector")
+run_microtext_detector = _safe_import("detectors.microtext_detector", "run_microtext_detector")
+run_rainbow_gradient_detector = _safe_import("detectors.rainbow_gradient", "run_rainbow_gradient_detector")
+run_guilloche_detector = _safe_import("detectors.guilloche_detector", "run_guilloche_detector")
+run_hologram_detector = _safe_import("detectors.hologram_detector", "run_hologram_detector")
+check_image_clarity = _safe_import("detectors.clarity_detector", "check_image_clarity")
 
 # --- Face ---
 run_face_verification = _safe_import("detectors.face_verification_engine", "run_face_verification")

@@ -1,22 +1,22 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "PAN.jpeg",
+  "file_analyzed": "lolol.jpeg",
   "live_image": null,
   "risk_level": "REVIEW",
   "risk_reason": "Critical checks not available: mrz_parser, ocr_mrz_consistency.",
-  "forensic_risk_score": 0.357,
+  "forensic_risk_score": 0.416,
   "active_detectors_evaluated": 25,
   "detector_signals": [
     {
       "detector_name": "ocr_extraction",
       "score": 0.0,
       "confidence": "high",
-      "explanation": "Extracted 13 tokens. Found 0 MRZ candidates.",
+      "explanation": "Extracted 16 tokens. Found 0 MRZ candidates.",
       "status": "passed",
       "fields": [
         {
-          "text": "3TRa",
-          "confidence": 0.7,
+          "text": "Aadhaar no. issued: 29/03/2015",
+          "confidence": 0.998,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -25,8 +25,8 @@
           }
         },
         {
-          "text": "ParHTST",
-          "confidence": 0.796,
+          "text": "Government of India",
+          "confidence": 0.998,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -35,8 +35,8 @@
           }
         },
         {
-          "text": "RAR",
-          "confidence": 0.393,
+          "text": "Qa,2",
+          "confidence": 0.578,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -45,7 +45,97 @@
           }
         },
         {
-          "text": "INCOMETAX DEPARTMENT",
+          "text": "7723 9797 1473",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "a/Male",
+          "confidence": 0.908,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Q0/DOB:15/05/2007",
+          "confidence": 0.943,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "authentication or scanning of QR code / offline XML)",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "of birth. It should be used only with verification (online",
+          "confidence": 0.991,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Aadhaar is proof of identity, not of citizenship or date",
+          "confidence": 0.996,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Ga,a xmL  Jonisoari ang vaadea.",
+          "confidence": 0.543,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "oa u. goy uua ajad ar ar dod",
+          "confidence": 0.622,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "o rd aaadad, a oa a, aamod",
+          "confidence": 0.618,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Chethan P V",
           "confidence": 0.977,
           "bounding_box": {
             "x1": 0,
@@ -55,8 +145,8 @@
           }
         },
         {
-          "text": "GOVT. OF INDIA",
-          "confidence": 0.953,
+          "text": "3T",
+          "confidence": 0.491,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -65,8 +155,8 @@
           }
         },
         {
-          "text": "D MANIKANDAN",
-          "confidence": 0.997,
+          "text": "dg agrd",
+          "confidence": 0.394,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -75,68 +165,8 @@
           }
         },
         {
-          "text": "DURAISAMY",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "16/07/1986",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Permanent Account Number",
-          "confidence": 0.98,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "BNZPM2501F",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "D. manickamabr",
-          "confidence": 0.863,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "0408011",
-          "confidence": 0.947,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "Signature",
-          "confidence": 1.0,
+          "text": "8Q0",
+          "confidence": 0.518,
           "bounding_box": {
             "x1": 0,
             "y1": 0,
@@ -160,11 +190,11 @@
     },
     {
       "detector_name": "document_classifier",
-      "score": 0.25,
-      "confidence": "medium",
-      "explanation": "Classified as 'pan' (score 0.44). Matched 2 keyword(s).",
-      "status": "passed",
-      "doc_type": "pan"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Classified as 'unknown' (score 0.22). Matched 0 keyword(s).",
+      "status": "unavailable",
+      "doc_type": "unknown"
     },
     {
       "detector_name": "field_validator",
@@ -182,10 +212,10 @@
     },
     {
       "detector_name": "national_id_validator",
-      "score": 0.0,
-      "confidence": "high",
-      "explanation": "PAN format is valid. Taxpayer type: 'P'.",
-      "status": "passed"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
     },
     {
       "detector_name": "exiftool",
@@ -205,42 +235,42 @@
       "detector_name": "cfa_demosaicing_analysis",
       "score": 0.85,
       "confidence": "medium",
-      "explanation": "Bayer CFA grid residual ratio computed at 2.75. Lacks physical camera Bayer filter demosaicing signature.",
+      "explanation": "Bayer CFA grid residual ratio computed at 8.15. Lacks physical camera Bayer filter demosaicing signature.",
       "status": "flagged"
     },
     {
       "detector_name": "hf_vision_transformer",
-      "score": 0.02,
+      "score": 0.51,
       "confidence": "high",
-      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 2%.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "resampling_interpolation_analysis",
-      "score": 0.8,
-      "confidence": "medium",
-      "explanation": "Periodic interpolation artifacts detected (metric: 1771.85). Image shows signs of AI upscaling or non-native resampling.",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 50%.",
       "status": "flagged"
     },
     {
-      "detector_name": "ela_compression",
-      "score": 0.02,
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.2,
       "confidence": "medium",
-      "explanation": "Error Level Analysis computed pixel difference variance of 0.35.",
+      "explanation": "Standard organic pixel continuity verified (metric: 203.25).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.01,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.11.",
       "status": "passed"
     },
     {
       "detector_name": "histogram_color_forensics",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Color channel entropy computed at 6.62 bits. Standard natural RGB channel distribution.",
+      "explanation": "Color channel entropy computed at 6.0 bits. Standard natural RGB channel distribution.",
       "status": "passed"
     },
     {
       "detector_name": "frequency_domain_fft",
       "score": 0.8,
       "confidence": "medium",
-      "explanation": "FFT spectral power calculated at 157.42 dB. High-frequency grid noise detected.",
+      "explanation": "FFT spectral power calculated at 151.51 dB. High-frequency grid noise detected.",
       "status": "flagged"
     },
     {
@@ -254,7 +284,7 @@
       "detector_name": "blur_sharpness_analysis",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Standard physical lens focus distribution (sharpness metric: 1210.63).",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 96.7).",
       "status": "passed"
     },
     {
@@ -268,7 +298,7 @@
       "detector_name": "jpeg_ghost_analysis",
       "score": 0.85,
       "confidence": "medium",
-      "explanation": "JPEG Ghost variance computed at 1.22. Suspicious uniform compression grid detected.",
+      "explanation": "JPEG Ghost variance computed at 0.27. Suspicious uniform compression grid detected.",
       "status": "flagged"
     },
     {
@@ -280,24 +310,24 @@
     },
     {
       "detector_name": "inpainting_trace_analysis",
-      "score": 0.15,
+      "score": 0.8,
       "confidence": "medium",
-      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.68. Uniform pixel edge continuity verified across image patches.",
-      "status": "passed"
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 2.71. Suspicious localized generative inpainting or region patching detected.",
+      "status": "flagged"
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.1,
-      "confidence": "high",
-      "explanation": "The document appears generally authentic with consistent layout, text, and security features. There are no clear signs of a replaced photograph, retyped text, or altered dates.",
-      "status": "passed"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No candidates: {\"error\": {\"code\": 503, \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\", \"status\": \"UNAVAILABLE\"}, \"_http_status\": 503}",
+      "status": "unavailable"
     },
     {
       "detector_name": "photo_patch_forensics",
-      "score": 0.41,
-      "confidence": "high",
-      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.24.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 732.67). Image shows signs of).",
-      "status": "flagged"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No face detected on document; photo-patch forensics skipped.",
+      "status": "unavailable"
     },
     {
       "detector_name": "face_verification",
@@ -321,5 +351,5 @@
       "status": "unavailable"
     }
   ],
-  "human_summary": "The KAVACH system recommends a **REVIEW** for this identity document. Crucial checks, such as parsing the Machine Readable Zone (MRZ) and verifying consistency between MRZ and OCR fields, could not be performed because an MRZ was not detected. Furthermore, forensic analysis detected multiple anomalies, including signs of AI upscaling or non-native resampling, unusual image compression, and high-frequency grid noise, which suggest potential image manipulation. Please note that face verification and liveness checks were skipped because no live image was provided for comparison."
+  "human_summary": "The KAVACH system recommends a **REVIEW** for this identity document. This is primarily because critical checks for the Machine Readable Zone (MRZ) and consistency between extracted text and the MRZ could not be completed, preventing full automated verification. Furthermore, forensic analyses flagged the image for potential digital manipulation, noting a lack of typical camera characteristics, missing standard JPEG compression data, and suspicious localized patching. The system was also unable to perform face verification or liveness analysis due to the absence of a live image and a face not being detected on the document."
 }
