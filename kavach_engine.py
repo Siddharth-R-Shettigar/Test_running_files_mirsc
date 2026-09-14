@@ -378,6 +378,29 @@ def analyze_media(image_path, live_image_path=None):
 
     signals = []
 
+    # ----- 0) Clarity / rescan gate -----
+    if check_image_clarity is not None:
+        clarity_sig = _run_safe(
+            check_image_clarity,
+            image_path,
+            detector_name="clarity_check",
+            score_means_risk=False,
+        )
+        signals.append(clarity_sig)
+        # clarity_detector uses status "failed" when quality is too low to continue
+        if clarity_sig.get("status") == "failed":
+            return {
+                "engine": "KAVACH",
+                "file_analyzed": os.path.basename(image_path),
+                "live_image": os.path.basename(live_image_path) if live_image_path else None,
+                "risk_level": "REVIEW",
+                "risk_reason": "Image clarity too low; rescan recommended.",
+                "forensic_risk_score": 0.0,
+                "active_detectors_evaluated": len(signals),
+                "detector_signals": signals,
+            }
+
+
     # ----- 1) OCR -----
     ocr_raw = None
     if extract_text is not None:
