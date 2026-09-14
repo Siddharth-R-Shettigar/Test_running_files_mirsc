@@ -1,0 +1,247 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport2.jpg",
+  "live_image": null,
+  "risk_level": "REVIEW",
+  "risk_reason": "Critical checks not available: ocr_extraction.",
+  "forensic_risk_score": 0.388,
+  "active_detectors_evaluated": 30,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.121,
+      "confidence": "medium",
+      "explanation": "Image clarity is 87.9% (75-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Classified as 'unknown' (score 0.0). Matched 0 keyword(s). No MRZ required for this document type.",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 8.61. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.04,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 3%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 547.29). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.09,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 1.38.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.19 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 143.81 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 386.63).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "phash",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 0.2. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.89. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No GEMINI API keys configured.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Photo-patch forensics failed: No module named 'insightface'",
+      "status": "failed"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=7.96, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.519,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=19.8, val_std=21.0, hue_std=12.3). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; face match skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; liveness skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; duplicate-ID skipped.",
+      "status": "unavailable"
+    }
+  ],
+  "rag_context": {
+    "similar_fraud_cases": {
+      "retrieved": true,
+      "similar_cases": [
+        {
+          "source": "PAN_Balwin_report.json",
+          "similarity": 0.5687,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"PAN_Balwin.png\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Flagged signals: resampling_interpolation_analysis, frequency_domain_fft.\",\n  \"forensic_risk_score\": 0.272,\n  \"active_detectors_evaluated\": 19,\n  \"fast_path\": true,\n  \"skipped_detectors\": [\n    \"inpainting\",\n    \"hf_vision_transformer\",\n    \"vision_llm_sanity_analysis\",\n    \"photo_patch_forensics\"\n  ],\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\""
+        },
+        {
+          "source": "lol_report.json",
+          "similarity": 0.5319,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"lol.jpeg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: mrz_parser, ocr_mrz_consistency.\",\n  \"forensic_risk_score\": 0.499,\n  \"active_detectors_evaluated\": 25,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\",\n      \"score\": 0.0,\n      \"confidence\": \"high\",\n      \"explanation\": \"Extracted 12 tokens. Found 0 MRZ candidates.\",\n      \"status\": \"passed\",\n      \"fields\": [\n        {\n   "
+        },
+        {
+          "source": "PAN_report.json",
+          "similarity": 0.5315,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"PAN.jpeg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: mrz_parser, ocr_mrz_consistency.\",\n  \"forensic_risk_score\": 0.357,\n  \"active_detectors_evaluated\": 25,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\",\n      \"score\": 0.0,\n      \"confidence\": \"high\",\n      \"explanation\": \"Extracted 13 tokens. Found 0 MRZ candidates.\",\n      \"status\": \"passed\",\n      \"fields\": [\n        {\n   "
+        }
+      ],
+      "count": 3
+    }
+  },
+  "human_summary": "passport2.jpg | \u001b[33mNeeds review\u001b[0m | Bayer CFA grid residual ratio computed at 8.61. Lacks physical camera Bayer filter demosaicing signature."
+}

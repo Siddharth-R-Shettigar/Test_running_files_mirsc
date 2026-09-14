@@ -5,6 +5,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# ---------------------------------------------------------------------------
+# RAG Integration
+# ---------------------------------------------------------------------------
+try:
+    from rag_integration import enrich_with_rag, validate_against_standards, build_enriched_prompt
+    RAG_AVAILABLE = True
+except Exception as e:
+    print(f"[WARNING] RAG not available: {e}", file=sys.stderr)
+    RAG_AVAILABLE = False
+
 
 def _safe_import(module_path, func_name):
     """Import a detector function without crashing the whole engine if it fails."""
@@ -20,7 +30,6 @@ def _safe_import(module_path, func_name):
 # Detector imports
 # ---------------------------------------------------------------------------
 
-# --- Forensic / image detectors ---
 run_exif_detector = _safe_import("detectors.exif_detector", "run_exif_detector")
 run_c2pa_detector = _safe_import("detectors.c2pa_detector", "run_c2pa_detector")
 run_ela_detector = _safe_import("detectors.ela_detector", "run_ela_detector")
@@ -43,12 +52,10 @@ run_guilloche_detector = _safe_import("detectors.guilloche_detector", "run_guill
 run_hologram_detector = _safe_import("detectors.hologram_detector", "run_hologram_detector")
 check_image_clarity = _safe_import("detectors.clarity_detector", "check_image_clarity")
 
-# --- Face ---
 run_face_verification = _safe_import("detectors.face_verification_engine", "run_face_verification")
 run_liveness_detection = _safe_import("detectors.liveness_detector", "run_liveness_detection")
 run_duplicate_id_detector = _safe_import("detectors.duplicate_id_detector", "run_duplicate_id_detector")
 
-# --- Text / document (subgroup 1) ---
 extract_text = _safe_import("detectors.ocr_extraction", "extract_text")
 parse_mrz = _safe_import("detectors.mrz_parser", "parse_mrz")
 classify_document = _safe_import("detectors.document_classifier", "classify_document")
@@ -82,10 +89,6 @@ def _confidence_str(value):
 
 
 def _normalize(detector_name, raw, score_means_risk=True):
-    """
-    Force every detector output into:
-      detector_name, score, confidence, explanation, status
-    """
     if raw is None:
         return {
             "detector_name": detector_name,
@@ -110,9 +113,7 @@ def _normalize(detector_name, raw, score_means_risk=True):
     if status in ("fail", "error"):
         status = "failed"
 
-    # Map common responses
     explanation = raw.get("explanation") or raw.get("details") or ""
-
     conf = _confidence_str(raw.get("confidence"))
 
     try:
@@ -123,7 +124,6 @@ def _normalize(detector_name, raw, score_means_risk=True):
     if score_means_risk:
         risk = base
     else:
-        # For validators, a higher score means healthier / more confident output.
         if status == "flagged":
             risk = max(0.7, 1.0 - base)
         elif status == "passed":
@@ -143,7 +143,6 @@ def _normalize(detector_name, raw, score_means_risk=True):
         "status": status if status in ("passed", "flagged", "failed", "unavailable") else "unavailable",
     }
 
-    # Keep useful extras
     for key in ("doc_type", "fields", "mrz_lines", "issues", "mismatches", "field_results", "needs_mrz"):
         if key in raw:
             out[key] = raw[key]
@@ -171,12 +170,6 @@ def _run_safe(fn, *args, detector_name="unknown", score_means_risk=True, **kwarg
 # ---------------------------------------------------------------------------
 
 def _risk_level(signals, forensic_risk):
-    """
-    Fail-closed risk decision from detector statuses + weighted forensic score.
-
-    MRZ checks are only critical when the document classifier explicitly routed
-    the document through the MRZ pipeline or when OCR already exposed MRZ lines.
-    """
     statuses = {s["detector_name"]: s for s in signals}
 
     def st(name):
@@ -185,7 +178,6 @@ def _risk_level(signals, forensic_risk):
     clf = statuses.get("document_classifier", {})
     is_mrz_doc = bool(clf.get("needs_mrz", False))
 
-    # Hard failures → HIGH RISK
     if st("face_verification") == "flagged":
         return "HIGH RISK", "Face on document does not match live capture."
     if is_mrz_doc and st("ocr_mrz_consistency") == "flagged":
@@ -193,7 +185,6 @@ def _risk_level(signals, forensic_risk):
     if is_mrz_doc and st("mrz_parser") == "flagged":
         return "HIGH RISK", "MRZ check digits or structure failed."
 
-    # Missing critical evidence → REVIEW
     critical_missing = []
     if st("ocr_extraction") in ("failed", "unavailable", None):
         critical_missing.append("ocr_extraction")
@@ -205,7 +196,6 @@ def _risk_level(signals, forensic_risk):
     if critical_missing:
         return "REVIEW", f"Critical checks not available: {', '.join(critical_missing)}."
 
-    # Soft failures → REVIEW
     if st("liveness_analysis") == "flagged":
         return "REVIEW", "Liveness check suggests possible presentation attack."
     if st("duplicate_identity_check") == "flagged":
@@ -213,13 +203,11 @@ def _risk_level(signals, forensic_risk):
     if st("photo_patch_forensics") == "flagged":
         return "REVIEW", "Document face photo region shows forensic anomalies."
 
-    # Forensic score thresholds
     if forensic_risk >= 0.55:
         return "HIGH RISK", "Combined forensic risk is high."
     if forensic_risk >= 0.35:
         return "REVIEW", "Combined forensic risk is moderate."
 
-    # Any remaining flagged signal → REVIEW
     flagged = [s["detector_name"] for s in signals if s.get("status") == "flagged"]
     if flagged:
         return "REVIEW", f"Flagged signals: {', '.join(flagged[:6])}."
@@ -232,7 +220,6 @@ def _risk_level(signals, forensic_risk):
 # ---------------------------------------------------------------------------
 
 def _clean_mrz_candidate(text: str) -> str:
-    """Normalize a possible MRZ string from OCR."""
     if not text:
         return ""
     t = text.upper().replace(" ", "")
@@ -243,23 +230,15 @@ def _clean_mrz_candidate(text: str) -> str:
 
 
 def _find_national_ids(ocr_text: str) -> list:
-    """
-    Best-effort: pull Aadhaar (12 digits) or PAN (ABCDE1234F) from OCR text.
-    Returns list of (id_type, id_value).
-    """
     import re
-
     found = []
     if not ocr_text:
         return found
 
     text = ocr_text.upper()
-
-    # PAN: 5 letters + 4 digits + 1 letter
     for m in re.finditer(r"\b([A-Z]{5}[0-9]{4}[A-Z])\b", text):
         found.append(("pan", m.group(1)))
 
-    # Aadhaar: 12 digits (allow spaces/hyphens in source)
     compact = re.sub(r"[\s-]", "", ocr_text)
     for m in re.finditer(r"(?<!\d)([2-9]\d{11})(?!\d)", compact):
         found.append(("aadhaar", m.group(1)))
@@ -275,10 +254,6 @@ def _find_national_ids(ocr_text: str) -> list:
 
 
 def _collect_mrz_lines(ocr_raw: dict) -> list:
-    """
-    Build up to 2 TD3-style MRZ lines from OCR output.
-    Uses official mrz_lines first, then long field tokens.
-    """
     if not isinstance(ocr_raw, dict):
         return []
 
@@ -300,7 +275,6 @@ def _collect_mrz_lines(ocr_raw: dict) -> list:
         if len(cleaned) >= 28 and (cleaned.startswith("P<") or cleaned.count("<") >= 2 or sum(c.isdigit() for c in cleaned) >= 10):
             candidates.append(cleaned)
 
-    # Deduplicate, keep order
     seen = set()
     uniq = []
     for c in candidates:
@@ -366,10 +340,6 @@ def _normalize_doc_type(doc_type):
 # ---------------------------------------------------------------------------
 
 def analyze_media(image_path, live_image_path=None):
-    """
-    Full KAVACH screening on a document image.
-    Optional live_image_path enables face match + liveness + duplicate checks.
-    """
     if not os.path.exists(image_path):
         return {"error": f"File {image_path} not found."}
 
@@ -377,6 +347,7 @@ def analyze_media(image_path, live_image_path=None):
     is_jpeg = ext in [".jpg", ".jpeg"]
 
     signals = []
+    rag_context = {}
 
     # ----- 0) Clarity / rescan gate -----
     if check_image_clarity is not None:
@@ -387,7 +358,6 @@ def analyze_media(image_path, live_image_path=None):
             score_means_risk=False,
         )
         signals.append(clarity_sig)
-        # clarity_detector uses status "failed" when quality is too low to continue
         if clarity_sig.get("status") == "failed":
             return {
                 "engine": "KAVACH",
@@ -398,8 +368,8 @@ def analyze_media(image_path, live_image_path=None):
                 "forensic_risk_score": 0.0,
                 "active_detectors_evaluated": len(signals),
                 "detector_signals": signals,
+                "rag_context": {},
             }
-
 
     # ----- 1) OCR -----
     ocr_raw = None
@@ -418,7 +388,6 @@ def analyze_media(image_path, live_image_path=None):
 
     signals.append(_normalize("ocr_extraction", ocr_raw, score_means_risk=False))
 
-    # Build OCR text blob for classifier / extractor
     ocr_text = ""
     if isinstance(ocr_raw, dict):
         parts = []
@@ -431,6 +400,7 @@ def analyze_media(image_path, live_image_path=None):
 
     # ----- 2) Document classification -----
     doc_type = "unknown"
+    country = "unknown"
     needs_mrz = False
 
     if classify_document is not None:
@@ -444,6 +414,18 @@ def analyze_media(image_path, live_image_path=None):
         signals.append(clf_raw)
         doc_type = _normalize_doc_type(clf_raw.get("doc_type", "unknown")) or "unknown"
         needs_mrz = bool(clf_raw.get("needs_mrz", False))
+
+        # Extract country from doc_type for RAG
+        if "ind" in doc_type or "india" in doc_type or "pan" in doc_type or "aadhaar" in doc_type:
+            country = "India"
+        elif "us" in doc_type or "usa" in doc_type or "american" in doc_type:
+            country = "USA"
+        elif "schengen" in doc_type or "eu" in doc_type:
+            country = "EU"
+        elif "poland" in doc_type or "polish" in doc_type:
+            country = "Poland"
+        elif "portugal" in doc_type or "portuguese" in doc_type:
+            country = "Portugal"
     else:
         signals.append(_normalize(
             "document_classifier",
@@ -456,6 +438,19 @@ def analyze_media(image_path, live_image_path=None):
             score_means_risk=False,
         ))
 
+    # ----- 2b) RAG — Document Standards Query -----
+    # Query RAG immediately after classification to get standards for this doc type
+    if RAG_AVAILABLE and doc_type != "unknown":
+        try:
+            from rag_query import query_document_standards, query_security_features
+            standards = query_document_standards(doc_type, country)
+            security_features = query_security_features(doc_type)
+            rag_context["document_standards"] = standards
+            rag_context["expected_security_features"] = security_features
+            print(f"[RAG] Standards retrieved for: {doc_type} ({country})", file=sys.stderr)
+        except Exception as e:
+            print(f"[RAG] Standards query failed: {e}", file=sys.stderr)
+
     # ----- 3) MRZ pipeline -----
     mrz_lines = _collect_mrz_lines(ocr_raw) if isinstance(ocr_raw, dict) else []
     has_detected_mrz = bool(mrz_lines)
@@ -465,7 +460,6 @@ def analyze_media(image_path, live_image_path=None):
     ocr_fields_for_consistency = {}
 
     if run_mrz_pipeline:
-        # 3a) Parse MRZ from OCR output
         mrz_raw = None
         if parse_mrz is not None and len(mrz_lines) >= 2:
             try:
@@ -494,7 +488,6 @@ def analyze_media(image_path, live_image_path=None):
 
         signals.append(_normalize("mrz_parser", mrz_raw, score_means_risk=False))
 
-        # Build consistency dict from parsed MRZ fields
         if mrz_fields:
             ocr_fields_for_consistency = {
                 "passport_number": mrz_fields.get("passport_number") or mrz_fields.get("document_number") or "",
@@ -504,7 +497,6 @@ def analyze_media(image_path, live_image_path=None):
                 "nationality": mrz_fields.get("nationality") or mrz_fields.get("country_code") or "",
             }
 
-        # 3b) Field validation
         if validate_document_fields is not None and mrz_fields:
             signals.append(_run_safe(
                 validate_document_fields,
@@ -520,14 +512,11 @@ def analyze_media(image_path, live_image_path=None):
                     "status": "unavailable",
                     "score": 0.0,
                     "confidence": "low",
-                    "explanation": (
-                        f"Skipped; '{doc_type}' needs MRZ but parsing yielded no fields."
-                    ),
+                    "explanation": f"Skipped; '{doc_type}' needs MRZ but parsing yielded no fields.",
                 },
                 score_means_risk=False,
             ))
 
-        # 3c) OCR ↔ MRZ cross-check
         if check_ocr_mrz_consistency is not None and mrz_fields:
             signals.append(_run_safe(
                 check_ocr_mrz_consistency,
@@ -644,6 +633,25 @@ def analyze_media(image_path, live_image_path=None):
 
     forensic_risk = weighted_sum / max(total_weight, 1.0)
 
+    # ----- 5b) RAG — Fraud Pattern Query -----
+    # Query after all detectors run — use results to find similar past cases
+    if RAG_AVAILABLE:
+        try:
+            detector_summary = {
+                s["detector_name"]: {
+                    "score": s["score"],
+                    "status": s["status"]
+                }
+                for s in signals
+                if s.get("status") not in ("unavailable",)
+            }
+            from rag_query import query_fraud_patterns
+            fraud_matches = query_fraud_patterns(doc_type, detector_summary)
+            rag_context["similar_fraud_cases"] = fraud_matches
+            print(f"[RAG] Fraud patterns retrieved: {fraud_matches.get('count', 0)} similar cases", file=sys.stderr)
+        except Exception as e:
+            print(f"[RAG] Fraud query failed: {e}", file=sys.stderr)
+
     # ----- 6) Face stack (needs live image) -----
     if live_image_path and os.path.exists(live_image_path):
         signals.append(_run_safe(
@@ -693,6 +701,7 @@ def analyze_media(image_path, live_image_path=None):
         "forensic_risk_score": round(forensic_risk, 3),
         "active_detectors_evaluated": len(signals),
         "detector_signals": signals,
+        "rag_context": rag_context,
     }
 
 
