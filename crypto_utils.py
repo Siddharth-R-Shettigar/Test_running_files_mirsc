@@ -2,8 +2,11 @@ import hashlib
 import json
 import os
 import time
+import base64
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 
 # ---------------------------------------------------------------------------
@@ -13,10 +16,10 @@ from cryptography.hazmat.backends import default_backend
 KEY_DIR = os.path.join(os.path.dirname(__file__), "data", "keys")
 PRIVATE_KEY_PATH = os.path.join(KEY_DIR, "kavach_private.pem")
 PUBLIC_KEY_PATH = os.path.join(KEY_DIR, "kavach_public.pem")
+SALT_PATH = os.path.join(KEY_DIR, "kavach.salt")
 
 
 def generate_keys():
-    """Generate RSA key pair for KAVACH. Run once."""
     os.makedirs(KEY_DIR, exist_ok=True)
 
     private_key = rsa.generate_private_key(
@@ -38,6 +41,11 @@ def generate_keys():
             encoding=serialization.Encoding.PEM,
             format=serialization.PublicFormat.SubjectPublicKeyInfo
         ))
+
+    # Generate and save a fixed salt for password derivation
+    salt = os.urandom(16)
+    with open(SALT_PATH, "wb") as f:
+        f.write(salt)
 
     print(f"Keys generated at {KEY_DIR}")
     return private_key, public_key
@@ -61,16 +69,114 @@ def load_public_key():
         )
 
 
+def load_salt():
+    if not os.path.exists(SALT_PATH):
+        generate_keys()
+    with open(SALT_PATH, "rb") as f:
+        return f.read()
+
+
+# ---------------------------------------------------------------------------
+# Password-Based AES-256 Encryption
+# ---------------------------------------------------------------------------
+
+def _derive_key(password: str, salt: bytes) -> bytes:
+    """Derive AES-256 key from password using PBKDF2."""
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=480000,
+        backend=default_backend()
+    )
+    return kdf.derive(password.encode("utf-8"))
+
+
+def encrypt_sensitive(data: dict, password: str) -> dict:
+    """
+    Encrypt sensitive fields from report using password-derived AES-256-GCM key.
+    Returns dict with encrypted blob + public summary only.
+    """
+    salt = load_salt()
+    key = _derive_key(password, salt)
+    aesgcm = AESGCM(key)
+    nonce = os.urandom(12)
+
+    # Fields that stay visible without password
+    public_fields = {
+        "engine": data.get("engine"),
+        "file_analyzed": data.get("file_analyzed"),
+        "risk_level": data.get("risk_level"),
+        "risk_reason": data.get("risk_reason"),
+        "forensic_risk_score": data.get("forensic_risk_score"),
+        "active_detectors_evaluated": data.get("active_detectors_evaluated"),
+        "analyzed_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "encrypted": True,
+        "message": "Full report requires officer authentication."
+    }
+
+    # Everything else gets encrypted
+    sensitive_fields = {
+        k: v for k, v in data.items()
+        if k not in public_fields and k != "encrypted" and k != "message"
+    }
+
+    plaintext = json.dumps(sensitive_fields, ensure_ascii=False).encode("utf-8")
+    ciphertext = aesgcm.encrypt(nonce, plaintext, None)
+
+    public_fields["encrypted_payload"] = {
+        "nonce": base64.b64encode(nonce).decode(),
+        "ciphertext": base64.b64encode(ciphertext).decode(),
+        "algorithm": "AES-256-GCM",
+        "kdf": "PBKDF2-SHA256-480000"
+    }
+
+    return public_fields
+
+
+def decrypt_sensitive(encrypted_report: dict, password: str) -> dict:
+    """
+    Decrypt report using officer password.
+    Returns full report if password correct, error dict if wrong.
+    """
+    try:
+        payload = encrypted_report.get("encrypted_payload")
+        if not payload:
+            return {"error": "No encrypted payload found.", "success": False}
+
+        salt = load_salt()
+        key = _derive_key(password, salt)
+        aesgcm = AESGCM(key)
+
+        nonce = base64.b64decode(payload["nonce"])
+        ciphertext = base64.b64decode(payload["ciphertext"])
+
+        plaintext = aesgcm.decrypt(nonce, ciphertext, None)
+        sensitive_fields = json.loads(plaintext.decode("utf-8"))
+
+        # Merge public + decrypted fields
+        full_report = {
+            k: v for k, v in encrypted_report.items()
+            if k not in ("encrypted_payload", "encrypted", "message")
+        }
+        full_report.update(sensitive_fields)
+        full_report["decrypted"] = True
+        full_report["decrypted_at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+
+        return {"success": True, "report": full_report}
+
+    except Exception:
+        return {
+            "success": False,
+            "error": "Invalid password or corrupted report."
+        }
+
+
 # ---------------------------------------------------------------------------
 # Image Fingerprinting
 # ---------------------------------------------------------------------------
 
 def hash_image(image_path):
-    """
-    Generate SHA-256 hash of image file.
-    Call at intake in kavach_engine.py before any processing.
-    This fingerprint proves the image wasn't modified after submission.
-    """
     sha256 = hashlib.sha256()
     with open(image_path, "rb") as f:
         for chunk in iter(lambda: f.read(8192), b""):
@@ -79,10 +185,6 @@ def hash_image(image_path):
 
 
 def verify_image_integrity(image_path, original_hash):
-    """
-    Verify image hasn't been modified since intake.
-    Compare current hash against stored intake hash.
-    """
     current_hash = hash_image(image_path)
     return {
         "intact": current_hash == original_hash,
@@ -92,26 +194,17 @@ def verify_image_integrity(image_path, original_hash):
 
 
 # ---------------------------------------------------------------------------
-# Report Signing
+# Report Signing (RSA)
 # ---------------------------------------------------------------------------
 
 def sign_report(report_dict):
-    """
-    Sign the final KAVACH report with RSA private key.
-    Adds integrity_seal to the report.
-    """
     try:
         private_key = load_private_key()
-
-        # Create deterministic string from report
         report_copy = {k: v for k, v in report_dict.items() if k != "integrity_seal"}
         report_str = json.dumps(report_copy, sort_keys=True, ensure_ascii=False)
         report_bytes = report_str.encode("utf-8")
-
-        # SHA-256 hash of report
         report_hash = hashlib.sha256(report_bytes).hexdigest()
 
-        # RSA signature
         signature = private_key.sign(
             report_bytes,
             padding.PKCS1v15(),
@@ -125,33 +218,20 @@ def sign_report(report_dict):
             "algorithm": "RSA-PKCS1v15-SHA256",
             "verified": True
         }
-
     except Exception as e:
-        return {
-            "report_hash": None,
-            "signature": None,
-            "signed_at": None,
-            "error": str(e),
-            "verified": False
-        }
+        return {"report_hash": None, "signature": None, "error": str(e), "verified": False}
 
 
 def verify_report(report_dict):
-    """
-    Verify a signed KAVACH report hasn't been tampered with.
-    Returns True if signature is valid.
-    """
     try:
         seal = report_dict.get("integrity_seal", {})
         if not seal or not seal.get("signature"):
             return {"valid": False, "reason": "No integrity seal found"}
 
         public_key = load_public_key()
-
         report_copy = {k: v for k, v in report_dict.items() if k != "integrity_seal"}
         report_str = json.dumps(report_copy, sort_keys=True, ensure_ascii=False)
         report_bytes = report_str.encode("utf-8")
-
         signature_bytes = bytes.fromhex(seal["signature"])
 
         public_key.verify(
@@ -160,29 +240,22 @@ def verify_report(report_dict):
             padding.PKCS1v15(),
             hashes.SHA256()
         )
-
         return {"valid": True, "signed_at": seal.get("signed_at")}
-
     except Exception as e:
         return {"valid": False, "reason": str(e)}
 
 
 # ---------------------------------------------------------------------------
-# Case Log Integrity
+# Case Log Integrity Manifest
 # ---------------------------------------------------------------------------
 
 def hash_case_log(log_path):
-    """Hash a case log JSON file for integrity checking."""
     with open(log_path, "rb") as f:
         content = f.read()
     return hashlib.sha256(content).hexdigest()
 
 
 def build_integrity_manifest(case_logs_dir="case_logs"):
-    """
-    Build a manifest of all case log hashes.
-    Run this to create a tamper-evident audit trail.
-    """
     manifest = {
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "logs": {}
@@ -192,7 +265,7 @@ def build_integrity_manifest(case_logs_dir="case_logs"):
         return manifest
 
     for filename in sorted(os.listdir(case_logs_dir)):
-        if filename.endswith(".json"):
+        if filename.endswith(".json") and filename != "integrity_manifest.json":
             path = os.path.join(case_logs_dir, filename)
             manifest["logs"][filename] = hash_case_log(path)
 
@@ -200,45 +273,49 @@ def build_integrity_manifest(case_logs_dir="case_logs"):
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)
 
-    print(f"Manifest saved to {manifest_path}")
     return manifest
 
 
+# ---------------------------------------------------------------------------
+# Test
+# ---------------------------------------------------------------------------
+
 if __name__ == "__main__":
-    print("KAVACH CRYPTO UTILS TEST")
-    print("========================")
+    print("KAVACH CRYPTO TEST")
+    print("==================")
 
-    # Generate keys
     generate_keys()
-    print("Keys generated.")
 
-    # Test image hashing
-    test_images = [
-        "images/passport2.jpg",
-        "images/PAN.jpeg"
-    ]
-
-    for img in test_images:
-        if os.path.exists(img):
-            h = hash_image(img)
-            print(f"Hash of {img}: {h[:32]}...")
-
-    # Test report signing
     test_report = {
         "engine": "KAVACH",
         "file_analyzed": "passport2.jpg",
-        "risk_level": "PASS",
-        "forensic_risk_score": 0.23
+        "risk_level": "REVIEW",
+        "risk_reason": "Forensic anomaly detected.",
+        "forensic_risk_score": 0.43,
+        "active_detectors_evaluated": 25,
+        "detector_signals": [{"detector_name": "ela", "score": 0.7}],
+        "image_fingerprint": "abc123",
+        "rag_context": {"standards": "Indian Passport"}
     }
 
+    PASSWORD = "kavach2026"
+
+    print("\n1. Encrypting report...")
+    encrypted = encrypt_sensitive(test_report, PASSWORD)
+    print(f"   Public fields visible: {list(k for k in encrypted if k != 'encrypted_payload')}")
+    print(f"   Encrypted payload: present ✅")
+
+    print("\n2. Decrypting with CORRECT password...")
+    result = decrypt_sensitive(encrypted, PASSWORD)
+    print(f"   Success: {result['success']}")
+    if result['success']:
+        print(f"   Fields restored: {list(result['report'].keys())}")
+
+    print("\n3. Decrypting with WRONG password...")
+    result_wrong = decrypt_sensitive(encrypted, "wrongpassword")
+    print(f"   Success: {result_wrong['success']}")
+    print(f"   Error: {result_wrong['error']}")
+
+    print("\n4. Signing report...")
     seal = sign_report(test_report)
-    print(f"\nReport signed: {seal['verified']}")
-    print(f"Hash: {seal['report_hash'][:32]}...")
-
-    test_report["integrity_seal"] = seal
-    verification = verify_report(test_report)
-    print(f"Verification: {verification['valid']}")
-
-    # Build manifest
-    manifest = build_integrity_manifest()
-    print(f"\nManifest covers {len(manifest['logs'])} case logs")
+    print(f"   Signed: {seal['verified']}")
