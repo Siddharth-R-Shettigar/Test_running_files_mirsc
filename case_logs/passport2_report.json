@@ -243,5 +243,13 @@
       "count": 3
     }
   },
+  "image_fingerprint": "ffd075bbc9a601e9eb226eabd610db00f4c32bcf5b362bb39d83947ab86bc9ad",
+  "integrity_seal": {
+    "report_hash": "5c61383fd1d72c562862220b5520a9c4bcd1735b1f050f8f9b9202c769dc1061",
+    "signature": "2041ae2703b9b969c99b0c2cc857679e7e7805da5573c6b1fb96e8c16f74bb58a02f30738c6e22d73b3f22f0e53b01d57fcb3a226425e5e7e71e290758db10f5b0fbca12677fd9c64c93d223427711346ccd3e3b0fec7a0a27c8c9556cccfca9f1ecce687575a6c5dffac8884fb3fcac69a9041e054503c506a75aabeb23c394786a2ea2281ec85e90310d61d3396c073e1d48cdcfddf2f288468d43150b959439aa4a57a687fdb129f31f565cab130d18c4b516c1c2c2bda3c3def11f52c63704c44ab827da898186c6f4bf409e86e4b95a1f18c182c091f28458dc42ae51c4276fa9f15aa6c5a95d9a53c1c0f1ff75ae9ff88508826e659a49c61486354755",
+    "signed_at": "2026-09-15T11:55:04Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
   "human_summary": "passport2.jpg | \u001b[33mNeeds review\u001b[0m | Bayer CFA grid residual ratio computed at 8.61. Lacks physical camera Bayer filter demosaicing signature."
 }

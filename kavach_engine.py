@@ -14,6 +14,12 @@ try:
 except Exception as e:
     print(f"[WARNING] RAG not available: {e}", file=sys.stderr)
     RAG_AVAILABLE = False
+try:
+    from crypto_utils import hash_image, sign_report, build_integrity_manifest
+    CRYPTO_AVAILABLE = True
+except Exception as e:
+    print(f"[WARNING] Crypto not available: {e}", file=sys.stderr)
+    CRYPTO_AVAILABLE = False
 
 
 def _safe_import(module_path, func_name):
@@ -348,6 +354,7 @@ def analyze_media(image_path, live_image_path=None):
 
     signals = []
     rag_context = {}
+    image_hash = hash_image(image_path) if CRYPTO_AVAILABLE else None
 
     # ----- 0) Clarity / rescan gate -----
     if check_image_clarity is not None:
@@ -692,7 +699,7 @@ def analyze_media(image_path, live_image_path=None):
 
     level, reason = _risk_level(signals, forensic_risk)
 
-    return {
+    report = {
         "engine": "KAVACH",
         "file_analyzed": os.path.basename(image_path),
         "live_image": os.path.basename(live_image_path) if live_image_path else None,
@@ -702,7 +709,13 @@ def analyze_media(image_path, live_image_path=None):
         "active_detectors_evaluated": len(signals),
         "detector_signals": signals,
         "rag_context": rag_context,
+        "image_fingerprint": image_hash,
     }
+    if CRYPTO_AVAILABLE:
+        report["integrity_seal"] = sign_report(report)
+
+    return report
+
 
 
 def analyze_file(path, live_image_path=None):
