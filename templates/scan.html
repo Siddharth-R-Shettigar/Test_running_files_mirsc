@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KAVACH | Scan</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
+</head>
+<body class="page-scan">
+  <header class="app-topbar">
+    <div class="brand-inline">
+      <span class="logo-mark sm">◆</span>
+      <strong>KAVACH</strong>
+    </div>
+    <nav class="top-links">
+      <a href="{{ url_for('scan_reset') }}">Restart scan</a>
+      <a href="{{ url_for('cases') }}">Case Logs</a>
+      <a href="{{ url_for('logout') }}">Log out</a>
+    </nav>
+  </header>
+
+  <main class="scan-main">
+    <aside class="scan-rail" aria-label="Progress">
+      {% for s in steps %}
+        {% set i = loop.index0 %}
+        {% set state = 'is-done' if i < current_index else ('is-current' if i == current_index else 'is-next') %}
+        <div class="rail-step {{ state }}">
+          <div class="rail-marker">
+            {% if i < current_index %}✓{% else %}{{ loop.index }}{% endif %}
+          </div>
+          <div class="rail-text">
+            <strong>{{ s.title }}</strong>
+            <small>{{ s.blurb }}</small>
+          </div>
+        </div>
+        {% if not loop.last %}
+        <div class="rail-line"></div>
+        {% endif %}
+      {% endfor %}
+    </aside>
+
+    <section class="scan-panel">
+      <p class="step-count">Step {{ current_index + 1 }} of {{ steps|length }}</p>
+      <h2>{{ current.title }}</h2>
+      <p class="hint">{{ current.blurb }}. Align in frame, then capture.</p>
+
+      <div class="camera-stage">
+        <video id="cam" autoplay playsinline muted></video>
+        <canvas id="shot" hidden></canvas>
+        <p id="cam-status" class="cam-status">Starting camera…</p>
+      </div>
+
+      <form id="capture-form" action="{{ url_for('scan_capture') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="capture_image" id="frame-input" accept="image/*" hidden>
+        <button type="button" id="btn-capture" class="btn-primary" disabled>
+          Capture {{ current.title }} (Camera)
+        </button>
+      </form>
+
+      {% if current_index > 0 %}
+      <form action="{{ url_for('scan_skip') }}" method="post" class="skip-form">
+        <button type="submit" class="btn-secondary">Skip — not available</button>
+      </form>
+      {% endif %}
+
+      <p class="note">Physical document in front of the camera. Prefer even light; avoid heavy glare.</p>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/scan_camera.js') }}"></script>
+</body>
+</html>

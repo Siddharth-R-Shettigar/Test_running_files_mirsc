@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KAVACH | Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
+</head>
+<body class="page-login">
+  <div class="login-shell">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="logo-mark" aria-hidden="true">◆</div>
+        <h1>KAVACH</h1>
+        <p class="subtitle">FORENSIC ENGINE TOOL</p>
+      </div>
+
+      <form class="login-form" method="post" action="{{ url_for('login') }}">
+        <label class="field">
+          <span>LOGIN ID (EMAIL ID)</span>
+          <input type="email" name="email" placeholder="name@agency.gov.in" required>
+        </label>
+
+        <label class="field">
+          <span>PASSWORD</span>
+          <input type="password" name="password" placeholder="••••••••" required>
+        </label>
+
+        {% if error %}
+        <p class="form-error">{{ error }}</p>
+        {% endif %}
+
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+
+      <p class="legal">
+        Unauthorized access or misuse of this institutional system is strictly prohibited
+        and subject to legal prosecution.
+      </p>
+    </div>
+  </div>
+  <footer class="login-footer">© Government Digital Services. All rights reserved.</footer>
+</body>
+</html>

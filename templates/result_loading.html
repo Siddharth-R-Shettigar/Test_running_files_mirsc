@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KAVACH | Analyzing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
+</head>
+<body class="page-result">
+  <main class="result-main" id="root">
+    <section class="result-hero" style="background:#f1f5f9">
+      <h1 class="verdict-title" style="color:#0f172a">Analyzing document…</h1>
+      <p class="verdict-sub">Running forensic detectors. First run can take several minutes while models load.</p>
+    </section>
+  </main>
+  <script>
+    fetch("/api/run_case")
+      .then(r => r.json())
+      .then(ui => {
+        const tone = ui.color || "yellow";
+        document.body.className = "page-result tone-" + tone;
+        const signals = (ui.signals || []).map(s =>
+          `<div class="signal-chip status-${s.status}">
+             <span class="sig-name">${s.name}</span>
+             <span class="sig-status">${s.status}</span>
+           </div>`
+        ).join("");
+        const checks = (ui.checklist || []).map(c =>
+          `<li><label><input type="checkbox"><span>${c}</span></label></li>`
+        ).join("");
+        const icon = tone === "green" ? "✓" : (tone === "red" ? "!" : "?");
+        document.getElementById("root").innerHTML = `
+          <section class="result-hero">
+            <div class="verdict-icon">${icon}</div>
+            <h1 class="verdict-title">${ui.title}</h1>
+            <p class="verdict-sub">${ui.label} · Risk ${ui.risk_pct}%</p>
+          </section>
+          <section class="result-card">
+            <h2 class="card-label">Why</h2>
+            <p class="why-text">${ui.why}</p>
+          </section>
+          <section class="result-card">
+            <h2 class="card-label">Officer checklist</h2>
+            <ul class="check-list">${checks}</ul>
+          </section>
+          <section class="result-card">
+            <h2 class="card-label">Key signals</h2>
+            <div class="signal-grid">${signals}</div>
+          </section>
+          <div class="result-actions">
+            <a class="btn-primary" href="/scan/reset">Inspect next subject</a>
+          </div>`;
+      })
+      .catch(err => {
+        document.getElementById("root").innerHTML =
+          `<section class="result-card"><p>Failed: ${err}</p>
+           <p>Check the terminal for OOM/SIGTERM. Restart with use_reloader=False.</p></section>`;
+      });
+  </script>
+</body>
+</html>
