@@ -147,3 +147,229 @@ body {
   font-size: 11px;
   color: var(--muted);
 }
+
+/* —— Scan layout —— */
+.app-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.brand-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-mark.sm {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+  margin: 0;
+}
+.top-links a {
+  margin-left: 16px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+}
+.top-links a:hover { color: var(--ink); }
+
+.scan-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 16px 48px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+}
+@media (max-width: 800px) {
+  .scan-main { grid-template-columns: 1fr; }
+}
+
+.scan-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.step {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  color: var(--muted);
+}
+.step.active {
+  background: #fff;
+  border-color: var(--line);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+.step.active .step-num {
+  background: var(--primary);
+  color: #fff;
+}
+.step strong { display: block; font-size: 14px; }
+.step small { font-size: 12px; }
+
+.scan-panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.scan-panel h2 { margin: 0 0 8px; }
+.hint { color: var(--muted); margin: 0 0 20px; }
+
+.capture-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.camera-placeholder {
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #f8fafc;
+  padding: 36px 16px;
+  text-align: center;
+}
+.cam-icon { font-size: 28px; }
+.muted { color: var(--muted); font-size: 13px; }
+.note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Progress rail (flowchart) */
+.scan-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 8px 0;
+}
+.rail-step {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: #94a3b8;
+}
+.rail-step.is-current {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.rail-step.is-next {
+  opacity: 0.55;
+}
+.rail-step.is-done {
+  color: #64748b;
+}
+.rail-marker {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.rail-step.is-current .rail-marker {
+  background: var(--primary);
+  color: #fff;
+}
+.rail-step.is-done .rail-marker {
+  background: #cbd5e1;
+  color: #0f172a;
+}
+.rail-line {
+  width: 2px;
+  height: 20px;
+  background: #e2e8f0;
+  margin: 2px 0 2px 27px;
+}
+.rail-text strong {
+  display: block;
+  font-size: 14px;
+}
+.rail-text small {
+  font-size: 12px;
+  color: inherit;
+  opacity: 0.85;
+}
+
+.camera-stage {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0f172a;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 16px;
+}
+.camera-stage video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cam-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #e2e8f0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.65));
+}
+
+.step-count {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+.btn-secondary {
+  margin-top: 10px;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  color: var(--ink);
+  border-color: #94a3b8;
+}
+.skip-form { margin: 0; }

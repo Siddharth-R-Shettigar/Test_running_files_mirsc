@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
-from connector import analyze_image
 import os
 import uuid
 import json
@@ -7,7 +6,6 @@ import json
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "kavach-dev-secret-change-me")
 
-# Demo login only — replace later with real auth if needed
 DEMO_USER = os.environ.get("KAVACH_DEMO_USER", "officer@agency.gov.in")
 DEMO_PASS = os.environ.get("KAVACH_DEMO_PASS", "kavach123")
 
@@ -27,8 +25,9 @@ OFFICER_PASSWORD = os.environ.get("KAVACH_PASSWORD", "kavach2026")
 @app.route("/")
 def home():
     if session.get("logged_in"):
-        return redirect(url_for("scan"))  # scan page comes in next step
+        return redirect(url_for("scan"))
     return redirect(url_for("login"))
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -41,18 +40,101 @@ def login():
     if email == DEMO_USER.lower() and password == DEMO_PASS:
         session["logged_in"] = True
         session["officer_email"] = email
-        # Next step will be scan; for now go to old index if scan missing
-        return redirect(url_for("scan") if "scan" in app.view_functions else url_for("index"))
+        return redirect(url_for("scan"))
 
     return render_template("login.html", error="Invalid login id or password."), 401
 
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
+
+
+app.route("/scan")
+def scan():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+
+    if "captures" not in session:
+        session["captures"] = {}
+
+    idx = _scan_index()
+    if idx >= len(SCAN_STEPS):
+        return redirect(url_for("result_placeholder"))
+
+    return render_template(
+        "scan.html",
+        steps=SCAN_STEPS,
+        current_index=idx,
+        current=SCAN_STEPS[idx],
+        captures=session.get("captures") or {},
+    )
+
+
+@app.route("/scan/face", methods=["POST"])
+def scan_face():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+
+    f = request.files.get("face_image")
+    if not f or not f.filename:
+        return redirect(url_for("scan"))
+
+    ext = os.path.splitext(f.filename)[1].lower() or ".jpg"
+    name = f"face_{uuid.uuid4().hex}{ext}"
+    path = os.path.join(UPLOAD_FOLDER, name)
+    f.save(path)
+    session["face_path"] = path
+    return redirect(url_for("scan"))
+
+
+@app.route("/scan/document", methods=["POST"])
+def scan_document():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+
+    f = request.files.get("doc_image")
+    if not f or not f.filename:
+        return redirect(url_for("scan"))
+
+    ext = os.path.splitext(f.filename)[1].lower() or ".jpg"
+    name = f"doc_{uuid.uuid4().hex}{ext}"
+    path = os.path.join(UPLOAD_FOLDER, name)
+    f.save(path)
+    session["doc_path"] = path
+    return redirect(url_for("result_placeholder"))
+
+
+@app.route("/result")
+def result_placeholder():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+    captures = session.get("captures") or {}
+    lines = ["<h2>All capture steps finished</h2><ul>"]
+    for s in SCAN_STEPS:
+        val = captures.get(s["key"])
+        label = "skipped" if val is None and s["key"] in captures else (val or "missing")
+        lines.append(f"<li><b>{s['title']}</b>: {label}</li>")
+    lines.append("</ul><p><a href='/scan/reset'>Start over</a> · <a href='/result'>Result UI next</a></p>")
+    return "\n".join(lines)
+
+
+@app.route("/cases")
+def cases():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+    return "<h2>Case logs screen next</h2>"
+
+
 @app.route("/analyze", methods=["POST"])
 def analyze():
+    from connector import analyze_image  # lazy import so login still works if groq missing
+
     if "image" not in request.files:
         return jsonify({"error": "No image uploaded."}), 400
 
     file = request.files["image"]
-
     allowed_extensions = {"jpg", "jpeg", "png", "webp"}
     file_extension = file.filename.rsplit(".", 1)[-1].lower()
     if file_extension not in allowed_extensions:
@@ -64,9 +146,9 @@ def analyze():
 
     try:
         result = analyze_image(image_path)
-        os.remove(image_path)
+        if os.path.exists(image_path):
+            os.remove(image_path)
 
-        # Encrypt sensitive fields before sending to frontend
         if CRYPTO_AVAILABLE:
             encrypted_result = encrypt_sensitive(result, OFFICER_PASSWORD)
             return jsonify(encrypted_result)
@@ -80,19 +162,11 @@ def analyze():
         print(error_details)
         if os.path.exists(image_path):
             os.remove(image_path)
-        return jsonify({
-            "error": str(e),
-            "details": error_details
-        }), 500
+        return jsonify({"error": str(e), "details": error_details}), 500
 
 
 @app.route("/decrypt", methods=["POST"])
 def decrypt():
-    """
-    Officer enters password on frontend.
-    Frontend sends encrypted report + password here.
-    Returns full decrypted report if password correct.
-    """
     if not CRYPTO_AVAILABLE:
         return jsonify({"error": "Crypto module not available."}), 500
 
@@ -111,52 +185,106 @@ def decrypt():
     result = decrypt_sensitive(encrypted_report, password)
 
     if result["success"]:
-        return jsonify({
-            "success": True,
-            "report": result["report"]
-        })
-    else:
-        return jsonify({
-            "success": False,
-            "error": "Invalid password."
-        }), 401
+        return jsonify({"success": True, "report": result["report"]})
+    return jsonify({"success": False, "error": "Invalid password."}), 401
 
 
 @app.route("/verify", methods=["POST"])
 def verify():
-    """
-    Verify integrity of a saved case log.
-    Officer submits case log JSON, gets back valid/invalid.
-    """
     try:
         from crypto_utils import verify_report
         data = request.get_json()
         if not data:
             return jsonify({"error": "No report provided."}), 400
-
-        result = verify_report(data)
-        return jsonify(result)
-
+        return jsonify(verify_report(data))
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
 @app.route("/manifest", methods=["GET"])
 def manifest():
-    """Return integrity manifest of all case logs."""
     try:
         from crypto_utils import build_integrity_manifest
-        manifest = build_integrity_manifest()
-        return jsonify(manifest)
+        return jsonify(build_integrity_manifest())
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/scan")
-def scan():
+SCAN_STEPS = [
+    {"key": "face", "title": "Face Capture", "blurb": "Biometric alignment & facial inspection"},
+    {"key": "passport", "title": "Passport", "blurb": "Data page & MRZ"},
+    {"key": "visa", "title": "Visa", "blurb": "Visa sticker / foil page"},
+    {"key": "national_id", "title": "National ID", "blurb": "Aadhaar / national identity card"},
+    {"key": "drivers_license", "title": "Driver’s License", "blurb": "License front"},
+    {"key": "border_permit", "title": "Border Permit", "blurb": "Permit / supporting travel doc"},
+]
+
+def _scan_index():
+    """How many captures done → next step index (0-based)."""
+    captures = session.get("captures") or {}
+    for i, step in enumerate(SCAN_STEPS):
+        if step["key"] not in captures:
+            return i
+    return len(SCAN_STEPS)
+
+@app.route("/scan/capture", methods=["POST"])
+def scan_capture():
     if not session.get("logged_in"):
         return redirect(url_for("login"))
-    # placeholder until next step
-    return "<h2>Scan screen coming next</h2><p>Login worked.</p>"
+
+    idx = _scan_index()
+    if idx >= len(SCAN_STEPS):
+        return redirect(url_for("result_placeholder"))
+
+    step = SCAN_STEPS[idx]
+    f = request.files.get("capture_image")
+    if not f or not f.filename:
+        return redirect(url_for("scan"))
+
+    ext = os.path.splitext(f.filename)[1].lower() or ".jpg"
+    name = f"{step['key']}_{uuid.uuid4().hex}{ext}"
+    path = os.path.join(UPLOAD_FOLDER, name)
+    f.save(path)
+
+    captures = dict(session.get("captures") or {})
+    captures[step["key"]] = path
+    session["captures"] = captures
+    # keep old keys for later engine wiring
+    if step["key"] == "face":
+        session["face_path"] = path
+    if step["key"] == "passport":
+        session["doc_path"] = path
+
+    if _scan_index() >= len(SCAN_STEPS):
+        return redirect(url_for("result_placeholder"))
+    return redirect(url_for("scan"))
+
+@app.route("/scan/skip", methods=["POST"])
+def scan_skip():
+    """Optional skip for docs the traveller may not carry (not for face)."""
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+
+    idx = _scan_index()
+    if idx <= 0 or idx >= len(SCAN_STEPS):
+        return redirect(url_for("scan"))
+
+    step = SCAN_STEPS[idx]
+    captures = dict(session.get("captures") or {})
+    captures[step["key"]] = None  # marked skipped
+    session["captures"] = captures
+
+    if _scan_index() >= len(SCAN_STEPS):
+        return redirect(url_for("result_placeholder"))
+    return redirect(url_for("scan"))
+
+@app.route("/scan/reset")
+def scan_reset():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+    session.pop("captures", None)
+    session.pop("face_path", None)
+    session.pop("doc_path", None)
+    return redirect(url_for("scan"))    
 
 if __name__ == "__main__":
     app.run(debug=True)
