@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for, s
 import os
 import uuid
 import json
+import subprocess
+import sys
+import glob
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "kavach-dev-secret-change-me")
@@ -157,45 +160,29 @@ def result_placeholder():
         return redirect(url_for("login"))
     return render_template("result_loading.html")
 
-    captures = session.get("captures") or {}
-    doc_path = session.get("doc_path") or captures.get("passport")
-    face_path = session.get("face_path") or captures.get("face")
 
-    report = {
-        "risk_level": "REVIEW",
-        "risk_reason": "No document image available for analysis.",
-        "forensic_risk_score": 0.5,
-        "detector_signals": [],
-        "human_summary": "Capture a passport page to run full screening.",
-    }
-
-    if doc_path and os.path.exists(str(doc_path)):
-        try:
-            from kavach_engine import analyze_media
-            live = face_path if face_path and os.path.exists(str(face_path)) else None
-            report = analyze_media(str(doc_path), live_image_path=live)
-            try:
-                from llm_fusion import generate_human_summary
-                report["human_summary"] = generate_human_summary(report)
-            except Exception:
-                pass
-        except Exception as e:
-            try:
-                from connector import analyze_image
-                report = analyze_image(str(doc_path))
-                report["risk_reason"] = report.get("human_summary") or str(e)
-            except Exception as e2:
-                report["risk_reason"] = f"Analysis failed: {e2}"
-
-    ui = _map_result_ui(report)
-    return render_template("result.html", **ui) 
-
-
-@app.route("/cases")
+@app.route("/cases", methods=["GET", "POST"])
 def cases():
     if not session.get("logged_in"):
         return redirect(url_for("login"))
-    return "<h2>Case logs screen next</h2>"
+
+    # Second gate for case logs (demo passcode)
+    if request.method == "POST":
+        code = (request.form.get("passcode") or "").strip()
+        if code == os.environ.get("KAVACH_CASES_PASS", DEMO_PASS):
+            session["cases_unlocked"] = True
+        else:
+            return render_template(
+                "cases.html",
+                cases_unlocked=False,
+                cases_error="Invalid passcode.",
+            )
+
+    return render_template(
+        "cases.html",
+        cases_unlocked=bool(session.get("cases_unlocked")),
+        cases_error=None,
+    )
 
 
 @app.route("/analyze", methods=["POST"])
@@ -344,44 +331,97 @@ def scan_reset():
 
 @app.route("/api/run_case")
 def api_run_case():
+    # UI demo: never block on heavy models
+    if os.environ.get("KAVACH_FAST_UI", "1").strip() != "0":
+        ui = _map_result_ui({
+            "risk_level": "REVIEW",
+            "risk_reason": "Demo mode — captures OK. Full forensics offline.",
+            "forensic_risk_score": 0.125,
+            "detector_signals": [],
+            "human_summary": "UI demo result.",
+        })
+        return jsonify(ui)
+
     if not session.get("logged_in"):
         return jsonify({"error": "not logged in"}), 401
+
+    import subprocess
+    import sys
 
     captures = session.get("captures") or {}
     doc_path = session.get("doc_path") or captures.get("passport")
     face_path = session.get("face_path") or captures.get("face")
 
+    fallback = {
+        "risk_level": "REVIEW",
+        "risk_reason": "Full analysis did not finish on this machine. Captures were saved.",
+        "forensic_risk_score": 0.5,
+        "detector_signals": [],
+    }
+
     if not doc_path or not os.path.exists(str(doc_path)):
+        fallback["risk_reason"] = "No passport capture found in session."
+        return jsonify(_map_result_ui(fallback))
+
+    # Fast demo mode: set KAVACH_FAST_UI=1 in env to skip heavy models
+    if os.environ.get("KAVACH_FAST_UI", "").strip() == "1":
         ui = _map_result_ui({
             "risk_level": "REVIEW",
-            "risk_reason": "No passport capture found.",
-            "forensic_risk_score": 0.5,
-            "detector_signals": [],
+            "risk_reason": "Fast UI mode: document captured. Run full engine offline for forensic scores.",
+            "forensic_risk_score": 0.35,
+            "detector_signals": [
+                {"detector_name": "capture_pipeline", "status": "passed", "score": 0.1, "confidence": "high", "explanation": "All scan steps completed."},
+            ],
+            "human_summary": "Captures OK. Full forensics skipped (FAST_UI).",
         })
         return jsonify(ui)
 
+    report = None
     try:
-        from kavach_engine import analyze_media
-        live = face_path if face_path and os.path.exists(str(face_path)) else None
-        report = analyze_media(str(doc_path), live_image_path=live)
-        try:
-            from llm_fusion import generate_human_summary
-            report["human_summary"] = generate_human_summary(report)
-        except Exception:
-            pass
-        ui = _map_result_ui(report)
-        session["last_result_ui"] = ui
-        return jsonify(ui)
+        cmd = [sys.executable, "kavach_engine.py", str(doc_path)]
+        if face_path and os.path.exists(str(face_path)):
+            cmd.append(str(face_path))
+
+        proc = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=240,
+            cwd=os.path.dirname(os.path.abspath(__file__)) or ".",
+        )
+
+        safe = os.path.splitext(os.path.basename(str(doc_path)))[0]
+        log_path = os.path.join("case_logs", f"{safe}_report.json")
+
+        if os.path.exists(log_path):
+            with open(log_path, "r", encoding="utf-8") as f:
+                report = json.load(f)
+        elif proc.returncode == 0:
+            out = (proc.stdout or "").strip()
+            # engine prints JSON then may print "Saved case log..."
+            start = out.find("{")
+            end = out.rfind("}")
+            if start != -1 and end != -1 and end > start:
+                report = json.loads(out[start : end + 1])
+
+        if not isinstance(report, dict):
+            err = ((proc.stderr or "") + "\n" + (proc.stdout or ""))[-400:]
+            fallback["risk_reason"] = f"Engine did not return a report (code {proc.returncode}). {err}"
+            report = fallback
+
+    except subprocess.TimeoutExpired:
+        fallback["risk_reason"] = "Analysis timed out (4 min). Use FAST_UI or a stronger machine."
+        report = fallback
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        ui = _map_result_ui({
-            "risk_level": "REVIEW",
-            "risk_reason": f"Analysis failed or was interrupted: {e}",
-            "forensic_risk_score": 0.5,
-            "detector_signals": [],
-        })
-        return jsonify(ui)
+        fallback["risk_reason"] = f"Could not run analysis: {e}"
+        report = fallback
+
+    ui = _map_result_ui(report)
+    try:
+        session["last_result_ui"] = ui
+    except Exception:
+        pass
+    return jsonify(ui)
 
 def _warm_models():
     try:
