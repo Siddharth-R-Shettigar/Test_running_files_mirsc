@@ -1,10 +1,15 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 from connector import analyze_image
 import os
 import uuid
 import json
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "kavach-dev-secret-change-me")
+
+# Demo login only — replace later with real auth if needed
+DEMO_USER = os.environ.get("KAVACH_DEMO_USER", "officer@agency.gov.in")
+DEMO_PASS = os.environ.get("KAVACH_DEMO_PASS", "kavach123")
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -21,8 +26,25 @@ OFFICER_PASSWORD = os.environ.get("KAVACH_PASSWORD", "kavach2026")
 
 @app.route("/")
 def home():
-    return "KAVACH Forensics API is running."
+    if session.get("logged_in"):
+        return redirect(url_for("scan"))  # scan page comes in next step
+    return redirect(url_for("login"))
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html", error=None)
+
+    email = (request.form.get("email") or "").strip().lower()
+    password = request.form.get("password") or ""
+
+    if email == DEMO_USER.lower() and password == DEMO_PASS:
+        session["logged_in"] = True
+        session["officer_email"] = email
+        # Next step will be scan; for now go to old index if scan missing
+        return redirect(url_for("scan") if "scan" in app.view_functions else url_for("index"))
+
+    return render_template("login.html", error="Invalid login id or password."), 401
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
@@ -129,6 +151,12 @@ def manifest():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/scan")
+def scan():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+    # placeholder until next step
+    return "<h2>Scan screen coming next</h2><p>Login worked.</p>"
 
 if __name__ == "__main__":
     app.run(debug=True)
