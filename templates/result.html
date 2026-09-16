@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>KAVACH | Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
+</head>
+<body class="page-result tone-{{ color }}">
+  <header class="app-topbar compact">
+    <div class="brand-inline">
+      <span class="logo-mark sm">◆</span>
+      <strong>KAVACH</strong>
+    </div>
+    <nav class="top-links">
+      <a href="{{ url_for('cases') }}">Case Logs</a>
+      <a href="{{ url_for('logout') }}">Log out</a>
+    </nav>
+  </header>
+
+  <main class="result-main">
+    <section class="result-hero">
+      <div class="verdict-icon" aria-hidden="true">
+        {% if color == 'green' %}✓{% elif color == 'red' %}!{% else %}?{% endif %}
+      </div>
+      <h1 class="verdict-title">{{ title }}</h1>
+      <p class="verdict-sub">{{ label }} · Risk {{ risk_pct }}%</p>
+    </section>
+
+    <section class="result-card">
+      <h2 class="card-label">Why</h2>
+      <p class="why-text">{{ why }}</p>
+    </section>
+
+    <section class="result-card">
+      <div class="card-head">
+        <h2 class="card-label">Officer checklist</h2>
+        <span class="pill">{{ checklist|length }} items</span>
+      </div>
+      <ul class="check-list">
+        {% for item in checklist %}
+        <li>
+          <label>
+            <input type="checkbox">
+            <span>{{ item }}</span>
+          </label>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="result-card signals-card">
+      <h2 class="card-label">Key signals</h2>
+      <div class="signal-grid">
+        {% for s in signals %}
+        <div class="signal-chip status-{{ s.status }}">
+          <span class="sig-name">{{ s.name }}</span>
+          <span class="sig-status">{{ s.status }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <div class="result-actions">
+      <a class="btn-primary" href="{{ url_for('scan_reset') }}">Inspect next subject</a>
+      <a class="btn-secondary linkish" href="{{ url_for('cases') }}">Case logs</a>
+    </div>
+  </main>
+</body>
+</html>

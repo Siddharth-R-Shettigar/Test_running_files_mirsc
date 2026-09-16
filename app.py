@@ -90,20 +90,105 @@ def scan():
         captures=session.get("captures") or {},
     )
 
+def _map_result_ui(report):
+    """Map engine / connector output → compact UI fields."""
+    if not isinstance(report, dict):
+        report = {}
 
+    risk_level = str(report.get("risk_level") or report.get("summary_label") or "REVIEW").upper()
+    if risk_level in ("PASS", "GENUINE") or report.get("verdict") == "likely_real":
+        color, title, label = "green", "AUTHENTIC & VERIFIED", "PASS"
+    elif risk_level in ("HIGH RISK", "HIGH_RISK") or report.get("verdict") == "likely_fake":
+        color, title, label = "red", "HIGH RISK — REVIEW REQUIRED", "HIGH RISK"
+    else:
+        color, title, label = "yellow", "NEEDS REVIEW", "REVIEW"
+
+    score = report.get("forensic_risk_score")
+    if score is None:
+        score = report.get("risk_score")
+    try:
+        score = float(score)
+        risk_pct = round(score * 100, 1) if score <= 1.0 else round(score, 1)
+    except (TypeError, ValueError):
+        risk_pct = 0.0
+
+    why = (
+        report.get("risk_reason")
+        or report.get("human_summary")
+        or report.get("reasoning")
+        or "Automated screening complete."
+    )
+    if isinstance(why, str) and len(why) > 280:
+        why = why[:277].rstrip() + "…"
+
+    checklist = [
+        "Compare document photo to the person present",
+        "Re-check MRZ / printed fields (0 vs O, dates)",
+        "Inspect photo area if face forensics flagged",
+        "Confirm hologram / secondary portrait if present",
+        "Secondary inspection if still unclear",
+    ]
+
+    signals = []
+    for s in (report.get("detector_signals") or [])[:8]:
+        if not isinstance(s, dict):
+            continue
+        st = str(s.get("status", "unavailable")).lower()
+        if st not in ("passed", "flagged", "failed", "unavailable"):
+            st = "unavailable"
+        signals.append({
+            "name": (s.get("detector_name") or "detector")[:28],
+            "status": st,
+        })
+
+    return {
+        "color": color,
+        "title": title,
+        "label": label,
+        "risk_pct": risk_pct,
+        "why": why,
+        "checklist": checklist,
+        "signals": signals,
+    }
 
 @app.route("/result")
 def result_placeholder():
     if not session.get("logged_in"):
         return redirect(url_for("login"))
+    return render_template("result_loading.html")
+
     captures = session.get("captures") or {}
-    lines = ["<h2>All capture steps finished</h2><ul>"]
-    for s in SCAN_STEPS:
-        val = captures.get(s["key"])
-        label = "skipped" if val is None and s["key"] in captures else (val or "missing")
-        lines.append(f"<li><b>{s['title']}</b>: {label}</li>")
-    lines.append("</ul><p><a href='/scan/reset'>Start over</a> · <a href='/result'>Result UI next</a></p>")
-    return "\n".join(lines)
+    doc_path = session.get("doc_path") or captures.get("passport")
+    face_path = session.get("face_path") or captures.get("face")
+
+    report = {
+        "risk_level": "REVIEW",
+        "risk_reason": "No document image available for analysis.",
+        "forensic_risk_score": 0.5,
+        "detector_signals": [],
+        "human_summary": "Capture a passport page to run full screening.",
+    }
+
+    if doc_path and os.path.exists(str(doc_path)):
+        try:
+            from kavach_engine import analyze_media
+            live = face_path if face_path and os.path.exists(str(face_path)) else None
+            report = analyze_media(str(doc_path), live_image_path=live)
+            try:
+                from llm_fusion import generate_human_summary
+                report["human_summary"] = generate_human_summary(report)
+            except Exception:
+                pass
+        except Exception as e:
+            try:
+                from connector import analyze_image
+                report = analyze_image(str(doc_path))
+                report["risk_reason"] = report.get("human_summary") or str(e)
+            except Exception as e2:
+                report["risk_reason"] = f"Analysis failed: {e2}"
+
+    ui = _map_result_ui(report)
+    return render_template("result.html", **ui) 
 
 
 @app.route("/cases")
@@ -195,22 +280,6 @@ def manifest():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-SCAN_STEPS = [
-    {"key": "face", "title": "Face Capture", "blurb": "Biometric alignment & facial inspection"},
-    {"key": "passport", "title": "Passport", "blurb": "Data page & MRZ"},
-    {"key": "visa", "title": "Visa", "blurb": "Visa sticker / foil page"},
-    {"key": "national_id", "title": "National ID", "blurb": "Aadhaar / national identity card"},
-    {"key": "drivers_license", "title": "Driver’s License", "blurb": "License front"},
-    {"key": "border_permit", "title": "Border Permit", "blurb": "Permit / supporting travel doc"},
-]
-
-def _scan_index():
-    """How many captures done → next step index (0-based)."""
-    captures = session.get("captures") or {}
-    for i, step in enumerate(SCAN_STEPS):
-        if step["key"] not in captures:
-            return i
-    return len(SCAN_STEPS)
 
 @app.route("/scan/capture", methods=["POST"])
 def scan_capture():
@@ -272,5 +341,56 @@ def scan_reset():
     session.pop("doc_path", None)
     return redirect(url_for("scan"))    
 
+
+@app.route("/api/run_case")
+def api_run_case():
+    if not session.get("logged_in"):
+        return jsonify({"error": "not logged in"}), 401
+
+    captures = session.get("captures") or {}
+    doc_path = session.get("doc_path") or captures.get("passport")
+    face_path = session.get("face_path") or captures.get("face")
+
+    if not doc_path or not os.path.exists(str(doc_path)):
+        ui = _map_result_ui({
+            "risk_level": "REVIEW",
+            "risk_reason": "No passport capture found.",
+            "forensic_risk_score": 0.5,
+            "detector_signals": [],
+        })
+        return jsonify(ui)
+
+    try:
+        from kavach_engine import analyze_media
+        live = face_path if face_path and os.path.exists(str(face_path)) else None
+        report = analyze_media(str(doc_path), live_image_path=live)
+        try:
+            from llm_fusion import generate_human_summary
+            report["human_summary"] = generate_human_summary(report)
+        except Exception:
+            pass
+        ui = _map_result_ui(report)
+        session["last_result_ui"] = ui
+        return jsonify(ui)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        ui = _map_result_ui({
+            "risk_level": "REVIEW",
+            "risk_reason": f"Analysis failed or was interrupted: {e}",
+            "forensic_risk_score": 0.5,
+            "detector_signals": [],
+        })
+        return jsonify(ui)
+
+def _warm_models():
+    try:
+        print("[KAVACH] Warming engine imports...", flush=True)
+        import kavach_engine  # noqa: F401
+        print("[KAVACH] Engine import done.", flush=True)
+    except Exception as e:
+        print(f"[KAVACH] Warmup skipped: {e}", flush=True)
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    _warm_models()
+    app.run(debug=True, use_reloader=False, threaded=True)
