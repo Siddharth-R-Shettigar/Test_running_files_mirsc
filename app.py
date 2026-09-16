@@ -21,6 +21,22 @@ except Exception as e:
 
 OFFICER_PASSWORD = os.environ.get("KAVACH_PASSWORD", "kavach2026")
 
+SCAN_STEPS = [
+    {"key": "face", "title": "Face Capture", "blurb": "Biometric alignment & facial inspection"},
+    {"key": "passport", "title": "Passport", "blurb": "Data page & MRZ"},
+    {"key": "visa", "title": "Visa", "blurb": "Visa sticker / foil page"},
+    {"key": "national_id", "title": "National ID", "blurb": "Aadhaar / national identity card"},
+    {"key": "drivers_license", "title": "Driver’s License", "blurb": "License front"},
+    {"key": "border_permit", "title": "Border Permit", "blurb": "Permit / supporting travel doc"},
+]
+
+
+def _scan_index():
+    captures = session.get("captures") or {}
+    for i, step in enumerate(SCAN_STEPS):
+        if step["key"] not in captures:
+            return i
+    return len(SCAN_STEPS)
 
 @app.route("/")
 def home():
@@ -40,6 +56,9 @@ def login():
     if email == DEMO_USER.lower() and password == DEMO_PASS:
         session["logged_in"] = True
         session["officer_email"] = email
+        session.pop("captures", None)
+        session.pop("face_path", None)
+        session.pop("doc_path", None)
         return redirect(url_for("scan"))
 
     return render_template("login.html", error="Invalid login id or password."), 401
@@ -51,7 +70,7 @@ def logout():
     return redirect(url_for("login"))
 
 
-app.route("/scan")
+@app.route("/scan")
 def scan():
     if not session.get("logged_in"):
         return redirect(url_for("login"))
@@ -71,39 +90,6 @@ def scan():
         captures=session.get("captures") or {},
     )
 
-
-@app.route("/scan/face", methods=["POST"])
-def scan_face():
-    if not session.get("logged_in"):
-        return redirect(url_for("login"))
-
-    f = request.files.get("face_image")
-    if not f or not f.filename:
-        return redirect(url_for("scan"))
-
-    ext = os.path.splitext(f.filename)[1].lower() or ".jpg"
-    name = f"face_{uuid.uuid4().hex}{ext}"
-    path = os.path.join(UPLOAD_FOLDER, name)
-    f.save(path)
-    session["face_path"] = path
-    return redirect(url_for("scan"))
-
-
-@app.route("/scan/document", methods=["POST"])
-def scan_document():
-    if not session.get("logged_in"):
-        return redirect(url_for("login"))
-
-    f = request.files.get("doc_image")
-    if not f or not f.filename:
-        return redirect(url_for("scan"))
-
-    ext = os.path.splitext(f.filename)[1].lower() or ".jpg"
-    name = f"doc_{uuid.uuid4().hex}{ext}"
-    path = os.path.join(UPLOAD_FOLDER, name)
-    f.save(path)
-    session["doc_path"] = path
-    return redirect(url_for("result_placeholder"))
 
 
 @app.route("/result")
