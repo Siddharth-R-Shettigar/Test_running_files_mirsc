@@ -176,7 +176,7 @@ def _groq_summary(slim: dict) -> str:
     if not keys:
         return ""
 
-    model = (os.getenv("GROQ_MODEL") or "llama-3.3-70b-versatile").strip()
+    model = (os.getenv("GROQ_MODEL") or "mixtral-8x7b-32768").strip()
     prompt = _summary_prompt(slim)
 
     for key in keys:

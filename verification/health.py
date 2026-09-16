@@ -75,7 +75,7 @@ def run_diagnostic():
 
     # 5. Full Engine Test on Sample Image
     check_step("End-to-End Image Processing")
-    sample_path = "test_images/samples/test_doc.jpg"
+    sample_path = "images/VISA.jpg"
     if not os.path.exists(sample_path):
         print(f"❌ Skipping: Please put an image at {sample_path} to test.")
     else:
