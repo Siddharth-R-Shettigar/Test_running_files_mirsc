@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>KAVACH — Forensic Verification Verdict</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css', v='digilocker_v3') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
 </head>
 <body class="page-result">
 
@@ -19,7 +20,7 @@
   <header class="floating-chrome" aria-label="Floating Controls">
     <div class="floating-cluster-left">
       <a class="float-ctrl float-pill brand-pill" href="{{ url_for('scan') }}" title="Back to Scan">
-        <span class="brand-k-badge">K</span>
+        <img src="{{ url_for('static', filename='img/logo_transparent.png') }}" class="brand-logo-img" alt="Kavach">
         <span class="wordmark">Kavach<span class="dot"></span></span>
       </a>
       <div class="float-ctrl float-pill location-chip" title="Active operational post">
@@ -240,7 +241,8 @@
 
         row.classList.remove('running');
         row.classList.add('done');
-        tag.textContent = 'Passed ✓';
+        tag.textContent = '✓';
+        tag.setAttribute('title', 'Detector completed');
       }
     }
 
@@ -294,8 +296,9 @@
         iconSvg = `<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>`;
       }
 
-      // 1. Fill card tone
+      // 1. Fill card tone and outer orbit aura
       resultCard.className = `result-squircle-card ${toneClass}`;
+      orbitWrapper.className = `orbit-wrapper ${toneClass}`;
 
       // 2. Keep the orbit colors in CSS variables so the ring remains masked.
       if (toneClass === 'tone-green') {

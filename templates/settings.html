@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>KAVACH — Terminal Settings</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css', v='digilocker_v3') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
 </head>
 <body>
 
@@ -19,7 +20,7 @@
   <nav class="floating-chrome" aria-label="Floating Controls">
     <div class="floating-cluster-left">
       <a class="float-ctrl float-pill brand-pill" href="{{ url_for('scan') }}">
-        <span class="brand-k-badge">K</span>
+        <img src="{{ url_for('static', filename='img/logo_transparent.png') }}" class="brand-logo-img" alt="Kavach">
         <span class="wordmark">Kavach<span class="dot"></span></span>
       </a>
       <div class="float-ctrl float-pill location-chip" title="Current operational post">
