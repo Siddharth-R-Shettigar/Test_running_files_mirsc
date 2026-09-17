@@ -6,7 +6,7 @@
   <title>KAVACH — Forensic Verification Verdict</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
 </head>
-<body>
+<body class="page-result">
 
   <!-- Ambient Organic Orange Background Mesh Orbs -->
   <div class="ambient-bg" aria-hidden="true">
@@ -57,7 +57,10 @@
     <!-- Card with CONTINUOUS ORBITING GRADIENT BORDER -->
     <div class="orbit-wrapper" id="orbitWrapper">
 
-      <!-- Continuous Orbiting Beam Ring -->
+      <!-- Ambient Revolving Aura (Soft circular light, no rotating slabs) -->
+      <div class="orbit-aura" id="orbitAura" aria-hidden="true"></div>
+
+      <!-- Perimeter Light Beam Ring -->
       <div class="orbit-border" id="orbitBorder" aria-hidden="true"></div>
 
       <!-- Main Squircle Surface -->
@@ -196,6 +199,7 @@
 
     const streamContainer = document.getElementById('detectorStream');
     const resultCard      = document.getElementById('resultCard');
+    const orbitWrapper    = document.getElementById('orbitWrapper');
     const orbitBorder     = document.getElementById('orbitBorder');
     const edgeBadge       = document.getElementById('edgeBadge');
     const badgeIcon       = document.getElementById('badgeIcon');
@@ -293,13 +297,22 @@
       // 1. Fill card tone
       resultCard.className = `result-squircle-card ${toneClass}`;
 
-      // 2. Continuous Orbiting Gradient Outside Card
+      // 2. Keep the orbit colors in CSS variables so the ring remains masked.
       if (toneClass === 'tone-green') {
-        orbitBorder.style.background = 'conic-gradient(from 0deg, transparent 0deg, #10b981 60deg, #6ee7b7 120deg, transparent 180deg, #10b981 240deg, #6ee7b7 300deg, transparent 360deg)';
+        orbitWrapper.style.setProperty('--orbit-color', '#10b981');
+        orbitWrapper.style.setProperty('--orbit-glow', '#6ee7b7');
+        orbitBorder.style.setProperty('--orbit-color', '#10b981');
+        orbitBorder.style.setProperty('--orbit-glow', '#6ee7b7');
       } else if (toneClass === 'tone-red') {
-        orbitBorder.style.background = 'conic-gradient(from 0deg, transparent 0deg, #ef4444 60deg, #fca5a5 120deg, transparent 180deg, #ef4444 240deg, #fca5a5 300deg, transparent 360deg)';
+        orbitWrapper.style.setProperty('--orbit-color', '#ef4444');
+        orbitWrapper.style.setProperty('--orbit-glow', '#fca5a5');
+        orbitBorder.style.setProperty('--orbit-color', '#ef4444');
+        orbitBorder.style.setProperty('--orbit-glow', '#fca5a5');
       } else {
-        orbitBorder.style.background = 'conic-gradient(from 0deg, transparent 0deg, #f59e0b 60deg, #fcd34d 120deg, transparent 180deg, #f59e0b 240deg, #fcd34d 300deg, transparent 360deg)';
+        orbitWrapper.style.setProperty('--orbit-color', '#f59e0b');
+        orbitWrapper.style.setProperty('--orbit-glow', '#fcd34d');
+        orbitBorder.style.setProperty('--orbit-color', '#f59e0b');
+        orbitBorder.style.setProperty('--orbit-glow', '#fcd34d');
       }
 
       // 3. Update Edge Badge (Unclipped, centered on top edge)

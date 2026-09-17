@@ -93,13 +93,13 @@
       <div class="viewfinder-frame" id="viewfinderFrame">
 
         <!-- Live Camera Stream -->
-        <video id="cam" class="viewfinder-video" autoplay playsinline muted></video>
+        <video id="cam" class="viewfinder-video {% if current.key == 'face' %}mirror-mode{% endif %}" autoplay playsinline muted></video>
 
         <!-- Static Canvas for Snapshot Capture -->
         <canvas id="shot" hidden></canvas>
 
         <!-- Fallback / Preview Frame (shown if camera unavailable or after file selection) -->
-        <div id="imagePreviewContainer" style="display: none; width: 100%; height: 100%;">
+        <div id="imagePreviewContainer" style="display: none; position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0;">
           <img id="imagePreview" class="viewfinder-image-preview" alt="Document capture preview">
         </div>
 

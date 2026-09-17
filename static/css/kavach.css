@@ -158,6 +158,11 @@ img, video, canvas {
   will-change: transform;
 }
 
+.page-result .ambient-orb {
+  opacity: 0.22;
+  filter: blur(80px);
+}
+
 .ambient-orb-1 {
   width: 520px;
   height: 520px;
@@ -848,6 +853,9 @@ img, video, canvas {
   margin-bottom: 24px;
   position: relative;
   overflow: hidden;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .viewfinder-frame {
@@ -860,18 +868,27 @@ img, video, canvas {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
-.viewfinder-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+.viewfinder-video,
 .viewfinder-image-preview {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
   object-fit: cover;
+  object-position: center center;
+  display: block;
+  margin: 0;
+  border: none;
+}
+
+.viewfinder-video.mirror-mode {
+  transform: scaleX(-1);
 }
 
 /* Corner HUD Brackets */
@@ -915,16 +932,20 @@ img, video, canvas {
   border-bottom-right-radius: 8px;
 }
 
-/* Face Oval Guide */
+/* Face Oval Guide — Centered */
 .face-guide-oval {
   position: absolute;
-  width: 200px;
-  height: 270px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(220px, 48vw);
+  height: min(290px, 64vw);
   border-radius: 50% / 55% 55% 45% 45%;
-  border: 2px dashed rgba(255, 159, 67, 0.7);
+  border: 2.5px dashed rgba(255, 159, 67, 0.85);
   box-shadow: 0 0 24px rgba(255, 107, 0, 0.25);
   pointer-events: none;
   z-index: 4;
+  margin: 0;
   animation: face-guide-pulse 3s infinite ease-in-out;
 }
 
@@ -933,15 +954,20 @@ img, video, canvas {
   50%      { border-color: rgba(255, 107, 0, 0.95); box-shadow: 0 0 34px rgba(255, 107, 0, 0.45); }
 }
 
-/* Document Target Guide */
+/* Document Target Guide — Centered */
 .doc-guide-rect {
   position: absolute;
-  width: 78%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
   height: 74%;
-  border-radius: 12px;
-  border: 1.5px dashed rgba(255, 159, 67, 0.65);
+  border-radius: 14px;
+  border: 2px dashed rgba(255, 159, 67, 0.75);
+  box-shadow: inset 0 0 20px rgba(255, 107, 0, 0.1);
   pointer-events: none;
   z-index: 4;
+  margin: 0;
 }
 
 /* Floating Status Tag over Camera */
@@ -986,6 +1012,12 @@ img, video, canvas {
   flex: 1;
 }
 
+@property --glow-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 /* ─── PROCESSING & RESULT SCREEN ───────────────────────────────────── */
 .result-stage-shell {
   min-height: 100vh;
@@ -994,46 +1026,94 @@ img, video, canvas {
   padding: 100px 20px 60px;
 }
 
-/* Squircle Card Container with CONTINUOUS ORBITING GRADIENT */
+/* Squircle Card Container with SUBTLE REVOLVING GLOW */
 .orbit-wrapper {
   position: relative;
-  width: min(100%, 650px);
-  padding: 3px;
+  width: min(100%, 460px);
+  margin: 0 auto;
+  padding: 0;
   border-radius: 32px;
   overflow: visible;
 }
 
-/* Continuous Orbiting Light Beam Border */
-.orbit-border {
+/* 1. Ambient Revolving Aura — A true circular soft diffused halo (no rotating slabs!) */
+.orbit-aura {
   position: absolute;
-  inset: -4px;
-  border-radius: 35px;
+  top: 50%;
+  left: 50%;
+  width: 124%;
+  height: 124%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
   background: conic-gradient(
-    from 0deg,
+    from 0deg at 50% 50%,
     transparent 0deg,
-    var(--orbit-color, var(--brand-orange)) 60deg,
-    var(--orbit-glow, var(--brand-orange-peach)) 120deg,
-    transparent 180deg,
-    var(--orbit-color, var(--brand-orange)) 240deg,
-    var(--orbit-glow, var(--brand-orange-peach)) 300deg,
+    color-mix(in srgb, var(--orbit-color, #f59e0b) 50%, transparent) 45deg,
+    color-mix(in srgb, var(--orbit-glow, #fcd34d) 65%, transparent) 85deg,
+    transparent 135deg,
+    transparent 210deg,
+    color-mix(in srgb, var(--orbit-color, #f59e0b) 40%, transparent) 260deg,
+    color-mix(in srgb, var(--orbit-glow, #fcd34d) 55%, transparent) 300deg,
+    transparent 350deg,
     transparent 360deg
   );
-  animation: orbit-spin 4s linear infinite;
-  filter: blur(5px);
-  z-index: 0;
-  opacity: 0.85;
+  filter: blur(46px);
+  opacity: 0.55;
+  animation: aura-revolve 12s linear infinite;
 }
 
-@keyframes orbit-spin {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes aura-revolve {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 2. Static Card Perimeter Beam — Elegant light shimmer tracing the squircle border */
+.orbit-border {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 31px;
+  z-index: 0;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--glow-angle, 0deg) at 50% 50%,
+    transparent 0deg,
+    var(--orbit-color, #f59e0b) 40deg,
+    var(--orbit-glow, #fcd34d) 80deg,
+    rgba(255, 255, 255, 0.75) 100deg,
+    var(--orbit-color, #f59e0b) 120deg,
+    transparent 165deg,
+    transparent 220deg,
+    var(--orbit-color, #f59e0b) 260deg,
+    var(--orbit-glow, #fcd34d) 300deg,
+    transparent 345deg,
+    transparent 360deg
+  );
+  animation: border-beam-sweep 6s linear infinite;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px;
+  opacity: 0.9;
+}
+
+@keyframes border-beam-sweep {
+  from { --glow-angle: 0deg; }
+  to   { --glow-angle: 360deg; }
 }
 
 /* Result Squircle Card Surface */
 .result-squircle-card {
   position: relative;
   z-index: 1;
-  background: var(--surface-glass-card);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--orbit-glow, #fcd34d) 35%, #fff) 0%,
+    var(--surface-glass-card, #fff) 45%,
+    var(--surface-glass-card, #fff) 100%
+  );
   backdrop-filter: blur(28px) saturate(190%);
   -webkit-backdrop-filter: blur(28px) saturate(190%);
   border: 1px solid var(--border-glass);
@@ -1893,4 +1973,13 @@ input:checked + .slider::before {
   .score-digit {
     font-size: clamp(48px, 14vw, 68px);
   }
+}
+
+#imagePreviewContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
