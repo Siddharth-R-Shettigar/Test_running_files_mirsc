@@ -3,42 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KAVACH | Login</title>
+  <title>Kavach | Sign in</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
 </head>
 <body class="page-login">
-  <div class="login-shell">
-    <div class="login-card">
-      <div class="login-brand">
-        <div class="logo-mark" aria-hidden="true">◆</div>
-        <h1>KAVACH</h1>
-        <p class="subtitle">FORENSIC ENGINE TOOL</p>
-      </div>
-
-      <form class="login-form" method="post" action="{{ url_for('login') }}">
-        <label class="field">
-          <span>LOGIN ID (EMAIL ID)</span>
-          <input type="email" name="email" placeholder="name@agency.gov.in" required>
-        </label>
-
-        <label class="field">
-          <span>PASSWORD</span>
-          <input type="password" name="password" placeholder="••••••••" required>
-        </label>
-
-        {% if error %}
-        <p class="form-error">{{ error }}</p>
-        {% endif %}
-
-        <button type="submit" class="btn-primary">Login</button>
+  <main class="login-wrap">
+    <span class="wordmark">Kavach</span>
+    <p class="login-tag">Document and identity verification</p>
+    <section class="login-surface">
+      {% if error %}<div class="login-error">{{ error }}</div>{% endif %}
+      <form method="post" action="{{ url_for('login') }}">
+        <div class="field"><label for="email">Officer ID</label><input id="email" name="email" type="email" placeholder="officer@agency.gov.in" required autofocus></div>
+        <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" placeholder="Enter password" required></div>
+        <button class="btn btn-primary btn-block" type="submit">Sign in</button>
       </form>
-
-      <p class="legal">
-        Unauthorized access or misuse of this institutional system is strictly prohibited
-        and subject to legal prosecution.
-      </p>
-    </div>
-  </div>
-  <footer class="login-footer">© Government Digital Services. All rights reserved.</footer>
+    </section>
+    <p class="login-note">Restricted access. Authorised personnel only.<br>All sessions are logged.</p>
+  </main>
 </body>
 </html>
