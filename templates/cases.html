@@ -1,6 +1,216 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Kavach | Case logs</title><link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}"></head>
-<body><header class="topbar"><span class="wordmark">Kavach</span><div class="topbar-actions"><a class="btn btn-ghost btn-sm" href="{{ url_for('scan') }}">New scan</a><a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Log out</a></div></header>
-<main class="cases-main"><div class="cases-heading"><div><h1>Case logs</h1><p>Recorded verification sessions</p></div></div>
-{% if not cases_unlocked %}<section class="case-gate"><h2>Unlock case logs</h2><p>Enter the authorised passcode to view stored reports.</p>{% if cases_error %}<div class="case-error">{{ cases_error }}</div>{% endif %}<form method="post" action="{{ url_for('cases') }}"><input name="passcode" type="password" placeholder="Passcode" autocomplete="current-password" required><button class="btn btn-primary" type="submit">Unlock</button></form></section>{% else %}<div class="case-list">{% for name in ['passport_e7a05a0439094dd2b1981f0ad2f7aaea_report.json', 'original_visa_indian_person_report.json', 'PAN_Balwin_report.json', 'adhaar_card_report.json', 'DSC_0153_report.json', 'portuguese_report.json'] %}<a class="case-row" href="{{ url_for('cases') }}#{{ loop.index }}" id="{{ loop.index }}"><div><div class="case-name">{{ name|replace('_report.json', '')|replace('_', ' ') }}</div><div class="case-meta">Case {{ '%02d'|format(loop.index) }} - Report available</div></div><span class="case-arrow">&#8594;</span></a>{% endfor %}</div>{% endif %}</main></body></html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kavach | Case logs</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
+</head>
+<body class="cases-body">
+
+  <!-- Sticky header (always shown) -->
+  <header class="topbar" id="topbar">
+    <span class="wordmark">Kavach</span>
+    <div class="topbar-actions">
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('scan') }}">New scan</a>
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Log out</a>
+    </div>
+  </header>
+
+  {% if not cases_unlocked %}
+  <!-- ── Gate: Verify it's you ───────────────────────────────────── -->
+  <div class="case-gate-wrap">
+    <div class="case-gate">
+      <div class="gate-icon">🔒</div>
+      <h2>Verify it's you</h2>
+      <p>Enter the authorised passcode to access stored case reports.</p>
+
+      {% if cases_error %}
+      <div class="case-error">{{ cases_error }}</div>
+      {% endif %}
+
+      <form method="post" action="{{ url_for('cases') }}">
+        <div class="gate-field">
+          <label for="passcode">Passcode</label>
+          <input id="passcode" name="passcode" type="password"
+                 placeholder="Enter passcode"
+                 required autocomplete="current-password" autofocus>
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" type="submit">
+          Authenticate
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- ── Unlocked: Case log list ─────────────────────────────────── -->
+  <main class="cases-main">
+
+    <div class="cases-header">
+      <div>
+        <h1>Case logs</h1>
+        <p>Recorded verification sessions</p>
+      </div>
+      <div class="cases-controls">
+        <input class="search-input" id="searchInput"
+               type="search" placeholder="Search cases…"
+               autocomplete="off">
+        <select class="sort-select" id="sortSelect">
+          <option value="id">Sort: ID</option>
+          <option value="risk-high">Risk: High first</option>
+          <option value="risk-low">Risk: Low first</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="case-list" id="caseList"></div>
+    <div class="case-empty" id="caseEmpty" hidden>No cases match your search.</div>
+
+  </main>
+
+  <!-- ── Detail modal ───────────────────────────────────────────── -->
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-label="Case detail">
+    <div class="modal-sheet" id="modalSheet">
+      <div class="modal-handle"></div>
+      <div class="modal-top">
+        <div>
+          <div class="modal-title" id="m-title"></div>
+          <span class="modal-badge" id="m-badge"></span>
+        </div>
+        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      </div>
+      <div id="m-details"></div>
+    </div>
+  </div>
+
+  <script>
+  // ── Dummy case data (structure ready for real JSON endpoint) ──────
+  const CASES = [
+    { id: 'KV-001', name: 'Passport — Indian national',   color: 'green',  risk: 8.2,
+      date: '2026-09-15', officer: 'officer@agency.gov.in',
+      verdict: 'Clearance granted', why: 'All forensic checks passed. Document appears genuine.' },
+    { id: 'KV-002', name: 'Visa — Indian person',         color: 'yellow', risk: 34.5,
+      date: '2026-09-15', officer: 'officer@agency.gov.in',
+      verdict: 'Secondary review', why: 'Minor OCR mismatch on date field. Manual check advised.' },
+    { id: 'KV-003', name: 'PAN — Balwin',                 color: 'green',  risk: 5.1,
+      date: '2026-09-14', officer: 'officer@agency.gov.in',
+      verdict: 'Clearance granted', why: 'Document authentic. Face match confidence high.' },
+    { id: 'KV-004', name: 'Aadhaar card',                 color: 'red',    risk: 78.3,
+      date: '2026-09-14', officer: 'officer@agency.gov.in',
+      verdict: 'Clearance denied', why: 'Copy-move artefacts detected in photo region. High risk.' },
+    { id: 'KV-005', name: 'Driver\'s license — DSC 0153', color: 'yellow', risk: 41.0,
+      date: '2026-09-13', officer: 'officer@agency.gov.in',
+      verdict: 'Secondary review', why: 'Hologram region inconsistency flagged.' },
+    { id: 'KV-006', name: 'Portuguese border permit',     color: 'green',  risk: 11.7,
+      date: '2026-09-12', officer: 'officer@agency.gov.in',
+      verdict: 'Clearance granted', why: 'All detectors passed. MRZ validated.' },
+  ];
+
+  let filtered = [...CASES];
+
+  // ── Render list ───────────────────────────────────────────────────
+  function renderList(data) {
+    const list  = document.getElementById('caseList');
+    const empty = document.getElementById('caseEmpty');
+    list.innerHTML = '';
+    if (!data.length) { empty.hidden = false; return; }
+    empty.hidden = true;
+    data.forEach(c => {
+      const row = document.createElement('div');
+      row.className = 'case-row';
+      row.setAttribute('data-id', c.id);
+      row.innerHTML = `
+        <div class="case-dot ${c.color}"></div>
+        <div class="case-info">
+          <div class="case-name">${c.name}</div>
+          <div class="case-meta">${c.id} &middot; ${c.date}</div>
+        </div>
+        <span class="case-risk">${c.risk.toFixed(1)}%</span>
+        <span class="case-chevron">›</span>`;
+      row.addEventListener('click', () => openModal(c));
+      list.appendChild(row);
+    });
+  }
+
+  // ── Filter + sort ─────────────────────────────────────────────────
+  function applyFilters() {
+    const q    = document.getElementById('searchInput').value.toLowerCase();
+    const sort = document.getElementById('sortSelect').value;
+    filtered = CASES.filter(c =>
+      c.name.toLowerCase().includes(q) ||
+      c.id.toLowerCase().includes(q)
+    );
+    if (sort === 'risk-high') filtered.sort((a,b) => b.risk - a.risk);
+    else if (sort === 'risk-low') filtered.sort((a,b) => a.risk - b.risk);
+    else if (sort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
+    else filtered.sort((a,b) => a.id.localeCompare(b.id));
+    renderList(filtered);
+  }
+
+  document.getElementById('searchInput').addEventListener('input',  applyFilters);
+  document.getElementById('sortSelect').addEventListener('change', applyFilters);
+
+  // ── Modal ─────────────────────────────────────────────────────────
+  function openModal(c) {
+    document.getElementById('m-title').textContent = c.name;
+
+    const badge = document.getElementById('m-badge');
+    badge.textContent  = c.verdict;
+    badge.className    = `modal-badge ${c.color}`;
+
+    const details = document.getElementById('m-details');
+    details.innerHTML = `
+      <div class="modal-detail-row">
+        <span class="modal-detail-label">Case ID</span>
+        <span class="modal-detail-val">${c.id}</span>
+      </div>
+      <div class="modal-detail-row">
+        <span class="modal-detail-label">Date</span>
+        <span class="modal-detail-val">${c.date}</span>
+      </div>
+      <div class="modal-detail-row">
+        <span class="modal-detail-label">Officer</span>
+        <span class="modal-detail-val">${c.officer}</span>
+      </div>
+      <div class="modal-detail-row">
+        <span class="modal-detail-label">Forgery probability</span>
+        <span class="modal-detail-val">${c.risk.toFixed(1)}%</span>
+      </div>
+      <div class="modal-detail-row">
+        <span class="modal-detail-label">Summary</span>
+        <span class="modal-detail-val" style="max-width:240px;text-align:right;">${c.why}</span>
+      </div>`;
+
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── Topbar scroll shadow ──────────────────────────────────────────
+  window.addEventListener('scroll', () => {
+    document.getElementById('topbar').classList
+      .toggle('scrolled', window.scrollY > 4);
+  });
+
+  // ── Initial render ────────────────────────────────────────────────
+  applyFilters();
+  </script>
+
+  {% endif %}
+
+</body>
+</html>

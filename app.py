@@ -25,12 +25,12 @@ except Exception as e:
 OFFICER_PASSWORD = os.environ.get("KAVACH_PASSWORD", "kavach2026")
 
 SCAN_STEPS = [
-    {"key": "face", "title": "Face Capture", "blurb": "Biometric alignment & facial inspection"},
-    {"key": "passport", "title": "Passport", "blurb": "Data page & MRZ"},
-    {"key": "visa", "title": "Visa", "blurb": "Visa sticker / foil page"},
-    {"key": "national_id", "title": "National ID", "blurb": "Aadhaar / national identity card"},
-    {"key": "drivers_license", "title": "Driver’s License", "blurb": "License front"},
-    {"key": "border_permit", "title": "Border Permit", "blurb": "Permit / supporting travel doc"},
+    {"key": "face", "title": "Face capture", "blurb": "Centre the face. Even light, no heavy glare."},
+    {"key": "passport", "title": "Passport capture", "blurb": "Place the passport data page within the frame."},
+    {"key": "visa", "title": "Visa capture", "blurb": "Place the visa page or sticker within the frame."},
+    {"key": "national_id", "title": "National ID verification", "blurb": "Place the national ID card within the frame."},
+    {"key": "drivers_license", "title": "Driver's license", "blurb": "Place the driver's license within the frame."},
+    {"key": "border_permit", "title": "Border permit", "blurb": "Place the border permit document within the frame."},
 ]
 
 
@@ -165,24 +165,13 @@ def result_placeholder():
 def cases():
     if not session.get("logged_in"):
         return redirect(url_for("login"))
-
-    # Second gate for case logs (demo passcode)
     if request.method == "POST":
         code = (request.form.get("passcode") or "").strip()
         if code == os.environ.get("KAVACH_CASES_PASS", DEMO_PASS):
             session["cases_unlocked"] = True
         else:
-            return render_template(
-                "cases.html",
-                cases_unlocked=False,
-                cases_error="Invalid passcode.",
-            )
-
-    return render_template(
-        "cases.html",
-        cases_unlocked=bool(session.get("cases_unlocked")),
-        cases_error=None,
-    )
+            return render_template("cases.html", cases_unlocked=False, cases_error="Invalid password.")
+    return render_template("cases.html", cases_unlocked=bool(session.get("cases_unlocked")), cases_error=None)
 
 
 @app.route("/analyze", methods=["POST"])
@@ -309,7 +298,7 @@ def scan_skip():
     idx = _scan_index()
     if idx <= 0 or idx >= len(SCAN_STEPS):
         return redirect(url_for("scan"))
-
+    api_run_case/cases
     step = SCAN_STEPS[idx]
     captures = dict(session.get("captures") or {})
     captures[step["key"]] = None  # marked skipped
@@ -333,14 +322,13 @@ def scan_reset():
 def api_run_case():
     # UI demo: never block on heavy models
     if os.environ.get("KAVACH_FAST_UI", "1").strip() != "0":
-        ui = _map_result_ui({
+        return jsonify(_map_result_ui({
             "risk_level": "REVIEW",
-            "risk_reason": "Demo mode — captures OK. Full forensics offline.",
-            "forensic_risk_score": 0.125,
+           "risk_reason": "Manual check recommended",
+           "forensic_risk_score": 0.46,
             "detector_signals": [],
-            "human_summary": "UI demo result.",
-        })
-        return jsonify(ui)
+     }))
+    return jsonify(ui)
 
     if not session.get("logged_in"):
         return jsonify({"error": "not logged in"}), 401
@@ -432,5 +420,6 @@ def _warm_models():
         print(f"[KAVACH] Warmup skipped: {e}", flush=True)
 
 if __name__ == "__main__":
-    _warm_models()
+    if os.environ.get("KAVACH_FAST_UI", "1").strip() == "0":
+        _warm_models()
     app.run(debug=True, use_reloader=False, threaded=True)

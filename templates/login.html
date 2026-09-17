@@ -8,17 +8,41 @@
 </head>
 <body class="page-login">
   <main class="login-wrap">
-    <span class="wordmark">Kavach</span>
-    <p class="login-tag">Document and identity verification</p>
+
+    <span class="wordmark login-logo">Kavach</span>
+    <p class="login-tagline">Document &amp; identity verification</p>
+
     <section class="login-surface">
-      {% if error %}<div class="login-error">{{ error }}</div>{% endif %}
+      {% if error %}
+      <div class="login-error">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        {{ error }}
+      </div>
+      {% endif %}
+
       <form method="post" action="{{ url_for('login') }}">
-        <div class="field"><label for="email">Officer ID</label><input id="email" name="email" type="email" placeholder="officer@agency.gov.in" required autofocus></div>
-        <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" placeholder="Enter password" required></div>
-        <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+        <div class="field">
+          <label for="email">Officer ID</label>
+          <input id="email" name="email" type="email"
+                 placeholder="officer@agency.gov.in"
+                 required autofocus autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password"
+                 placeholder="Enter password"
+                 required autocomplete="current-password">
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" type="submit">Sign in</button>
       </form>
     </section>
-    <p class="login-note">Restricted access. Authorised personnel only.<br>All sessions are logged.</p>
+
+    <p class="login-note">
+      Restricted access &mdash; authorised personnel only.<br>
+      All sessions are monitored and logged.
+    </p>
   </main>
 </body>
 </html>

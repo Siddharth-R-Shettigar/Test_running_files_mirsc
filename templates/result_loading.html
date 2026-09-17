@@ -1,12 +1,219 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Kavach | Result</title><link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}"></head>
-<body class="page-float"><header class="app-topbar"><div class="brand-inline"><span class="mark">◆</span><em>Kavach</em></div><nav class="top-links"><a href="{{ url_for('cases') }}">Case logs</a><a href="{{ url_for('logout') }}">Log out</a></nav></header>
-<main class="float-stage"><section class="float-card tone-yellow" id="card"><div class="edge-badge" id="badge">!</div><div id="phase-scan"><h2>Screening in progress</h2><p class="sub">Detectors running - please wait</p><div class="det-list" id="det-list"></div></div><div id="phase-result" hidden><div class="verdict-block"><h1 id="v-title">Needs review</h1><p class="prob" id="v-prob">-<span>probability of forgery</span></p><p class="one-line" id="v-why"></p></div><div class="check-block"><h2>Officer checklist</h2><ul id="v-check"></ul></div><div class="float-actions"><a class="btn-pill primary" href="{{ url_for('scan_reset') }}">Scan next subject</a><button class="btn-pill ghost" id="btn-download" type="button">Download report</button></div></div></section></main>
-<script>
-  const names = ['Clarity check', 'OCR extraction', 'Document type', 'MRZ validation', 'Photo-patch forensics', 'Copy-move check', 'Vision consistency', 'Face match']; const list = document.getElementById('det-list'); names.forEach((name, i) => { list.insertAdjacentHTML('beforeend', '<div class="det-row" id="det-' + i + '"><span>' + name + '</span><span class="tag">queued</span></div>'); }); const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-  async function progress() { for (let i = 0; i < names.length; i += 1) { const row = document.getElementById('det-' + i); row.classList.add('active'); row.querySelector('.tag').textContent = 'running'; await wait(260); row.classList.remove('active'); row.classList.add('done'); row.querySelector('.tag').textContent = 'done'; } }
-  function demo() { return { color: 'yellow', title: 'NEEDS REVIEW', risk_pct: 12.5, why: 'Demo result - captures completed. Full engine not required for UI.', checklist: ['Compare document photo to the person present', 'Re-check MRZ and printed dates', 'Inspect the photo area', 'Escalate if unsure'] }; }
-  function render(ui) { const tone = ui.color || 'yellow'; document.getElementById('card').className = 'float-card tone-' + tone; document.getElementById('badge').className = 'edge-badge ' + tone; document.getElementById('badge').textContent = tone === 'green' ? 'OK' : tone === 'red' ? '!' : '?'; document.getElementById('phase-scan').hidden = true; document.getElementById('phase-result').hidden = false; document.getElementById('v-title').textContent = ui.title || 'NEEDS REVIEW'; document.getElementById('v-prob').innerHTML = (ui.risk_pct ?? '-') + '%<span>probability of forgery</span>'; document.getElementById('v-why').textContent = ui.why || ''; const checks = document.getElementById('v-check'); checks.innerHTML = ''; (ui.checklist || []).forEach(item => checks.insertAdjacentHTML('beforeend', '<li><input type="checkbox"><span>' + item + '</span></li>')); document.getElementById('btn-download').onclick = () => { const link = document.createElement('a'); link.href = URL.createObjectURL(new Blob([JSON.stringify(ui, null, 2)], { type: 'application/json' })); link.download = 'kavach_report.json'; link.click(); }; }
-  (async () => { await progress(); let ui = null; try { const response = await fetch('{{ url_for("api_run_case") }}', { credentials: 'same-origin' }); if (response.ok) ui = await response.json(); } catch (_) {} render(ui || demo()); })();
-</script></body></html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kavach | Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
+</head>
+<body class="page-result">
+
+  <!-- Sticky header -->
+  <header class="topbar" id="topbar">
+    <span class="wordmark">Kavach</span>
+    <div class="topbar-actions">
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('cases') }}">Case logs</a>
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Log out</a>
+    </div>
+  </header>
+
+  <main class="float-stage">
+    <!-- Floating squircle card -->
+    <section class="result-card tone-yellow" id="card">
+
+      <!-- Edge badge — centered on top edge, half outside -->
+      <div class="edge-badge indigo" id="badge">⏳</div>
+
+      <!-- Phase A: Scanning / detector list -->
+      <div id="phase-scan">
+        <h2>Running verification</h2>
+        <p class="scan-sub">Detectors running — please wait</p>
+        <div class="det-list" id="det-list"></div>
+      </div>
+
+      <!-- Phase B: Final verdict (hidden until done) -->
+      <div id="phase-result" hidden>
+
+        <div class="verdict-block">
+          <div class="verdict-title" id="v-title">Needs review</div>
+          <div class="verdict-score">
+            <span class="score-number" id="v-score">—</span>
+            <span class="score-label">probability<br>of forgery</span>
+          </div>
+          <p class="verdict-why" id="v-why"></p>
+        </div>
+
+        <div class="check-block">
+          <h3>Officer checklist</h3>
+          <ul class="check-list" id="v-check"></ul>
+        </div>
+
+        <div class="result-actions">
+          <a class="btn btn-primary btn-lg" href="{{ url_for('scan_reset') }}">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <polyline points="1 4 1 10 7 10"/><path d="M3.51 15A9 9 0 1 0 5.64 5.64L1 10"/>
+            </svg>
+            Scan again
+          </a>
+          <button class="btn btn-ghost btn-lg" id="btn-download" type="button">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download report
+          </button>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ── Detector names ────────────────────────────────────────────────
+    const DETECTORS = [
+      'Clarity & exposure check',
+      'OCR field extraction',
+      'Document type classifier',
+      'MRZ validation',
+      'Photo-patch forensics',
+      'Copy-move detection',
+      'Vision consistency',
+      'Face match'
+    ];
+
+    // ── Build detector rows (hidden, revealed one-by-one) ─────────────
+    const list = document.getElementById('det-list');
+    DETECTORS.forEach((name, i) => {
+      list.insertAdjacentHTML('beforeend', `
+        <div class="det-row" id="det-${i}">
+          <span>${name}</span>
+          <span class="det-tag" id="tag-${i}">Queued</span>
+        </div>`);
+    });
+
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+
+    // ── Phase A: pace through detectors ──────────────────────────────
+    async function runDetectors() {
+      for (let i = 0; i < DETECTORS.length; i++) {
+        const row = document.getElementById(`det-${i}`);
+        const tag = document.getElementById(`tag-${i}`);
+
+        // Reveal row
+        row.classList.add('visible');
+        await wait(80);
+
+        // Running state
+        row.classList.add('running');
+        tag.textContent = 'Running…';
+        await wait(Math.round(280 + Math.random() * 140));
+
+        // Done state
+        row.classList.remove('running');
+        row.classList.add('done');
+        tag.textContent = '✓ Done';
+        await wait(60);
+      }
+    }
+
+    // ── Demo fallback payload ─────────────────────────────────────────
+    function demoPayload() {
+      return {
+        color: 'yellow',
+        title: 'Secondary review recommended',
+        risk_pct: 34.5,
+        why: 'Automated screening completed. A manual secondary review is advised before clearance.',
+        checklist: [
+          'Compare document photo to the person present',
+          'Re-check MRZ / printed fields (0 vs O, dates)',
+          'Inspect photo area if face forensics flagged',
+          'Confirm hologram / secondary portrait if present',
+          'Escalate to supervisor if still unclear'
+        ]
+      };
+    }
+
+    // ── Phase B: render verdict ───────────────────────────────────────
+    function renderVerdict(ui) {
+      const tone  = ui.color || 'yellow';
+      const card  = document.getElementById('card');
+      const badge = document.getElementById('badge');
+
+      // Update card tone
+      card.className = `result-card tone-${tone}`;
+
+      // Update badge
+      badge.className = `edge-badge ${tone}`;
+      if (tone === 'green')  { badge.textContent = '✓'; }
+      else if (tone === 'red') { badge.textContent = '✕'; }
+      else                   { badge.textContent = '!'; }
+
+      // Hide scan phase, show result
+      document.getElementById('phase-scan').hidden   = true;
+      document.getElementById('phase-result').hidden = false;
+
+      // Fill in verdict content
+      document.getElementById('v-title').textContent =
+        ui.title || 'Needs review';
+
+      const scorePct = ui.risk_pct != null ? ui.risk_pct : '—';
+      document.getElementById('v-score').textContent =
+        typeof scorePct === 'number' ? scorePct.toFixed(1) + '%' : scorePct;
+
+      document.getElementById('v-why').textContent =
+        ui.why || '';
+
+      // Checklist
+      const checks = document.getElementById('v-check');
+      checks.innerHTML = '';
+      (ui.checklist || []).forEach(item => {
+        checks.insertAdjacentHTML('beforeend', `
+          <li>
+            <input type="checkbox" aria-label="${item}">
+            <span>${item}</span>
+          </li>`);
+      });
+
+      // Download report
+      document.getElementById('btn-download').onclick = () => {
+        const blob = new Blob([JSON.stringify(ui, null, 2)],
+                              { type: 'application/json' });
+        const a = Object.assign(document.createElement('a'), {
+          href: URL.createObjectURL(blob),
+          download: 'kavach_report.json'
+        });
+        a.click();
+        URL.revokeObjectURL(a.href);
+      };
+    }
+
+    // ── Main flow ─────────────────────────────────────────────────────
+    (async () => {
+      // Topbar scroll shadow
+      window.addEventListener('scroll', () => {
+        document.getElementById('topbar').classList
+          .toggle('scrolled', window.scrollY > 4);
+      });
+
+      // Run detector animation
+      await runDetectors();
+
+      // Fetch API result with 4 s timeout
+      let ui = null;
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 4000);
+        const resp  = await fetch('{{ url_for("api_run_case") }}',
+                                  { credentials: 'same-origin', signal: ctrl.signal });
+        clearTimeout(timer);
+        if (resp.ok) ui = await resp.json();
+      } catch (_) {
+        // timeout or network error → use demo
+      }
+
+      renderVerdict(ui || demoPayload());
+    })();
+  </script>
+
+</body>
+</html>

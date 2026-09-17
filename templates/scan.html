@@ -1,34 +1,174 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kavach | Scan</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
 </head>
-<body>
-  <header class="topbar" id="topbar"><span class="wordmark">Kavach</span><div class="topbar-actions"><a class="btn btn-ghost btn-sm" href="{{ url_for('cases') }}">Case logs</a><a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Log out</a></div></header>
+<body class="scan-body">
+
+  <!-- Sticky header -->
+  <header class="topbar" id="topbar">
+    <span class="wordmark">Kavach</span>
+    <div class="topbar-actions">
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('cases') }}">Case logs</a>
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Log out</a>
+    </div>
+  </header>
+
   <main class="scan-main">
-    <div class="flow-track"><div class="flow-rail"><div class="flow-dot"></div><div class="flow-line"></div><div class="flow-dot upcoming"></div></div><div class="flow-labels"><span class="flow-current" id="flowCurrent">{{ current.title }}</span><div class="flow-next" id="flowNext">{% if current_index + 1 < steps|length %}{{ steps[current_index + 1].title }}{% endif %}</div></div></div>
-    <section class="capture-panel" id="capturePanel">
-      <div class="capture-frame" id="captureFrame"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8a2 2 0 0 1 2-2h1.2l.9-1.4A2 2 0 0 1 9.8 4h4.4a2 2 0 0 1 1.7 1l.9 1.6H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z"/><circle cx="12" cy="13" r="3.4"/></svg><span>No capture yet</span></div></div>
+
+    <!-- Progress rail: current dot + line + next dot only -->
+    <div class="flow-track">
+      <div class="flow-rail">
+        <div class="flow-dot"></div>
+        {% if current_index + 1 < steps|length %}
+        <div class="flow-line"></div>
+        <div class="flow-dot upcoming"></div>
+        {% endif %}
+      </div>
+      <div class="flow-labels">
+        <span class="flow-current roll-in" id="flowCurrent">{{ current.title }}</span>
+        <div class="flow-next" id="flowNext">
+          {% if current_index + 1 < steps|length %}
+          Next: {{ steps[current_index + 1].title }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Capture card -->
+    <section class="capture-panel panel-enter" id="capturePanel">
+      <div class="capture-frame" id="captureFrame">
+        <div class="ph">
+          <!-- Camera icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <span>No capture yet</span>
+        </div>
+      </div>
+
       <p class="capture-hint" id="stageHint">{{ current.blurb }}</p>
-      <form id="captureForm" action="{{ url_for('scan_capture') }}" method="post" enctype="multipart/form-data"><input type="file" id="captureInput" name="capture_image" accept="image/*" capture="environment" hidden><div class="capture-actions"><button class="btn btn-primary" id="captureBtn" type="button">Capture {{ current.title|lower }}</button>{% if current_index > 0 %}<button class="btn btn-ghost" type="submit" formaction="{{ url_for('scan_skip') }}" formmethod="post">Skip</button>{% endif %}</div></form>
-      <div class="quality-warn" id="qualityWarn" hidden>Image too blurry - please retake</div>
+
+      <form id="captureForm"
+            action="{{ url_for('scan_capture') }}"
+            method="post"
+            enctype="multipart/form-data">
+        <input type="file" id="captureInput" name="capture_image"
+               accept="image/*" capture="environment" hidden>
+
+        <div class="capture-actions">
+          <button class="btn btn-primary" id="captureBtn" type="button">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/><path d="M6.343 6.343a8 8 0 1 0 11.314 11.314A8 8 0 0 0 6.343 6.343z"/>
+            </svg>
+            Capture {{ current.title | lower }}
+          </button>
+          {% if current_index > 0 %}
+          <button class="btn btn-ghost"
+                  type="submit"
+                  formaction="{{ url_for('scan_skip') }}"
+                  formmethod="post">Skip</button>
+          {% endif %}
+        </div>
+      </form>
+
+      <div class="quality-warn" id="qualityWarn" hidden>
+        Image too blurry — please retake
+      </div>
     </section>
+
   </main>
+
   <script>
-    const STEPS = {{ steps|map(attribute='title')|list|tojson }};
-    const BLURBS = {{ steps|map(attribute='blurb')|list|tojson }};
+    // ── Data from Jinja ──────────────────────────────────────────────
+    const STEPS  = {{ steps | map(attribute='title') | list | tojson }};
+    const BLURBS = {{ steps | map(attribute='blurb') | list | tojson }};
     let idx = {{ current_index }};
-    const input = document.getElementById('captureInput');
-    const form = document.getElementById('captureForm');
-    const frame = document.getElementById('captureFrame');
-    const panel = document.getElementById('capturePanel');
-    const button = document.getElementById('captureBtn');
-    const advance = () => { idx += 1; if (idx >= STEPS.length) { window.location.href = "{{ url_for('result_placeholder') }}"; return; } document.getElementById('flowCurrent').textContent = STEPS[idx]; document.getElementById('flowNext').textContent = STEPS[idx + 1] || ''; document.getElementById('stageHint').textContent = BLURBS[idx]; button.textContent = 'Capture ' + STEPS[idx].toLowerCase(); frame.classList.remove('captured'); frame.innerHTML = '<div class="ph"><span>No capture yet</span></div>'; panel.classList.remove('panel-swap'); void panel.offsetWidth; panel.classList.add('panel-swap'); };
-    button.addEventListener('click', () => input.click());
-    input.addEventListener('change', () => { if (!input.files[0]) return; frame.innerHTML = '<img alt="Captured document" src="' + URL.createObjectURL(input.files[0]) + '">'; frame.classList.add('captured'); const data = new FormData(form); fetch(form.action, { method: 'POST', body: data }).then(advance); });
-    window.addEventListener('scroll', () => document.getElementById('topbar').classList.toggle('scrolled', window.scrollY > 4));
+
+    // ── Element refs ─────────────────────────────────────────────────
+    const input   = document.getElementById('captureInput');
+    const form    = document.getElementById('captureForm');
+    const frame   = document.getElementById('captureFrame');
+    const panel   = document.getElementById('capturePanel');
+    const btn     = document.getElementById('captureBtn');
+    const lbl     = document.getElementById('flowCurrent');
+    const next    = document.getElementById('flowNext');
+    const hint    = document.getElementById('stageHint');
+    const topbar  = document.getElementById('topbar');
+
+    // ── Sticky shadow on scroll ──────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      topbar.classList.toggle('scrolled', window.scrollY > 4);
+    });
+
+    // ── Animate step change ──────────────────────────────────────────
+    function animateStep() {
+      // cylinder-roll on title
+      lbl.classList.remove('roll-in');
+      void lbl.offsetWidth; // reflow
+      lbl.classList.add('roll-in');
+
+      // panel enter
+      panel.classList.remove('panel-enter');
+      void panel.offsetWidth;
+      panel.classList.add('panel-enter');
+    }
+
+    // ── Advance to next step (client-side after server capture) ──────
+    function advance() {
+      idx += 1;
+      if (idx >= STEPS.length) {
+        window.location.href = "{{ url_for('result_placeholder') }}";
+        return;
+      }
+      lbl.textContent  = STEPS[idx];
+      next.textContent = idx + 1 < STEPS.length ? 'Next: ' + STEPS[idx + 1] : '';
+      hint.textContent = BLURBS[idx];
+
+      // Update button text
+      btn.childNodes[btn.childNodes.length - 1].textContent =
+        ' Capture ' + STEPS[idx].toLowerCase();
+
+      // Reset frame
+      frame.classList.remove('captured');
+      frame.innerHTML = `<div class="ph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+        <span>No capture yet</span>
+      </div>`;
+
+      animateStep();
+    }
+
+    // ── Capture button → open file picker ────────────────────────────
+    btn.addEventListener('click', () => input.click());
+
+    // ── File selected → preview + POST ───────────────────────────────
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      if (!file) return;
+
+      // Show preview immediately
+      const url = URL.createObjectURL(file);
+      frame.innerHTML = `<img alt="Captured" src="${url}">`;
+      frame.classList.add('captured');
+
+      // POST to Flask then advance
+      const data = new FormData(form);
+      fetch(form.action, { method: 'POST', body: data })
+        .then(() => advance())
+        .catch(() => advance()); // advance even on network hiccup
+    });
+
+    // ── Trigger roll-in on first page load ───────────────────────────
+    window.addEventListener('DOMContentLoaded', () => animateStep());
   </script>
+
 </body>
 </html>
