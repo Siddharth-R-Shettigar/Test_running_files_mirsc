@@ -2,214 +2,437 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kavach | Case logs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>KAVACH — Forensic Case Logs</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
 </head>
-<body class="cases-body">
+<body>
 
-  <!-- Sticky header (always shown) -->
-  <header class="topbar" id="topbar">
-    <span class="wordmark">Kavach</span>
-    <div class="topbar-actions">
-      <a class="btn btn-ghost btn-sm" href="{{ url_for('scan') }}">New scan</a>
-      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Log out</a>
+  <!-- Ambient Organic Orange Background Mesh Orbs -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+  </div>
+
+  <!-- FLOATING CHROME (iOS & One UI 8.5 style floating islands) -->
+  <header class="floating-chrome" aria-label="Floating Controls">
+    <div class="floating-cluster-left">
+      <a class="float-ctrl float-pill brand-pill" href="{{ url_for('scan') }}" title="Back to Scan">
+        <span class="brand-k-badge">K</span>
+        <span class="wordmark">Kavach<span class="dot"></span></span>
+      </a>
+      <div class="float-ctrl float-pill location-chip" title="Active operational post">
+        <span class="loc-dot"></span>
+        <span class="text loc-display-text">Airport Kiosk T3</span>
+      </div>
+    </div>
+
+    <div class="floating-cluster-right">
+      <a class="float-ctrl float-pill" href="{{ url_for('scan') }}" title="New Scan">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+        </svg>
+        <span>New scan</span>
+      </a>
+
+      <button type="button" class="float-ctrl float-circle" onclick="openSettingsDrawer()" title="Terminal Settings" aria-label="Settings">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </button>
+
+      <a class="float-ctrl float-circle" href="{{ url_for('logout') }}" title="Log out" aria-label="Logout">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+        </svg>
+      </a>
     </div>
   </header>
 
-  {% if not cases_unlocked %}
-  <!-- ── Gate: Verify it's you ───────────────────────────────────── -->
-  <div class="case-gate-wrap">
-    <div class="case-gate">
-      <div class="gate-icon">🔒</div>
-      <h2>Verify it's you</h2>
-      <p>Enter the authorised passcode to access stored case reports.</p>
+  <!-- Main Content Stage -->
+  <main class="cases-shell">
 
-      {% if cases_error %}
-      <div class="case-error">{{ cases_error }}</div>
-      {% endif %}
-
-      <form method="post" action="{{ url_for('cases') }}">
-        <div class="gate-field">
-          <label for="passcode">Passcode</label>
-          <input id="passcode" name="passcode" type="password"
-                 placeholder="Enter passcode"
-                 required autocomplete="current-password" autofocus>
+    {% if not cases_unlocked %}
+    <!-- ── GATE: VERIFY IT'S YOU ── -->
+    <div class="gate-stage-wrap">
+      <section class="glass-card gate-card">
+        <div class="gate-icon-badge">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
         </div>
-        <button class="btn btn-primary btn-block btn-lg" type="submit">
-          Authenticate
-        </button>
-      </form>
+
+        <h2>Verify It's You</h2>
+        <p>Accessing the forensic case archive requires secondary officer credentials.</p>
+
+        {% if cases_error %}
+        <div class="alert-error" role="alert">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>{{ cases_error }}</span>
+        </div>
+        {% endif %}
+
+        <form method="post" action="{{ url_for('cases') }}">
+          <div class="form-field">
+            <label for="passcode">
+              Officer Passcode
+            </label>
+            <input class="input-glass"
+                   id="passcode"
+                   name="passcode"
+                   type="password"
+                   placeholder="Enter archive passcode"
+                   required
+                   autofocus
+                   autocomplete="current-password">
+          </div>
+
+          <button class="btn-pill btn-primary-orange btn-block btn-lg" type="submit" style="margin-top: 10px;">
+            <span>Authenticate</span>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </button>
+        </form>
+      </section>
     </div>
-  </div>
 
-  {% else %}
-  <!-- ── Unlocked: Case log list ─────────────────────────────────── -->
-  <main class="cases-main">
-
-    <div class="cases-header">
+    {% else %}
+    <!-- ── UNLOCKED: CASE ARCHIVE LIST ── -->
+    <header class="cases-top-header">
       <div>
-        <h1>Case logs</h1>
-        <p>Recorded verification sessions</p>
+        <h1>Case Logs</h1>
+        <p>Immutable forensic audit trails and screening records</p>
       </div>
-      <div class="cases-controls">
-        <input class="search-input" id="searchInput"
-               type="search" placeholder="Search cases…"
+
+      <div style="display: flex; gap: 8px;">
+        <span class="btn-sm" style="background: var(--tone-green-bg); color: var(--tone-green-text); border-radius: var(--pill); font-weight: 700;">
+          Archive Node Synced
+        </span>
+      </div>
+    </header>
+
+    <!-- Filter & Search Controls Bar -->
+    <div class="cases-filter-bar">
+      <div class="search-box">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input type="search"
+               class="search-input-field"
+               id="searchInput"
+               placeholder="Search by case ID, passport, subject name…"
                autocomplete="off">
-        <select class="sort-select" id="sortSelect">
-          <option value="id">Sort: ID</option>
-          <option value="risk-high">Risk: High first</option>
-          <option value="risk-low">Risk: Low first</option>
-          <option value="name">Name A–Z</option>
-        </select>
       </div>
+
+      <select class="sort-dropdown" id="sortSelect" aria-label="Sort cases">
+        <option value="id-asc">Sort: Case ID</option>
+        <option value="risk-desc">Risk: High First</option>
+        <option value="risk-asc">Risk: Low First</option>
+        <option value="date-desc">Date: Newest First</option>
+      </select>
     </div>
 
-    <div class="case-list" id="caseList"></div>
-    <div class="case-empty" id="caseEmpty" hidden>No cases match your search.</div>
+    <!-- Dynamic Case Cards List -->
+    <div class="case-card-list" id="caseListContainer">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <div id="noCasesFound" style="display: none; padding: 48px; text-align: center; color: var(--text-muted);">
+      No matching forensic records found.
+    </div>
+
+    {% endif %}
 
   </main>
 
-  <!-- ── Detail modal ───────────────────────────────────────────── -->
-  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-label="Case detail">
-    <div class="modal-sheet" id="modalSheet">
-      <div class="modal-handle"></div>
-      <div class="modal-top">
+  <!-- Slide-Up Detail Modal Sheet -->
+  <div class="modal-overlay" id="detailModal" role="dialog" aria-modal="true" aria-label="Case Detail">
+    <div class="modal-squircle-sheet" id="modalSheet">
+      <div class="modal-head-row">
         <div>
-          <div class="modal-title" id="m-title"></div>
-          <span class="modal-badge" id="m-badge"></span>
+          <h2 class="modal-title-text" id="mTitle">Case Details</h2>
+          <span id="mBadge" class="case-score-pill tone-green" style="margin-top: 6px; display: inline-block;">
+            Authentic
+          </span>
         </div>
-        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+        <button type="button" class="modal-close-btn" id="mCloseBtn" aria-label="Close modal">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
       </div>
-      <div id="m-details"></div>
+
+      <div class="modal-rows" id="mDetailsContent">
+        <!-- Injected via JS -->
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 24px;">
+        <button class="btn-pill btn-primary-orange btn-block" type="button" id="mExportBtn">
+          Export Verified Case JSON
+        </button>
+      </div>
     </div>
   </div>
 
-  <script>
-  // ── Dummy case data (structure ready for real JSON endpoint) ──────
-  const CASES = [
-    { id: 'KV-001', name: 'Passport — Indian national',   color: 'green',  risk: 8.2,
-      date: '2026-09-15', officer: 'officer@agency.gov.in',
-      verdict: 'Clearance granted', why: 'All forensic checks passed. Document appears genuine.' },
-    { id: 'KV-002', name: 'Visa — Indian person',         color: 'yellow', risk: 34.5,
-      date: '2026-09-15', officer: 'officer@agency.gov.in',
-      verdict: 'Secondary review', why: 'Minor OCR mismatch on date field. Manual check advised.' },
-    { id: 'KV-003', name: 'PAN — Balwin',                 color: 'green',  risk: 5.1,
-      date: '2026-09-14', officer: 'officer@agency.gov.in',
-      verdict: 'Clearance granted', why: 'Document authentic. Face match confidence high.' },
-    { id: 'KV-004', name: 'Aadhaar card',                 color: 'red',    risk: 78.3,
-      date: '2026-09-14', officer: 'officer@agency.gov.in',
-      verdict: 'Clearance denied', why: 'Copy-move artefacts detected in photo region. High risk.' },
-    { id: 'KV-005', name: 'Driver\'s license — DSC 0153', color: 'yellow', risk: 41.0,
-      date: '2026-09-13', officer: 'officer@agency.gov.in',
-      verdict: 'Secondary review', why: 'Hologram region inconsistency flagged.' },
-    { id: 'KV-006', name: 'Portuguese border permit',     color: 'green',  risk: 11.7,
-      date: '2026-09-12', officer: 'officer@agency.gov.in',
-      verdict: 'Clearance granted', why: 'All detectors passed. MRZ validated.' },
-  ];
+  <!-- Reusable Floating Settings Drawer -->
+  <div class="drawer-backdrop" id="settingsDrawer" role="dialog" aria-modal="true" aria-label="Terminal Settings">
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <h3>Terminal Settings</h3>
+        <button type="button" class="modal-close-btn" onclick="closeSettingsDrawer()" aria-label="Close">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
 
-  let filtered = [...CASES];
-
-  // ── Render list ───────────────────────────────────────────────────
-  function renderList(data) {
-    const list  = document.getElementById('caseList');
-    const empty = document.getElementById('caseEmpty');
-    list.innerHTML = '';
-    if (!data.length) { empty.hidden = false; return; }
-    empty.hidden = true;
-    data.forEach(c => {
-      const row = document.createElement('div');
-      row.className = 'case-row';
-      row.setAttribute('data-id', c.id);
-      row.innerHTML = `
-        <div class="case-dot ${c.color}"></div>
-        <div class="case-info">
-          <div class="case-name">${c.name}</div>
-          <div class="case-meta">${c.id} &middot; ${c.date}</div>
+      <div class="settings-section-title">Theme Preference</div>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h4>Dark Mode</h4>
+          <p>Switch between light ambient and dark obsidian.</p>
         </div>
-        <span class="case-risk">${c.risk.toFixed(1)}%</span>
-        <span class="case-chevron">›</span>`;
-      row.addEventListener('click', () => openModal(c));
-      list.appendChild(row);
+        <label class="switch" aria-label="Toggle dark mode">
+          <input type="checkbox" class="theme-toggle-input">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-section-title">Operational Station</div>
+      <div class="location-options-grid">
+        <button type="button" class="loc-option-btn active" data-location="Airport Kiosk T3">Airport T3</button>
+        <button type="button" class="loc-option-btn" data-location="Border Checkpoint Alpha">Border Post</button>
+        <button type="button" class="loc-option-btn" data-location="Customs Inspection Desk">Customs Desk</button>
+      </div>
+
+      <div class="settings-section-title">Session Control</div>
+      <a class="btn-pill btn-ghost-glass btn-block" href="{{ url_for('logout') }}" style="color: var(--tone-red-text); margin-top: 10px;">
+        Log Out of Kiosk
+      </a>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/kavach_ui.js') }}"></script>
+
+  {% if cases_unlocked %}
+  <script>
+  (function () {
+    'use strict';
+
+    // ── CASE RECORD DATA ─────────────────────────────────────────────
+    const CASES = [
+      {
+        id: 'KV-2026-0891',
+        name: 'Republic of India — Passport Data Page',
+        color: 'green',
+        risk: 6.2,
+        date: '2026-09-17 10:14',
+        officer: 'officer@agency.gov.in',
+        verdict: 'CLEARANCE GRANTED',
+        summary: 'All holographic and MRZ check digits verified. Biometric face similarity 98.4%.'
+      },
+      {
+        id: 'KV-2026-0890',
+        name: 'Tourist Visa Sticker — Indian National',
+        color: 'yellow',
+        risk: 38.4,
+        date: '2026-09-17 09:42',
+        officer: 'officer@agency.gov.in',
+        verdict: 'SECONDARY REVIEW',
+        summary: 'Date of expiry OCR variation flagged. Substrate guilloche pattern intact.'
+      },
+      {
+        id: 'KV-2026-0889',
+        name: 'Permanent Account Number (PAN) Card',
+        color: 'green',
+        risk: 4.8,
+        date: '2026-09-16 16:55',
+        officer: 'officer@agency.gov.in',
+        verdict: 'CLEARANCE GRANTED',
+        summary: 'Physical substrate font microstructure consistent with national issuance ledger.'
+      },
+      {
+        id: 'KV-2026-0888',
+        name: 'National Identity Credential (Aadhaar)',
+        color: 'red',
+        risk: 84.1,
+        date: '2026-09-16 14:20',
+        officer: 'officer@agency.gov.in',
+        verdict: 'CLEARANCE DENIED',
+        summary: 'Splice boundary artifacts detected around portrait quadrant. High probability of digital manipulation.'
+      },
+      {
+        id: 'KV-2026-0887',
+        name: 'Commercial Driver\'s License — DSC 0153',
+        color: 'yellow',
+        risk: 42.0,
+        date: '2026-09-16 11:08',
+        officer: 'officer@agency.gov.in',
+        verdict: 'SECONDARY REVIEW',
+        summary: 'Security watermark luminescence below calibrated kiosk threshold.'
+      },
+      {
+        id: 'KV-2026-0886',
+        name: 'Schengen Border Permit — Portuguese Republic',
+        color: 'green',
+        risk: 11.5,
+        date: '2026-09-15 18:30',
+        officer: 'officer@agency.gov.in',
+        verdict: 'CLEARANCE GRANTED',
+        summary: 'Full MRZ compliance and cryptographic integrity verified.'
+      }
+    ];
+
+    const listEl      = document.getElementById('caseListContainer');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect  = document.getElementById('sortSelect');
+    const noCasesEl   = document.getElementById('noCasesFound');
+    const modal       = document.getElementById('detailModal');
+    const mTitle      = document.getElementById('mTitle');
+    const mBadge      = document.getElementById('mBadge');
+    const mContent    = document.getElementById('mDetailsContent');
+    const mCloseBtn   = document.getElementById('mCloseBtn');
+    const mExportBtn  = document.getElementById('mExportBtn');
+    let currentSelectedCase = null;
+
+    // ── RENDER CASE ROWS ─────────────────────────────────────────────
+    function renderCases(items) {
+      listEl.innerHTML = '';
+      if (!items.length) {
+        noCasesEl.style.display = 'block';
+        return;
+      }
+      noCasesEl.style.display = 'none';
+
+      items.forEach(c => {
+        const row = document.createElement('article');
+        row.className = 'case-card-item';
+        row.tabIndex = 0;
+        row.innerHTML = `
+          <div class="case-status-indicator tone-${c.color}" aria-hidden="true"></div>
+          <div class="case-details-col">
+            <div class="case-name-text">${c.name}</div>
+            <div class="case-meta-line">
+              <span>${c.id}</span>
+              <span>&bull;</span>
+              <span>${c.date}</span>
+              <span>&bull;</span>
+              <span>${c.officer}</span>
+            </div>
+          </div>
+          <span class="case-score-pill tone-${c.color}">
+            ${c.risk.toFixed(1)}% Risk
+          </span>
+          <svg class="case-chevron-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        `;
+
+        row.addEventListener('click', () => openModal(c));
+        row.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openModal(c);
+          }
+        });
+        listEl.appendChild(row);
+      });
+    }
+
+    // ── FILTER & SORT ────────────────────────────────────────────────
+    function applyFilters() {
+      const q = (searchInput.value || '').toLowerCase().trim();
+      const sort = sortSelect.value;
+
+      let res = CASES.filter(c =>
+        c.name.toLowerCase().includes(q) ||
+        c.id.toLowerCase().includes(q) ||
+        c.officer.toLowerCase().includes(q)
+      );
+
+      if (sort === 'risk-desc') {
+        res.sort((a, b) => b.risk - a.risk);
+      } else if (sort === 'risk-asc') {
+        res.sort((a, b) => a.risk - b.risk);
+      } else if (sort === 'date-desc') {
+        res.sort((a, b) => b.date.localeCompare(a.date));
+      } else {
+        res.sort((a, b) => a.id.localeCompare(b.id));
+      }
+
+      renderCases(res);
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    sortSelect.addEventListener('change', applyFilters);
+
+    // ── MODAL DETAILS ────────────────────────────────────────────────
+    function openModal(c) {
+      currentSelectedCase = c;
+      mTitle.textContent = c.name;
+      mBadge.textContent = c.verdict;
+      mBadge.className = `case-score-pill tone-${c.color}`;
+
+      mContent.innerHTML = `
+        <div class="modal-data-row">
+          <span class="label">Case Reference</span>
+          <span class="val">${c.id}</span>
+        </div>
+        <div class="modal-data-row">
+          <span class="label">Date &amp; Timestamp</span>
+          <span class="val">${c.date}</span>
+        </div>
+        <div class="modal-data-row">
+          <span class="label">Screening Officer</span>
+          <span class="val">${c.officer}</span>
+        </div>
+        <div class="modal-data-row">
+          <span class="label">Forensic Risk Score</span>
+          <span class="val" style="color: var(--tone-${c.color}-text); font-size: 16px;">
+            ${c.risk.toFixed(1)}%
+          </span>
+        </div>
+        <div class="modal-data-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
+          <span class="label">Forensic Assessment</span>
+          <span class="val" style="text-align: left; font-weight: 500; line-height: 1.55;">${c.summary}</span>
+        </div>
+      `;
+
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    mCloseBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeModal();
     });
-  }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
 
-  // ── Filter + sort ─────────────────────────────────────────────────
-  function applyFilters() {
-    const q    = document.getElementById('searchInput').value.toLowerCase();
-    const sort = document.getElementById('sortSelect').value;
-    filtered = CASES.filter(c =>
-      c.name.toLowerCase().includes(q) ||
-      c.id.toLowerCase().includes(q)
-    );
-    if (sort === 'risk-high') filtered.sort((a,b) => b.risk - a.risk);
-    else if (sort === 'risk-low') filtered.sort((a,b) => a.risk - b.risk);
-    else if (sort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
-    else filtered.sort((a,b) => a.id.localeCompare(b.id));
-    renderList(filtered);
-  }
+    mExportBtn.addEventListener('click', () => {
+      if (!currentSelectedCase) return;
+      const blob = new Blob([JSON.stringify(currentSelectedCase, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${currentSelectedCase.id}_report.json`;
+      a.click();
+    });
 
-  document.getElementById('searchInput').addEventListener('input',  applyFilters);
-  document.getElementById('sortSelect').addEventListener('change', applyFilters);
-
-  // ── Modal ─────────────────────────────────────────────────────────
-  function openModal(c) {
-    document.getElementById('m-title').textContent = c.name;
-
-    const badge = document.getElementById('m-badge');
-    badge.textContent  = c.verdict;
-    badge.className    = `modal-badge ${c.color}`;
-
-    const details = document.getElementById('m-details');
-    details.innerHTML = `
-      <div class="modal-detail-row">
-        <span class="modal-detail-label">Case ID</span>
-        <span class="modal-detail-val">${c.id}</span>
-      </div>
-      <div class="modal-detail-row">
-        <span class="modal-detail-label">Date</span>
-        <span class="modal-detail-val">${c.date}</span>
-      </div>
-      <div class="modal-detail-row">
-        <span class="modal-detail-label">Officer</span>
-        <span class="modal-detail-val">${c.officer}</span>
-      </div>
-      <div class="modal-detail-row">
-        <span class="modal-detail-label">Forgery probability</span>
-        <span class="modal-detail-val">${c.risk.toFixed(1)}%</span>
-      </div>
-      <div class="modal-detail-row">
-        <span class="modal-detail-label">Summary</span>
-        <span class="modal-detail-val" style="max-width:240px;text-align:right;">${c.why}</span>
-      </div>`;
-
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('modalClose').addEventListener('click', closeModal);
-  document.getElementById('modal').addEventListener('click', e => {
-    if (e.target === document.getElementById('modal')) closeModal();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
-
-  // ── Topbar scroll shadow ──────────────────────────────────────────
-  window.addEventListener('scroll', () => {
-    document.getElementById('topbar').classList
-      .toggle('scrolled', window.scrollY > 4);
-  });
-
-  // ── Initial render ────────────────────────────────────────────────
-  applyFilters();
+    // Initial render
+    applyFilters();
+  })();
   </script>
-
   {% endif %}
 
 </body>

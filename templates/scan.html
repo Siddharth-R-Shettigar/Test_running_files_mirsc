@@ -2,172 +2,314 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kavach | Scan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>KAVACH — {{ current.title }}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
 </head>
-<body class="scan-body">
+<body>
 
-  <!-- Sticky header -->
-  <header class="topbar" id="topbar">
-    <span class="wordmark">Kavach</span>
-    <div class="topbar-actions">
-      <a class="btn btn-ghost btn-sm" href="{{ url_for('cases') }}">Case logs</a>
-      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Log out</a>
+  <!-- Ambient Organic Orange Background Mesh Orbs -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+  </div>
+
+  <!-- FLOATING CHROME (iOS & One UI 8.5 style floating islands) -->
+  <header class="floating-chrome" aria-label="Kiosk Floating Controls">
+    <div class="floating-cluster-left">
+      <div class="float-ctrl float-pill brand-pill">
+        <span class="brand-k-badge">K</span>
+        <span class="wordmark">Kavach<span class="dot"></span></span>
+      </div>
+      <div class="float-ctrl float-pill location-chip" title="Active operational station">
+        <span class="loc-dot"></span>
+        <span class="text loc-display-text">Airport Kiosk T3</span>
+      </div>
+    </div>
+
+    <div class="floating-cluster-right">
+      <a class="float-ctrl float-pill" href="{{ url_for('cases') }}" title="Recorded case archives">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        </svg>
+        <span>Case logs</span>
+      </a>
+
+      <button type="button" class="float-ctrl float-circle" onclick="openSettingsDrawer()" title="Terminal Settings" aria-label="Settings">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </button>
+
+      <a class="float-ctrl float-circle" href="{{ url_for('logout') }}" title="Log out" aria-label="Logout">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+        </svg>
+      </a>
     </div>
   </header>
 
-  <main class="scan-main">
+  <!-- Scan Main Stage -->
+  <main class="scan-stage-shell">
 
-    <!-- Progress rail: current dot + line + next dot only -->
-    <div class="flow-track">
-      <div class="flow-rail">
-        <div class="flow-dot"></div>
-        {% if current_index + 1 < steps|length %}
-        <div class="flow-line"></div>
-        <div class="flow-dot upcoming"></div>
-        {% endif %}
+    <!-- Progress HUD Bar (Fluid Pill Rail) -->
+    <div class="scan-progress-hud">
+      <div class="hud-step-count">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        <span>Stage {{ current_index + 1 }} of {{ steps|length }}</span>
       </div>
-      <div class="flow-labels">
-        <span class="flow-current roll-in" id="flowCurrent">{{ current.title }}</span>
-        <div class="flow-next" id="flowNext">
-          {% if current_index + 1 < steps|length %}
+
+      <div class="hud-progress-dots" aria-hidden="true">
+        {% for s in steps %}
+          <div class="hud-dot {% if loop.index0 == current_index %}active{% elif loop.index0 < current_index %}completed{% endif %}"></div>
+        {% endfor %}
+      </div>
+
+      <div class="hud-next-label">
+        {% if current_index + 1 < steps|length %}
           Next: {{ steps[current_index + 1].title }}
-          {% endif %}
-        </div>
+        {% else %}
+          Final Verification Stage
+        {% endif %}
       </div>
     </div>
 
-    <!-- Capture card -->
-    <section class="capture-panel panel-enter" id="capturePanel">
-      <div class="capture-frame" id="captureFrame">
-        <div class="ph">
-          <!-- Camera icon -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-            <circle cx="12" cy="13" r="4"/>
-          </svg>
-          <span>No capture yet</span>
+    <!-- Step Title with Cylinder Roll Animation -->
+    <header class="scan-header-card">
+      <h1 class="scan-title-roll roll-active" id="scanStepTitle">
+        {{ current.title }}
+      </h1>
+      <p class="scan-blurb" id="scanStepBlurb">
+        {{ current.blurb }}
+      </p>
+    </header>
+
+    <!-- Camera / Viewfinder Stage -->
+    <section class="glass-card viewfinder-card">
+      <div class="viewfinder-frame" id="viewfinderFrame">
+
+        <!-- Live Camera Stream -->
+        <video id="cam" class="viewfinder-video" autoplay playsinline muted></video>
+
+        <!-- Static Canvas for Snapshot Capture -->
+        <canvas id="shot" hidden></canvas>
+
+        <!-- Fallback / Preview Frame (shown if camera unavailable or after file selection) -->
+        <div id="imagePreviewContainer" style="display: none; width: 100%; height: 100%;">
+          <img id="imagePreview" class="viewfinder-image-preview" alt="Document capture preview">
         </div>
+
+        <!-- Corner HUD Brackets -->
+        <div class="hud-bracket top-left" aria-hidden="true"></div>
+        <div class="hud-bracket top-right" aria-hidden="true"></div>
+        <div class="hud-bracket bottom-left" aria-hidden="true"></div>
+        <div class="hud-bracket bottom-right" aria-hidden="true"></div>
+
+        <!-- Biometric Face Oval Guide (Only on Face Step) -->
+        {% if current.key == 'face' %}
+        <div class="face-guide-oval" id="faceGuide" aria-hidden="true"></div>
+        {% else %}
+        <div class="doc-guide-rect" id="docGuide" aria-hidden="true"></div>
+        {% endif %}
+
+        <!-- Floating Live Status Tag -->
+        <div class="camera-status-pill" id="cameraStatusPill">
+          <span class="cam-dot" id="camStatusDot"></span>
+          <span id="camStatusText">Initializing optical sensor…</span>
+        </div>
+
       </div>
 
-      <p class="capture-hint" id="stageHint">{{ current.blurb }}</p>
-
+      <!-- Action Buttons Bar -->
       <form id="captureForm"
             action="{{ url_for('scan_capture') }}"
             method="post"
             enctype="multipart/form-data">
-        <input type="file" id="captureInput" name="capture_image"
-               accept="image/*" capture="environment" hidden>
 
-        <div class="capture-actions">
-          <button class="btn btn-primary" id="captureBtn" type="button">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="3"/><path d="M6.343 6.343a8 8 0 1 0 11.314 11.314A8 8 0 0 0 6.343 6.343z"/>
+        <!-- Server-side contract: capture_image field -->
+        <input type="file"
+               id="captureInput"
+               name="capture_image"
+               accept="image/*"
+               capture="environment"
+               hidden>
+
+        <div class="capture-actions-bar">
+          <button class="btn-pill btn-primary-orange btn-lg" id="btnCapture" type="button">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            Capture {{ current.title | lower }}
+            <span id="btnCaptureLabel">Capture {{ current.title }}</span>
           </button>
+
+          <!-- Alternative File Upload Button -->
+          <button class="btn-pill btn-ghost-glass" id="btnUploadAlt" type="button" title="Upload from disk or scanner">
+            <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+            </svg>
+            <span>Upload File</span>
+          </button>
+
+          <!-- Skip button where allowed (steps after face) -->
           {% if current_index > 0 %}
-          <button class="btn btn-ghost"
+          <button class="btn-pill btn-ghost-glass"
                   type="submit"
                   formaction="{{ url_for('scan_skip') }}"
-                  formmethod="post">Skip</button>
+                  formmethod="post"
+                  id="btnSkip">
+            Skip
+          </button>
           {% endif %}
         </div>
       </form>
-
-      <div class="quality-warn" id="qualityWarn" hidden>
-        Image too blurry — please retake
-      </div>
     </section>
 
   </main>
 
+  <!-- Reusable Floating Settings Drawer -->
+  <div class="drawer-backdrop" id="settingsDrawer" role="dialog" aria-modal="true" aria-label="Terminal Settings">
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <h3>Terminal Settings</h3>
+        <button type="button" class="modal-close-btn" onclick="closeSettingsDrawer()" aria-label="Close">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-section-title">Theme Preference</div>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h4>Dark Mode</h4>
+          <p>Switch between light ambient and dark obsidian.</p>
+        </div>
+        <label class="switch" aria-label="Toggle dark mode">
+          <input type="checkbox" class="theme-toggle-input">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-section-title">Operational Post</div>
+      <div class="location-options-grid">
+        <button type="button" class="loc-option-btn active" data-location="Airport Kiosk T3">Airport T3</button>
+        <button type="button" class="loc-option-btn" data-location="Border Checkpoint Alpha">Border Post</button>
+        <button type="button" class="loc-option-btn" data-location="Customs Inspection Desk">Customs Desk</button>
+      </div>
+
+      <div class="settings-section-title">Session</div>
+      <a class="btn-pill btn-ghost-glass btn-block" href="{{ url_for('logout') }}" style="color: var(--tone-red-text); margin-top: 10px;">
+        Log Out of Kiosk
+      </a>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/kavach_ui.js') }}"></script>
   <script>
-    // ── Data from Jinja ──────────────────────────────────────────────
-    const STEPS  = {{ steps | map(attribute='title') | list | tojson }};
-    const BLURBS = {{ steps | map(attribute='blurb') | list | tojson }};
-    let idx = {{ current_index }};
+  (function () {
+    const video = document.getElementById('cam');
+    const canvas = document.getElementById('shot');
+    const input = document.getElementById('captureInput');
+    const form = document.getElementById('captureForm');
+    const btnCapture = document.getElementById('btnCapture');
+    const btnUploadAlt = document.getElementById('btnUploadAlt');
+    const statusText = document.getElementById('camStatusText');
+    const statusDot = document.getElementById('camStatusDot');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    const previewImg = document.getElementById('imagePreview');
+    let videoStream = null;
 
-    // ── Element refs ─────────────────────────────────────────────────
-    const input   = document.getElementById('captureInput');
-    const form    = document.getElementById('captureForm');
-    const frame   = document.getElementById('captureFrame');
-    const panel   = document.getElementById('capturePanel');
-    const btn     = document.getElementById('captureBtn');
-    const lbl     = document.getElementById('flowCurrent');
-    const next    = document.getElementById('flowNext');
-    const hint    = document.getElementById('stageHint');
-    const topbar  = document.getElementById('topbar');
-
-    // ── Sticky shadow on scroll ──────────────────────────────────────
-    window.addEventListener('scroll', () => {
-      topbar.classList.toggle('scrolled', window.scrollY > 4);
-    });
-
-    // ── Animate step change ──────────────────────────────────────────
-    function animateStep() {
-      // cylinder-roll on title
-      lbl.classList.remove('roll-in');
-      void lbl.offsetWidth; // reflow
-      lbl.classList.add('roll-in');
-
-      // panel enter
-      panel.classList.remove('panel-enter');
-      void panel.offsetWidth;
-      panel.classList.add('panel-enter');
-    }
-
-    // ── Advance to next step (client-side after server capture) ──────
-    function advance() {
-      idx += 1;
-      if (idx >= STEPS.length) {
-        window.location.href = "{{ url_for('result_placeholder') }}";
+    // 1. Initialize WebRTC Camera
+    async function initCamera() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setCameraFallback('Camera not supported in browser. Use Upload File.');
         return;
       }
-      lbl.textContent  = STEPS[idx];
-      next.textContent = idx + 1 < STEPS.length ? 'Next: ' + STEPS[idx + 1] : '';
-      hint.textContent = BLURBS[idx];
-
-      // Update button text
-      btn.childNodes[btn.childNodes.length - 1].textContent =
-        ' Capture ' + STEPS[idx].toLowerCase();
-
-      // Reset frame
-      frame.classList.remove('captured');
-      frame.innerHTML = `<div class="ph">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-          <circle cx="12" cy="13" r="4"/>
-        </svg>
-        <span>No capture yet</span>
-      </div>`;
-
-      animateStep();
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
+            facingMode: { ideal: 'environment' }
+          },
+          audio: false
+        });
+        videoStream = stream;
+        video.srcObject = stream;
+        statusText.textContent = 'Optical sensor active — align document';
+        statusDot.style.background = 'var(--tone-green)';
+        statusDot.style.boxShadow = '0 0 8px var(--tone-green)';
+      } catch (err) {
+        console.warn('Camera access error:', err);
+        setCameraFallback('Camera feed inactive. Tap Capture or Upload File.');
+      }
     }
 
-    // ── Capture button → open file picker ────────────────────────────
-    btn.addEventListener('click', () => input.click());
+    function setCameraFallback(msg) {
+      statusText.textContent = msg;
+      statusDot.style.background = 'var(--tone-yellow)';
+      statusDot.style.boxShadow = '0 0 8px var(--tone-yellow)';
+    }
 
-    // ── File selected → preview + POST ───────────────────────────────
-    input.addEventListener('change', () => {
-      const file = input.files[0];
-      if (!file) return;
+    // 2. Capture Frame from Live Video or File Input
+    btnCapture.addEventListener('click', () => {
+      if (videoStream && video.videoWidth > 0) {
+        // Grab frame from live video
+        const w = video.videoWidth;
+        const h = video.videoHeight;
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, w, h);
 
-      // Show preview immediately
-      const url = URL.createObjectURL(file);
-      frame.innerHTML = `<img alt="Captured" src="${url}">`;
-      frame.classList.add('captured');
+        canvas.toBlob(blob => {
+          if (!blob) {
+            input.click();
+            return;
+          }
+          const file = new File([blob], 'kiosk_capture.jpg', { type: 'image/jpeg' });
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          input.files = dt.files;
 
-      // POST to Flask then advance
-      const data = new FormData(form);
-      fetch(form.action, { method: 'POST', body: data })
-        .then(() => advance())
-        .catch(() => advance()); // advance even on network hiccup
+          // Immediate visual preview
+          previewImg.src = URL.createObjectURL(blob);
+          video.style.display = 'none';
+          previewContainer.style.display = 'block';
+          statusText.textContent = 'Capture acquired — uploading to verification engine…';
+
+          // Submit form to /scan/capture
+          form.submit();
+        }, 'image/jpeg', 0.94);
+      } else {
+        // Fallback to file picker
+        input.click();
+      }
     });
 
-    // ── Trigger roll-in on first page load ───────────────────────────
-    window.addEventListener('DOMContentLoaded', () => animateStep());
+    btnUploadAlt.addEventListener('click', () => {
+      input.click();
+    });
+
+    // 3. File Input Change (Fallback or manual upload)
+    input.addEventListener('change', () => {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        previewImg.src = URL.createObjectURL(file);
+        video.style.display = 'none';
+        previewContainer.style.display = 'block';
+        statusText.textContent = 'File loaded — submitting…';
+        form.submit();
+      }
+    });
+
+    initCamera();
+  })();
   </script>
 
 </body>

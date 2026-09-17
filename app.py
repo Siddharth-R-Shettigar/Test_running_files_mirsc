@@ -45,7 +45,13 @@ def _scan_index():
 def home():
     if session.get("logged_in"):
         return redirect(url_for("scan"))
-    return redirect(url_for("login"))
+    return render_template("landing.html")
+
+
+@app.route("/landing")
+def landing():
+    return render_template("landing.html")
+
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -174,6 +180,14 @@ def cases():
     return render_template("cases.html", cases_unlocked=bool(session.get("cases_unlocked")), cases_error=None)
 
 
+@app.route("/settings")
+def settings():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+    return render_template("settings.html", officer_email=session.get("officer_email", DEMO_USER))
+
+
+
 @app.route("/analyze", methods=["POST"])
 def analyze():
     from connector import analyze_image  # lazy import so login still works if groq missing
@@ -298,7 +312,7 @@ def scan_skip():
     idx = _scan_index()
     if idx <= 0 or idx >= len(SCAN_STEPS):
         return redirect(url_for("scan"))
-    api_run_case/cases
+
     step = SCAN_STEPS[idx]
     captures = dict(session.get("captures") or {})
     captures[step["key"]] = None  # marked skipped
@@ -324,11 +338,10 @@ def api_run_case():
     if os.environ.get("KAVACH_FAST_UI", "1").strip() != "0":
         return jsonify(_map_result_ui({
             "risk_level": "REVIEW",
-           "risk_reason": "Manual check recommended",
-           "forensic_risk_score": 0.46,
+            "risk_reason": "Manual check recommended",
+            "forensic_risk_score": 0.46,
             "detector_signals": [],
-     }))
-    return jsonify(ui)
+        }))
 
     if not session.get("logged_in"):
         return jsonify({"error": "not logged in"}), 401
