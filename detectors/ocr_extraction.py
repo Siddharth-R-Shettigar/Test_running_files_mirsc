@@ -3,7 +3,8 @@ import base64
 import requests
 import easyocr
 from dotenv import load_dotenv
-
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 # Load environment variables (API keys)
 load_dotenv()
 
