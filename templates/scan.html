@@ -2,71 +2,136 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>KAVACH | Scan</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css') }}">
 </head>
-<body class="page-scan">
-  <header class="app-topbar">
-    <div class="brand-inline">
-      <span class="logo-mark sm">◆</span>
-      <strong>KAVACH</strong>
+<body>
+  <header class="topbar" id="topbar">
+    <div class="brand"><span class="wordmark">Kavach</span></div>
+    <div class="topbar-actions">
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('cases') }}">Case logs</a>
     </div>
-    <nav class="top-links">
-      <a href="{{ url_for('scan_reset') }}">Restart scan</a>
-      <a href="{{ url_for('cases') }}">Case Logs</a>
-      <a href="{{ url_for('logout') }}">Log out</a>
-    </nav>
   </header>
 
   <main class="scan-main">
-    <aside class="scan-rail" aria-label="Progress">
-      {% for s in steps %}
-        {% set i = loop.index0 %}
-        {% set state = 'is-done' if i < current_index else ('is-current' if i == current_index else 'is-next') %}
-        <div class="rail-step {{ state }}">
-          <div class="rail-marker">
-            {% if i < current_index %}✓{% else %}{{ loop.index }}{% endif %}
-          </div>
-          <div class="rail-text">
-            <strong>{{ s.title }}</strong>
-            <small>{{ s.blurb }}</small>
-          </div>
-        </div>
-        {% if not loop.last %}
-        <div class="rail-line"></div>
-        {% endif %}
-      {% endfor %}
-    </aside>
-
-    <section class="scan-panel">
-      <p class="step-count">Step {{ current_index + 1 }} of {{ steps|length }}</p>
-      <h2>{{ current.title }}</h2>
-      <p class="hint">{{ current.blurb }}. Align in frame, then capture.</p>
-
-      <div class="camera-stage">
-        <video id="cam" autoplay playsinline muted></video>
-        <canvas id="shot" hidden></canvas>
-        <p id="cam-status" class="cam-status">Starting camera…</p>
+    <div class="flow-track">
+      <div class="flow-rail">
+        <div class="flow-dot"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot upcoming"></div>
       </div>
+      <div class="flow-labels">
+        <span class="flow-current" id="flowCurrent">{{ current.title }}</span>
+        <div class="flow-next" id="flowNext">
+          {% if current_index + 1 < steps|length %}{{ steps[current_index + 1].title }}{% endif %}
+        </div>
+      </div>
+    </div>
 
-      <form id="capture-form" action="{{ url_for('scan_capture') }}" method="post" enctype="multipart/form-data">
-        <input type="file" name="capture_image" id="frame-input" accept="image/*" hidden>
-        <button type="button" id="btn-capture" class="btn-primary" disabled>
-          Capture {{ current.title }} (Camera)
-        </button>
+    <div class="capture-panel" id="capturePanel">
+      <div class="capture-frame" id="captureFrame">
+        <div class="ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8a2 2 0 0 1 2-2h1.2l.9-1.4A2 2 0 0 1 9.8 4h4.4a2 2 0 0 1 1.7 1l.9 1.6H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z"/><circle cx="12" cy="13" r="3.4"/></svg>
+          <span id="captureHint">No capture yet</span>
+        </div>
+      </div>
+      <p class="capture-hint" id="stageHint">{{ current.blurb }}</p>
+
+      <form id="captureForm" action="{{ url_for('scan_capture') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" id="captureInput" name="capture_image" accept="image/*" capture="environment" style="display:none">
+        <div class="capture-actions">
+          <button type="button" class="btn btn-primary btn-block" id="captureBtn" onclick="document.getElementById('captureInput').click()">
+            Capture {{ current.title|lower }}
+          </button>
+        </div>
       </form>
 
-      {% if current_index > 0 %}
-      <form action="{{ url_for('scan_skip') }}" method="post" class="skip-form">
-        <button type="submit" class="btn-secondary">Skip — not available</button>
-      </form>
-      {% endif %}
-
-      <p class="note">Physical document in front of the camera. Prefer even light; avoid heavy glare.</p>
-    </section>
+      <div class="quality-warn" id="qualityWarn" style="display:none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        Image too blurry — please retake
+      </div>
+    </div>
   </main>
 
-  <script src="{{ url_for('static', filename='js/scan_camera.js') }}"></script>
+  <script>
+    // Data the browser already knows, so we can animate the "next stage" locally
+    // without waiting on a full page reload from the server.
+    const STEPS = {{ steps|map(attribute='title')|list|tojson }};
+    const BLURBS = {{ steps|map(attribute='blurb')|list|tojson }};
+    let idx = {{ current_index }};
+    const isLastStage = idx >= STEPS.length - 1;
+
+    const flowCurrent = document.getElementById('flowCurrent');
+    const flowNext = document.getElementById('flowNext');
+    const capturePanel = document.getElementById('capturePanel');
+    const captureFrame = document.getElementById('captureFrame');
+    const captureHint = document.getElementById('captureHint');
+    const stageHint = document.getElementById('stageHint');
+    const captureBtn = document.getElementById('captureBtn');
+    const qualityWarn = document.getElementById('qualityWarn');
+
+    function advanceStageUI() {
+      idx += 1;
+      // cylindrical exit
+      flowCurrent.classList.remove('cyl-in');
+      flowCurrent.classList.add('cyl-out');
+
+      setTimeout(() => {
+        flowCurrent.textContent = STEPS[idx] || '';
+        flowCurrent.classList.remove('cyl-out');
+        flowCurrent.classList.add('cyl-in');
+
+        flowNext.style.opacity = '0';
+        setTimeout(() => {
+          flowNext.textContent = STEPS[idx + 1] || '';
+          flowNext.style.opacity = STEPS[idx + 1] ? '1' : '0';
+        }, 120);
+
+        // reset capture panel for the new stage, with a soft swap animation
+        captureFrame.classList.remove('captured');
+        captureHint.textContent = 'No capture yet';
+        captureFrame.innerHTML = `<div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8a2 2 0 0 1 2-2h1.2l.9-1.4A2 2 0 0 1 9.8 4h4.4a2 2 0 0 1 1.7 1l.9 1.6H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z"/><circle cx="12" cy="13" r="3.4"/></svg><span>No capture yet</span></div>`;
+        stageHint.textContent = BLURBS[idx] || '';
+        captureBtn.textContent = 'Capture ' + (STEPS[idx] || '').toLowerCase();
+        qualityWarn.style.display = 'none';
+
+        capturePanel.classList.remove('panel-swap');
+        void capturePanel.offsetWidth; // restart animation
+        capturePanel.classList.add('panel-swap');
+      }, 420);
+    }
+
+    document.getElementById('captureInput').addEventListener('change', function (e) {
+      if (!e.target.files || !e.target.files[0]) return;
+
+      // Show the captured preview immediately
+      const url = URL.createObjectURL(e.target.files[0]);
+      captureFrame.innerHTML = `<img src="${url}" alt="Captured">`;
+      captureFrame.classList.add('captured');
+      captureHint.textContent = 'Captured';
+
+      const form = document.getElementById('captureForm');
+      const formData = new FormData(form);
+
+      if (isLastStage) {
+        // Final stage — submit normally, the server redirect takes us to the result screen.
+        fetch(form.action, { method: 'POST', body: formData }).then(() => {
+          window.location.href = "{{ url_for('result_placeholder') }}";
+        });
+        return;
+      }
+
+      // Not the last stage — upload in the background, animate locally, no page reload.
+      fetch(form.action, { method: 'POST', body: formData });
+      setTimeout(advanceStageUI, 480);
+    });
+
+    // Sticky header shadow on scroll
+    const topbar = document.getElementById('topbar');
+    window.addEventListener('scroll', () => {
+      topbar.classList.toggle('scrolled', window.scrollY > 4);
+    });
+  </script>
 </body>
 </html>
