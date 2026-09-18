@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>KAVACH — Autonomous Forensic Verification Kiosk</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css', v='digilocker_v3') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kavach.css', v='digilocker_v8') }}">
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
 </head>
 <body>
@@ -21,7 +21,7 @@
     <div class="floating-cluster-left">
       <div class="float-ctrl float-pill brand-pill">
         <img src="{{ url_for('static', filename='img/logo_transparent.png') }}" class="brand-logo-img" alt="Kavach">
-        <span class="wordmark">Kavach<span class="dot"></span></span>
+        <span class="wordmark">Kavach</span>
       </div>
     </div>
     <div class="floating-cluster-right">
@@ -69,6 +69,69 @@
         </a>
       </div>
     </header>
+
+    <!-- Interactive Kiosk Workflow Image Carousel -->
+    <section class="kiosk-workflow-carousel-section" id="workflowCarousel" aria-label="Kiosk Verification Workflow">
+      <div class="carousel-section-head">
+        <div class="carousel-pill-badge">
+          <span class="pulse-dot"></span>
+          Interactive Kiosk Workflow · 4-Stage Process
+        </div>
+        <h2 class="carousel-title">From Officer Guidance to Automated Gate Clearance</h2>
+      </div>
+
+      <div class="carousel-container" id="kioskCarouselContainer" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Kiosk Workflow Step Images">
+        <!-- Left & Right Arrow Navigation -->
+        <button type="button" class="carousel-arrow carousel-arrow-prev" id="carouselPrev" aria-label="Previous step">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
+        <button type="button" class="carousel-arrow carousel-arrow-next" id="carouselNext" aria-label="Next step">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <!-- Slides Viewport -->
+        <div class="carousel-track-viewport" id="carouselViewport">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-slide" data-index="0" role="group" aria-roledescription="slide" aria-label="1 of 4: Officer Guided Kiosk Approach">
+              <div class="slide-card glass-card">
+                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_01.jpg') }}" alt="01. Officer Guided Kiosk Approach" class="slide-img" loading="eager">
+              </div>
+            </div>
+            <div class="carousel-slide" data-index="1" role="group" aria-roledescription="slide" aria-label="2 of 4: Facial Vector Alignment">
+              <div class="slide-card glass-card">
+                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_02.jpg') }}" alt="02. Facial Vector Alignment" class="slide-img" loading="lazy">
+              </div>
+            </div>
+            <div class="carousel-slide" data-index="2" role="group" aria-roledescription="slide" aria-label="3 of 4: Multi-Credential Surface Scan">
+              <div class="slide-card glass-card">
+                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_03.jpg') }}" alt="03. Multi-Credential Surface Scan" class="slide-img" loading="lazy">
+              </div>
+            </div>
+            <div class="carousel-slide" data-index="3" role="group" aria-roledescription="slide" aria-label="4 of 4: Verified Gate Clearance">
+              <div class="slide-card glass-card">
+                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_04.jpg') }}" alt="04. Verified Gate Clearance" class="slide-img" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls: Counter & Interactive Pagination Dots -->
+        <div class="carousel-controls-bar">
+          <span class="carousel-step-counter" id="carouselCounter">Step 1 of 4</span>
+          <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Select slide">
+            <button type="button" class="carousel-dot active" data-index="0" role="tab" aria-selected="true" aria-label="Go to step 1"></button>
+            <button type="button" class="carousel-dot" data-index="1" role="tab" aria-selected="false" aria-label="Go to step 2"></button>
+            <button type="button" class="carousel-dot" data-index="2" role="tab" aria-selected="false" aria-label="Go to step 3"></button>
+            <button type="button" class="carousel-dot" data-index="3" role="tab" aria-selected="false" aria-label="Go to step 4"></button>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- 4 Glass Feature Cards -->
     <section class="landing-grid" id="features">
@@ -162,6 +225,187 @@
   </main>
 
   <script src="{{ url_for('static', filename='js/kavach_ui.js') }}"></script>
+
+  <!-- Kiosk Workflow Carousel Controller -->
+  <script>
+    (function () {
+      const track = document.getElementById('carouselTrack');
+      const viewport = document.getElementById('carouselViewport');
+      const container = document.getElementById('kioskCarouselContainer');
+      const prevBtn = document.getElementById('carouselPrev');
+      const nextBtn = document.getElementById('carouselNext');
+      const dots = Array.from(document.querySelectorAll('.carousel-dot'));
+      const counter = document.getElementById('carouselCounter');
+      const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+      const totalSlides = slides.length;
+      let currentIndex = 0;
+      let autoTimer = null;
+      let isPaused = false;
+
+      const STEP_NAMES = [
+        'Step 1 of 4: Officer Guided Kiosk Approach',
+        'Step 2 of 4: Facial Vector Alignment',
+        'Step 3 of 4: Multi-Credential Surface Scan',
+        'Step 4 of 4: Verified Gate Clearance'
+      ];
+
+      function updateCarousel(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
+
+        // Slide transform
+        track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+
+        // Update Dots
+        dots.forEach((dot, i) => {
+          const isActive = i === currentIndex;
+          dot.classList.toggle('active', isActive);
+          dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        // Update Counter
+        if (counter) {
+          counter.textContent = STEP_NAMES[currentIndex] || ('Step ' + (currentIndex + 1) + ' of ' + totalSlides);
+        }
+      }
+
+      function nextSlide() {
+        updateCarousel(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        updateCarousel(currentIndex - 1);
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetAutoplay(); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetAutoplay(); });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const targetIndex = parseInt(dot.getAttribute('data-index'), 10);
+          updateCarousel(targetIndex);
+          resetAutoplay();
+        });
+      });
+
+      // Keyboard arrow navigation
+      if (container) {
+        container.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') {
+            prevSlide();
+            resetAutoplay();
+          } else if (e.key === 'ArrowRight') {
+            nextSlide();
+            resetAutoplay();
+          }
+        });
+      }
+
+      // Touch Swipe Support
+      let touchStartX = 0;
+      let touchEndX = 0;
+      let isSwiping = false;
+
+      viewport.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        isSwiping = true;
+        pauseAutoplay();
+      }, { passive: true });
+
+      viewport.addEventListener('touchmove', (e) => {
+        if (!isSwiping) return;
+        touchEndX = e.touches[0].clientX;
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', () => {
+        if (!isSwiping) return;
+        isSwiping = false;
+        const deltaX = touchEndX - touchStartX;
+        const threshold = 40;
+        if (Math.abs(deltaX) > threshold) {
+          if (deltaX < 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+        resetAutoplay();
+      });
+
+      // Mouse Drag Support for Desktop
+      let isMouseDown = false;
+      let mouseStartX = 0;
+      let mouseEndX = 0;
+
+      viewport.addEventListener('mousedown', (e) => {
+        isMouseDown = true;
+        mouseStartX = e.clientX;
+        mouseEndX = e.clientX;
+        viewport.classList.add('is-dragging');
+        pauseAutoplay();
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isMouseDown) return;
+        mouseEndX = e.clientX;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        viewport.classList.remove('is-dragging');
+        const deltaX = mouseEndX - mouseStartX;
+        const threshold = 50;
+        if (Math.abs(deltaX) > threshold) {
+          if (deltaX < 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+        resetAutoplay();
+      });
+
+      // Autoplay with Hover Pause
+      function startAutoplay() {
+        stopAutoplay();
+        autoTimer = setInterval(() => {
+          if (!isPaused) {
+            nextSlide();
+          }
+        }, 5200);
+      }
+
+      function stopAutoplay() {
+        if (autoTimer) clearInterval(autoTimer);
+      }
+
+      function pauseAutoplay() {
+        isPaused = true;
+      }
+
+      function resumeAutoplay() {
+        isPaused = false;
+      }
+
+      function resetAutoplay() {
+        stopAutoplay();
+        resumeAutoplay();
+        startAutoplay();
+      }
+
+      if (container) {
+        container.addEventListener('mouseenter', pauseAutoplay);
+        container.addEventListener('mouseleave', resumeAutoplay);
+      }
+
+      // Initialize
+      updateCarousel(0);
+      startAutoplay();
+    })();
+  </script>
+
 </body>
 </html>
 
