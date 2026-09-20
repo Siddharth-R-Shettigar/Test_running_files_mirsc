@@ -334,7 +334,7 @@ def scan_reset():
 
 @app.route("/api/run_case")
 def api_run_case():
-    # UI demo: never block on heavy models
+    # ── FAST UI demo: return immediately without ML ──────────────────────────
     if os.environ.get("KAVACH_FAST_UI", "1").strip() != "0":
         return jsonify(_map_result_ui({
             "risk_level": "REVIEW",
@@ -346,12 +346,16 @@ def api_run_case():
     if not session.get("logged_in"):
         return jsonify({"error": "not logged in"}), 401
 
-    import subprocess
-    import sys
-
     captures = session.get("captures") or {}
-    doc_path = session.get("doc_path") or captures.get("passport")
     face_path = session.get("face_path") or captures.get("face")
+
+    # Document keys to analyse in priority order
+    DOC_KEYS = ["passport", "visa", "national_id", "drivers_license", "border_permit"]
+    available_docs = [
+        (key, captures[key])
+        for key in DOC_KEYS
+        if captures.get(key) and os.path.exists(str(captures[key]))
+    ]
 
     fallback = {
         "risk_level": "REVIEW",
@@ -360,69 +364,221 @@ def api_run_case():
         "detector_signals": [],
     }
 
-    if not doc_path or not os.path.exists(str(doc_path)):
-        fallback["risk_reason"] = "No passport capture found in session."
+    if not available_docs:
+        fallback["risk_reason"] = "No document captures found in session."
         return jsonify(_map_result_ui(fallback))
 
-    # Fast demo mode: set KAVACH_FAST_UI=1 in env to skip heavy models
-    if os.environ.get("KAVACH_FAST_UI", "").strip() == "1":
-        ui = _map_result_ui({
-            "risk_level": "REVIEW",
-            "risk_reason": "Fast UI mode: document captured. Run full engine offline for forensic scores.",
-            "forensic_risk_score": 0.35,
-            "detector_signals": [
-                {"detector_name": "capture_pipeline", "status": "passed", "score": 0.1, "confidence": "high", "explanation": "All scan steps completed."},
-            ],
-            "human_summary": "Captures OK. Full forensics skipped (FAST_UI).",
-        })
-        return jsonify(ui)
+    # ── Run engine for each document and merge signals ────────────────────────
+    os.makedirs("case_logs", exist_ok=True)
+    merged_signals = []
+    merged_risk_scores = []
+    merged_risk_level = "REVIEW"
+    merged_risk_reason = "Automated multi-document screening complete."
 
-    report = None
+    for doc_key, doc_path in available_docs:
+        try:
+            cmd = [sys.executable, "kavach_engine.py", str(doc_path)]
+            if face_path and os.path.exists(str(face_path)):
+                cmd.append(str(face_path))
+
+            proc = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=240,
+                cwd=os.path.dirname(os.path.abspath(__file__)) or ".",
+            )
+
+            safe = os.path.splitext(os.path.basename(str(doc_path)))[0]
+            log_path = os.path.join("case_logs", f"{safe}_report.json")
+
+            doc_report = None
+            if os.path.exists(log_path):
+                with open(log_path, "r", encoding="utf-8") as fh:
+                    doc_report = json.load(fh)
+            elif proc.returncode == 0:
+                out = (proc.stdout or "").strip()
+                start = out.find("{")
+                end = out.rfind("}")
+                if start != -1 and end != -1 and end > start:
+                    doc_report = json.loads(out[start : end + 1])
+
+            if isinstance(doc_report, dict):
+                for sig in (doc_report.get("detector_signals") or []):
+                    if isinstance(sig, dict):
+                        sig = dict(sig)
+                        sig["detector_name"] = f"[{doc_key}] {sig.get('detector_name', 'detector')}"
+                        merged_signals.append(sig)
+
+                score = doc_report.get("forensic_risk_score", 0.5)
+                try:
+                    merged_risk_scores.append(float(score))
+                except (TypeError, ValueError):
+                    merged_risk_scores.append(0.5)
+
+                doc_rl = str(doc_report.get("risk_level", "REVIEW")).upper()
+                if doc_rl in ("HIGH RISK", "HIGH_RISK"):
+                    merged_risk_level = "HIGH RISK"
+                    merged_risk_reason = f"[{doc_key}] {doc_report.get('risk_reason', '')}"
+                elif doc_rl == "REVIEW" and merged_risk_level not in ("HIGH RISK", "HIGH_RISK"):
+                    merged_risk_level = "REVIEW"
+                    if "complete" in merged_risk_reason:
+                        merged_risk_reason = f"[{doc_key}] {doc_report.get('risk_reason', '')}"
+                elif doc_rl in ("PASS", "GENUINE") and merged_risk_level not in ("HIGH RISK", "HIGH_RISK", "REVIEW"):
+                    merged_risk_level = "PASS"
+
+        except subprocess.TimeoutExpired:
+            merged_signals.append({
+                "detector_name": f"[{doc_key}] timeout",
+                "status": "unavailable",
+                "score": 0.5,
+                "confidence": "low",
+                "explanation": f"Engine timed out for {doc_key}.",
+            })
+        except Exception as exc:
+            merged_signals.append({
+                "detector_name": f"[{doc_key}] error",
+                "status": "failed",
+                "score": 0.5,
+                "confidence": "low",
+                "explanation": str(exc)[:200],
+            })
+
+    avg_risk = (sum(merged_risk_scores) / len(merged_risk_scores)) if merged_risk_scores else 0.5
+    merged_report = {
+        "engine": "KAVACH-MULTI",
+        "documents_analysed": [k for k, _ in available_docs],
+        "live_image": os.path.basename(str(face_path)) if face_path else None,
+        "risk_level": merged_risk_level,
+        "risk_reason": merged_risk_reason,
+        "forensic_risk_score": round(avg_risk, 3),
+        "active_detectors_evaluated": len(merged_signals),
+        "detector_signals": merged_signals,
+    }
+
+    # Persist merged report
     try:
-        cmd = [sys.executable, "kavach_engine.py", str(doc_path)]
-        if face_path and os.path.exists(str(face_path)):
-            cmd.append(str(face_path))
+        case_id = f"case_{uuid.uuid4().hex[:12]}"
+        merged_report["case_id"] = case_id
+        merged_log = os.path.join("case_logs", f"{case_id}_report.json")
+        with open(merged_log, "w", encoding="utf-8") as fh:
+            json.dump(merged_report, fh, indent=2, ensure_ascii=False)
+    except Exception:
+        pass
 
-        proc = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=240,
-            cwd=os.path.dirname(os.path.abspath(__file__)) or ".",
-        )
-
-        safe = os.path.splitext(os.path.basename(str(doc_path)))[0]
-        log_path = os.path.join("case_logs", f"{safe}_report.json")
-
-        if os.path.exists(log_path):
-            with open(log_path, "r", encoding="utf-8") as f:
-                report = json.load(f)
-        elif proc.returncode == 0:
-            out = (proc.stdout or "").strip()
-            # engine prints JSON then may print "Saved case log..."
-            start = out.find("{")
-            end = out.rfind("}")
-            if start != -1 and end != -1 and end > start:
-                report = json.loads(out[start : end + 1])
-
-        if not isinstance(report, dict):
-            err = ((proc.stderr or "") + "\n" + (proc.stdout or ""))[-400:]
-            fallback["risk_reason"] = f"Engine did not return a report (code {proc.returncode}). {err}"
-            report = fallback
-
-    except subprocess.TimeoutExpired:
-        fallback["risk_reason"] = "Analysis timed out (4 min). Use FAST_UI or a stronger machine."
-        report = fallback
-    except Exception as e:
-        fallback["risk_reason"] = f"Could not run analysis: {e}"
-        report = fallback
-
-    ui = _map_result_ui(report)
+    ui = _map_result_ui(merged_report)
+    ui["case_id"] = merged_report.get("case_id", "")
     try:
         session["last_result_ui"] = ui
+        session["last_case_id"] = merged_report.get("case_id", "")
     except Exception:
         pass
     return jsonify(ui)
+
+
+# ── GET /api/cases ─────────────────────────────────────────────────────────────
+@app.route("/api/cases")
+def api_cases():
+    """List all case_logs/*_report.json with optional blockchain integrity check."""
+    if not session.get("logged_in"):
+        return jsonify({"error": "not logged in"}), 401
+
+    os.makedirs("case_logs", exist_ok=True)
+    pattern = os.path.join("case_logs", "*_report.json")
+    files = sorted(glob.glob(pattern), key=os.path.getmtime, reverse=True)
+
+    from datetime import datetime as _dt
+    cases_out = []
+    for fpath in files:
+        try:
+            with open(fpath, "r", encoding="utf-8") as fh:
+                rep = json.load(fh)
+        except Exception:
+            continue
+
+        integrity = "unknown"
+        try:
+            from blockchain import get_chain
+            if rep.get("blockchain_anchor") or rep.get("integrity_seal"):
+                result = get_chain().verify_report_hash(rep)
+                integrity = "intact" if result else "tampered"
+        except Exception:
+            integrity = "unknown"
+
+        risk_level = str(rep.get("risk_level") or "REVIEW").upper()
+        if risk_level in ("PASS", "GENUINE"):
+            color, verdict = "green", "CLEARANCE GRANTED"
+        elif risk_level in ("HIGH RISK", "HIGH_RISK"):
+            color, verdict = "red", "CLEARANCE DENIED"
+        else:
+            color, verdict = "yellow", "SECONDARY REVIEW"
+
+        score = rep.get("forensic_risk_score", 0.0)
+        try:
+            score = float(score)
+            risk_pct = round(score * 100 if score <= 1.0 else score, 1)
+        except (TypeError, ValueError):
+            risk_pct = 0.0
+
+        case_id = rep.get("case_id") or os.path.splitext(os.path.basename(fpath))[0]
+        mtime = _dt.utcfromtimestamp(os.path.getmtime(fpath)).strftime("%Y-%m-%d %H:%M")
+
+        cases_out.append({
+            "id": case_id,
+            "name": ", ".join(rep.get("documents_analysed") or [rep.get("file_analyzed") or "Unknown"]),
+            "color": color,
+            "risk": risk_pct,
+            "date": mtime,
+            "officer": session.get("officer_email", "officer@agency.gov.in"),
+            "verdict": verdict,
+            "summary": (rep.get("risk_reason") or "")[:200],
+            "integrity": integrity,
+            "filename": os.path.basename(fpath),
+        })
+
+    return jsonify({"cases": cases_out})
+
+
+# ── GET /api/report/<case_id>.pdf ──────────────────────────────────────────────
+@app.route("/api/report/<case_id>.pdf")
+def api_report_pdf(case_id):
+    """Stream a PDF forensic report for the given case_id."""
+    if not session.get("logged_in"):
+        return jsonify({"error": "not logged in"}), 401
+
+    safe_id = "".join(c for c in case_id if c.isalnum() or c in ("_", "-"))
+    log_path = os.path.join("case_logs", f"{safe_id}_report.json")
+
+    if not os.path.exists(log_path):
+        return jsonify({"error": f"Case {safe_id} not found."}), 404
+
+    try:
+        with open(log_path, "r", encoding="utf-8") as fh:
+            report = json.load(fh)
+    except Exception as exc:
+        return jsonify({"error": f"Could not read report: {exc}"}), 500
+
+    try:
+        from report_generator import generate_case_report_pdf, REPORTLAB_AVAILABLE
+        if not REPORTLAB_AVAILABLE:
+            return jsonify({"error": "reportlab not installed on this server."}), 501
+    except ImportError:
+        return jsonify({"error": "report_generator module not found."}), 501
+
+    import tempfile
+    from flask import send_file
+    try:
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+            tmp_path = tmp.name
+        generate_case_report_pdf(report, tmp_path)
+        return send_file(
+            tmp_path,
+            mimetype="application/pdf",
+            as_attachment=True,
+            download_name=f"kavach_{safe_id}_report.pdf",
+        )
+    except Exception as exc:
+        return jsonify({"error": f"PDF generation failed: {exc}"}), 500
 
 def _warm_models():
     try:

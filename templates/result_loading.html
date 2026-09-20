@@ -280,7 +280,7 @@
     // ── 3. TIMEOUT-SAFE FETCH: CALLS /api/run_case WITH 10S ABORT ────
     async function fetchCaseResult() {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
+      const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minutes
 
       try {
         const res = await fetch('{{ url_for("api_run_case") }}', {
@@ -381,15 +381,22 @@
       phaseScan.hidden = true;
       phaseResult.hidden = false;
 
-      // 7. Wire Download Report
+      // 7. Wire Download Report — PDF if case_id known, else JSON fallback
       btnDownload.onclick = () => {
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `kavach_forensic_report_${Date.now()}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
+        const caseId = data.case_id || '';
+        if (caseId) {
+          // Navigate to PDF download endpoint
+          window.location.href = `/api/report/${encodeURIComponent(caseId)}.pdf`;
+        } else {
+          // Fallback: download raw JSON
+          const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `kavach_forensic_report_${Date.now()}.json`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
       };
     }
 
