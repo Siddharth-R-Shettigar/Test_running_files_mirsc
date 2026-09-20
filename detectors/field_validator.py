@@ -1,16 +1,37 @@
-def validate_document_fields(combined_fields, doc_type):
-    missing = []
-    required = []
-    
-    if doc_type == "passport":
-        required = ["passport_number", "dob"]
-    elif doc_type == "national_id":
-        required = ["dob"]
-        
-    for req in required:
-        if req not in combined_fields or not combined_fields[req]:
-            missing.append(req)
-            
+"""Schema validation of extracted fields."""
+from __future__ import annotations
+from typing import Dict, List
+
+REQUIRED = {
+    "passport": ["passport_number", "dob", "expiry", "surname"],
+    "visa": ["passport_number", "dob"],
+    "national_id": ["dob"],
+    "dl": ["dob"],
+    "unknown": [],
+}
+
+def validate_document_fields(combined_fields: Dict, doc_type: str) -> Dict:
+    doc_type = (doc_type or "unknown").lower()
+    required = REQUIRED.get(doc_type, [])
+    missing: List[str] = []
+
+    for r in required:
+        val = combined_fields.get(r) or combined_fields.get(r.replace("_", ""))
+        if not val:
+            missing.append(r)
+
     if missing:
-        return {"status": "flagged", "score": 0.7, "explanation": f"Missing mandatory schema fields: {', '.join(missing)}"}
-    return {"status": "passed", "score": 0.1, "explanation": "All required document fields are present."}
+        return {
+            "status": "flagged",
+            "score": 0.65,
+            "confidence": "medium",
+            "explanation": f"Missing mandatory fields for {doc_type}: {', '.join(missing)}",
+            "missing": missing,
+        }
+    return {
+        "status": "passed",
+        "score": 0.1,
+        "confidence": "high",
+        "explanation": "All required fields present",
+        "missing": [],
+    }
