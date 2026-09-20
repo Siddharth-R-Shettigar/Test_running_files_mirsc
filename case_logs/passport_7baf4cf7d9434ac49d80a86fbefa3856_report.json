@@ -1,0 +1,20 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport_7baf4cf7d9434ac49d80a86fbefa3856.jpg",
+  "live_image": "face_12010f2e4c1842b28aec96cc63931398.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.0,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 35.4% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "human_summary": "YELLOW | REVIEW | passport_7baf4cf7d9434ac49d80a86fbefa3856.jpg\nWhy: This document requires review because the image clarity is too low, making reliable OCR difficult. A rescan or higher-quality image is recommended.\n\nOfficer checklist:\n[ ] Visually inspect the physical passport for signs of tampering (e.g., altered photo, data page overlays, security features).\n[ ] Manually verify all biographical data on the physical passport against the system entry or declared information.\n[ ] Compare the traveler's face with the passport photo under good lighting.\n[ ] Confirm the passport's validity and ensure it is not expired or reported lost/stolen.\nSignals: clarity_check=failed"
+}

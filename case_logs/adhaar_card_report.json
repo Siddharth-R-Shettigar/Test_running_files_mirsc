@@ -3,62 +3,372 @@
   "file_analyzed": "adhaar_card.jpeg",
   "live_image": null,
   "risk_level": "REVIEW",
-  "risk_reason": "Critical checks not available: ocr_extraction.",
-  "forensic_risk_score": 0.436,
-  "active_detectors_evaluated": 30,
+  "risk_reason": "Combined forensic risk is moderate.",
+  "forensic_risk_score": 0.363,
+  "active_detectors_evaluated": 25,
   "detector_signals": [
     {
-      "detector_name": "clarity_check",
-      "score": 0.083,
-      "confidence": "medium",
-      "explanation": "Image clarity is 91.7% (75-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
-      "status": "passed"
-    },
-    {
       "detector_name": "ocr_extraction",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "No text extracted by any engine",
-      "status": "failed",
-      "fields": [],
-      "mrz_lines": []
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "Extracted 31 tokens. Found 1 MRZ candidates.",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "Government of India",
+          "confidence": 0.978,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "3ITET",
+          "confidence": 0.443,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "ad  13",
+          "confidence": 0.721,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "o",
+          "confidence": 0.605,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Bhushan Diwakar",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "/DOB:05/07/2002",
+          "confidence": 0.985,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "4906 5637 6032",
+          "confidence": 0.996,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "我乐",
+          "confidence": 0.504,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "/Male",
+          "confidence": 0.985,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "T (3,3/",
+          "confidence": 0.604,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "3",
+          "confidence": 0.687,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Aadhaar is proof of identity, not of citizenship",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "or date of birth. It should be used with verification (online",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "authentication or scanning of QR code / offline XML).",
+          "confidence": 0.986,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "4906 5637 6032",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": ",",
+          "confidence": 0.421,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Unique Identification Authority of India",
+          "confidence": 0.989,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "AADHAAR",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "T: /ot faoter faaah, Fote  - 9, ais",
+          "confidence": 0.627,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "et 23",
+          "confidence": 0.773,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "，，-99",
+          "confidence": 0.502,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": ", , 121006",
+          "confidence": 0.888,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Address: S/O Dinesh Diwakar, Flat no - 1,",
+          "confidence": 0.987,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Ground Floor, 1B, Sector-11C, Faridabad",
+          "confidence": 0.994,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "Sector 7, PO:Faridabad Sector 7",
+          "confidence": 0.996,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "DIST:Faridabad, Haryana, 121006",
+          "confidence": 0.985,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "AADHAAR",
+          "confidence": 0.998,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "4906 5637 6032",
+          "confidence": 0.999,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "1947",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "help@uidai.gov.in",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        },
+        {
+          "text": "www.uidai.gov.in",
+          "confidence": 1.0,
+          "bounding_box": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 0,
+            "y2": 0
+          }
+        }
+      ],
+      "mrz_lines": [
+        "GOVERNMENTOFINDIA3ITETAD13OBHUSHANDIWAKARDOB05072002490656376032MALET<333AADHAARISPROOFOFIDENTITYNOTOFCITIZENSHIPORDATEOFBIRTHITSHOULDBEUSEDWITHVERIFICATION<ONLINEAUTHENTICATIONORSCANNINGOFQRCODEOFFLINEXML490656376032UNIQUEIDENTIFICATIONAUTHORITYOFINDIAAADHAARTOTFAOTERFAAAHFOTE<9AISET23<99121006ADDRESSSODINESHDIWAKARFLATNO<1GROUNDFLOOR1BSECTOR<11CFARIDABADSECTOR7POFARIDABADSECTOR7DISTFARIDABADHARYANA121006AADHAAR4906563760321947HELPUIDAIGOVINWWWUIDAIGOVIN"
+      ]
     },
     {
       "detector_name": "document_classifier",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Empty OCR text",
-      "status": "unavailable",
-      "doc_type": "unknown",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as 'aadhaar' (score 0.66). Matched 3 keyword(s). No MRZ required for this document type.",
+      "status": "passed",
+      "doc_type": "aadhaar",
       "needs_mrz": false
     },
     {
       "detector_name": "mrz_parser",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "Document type unknown; MRZ pipeline skipped.",
-      "status": "unavailable"
+      "explanation": "'aadhaar' requires MRZ but could not build two lines from OCR (got 1).",
+      "status": "unavailable",
+      "fields": {},
+      "issues": [
+        "Two MRZ lines are required."
+      ]
     },
     {
       "detector_name": "field_validator",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "explanation": "Skipped; 'aadhaar' needs MRZ but parsing yielded no fields.",
       "status": "unavailable"
     },
     {
       "detector_name": "ocr_mrz_consistency",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "explanation": "Skipped; no MRZ fields to cross-check against.",
       "status": "unavailable"
     },
     {
       "detector_name": "national_id_validator",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
-      "status": "unavailable"
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "Aadhaar number and checksum are valid.",
+      "status": "passed"
     },
     {
       "detector_name": "exiftool",
@@ -160,44 +470,16 @@
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Vision LLM unavailable after key rotation. Last error: No GEMINI API keys configured.",
-      "status": "unavailable"
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "The document appears generally authentic with no obvious signs of a pasted photograph, retyped text, or altered dates. Layout and security features seem consistent with a genuine Aadhaar card.",
+      "status": "passed"
     },
     {
       "detector_name": "photo_patch_forensics",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Photo-patch forensics failed: No module named 'insightface'",
-      "status": "failed"
-    },
-    {
-      "detector_name": "microtext_analysis",
-      "score": 0.25,
-      "confidence": "low",
-      "explanation": "MICROTEXT PRESENT — document likely genuine",
-      "status": "passed"
-    },
-    {
-      "detector_name": "rainbow_gradient",
-      "score": 0.25,
-      "confidence": "low",
-      "explanation": "GENUINE GRADIENT",
-      "status": "passed"
-    },
-    {
-      "detector_name": "guilloche_pattern",
-      "score": 0.0,
-      "confidence": "low",
-      "explanation": "Background frequency energy=9.10, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "hologram_shift",
-      "score": 0.0,
-      "confidence": "low",
-      "explanation": "Single-frame foil proxy (sat_std=43.5, val_std=59.2, hue_std=42.3). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "score": 0.105,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.1.). Resampling score=0.2 (Standard organic pixel continuity verified (metric: 206.55).).",
       "status": "passed"
     },
     {
@@ -222,36 +504,5 @@
       "status": "unavailable"
     }
   ],
-  "rag_context": {
-    "similar_fraud_cases": {
-      "retrieved": true,
-      "similar_cases": [
-        {
-          "source": "original_visa_indian_person_report.json",
-          "similarity": 0.6037,
-          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
-        },
-        {
-          "source": "PAN_Balwin_report.json",
-          "similarity": 0.5826,
-          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"PAN_Balwin.png\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Flagged signals: resampling_interpolation_analysis, frequency_domain_fft.\",\n  \"forensic_risk_score\": 0.272,\n  \"active_detectors_evaluated\": 19,\n  \"fast_path\": true,\n  \"skipped_detectors\": [\n    \"inpainting\",\n    \"hf_vision_transformer\",\n    \"vision_llm_sanity_analysis\",\n    \"photo_patch_forensics\"\n  ],\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\""
-        },
-        {
-          "source": "passport_efbf346ae02b4db28b319ef20c105894_report.json",
-          "similarity": 0.5627,
-          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"passport_efbf346ae02b4db28b319ef20c105894.jpg\",\n  \"live_image\": \"face_d052c76445ba48f89dd1e57660b633f4.jpg\",\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Image clarity too low; rescan recommended.\",\n  \"forensic_risk_score\": 0.0,\n  \"active_detectors_evaluated\": 1,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.5,\n      \"confidence\": \"low\",\n      \"explanation\": \"Image clarity is 45.0% (below 75%). Quality too low fo"
-        }
-      ],
-      "count": 3
-    }
-  },
-  "image_fingerprint": "696345e2669a00ac16879336716f4ae88f0604cf47012be3643b1cd502e6d9a1",
-  "integrity_seal": {
-    "report_hash": "4623f88c303c8bffffbc8495b3266133b83e18fefac135b310eb0c887e067ccb",
-    "signature": "be779deaf65154dec1ad17b7fa86990775c4917863334d8e7b186c826fc64feaf84cd6f84e29e39c90192f096384aea5b685a674210891368c4a8a1c15e982a7e538e582d2307141c47111d3863b73e71886877943271ecb15f2d2959448b3cd78dcc71572bbf3461a29895b31372c9e4e4000d688e377650eaa68c5f36f9d26a84a0aae68bb4034f672dc3d7b3fd6c587115996336a2c68b8fab1a6696d5fbfc69127e4dc76478444435416ae667702fc90463844132a1856340b9b6f2422f5140cd0ad282306d82c3146062ee229fe40372d8a379419c307ad33d197b491ccbdf5d5a506a46a7dede097cc2f113e5d37286890a1737106b5368678cd8c7e3a",
-    "signed_at": "2026-09-19T00:53:19Z",
-    "algorithm": "RSA-PKCS1v15-SHA256",
-    "verified": true
-  },
-  "human_summary": "adhaar_card.jpeg | \u001b[33mNeeds review\u001b[0m | Bayer CFA grid residual ratio computed at 3.11. Lacks physical camera Bayer filter demosaicing signature."
+  "human_summary": "adhaar_card.jpeg | Needs review | Forensic flags for manipulation; live image checks skipped."
 }
