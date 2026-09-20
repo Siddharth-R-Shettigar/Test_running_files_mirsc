@@ -1,0 +1,125 @@
+[
+  {
+    "index": 0,
+    "timestamp": "2026-09-19T06:21:51Z",
+    "data": {
+      "message": "KAVACH Genesis Block",
+      "type": "genesis"
+    },
+    "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "nonce": 0,
+    "hash": "0372d33c02f1faefc85b7a4d4f9d4a33f9252899950e14d41bf960660566bb88"
+  },
+  {
+    "index": 1,
+    "timestamp": "2026-09-19T08:18:50Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "8a7c20ff754e39faa68f57a4dff21ba892588322a5367804012c1b88c10afae3",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-19T08:18:50Z",
+      "file_analyzed": "dataset-cover.jpg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "0372d33c02f1faefc85b7a4d4f9d4a33f9252899950e14d41bf960660566bb88",
+    "nonce": 245,
+    "hash": "00b6b112871b43f96852de0291ca3958ab61849da2c1e247b505d5d7dd6963d4"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-09-19T12:31:50Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "72e22c791c81a40dede5cd0a29faba2e639d9408a02773b5fdcd6ae6a6858f8e",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-19T12:31:50Z",
+      "file_analyzed": "passport_42b821a8deb543549ee09ff5dab23084.png",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00b6b112871b43f96852de0291ca3958ab61849da2c1e247b505d5d7dd6963d4",
+    "nonce": 143,
+    "hash": "002a98d7260b853bb210b08c436b4e344606637bd458852702aaac27d06ccdea"
+  },
+  {
+    "index": 3,
+    "timestamp": "2026-09-19T12:38:13Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "4719d5763eb3912041a6c602536ca10b570874eb3ff3cbcf64e0b96f53dbf7f8",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-19T12:38:13Z",
+      "file_analyzed": "passport_42b821a8deb543549ee09ff5dab23084.png",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "002a98d7260b853bb210b08c436b4e344606637bd458852702aaac27d06ccdea",
+    "nonce": 363,
+    "hash": "005be21ba104bd48bb0273d3692e1ac0fb17cd0cdc308c6f7f6baaae7ccba66e"
+  },
+  {
+    "index": 4,
+    "timestamp": "2026-09-19T12:38:16Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "3f6f8b718942bb49ecb2eef5098d9d7e2de698f2ed4787743777cb2277be082f",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-19T12:38:16Z",
+      "file_analyzed": "passport_42b821a8deb543549ee09ff5dab23084.png",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "005be21ba104bd48bb0273d3692e1ac0fb17cd0cdc308c6f7f6baaae7ccba66e",
+    "nonce": 23,
+    "hash": "00bd589b68b9e9acd517178214b197ba4c02addc7c95b3eb94defff6f064aea9"
+  },
+  {
+    "index": 5,
+    "timestamp": "2026-09-19T12:38:25Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "3dd8551d2a32a9101efdb794b7989ed1f843270ba668e35dbffd8cca9793c608",
+      "case_id": null,
+      "risk_level": "PASS",
+      "anchored_at": "2026-09-19T12:38:25Z",
+      "file_analyzed": "passport_42b821a8deb543549ee09ff5dab23084.png",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00bd589b68b9e9acd517178214b197ba4c02addc7c95b3eb94defff6f064aea9",
+    "nonce": 60,
+    "hash": "0036f3a0e73f433f49556233497adbaf0bc03d99455538a2c272ea952fc8875a"
+  },
+  {
+    "index": 6,
+    "timestamp": "2026-09-19T12:38:33Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "c6ffde822356e43fb71bcd73d94254f3d9ba3cea1a19953d045067720fafe875",
+      "case_id": null,
+      "risk_level": "PASS",
+      "anchored_at": "2026-09-19T12:38:33Z",
+      "file_analyzed": "passport_42b821a8deb543549ee09ff5dab23084.png",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "0036f3a0e73f433f49556233497adbaf0bc03d99455538a2c272ea952fc8875a",
+    "nonce": 34,
+    "hash": "00eb742bc24aaf03a732652ab0cb4320e8278a1200027e4c216de2c18dcf4ce6"
+  },
+  {
+    "index": 7,
+    "timestamp": "2026-09-19T17:32:05Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "7d98b5d724f3329a91ad6bf50bd6f92dda7097c790e70af366527114da402889",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-19T17:32:05Z",
+      "file_analyzed": "adhaar_card.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00eb742bc24aaf03a732652ab0cb4320e8278a1200027e4c216de2c18dcf4ce6",
+    "nonce": 190,
+    "hash": "00b0447916bcca6abd4cef35b605958818be781e1c109dc4575aeef751a70c56"
+  }
+]
