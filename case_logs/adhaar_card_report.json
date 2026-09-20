@@ -6,6 +6,9 @@
   "risk_reason": "Combined forensic risk is moderate.",
   "forensic_risk_score": 0.363,
   "active_detectors_evaluated": 25,
+  "risk_reason": "Critical checks not available: ocr_extraction.",
+  "forensic_risk_score": 0.391,
+  "active_detectors_evaluated": 30,
   "detector_signals": [
     {
       "detector_name": "ocr_extraction",
@@ -372,10 +375,10 @@
     },
     {
       "detector_name": "exiftool",
-      "score": 0.35,
+      "score": 0.5,
       "confidence": "low",
-      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
-      "status": "passed"
+      "explanation": "Could not process metadata: \"exiftool.exe\" is not found, on path or as absolute path",
+      "status": "failed"
     },
     {
       "detector_name": "c2pa",
@@ -483,6 +486,34 @@
       "status": "passed"
     },
     {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "GENUINE GRADIENT",
+      "status": "passed"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=9.10, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=43.5, val_std=59.2, hue_std=42.3). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
       "detector_name": "face_verification",
       "score": 0.5,
       "confidence": "low",
@@ -504,5 +535,48 @@
       "status": "unavailable"
     }
   ],
-  "human_summary": "adhaar_card.jpeg | Needs review | Forensic flags for manipulation; live image checks skipped."
+
+  "human_summary": "adhaar_card.jpeg | Needs review | Forensic flags for manipulation; live image checks skipped.",
+
+  "rag_context": {
+    "similar_fraud_cases": {
+      "retrieved": true,
+      "similar_cases": [
+        {
+          "source": "original_visa_indian_person_report.json",
+          "similarity": 0.6043,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
+        },
+        {
+          "source": "PAN_Balwin_report.json",
+          "similarity": 0.5851,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"PAN_Balwin.png\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Flagged signals: resampling_interpolation_analysis, frequency_domain_fft.\",\n  \"forensic_risk_score\": 0.272,\n  \"active_detectors_evaluated\": 19,\n  \"fast_path\": true,\n  \"skipped_detectors\": [\n    \"inpainting\",\n    \"hf_vision_transformer\",\n    \"vision_llm_sanity_analysis\",\n    \"photo_patch_forensics\"\n  ],\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\""
+        },
+        {
+          "source": "passport_efbf346ae02b4db28b319ef20c105894_report.json",
+          "similarity": 0.5661,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"passport_efbf346ae02b4db28b319ef20c105894.jpg\",\n  \"live_image\": \"face_d052c76445ba48f89dd1e57660b633f4.jpg\",\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Image clarity too low; rescan recommended.\",\n  \"forensic_risk_score\": 0.0,\n  \"active_detectors_evaluated\": 1,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.5,\n      \"confidence\": \"low\",\n      \"explanation\": \"Image clarity is 45.0% (below 75%). Quality too low fo"
+        }
+      ],
+      "count": 3
+    }
+  },
+  "image_fingerprint": "696345e2669a00ac16879336716f4ae88f0604cf47012be3643b1cd502e6d9a1",
+  "integrity_seal": {
+    "report_hash": "7d98b5d724f3329a91ad6bf50bd6f92dda7097c790e70af366527114da402889",
+    "signature": "980737b374a36d9e043abdbd37fc43ba32c9bc7b0ed0269ee0ac4c2b6a8cf07ee35562d24bb280d3efc4c3dc1b7896fc53e15ef110a6ca636e200fbafd51165bf36ee72adf2499ec2e07b96b4a5da9845a64ff49ade9ff6960ce04db2fd15e11158722ee1dc45154946c9a158400d75e72c5176a045f437f7dc0173bba6be5049d21873c6d80b67445306f6f6a7c62199f78f299d23c1d6dc0222eca49a9d075728f7034d55a0b2918e3006c433dc367f244cfe06523e93d595eb9c5ed536b0d5fb4d9df6b005026ac14ff784ca66508aa29fe0d7997513ee5daf7180196b6d77b4340b59178997e571d33916a86e061c6ba85fd6278634a95656f5cfac14f70",
+    "signed_at": "2026-09-19T17:32:05Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 7,
+    "block_hash": "00b0447916bcca6abd4cef35b605958818be781e1c109dc4575aeef751a70c56",
+    "previous_hash": "00eb742bc24aaf03a732652ab0cb4320e8278a1200027e4c216de2c18dcf4ce6",
+    "timestamp": "2026-09-19T17:32:05Z",
+    "report_hash": "7d98b5d724f3329a91ad6bf50bd6f92dda7097c790e70af366527114da402889",
+    "difficulty": 2
+  },
+  "human_summary": "adhaar_card.jpeg | \u001b[33mNeeds review\u001b[0m | Bayer CFA grid residual ratio computed at 3.11. Lacks physical camera Bayer filter demosaicing signature."
+
 }

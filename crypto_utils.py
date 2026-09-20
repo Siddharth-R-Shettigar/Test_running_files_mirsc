@@ -319,3 +319,115 @@ if __name__ == "__main__":
     print("\n4. Signing report...")
     seal = sign_report(test_report)
     print(f"   Signed: {seal['verified']}")
+    # ---------------------------------------------------------------------------
+# Blockchain Anchoring
+# ---------------------------------------------------------------------------
+
+def anchor_report_on_chain(report_dict: dict, case_id: str = None) -> dict:
+    """
+    Create a clean hash of the report and anchor it on the local blockchain.
+    Returns the blockchain receipt.
+    """
+    from blockchain import get_chain
+
+    # Hash the report without previous seals/anchors
+    report_copy = {
+        k: v for k, v in report_dict.items()
+        if k not in ("integrity_seal", "blockchain_anchor")
+    }
+    report_str = json.dumps(report_copy, sort_keys=True, ensure_ascii=False)
+    report_hash = hashlib.sha256(report_str.encode("utf-8")).hexdigest()
+
+    chain = get_chain()
+    receipt = chain.add_report_anchor(
+        report_hash=report_hash,
+        case_id=case_id or report_dict.get("case_id"),
+        risk_level=report_dict.get("risk_level"),
+        extra={
+            "file_analyzed": report_dict.get("file_analyzed"),
+            "engine": report_dict.get("engine", "KAVACH"),
+        },
+    )
+    return receipt
+
+
+def verify_report_on_chain(report_dict: dict) -> dict:
+    """Verify both the RSA signature and the blockchain anchor."""
+    from blockchain import get_chain
+
+    # 1. Existing RSA check
+    rsa_result = verify_report(report_dict)
+
+    # 2. Blockchain check
+    report_copy = {
+        k: v for k, v in report_dict.items()
+        if k not in ("integrity_seal", "blockchain_anchor")
+    }
+    report_str = json.dumps(report_copy, sort_keys=True, ensure_ascii=False)
+    report_hash = hashlib.sha256(report_str.encode("utf-8")).hexdigest()
+
+    chain_result = get_chain().verify_report_hash(report_hash)
+
+    return {
+        "rsa_valid": rsa_result.get("valid", False),
+        "blockchain_valid": chain_result.get("valid", False),
+        "rsa_details": rsa_result,
+        "blockchain_details": chain_result,
+        "overall_valid": rsa_result.get("valid", False) and chain_result.get("valid", False),
+    }
+# ---------------------------------------------------------------------------
+# Blockchain Anchoring
+# ---------------------------------------------------------------------------
+
+def anchor_report_on_chain(report_dict, case_id=None):
+    """
+    Create a clean hash of the report and anchor it on the local blockchain.
+    Returns the blockchain receipt.
+    """
+    from blockchain import get_chain
+
+    # Hash the report without previous seals/anchors
+    report_copy = {
+        k: v for k, v in report_dict.items()
+        if k not in ("integrity_seal", "blockchain_anchor")
+    }
+    report_str = json.dumps(report_copy, sort_keys=True, ensure_ascii=False)
+    report_hash = hashlib.sha256(report_str.encode("utf-8")).hexdigest()
+
+    chain = get_chain()
+    receipt = chain.add_report_anchor(
+        report_hash=report_hash,
+        case_id=case_id or report_dict.get("case_id"),
+        risk_level=report_dict.get("risk_level"),
+        extra={
+            "file_analyzed": report_dict.get("file_analyzed"),
+            "engine": report_dict.get("engine", "KAVACH"),
+        },
+    )
+    return receipt
+
+
+def verify_report_on_chain(report_dict):
+    """Verify both the RSA signature and the blockchain anchor."""
+    from blockchain import get_chain
+
+    # 1. Existing RSA check
+    rsa_result = verify_report(report_dict)
+
+    # 2. Blockchain check
+    report_copy = {
+        k: v for k, v in report_dict.items()
+        if k not in ("integrity_seal", "blockchain_anchor")
+    }
+    report_str = json.dumps(report_copy, sort_keys=True, ensure_ascii=False)
+    report_hash = hashlib.sha256(report_str.encode("utf-8")).hexdigest()
+
+    chain_result = get_chain().verify_report_hash(report_hash)
+
+    return {
+        "rsa_valid": rsa_result.get("valid", False),
+        "blockchain_valid": chain_result.get("valid", False),
+        "rsa_details": rsa_result,
+        "blockchain_details": chain_result,
+        "overall_valid": rsa_result.get("valid", False) and chain_result.get("valid", False),
+    }

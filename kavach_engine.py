@@ -711,11 +711,27 @@ def analyze_media(image_path, live_image_path=None):
         "rag_context": rag_context,
         "image_fingerprint": image_hash,
     }
+
     if CRYPTO_AVAILABLE:
-        report["integrity_seal"] = sign_report(report)
+        # 1. Sign the report
+        try:
+            report["integrity_seal"] = sign_report(report)
+        except Exception as e:
+            print(f"[WARNING] Report signing failed: {e}", file=sys.stderr)
+
+        # 2. Anchor on blockchain
+        try:
+            from crypto_utils import anchor_report_on_chain
+            blockchain_receipt = anchor_report_on_chain(report)
+            report["blockchain_anchor"] = blockchain_receipt
+            print(
+                f"[BLOCKCHAIN] Anchored at block #{blockchain_receipt.get('block_index')}",
+                file=sys.stderr,
+            )
+        except Exception as e:
+            print(f"[WARNING] Blockchain anchoring failed: {e}", file=sys.stderr)
 
     return report
-
 
 
 def analyze_file(path, live_image_path=None):

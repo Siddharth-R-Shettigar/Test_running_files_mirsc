@@ -1,32 +1,47 @@
-import chromadb
+"""
+KAVACH RAG Indexer
+Indexes:
+  1. case_logs/          → fraud_patterns collection
+  2. Hard-coded standards → document_standards collection
+  3. knowledge_base/     → document_standards collection (PDFs, TXT, MD, JSON)
+"""
+
 import json
 import os
+from pathlib import Path
+
+import chromadb
 from sentence_transformers import SentenceTransformer
 
-# Initialize
+# ---------------------------------------------------------------------------
+# Init
+# ---------------------------------------------------------------------------
 client = chromadb.PersistentClient(path="./data/rag")
-model = SentenceTransformer('all-MiniLM-L6-v2')
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# Create collections
 fraud_collection = client.get_or_create_collection("fraud_patterns")
 standards_collection = client.get_or_create_collection("document_standards")
 
-def index_case_logs():
-    logs_dir = "./case_logs"
-    if not os.path.exists(logs_dir):
-        print("No case_logs folder found.")
+
+# ---------------------------------------------------------------------------
+# 1. Case logs (fraud patterns)
+# ---------------------------------------------------------------------------
+def index_case_logs(logs_dir: str = "./case_logs"):
+    if not os.path.isdir(logs_dir):
+        print(f"No case_logs folder found at {logs_dir}")
         return
 
-    files = [f for f in os.listdir(logs_dir) if f.endswith('.json')]
+    files = [f for f in os.listdir(logs_dir) if f.endswith(".json")]
     print(f"Indexing {len(files)} case logs...")
 
-    for i, filename in enumerate(files):
+    for filename in files:
         filepath = os.path.join(logs_dir, filename)
-        with open(filepath, 'r') as f:
-            try:
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            except:
-                continue
+        except Exception as e:
+            print(f"  Skipped {filename}: {e}")
+            continue
 
         text = json.dumps(data, indent=2)
         embedding = model.encode(text).tolist()
@@ -35,12 +50,16 @@ def index_case_logs():
             ids=[filename],
             embeddings=[embedding],
             documents=[text],
-            metadatas=[{"source": filename}]
+            metadatas=[{"source": filename, "type": "case_log"}],
         )
         print(f"  Indexed: {filename}")
 
     print(f"Done. {len(files)} fraud patterns indexed.")
 
+
+# ---------------------------------------------------------------------------
+# 2. Hard-coded document standards
+# ---------------------------------------------------------------------------
 def index_document_standards():
     standards = [
         {
@@ -52,7 +71,7 @@ def index_document_standards():
             - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue
             - Valid expiry: 10 years from issue for adults, 5 years for minors
             - Passport number format: alphanumeric, starts with letter, 8 chars total
-            - Security features: UV reactive ink, hologram, microtext, laser perforation"""
+            - Security features: UV reactive ink, hologram, microtext, laser perforation""",
         },
         {
             "id": "indian_pan",
@@ -62,7 +81,7 @@ def index_document_standards():
             - 5th character is first letter of surname for individuals
             - Fields: Name, Father's Name, Date of Birth, PAN Number, Signature
             - Issuing authority: Income Tax Department of India
-            - Card dimensions: 85.6mm x 53.98mm (standard credit card size)"""
+            - Card dimensions: 85.6mm x 53.98mm (standard credit card size)""",
         },
         {
             "id": "indian_aadhaar",
@@ -74,7 +93,7 @@ def index_document_standards():
             - QR Code contains: name, gender, DOB, address (encrypted)
             - VID (Virtual ID): 16 digit temporary ID
             - Format on card: XXXX XXXX XXXX (groups of 4)
-            - Issuing authority: UIDAI (Unique Identification Authority of India)"""
+            - Issuing authority: UIDAI (Unique Identification Authority of India)""",
         },
         {
             "id": "us_passport",
@@ -84,7 +103,7 @@ def index_document_standards():
             - Passport number: 9 alphanumeric characters
             - Fields: Surname, Given Names, Nationality (USA), Date of Birth, Sex, Place of Birth, Issue Date, Expiry Date, Passport Number
             - Valid expiry: 10 years for adults (16+), 5 years for minors
-            - Security features: holographic laminate, UV ink, RFID chip (ePassport), laser engraved photo"""
+            - Security features: holographic laminate, UV ink, RFID chip (ePassport), laser engraved photo""",
         },
         {
             "id": "schengen_visa",
@@ -96,18 +115,18 @@ def index_document_standards():
             - Holographic kinegram with EU stars
             - Color shifting ink on visa number
             - Microtext on borders
-            - Countries: 26 Schengen member states"""
+            - Countries: 26 Schengen member states""",
         },
         {
             "id": "mrz_check_digits",
             "text": """MRZ Check Digit Algorithm (ICAO Doc 9303):
-            - Character values: A=10, B=11...Z=35, 0-9=face value, <  =0
+            - Character values: A=10, B=11...Z=35, 0-9=face value, < =0
             - Weights: 7, 3, 1 repeating
             - Multiply each character value by its weight
             - Sum all products
             - Check digit = sum modulo 10
             - Applied to: passport number, date of birth, expiry date, personal number, composite (line 2 chars 1-43)
-            - Filler character < has value 0"""
+            - Filler character < has value 0""",
         },
         {
             "id": "document_security_features",
@@ -121,27 +140,100 @@ def index_document_standards():
             - Security threads: metallic strips woven through paper
             - Watermarks: visible when held to light
             - Intaglio printing: raised ink texture, tactile feel
-            - RFID chip: biometric data in ePassports (ICAO 9303 Part 9)"""
-        }
+            - RFID chip: biometric data in ePassports (ICAO 9303 Part 9)""",
+        },
     ]
 
     print(f"Indexing {len(standards)} document standards...")
 
     for standard in standards:
-        embedding = model.encode(standard['text']).tolist()
+        embedding = model.encode(standard["text"]).tolist()
         standards_collection.upsert(
-            ids=[standard['id']],
+            ids=[standard["id"]],
             embeddings=[embedding],
-            documents=[standard['text']],
-            metadatas=[{"type": standard['id']}]
+            documents=[standard["text"]],
+            metadatas=[{"type": standard["id"], "source": "hardcoded"}],
         )
         print(f"  Indexed: {standard['id']}")
 
     print(f"Done. {len(standards)} standards indexed.")
 
+
+# ---------------------------------------------------------------------------
+# 3. knowledge_base/ folder (your new docs, PDFs, etc.)
+# ---------------------------------------------------------------------------
+def index_knowledge_base(kb_dir: str = "./knowledge_base"):
+    """
+    Indexes every .txt / .md / .json / .pdf found inside knowledge_base/
+    into the document_standards collection.
+    """
+    kb_path = Path(kb_dir)
+    if not kb_path.is_dir():
+        print(f"No knowledge_base folder found at {kb_dir}")
+        print("Create it and drop your PDFs / docs inside, then re-run.")
+        return
+
+    # Optional PDF support
+    try:
+        import fitz  # PyMuPDF
+        has_pdf = True
+    except ImportError:
+        has_pdf = False
+        print("PyMuPDF not installed → PDF files will be skipped.")
+        print("Install with:  pip install PyMuPDF")
+
+    docs = []
+    for p in kb_path.rglob("*"):
+        if not p.is_file():
+            continue
+
+        suffix = p.suffix.lower()
+        try:
+            if suffix in {".txt", ".md"}:
+                text = p.read_text(encoding="utf-8", errors="ignore")
+                docs.append((p.name, text))
+            elif suffix == ".json":
+                data = json.loads(p.read_text(encoding="utf-8", errors="ignore"))
+                text = json.dumps(data, indent=2)
+                docs.append((p.name, text))
+            elif suffix == ".pdf" and has_pdf:
+                doc = fitz.open(p)
+                text = "\n".join(page.get_text() for page in doc)
+                docs.append((p.name, text))
+        except Exception as e:
+            print(f"  Failed to read {p.name}: {e}")
+
+    print(f"Indexing {len(docs)} files from knowledge_base/...")
+
+    for name, text in docs:
+        if len(text.strip()) < 40:
+            print(f"  Skipped {name} (too short)")
+            continue
+
+        # Truncate very long documents so embeddings stay reasonable
+        chunk = text[:12000]
+        embedding = model.encode(chunk).tolist()
+
+        standards_collection.upsert(
+            ids=[f"kb_{name}"],
+            embeddings=[embedding],
+            documents=[chunk],
+            metadatas=[{"source": name, "type": "knowledge_base"}],
+        )
+        print(f"  Indexed: {name}")
+
+    print(f"Done. {len(docs)} knowledge_base documents indexed.")
+
+
+# ---------------------------------------------------------------------------
+# CLI entry point
+# ---------------------------------------------------------------------------
 if __name__ == "__main__":
     print("KAVACH RAG INDEXER")
-    print("==================")
+    print("=" * 40)
     index_document_standards()
+    print()
     index_case_logs()
-    print("\nAll done. RAG knowledge base ready.")
+    print()
+    index_knowledge_base()
+    print("\nAll done. RAG knowledge base is ready.")
