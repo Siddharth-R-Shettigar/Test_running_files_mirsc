@@ -547,9 +547,16 @@ def api_report_pdf(case_id):
         return jsonify({"error": "not logged in"}), 401
 
     safe_id = "".join(c for c in case_id if c.isalnum() or c in ("_", "-"))
-    log_path = os.path.join("case_logs", f"{safe_id}_report.json")
+    candidates = [
+        os.path.join("case_logs", f"{safe_id}_report.json"),
+        os.path.join("case_logs", f"{safe_id}.json"),
+    ]
+    if safe_id.endswith("_report"):
+        candidates.insert(0, os.path.join("case_logs", f"{safe_id}.json"))
 
-    if not os.path.exists(log_path):
+    log_path = next((path for path in candidates if os.path.exists(path)), None)
+
+    if not log_path:
         return jsonify({"error": f"Case {safe_id} not found."}), 404
 
     try:

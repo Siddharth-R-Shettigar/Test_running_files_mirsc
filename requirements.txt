@@ -16,3 +16,4 @@ pyzbar
 paddleocr
 flask
 groq
+reportlab

@@ -145,7 +145,7 @@
               <h3>Officer Verification Protocol</h3>
               <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">MANDATORY REVIEW</span>
             </div>
-            <ul class="checklist-items" id="checklistContainer">
+            <ul class="checklist-items" id="checklistEl">
               <!-- Dynamically populated checklist -->
             </ul>
           </div>
@@ -359,7 +359,7 @@
       whyEl.textContent = data.why || 'Verification complete.';
 
       // 5. Build Checklist Items
-      checklistContainer.innerHTML = '';
+      checklistEl.innerHTML = '';
       const items = data.checklist && data.checklist.length ? data.checklist : [
         'Compare document photo to the person present',
         'Re-check MRZ check digits and printed fields',
@@ -374,7 +374,7 @@
           <input type="checkbox" id="chk-${idx}">
           <label for="chk-${idx}" style="cursor: pointer; flex: 1;">${itemText}</label>
         `;
-        checklistContainer.appendChild(li);
+        checklistEl.appendChild(li);
       });
 
       // 6. Switch Phases
