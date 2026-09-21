@@ -336,7 +336,6 @@ def scan_reset():
 def api_run_case():
     # ── FAST UI demo: return immediately without ML ──────────────────────────
     if os.environ.get("KAVACH_FAST_UI", "1").strip() != "0":
-        import uuid
         case_id = f"case_{uuid.uuid4().hex[:12]}"
         demo_report = {
             "engine": "KAVACH-FAST-UI",
@@ -344,16 +343,8 @@ def api_run_case():
             "risk_level": "REVIEW",
             "risk_reason": "Manual check recommended (demo mode).",
             "forensic_risk_score": 0.46,
-            "detector_signals": [
-                {
-                    "detector_name": "capture_pipeline",
-                    "status": "passed",
-                    "score": 0.1,
-                    "confidence": "high",
-                    "explanation": "Demo path: full ML skipped (KAVACH_FAST_UI=1).",
-                }
-            ],
-            "human_summary": "Demo screening complete. Run with KAVACH_FAST_UI=0 for full forensics.",
+            "detector_signals": [],
+            "human_summary": "Demo screening complete.",
             "documents_analysed": ["demo"],
         }
         os.makedirs("case_logs", exist_ok=True)
@@ -362,8 +353,11 @@ def api_run_case():
 
         ui = _map_result_ui(demo_report)
         ui["case_id"] = case_id
-        session["last_case_id"] = case_id
-        session["last_result_ui"] = ui
+        try:
+            session["last_case_id"] = case_id
+            session["last_result_ui"] = ui
+        except Exception:
+            pass
         return jsonify(ui)
 
     if not session.get("logged_in"):
