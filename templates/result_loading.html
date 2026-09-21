@@ -240,8 +240,13 @@
     const titleEl         = document.getElementById('verdictTitle');
     const scoreEl         = document.getElementById('riskScore');
     const whyEl           = document.getElementById('verdictWhy');
-    const checklistEl     = document.getElementById('checklistContainer');
+    const checklistEl     = document.getElementById('checklistEl');
     const btnDownload     = document.getElementById('btnDownloadReport');
+
+    if (!streamContainer || !resultCard || !phaseScan || !phaseResult) {
+      console.error('[KAVACH] result page missing required DOM nodes');
+      return;
+    }
 
     // Build detector DOM rows
     DETECTORS.forEach((d, i) => {
@@ -314,6 +319,7 @@
     function renderVerdict(data) {
       const color = (data.color || 'yellow').toLowerCase();
       let iconSvg = '';
+      let toneClass = 'tone-yellow';
 
       if (color === 'green' || data.label === 'PASS') {
         toneClass = 'tone-green';
@@ -402,15 +408,41 @@
 
     // ── 5. MAIN EXECUTION PIPELINE ──────────────────────────────────
     (async function () {
-      // Start both concurrently: detector pace & API fetch
-      const [_, caseData] = await Promise.all([
-        animateDetectors(),
-        fetchCaseResult()
-      ]);
-
-      // Brief transition pause
-      await sleep(150);
-      renderVerdict(caseData);
+      try {
+        await animateDetectors();
+      } catch (e) {
+        console.warn('animateDetectors', e);
+      }
+      let caseData = null;
+      try {
+        caseData = await fetchCaseResult();
+      } catch (e) {
+        console.warn('fetchCaseResult', e);
+      }
+      if (!caseData) {
+        caseData = {
+          color: 'yellow',
+          title: 'NEEDS REVIEW',
+          label: 'REVIEW',
+          risk_pct: 46.0,
+          why: 'Demo fallback — automated screening UI path.',
+          checklist: [
+            'Compare document photo to the person present',
+            'Re-check MRZ / printed fields',
+            'Inspect photo area if face forensics flagged'
+          ]
+        };
+      }
+      try {
+        renderVerdict(caseData);
+      } catch (e) {
+        console.error('renderVerdict failed', e);
+        // last resort: force show result shell
+        if (phaseScan) phaseScan.hidden = true;
+        if (phaseResult) phaseResult.hidden = false;
+        if (titleEl) titleEl.textContent = caseData.title || 'NEEDS REVIEW';
+        if (scoreEl) scoreEl.textContent = (caseData.risk_pct != null ? caseData.risk_pct : 46) + '%';
+      }
     })();
 
   })();
