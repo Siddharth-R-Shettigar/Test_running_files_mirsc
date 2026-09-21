@@ -753,7 +753,7 @@ if __name__ == "__main__":
     except Exception as e:
         report["human_summary"] = f"(AI summary unavailable: {e})"
 
-    print(json.dumps(report, indent=2))
+    print(json.dumps(report, indent=2,ensure_ascii=False))
 
     os.makedirs("case_logs", exist_ok=True)
     safe_name = os.path.splitext(os.path.basename(target))[0]
