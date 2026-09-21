@@ -3,189 +3,118 @@
   "file_analyzed": "PAN.jpeg",
   "live_image": null,
   "risk_level": "REVIEW",
-  "risk_reason": "Critical checks not available: mrz_parser, ocr_mrz_consistency.",
-  "forensic_risk_score": 0.357,
-  "active_detectors_evaluated": 25,
+  "risk_reason": "Combined forensic risk is moderate.",
+  "forensic_risk_score": 0.379,
+  "active_detectors_evaluated": 30,
   "detector_signals": [
     {
+      "detector_name": "clarity_check",
+      "score": 0.22,
+      "confidence": "medium",
+      "explanation": "Image clarity is 78.0% (75-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
       "detector_name": "ocr_extraction",
-      "score": 0.0,
+      "score": 0.25,
       "confidence": "high",
-      "explanation": "Extracted 13 tokens. Found 0 MRZ candidates.",
+      "explanation": "Hybrid OCR completed",
       "status": "passed",
       "fields": [
         {
-          "text": "3TRa",
-          "confidence": 0.7,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
+          "text": "आयकर विभाग",
+          "confidence": 0.92,
+          "source": "qwen"
         },
         {
-          "text": "ParHTST",
-          "confidence": 0.796,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "RAR",
-          "confidence": 0.393,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "INCOMETAX DEPARTMENT",
-          "confidence": 0.977,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "GOVT. OF INDIA",
-          "confidence": 0.953,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
+          "text": "INCOME TAX DEPARTMENT",
+          "confidence": 0.92,
+          "source": "qwen"
         },
         {
           "text": "D MANIKANDAN",
-          "confidence": 0.997,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
+          "confidence": 0.92,
+          "source": "qwen"
         },
         {
           "text": "DURAISAMY",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
+          "confidence": 0.92,
+          "source": "qwen"
         },
         {
           "text": "16/07/1986",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
+          "confidence": 0.92,
+          "source": "qwen"
         },
         {
           "text": "Permanent Account Number",
-          "confidence": 0.98,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
+          "confidence": 0.92,
+          "source": "qwen"
         },
         {
           "text": "BNZPM2501F",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "D. manickamabr",
-          "confidence": 0.863,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
-        },
-        {
-          "text": "0408011",
-          "confidence": 0.947,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
+          "confidence": 0.92,
+          "source": "qwen"
         },
         {
           "text": "Signature",
-          "confidence": 1.0,
-          "bounding_box": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 0,
-            "y2": 0
-          }
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "भारत सरकार",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "GOVT. OF INDIA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "04082011",
+          "confidence": 0.92,
+          "source": "qwen"
         }
       ],
       "mrz_lines": []
     },
     {
-      "detector_name": "mrz_parser",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Could not build two MRZ lines from OCR (got 0: []).",
-      "status": "unavailable",
-      "fields": {},
-      "issues": [
-        "Two MRZ lines are required."
-      ]
-    },
-    {
       "detector_name": "document_classifier",
       "score": 0.25,
       "confidence": "medium",
-      "explanation": "Classified as 'pan' (score 0.44). Matched 2 keyword(s).",
+      "explanation": "Classified as pan (score=4.0)",
       "status": "passed",
-      "doc_type": "pan"
+      "doc_type": "national_id",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
     },
     {
       "detector_name": "field_validator",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "Skipped; no MRZ fields available.",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
       "status": "unavailable"
     },
     {
       "detector_name": "ocr_mrz_consistency",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "Skipped; need OCR fields + MRZ fields.",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
       "status": "unavailable"
     },
     {
       "detector_name": "national_id_validator",
-      "score": 0.0,
-      "confidence": "high",
-      "explanation": "PAN format is valid. Taxpayer type: 'P'.",
-      "status": "passed"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "validate_national_id() takes 1 positional argument but 2 were given",
+      "status": "failed"
     },
     {
       "detector_name": "exiftool",
@@ -287,17 +216,45 @@
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.1,
-      "confidence": "high",
-      "explanation": "The document appears generally authentic with consistent layout, text, and security features. There are no clear signs of a replaced photograph, retyped text, or altered dates.",
-      "status": "passed"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No GEMINI API keys configured.",
+      "status": "unavailable"
     },
     {
       "detector_name": "photo_patch_forensics",
-      "score": 0.41,
-      "confidence": "high",
-      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.24.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 732.67). Image shows signs of).",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Photo-patch forensics failed: No module named 'insightface'",
+      "status": "failed"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
       "status": "flagged"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=8.05, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=42.4, val_std=48.6, hue_std=24.5). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
     },
     {
       "detector_name": "face_verification",
@@ -321,5 +278,73 @@
       "status": "unavailable"
     }
   ],
-  "human_summary": "The KAVACH system recommends a **REVIEW** for this identity document. Crucial checks, such as parsing the Machine Readable Zone (MRZ) and verifying consistency between MRZ and OCR fields, could not be performed because an MRZ was not detected. Furthermore, forensic analysis detected multiple anomalies, including signs of AI upscaling or non-native resampling, unusual image compression, and high-frequency grid noise, which suggest potential image manipulation. Please note that face verification and liveness checks were skipped because no live image was provided for comparison."
+  "rag_context": {
+    "document_standards": {
+      "retrieved": true,
+      "standards": [
+        {
+          "type": "us_passport",
+          "similarity": 0.0842,
+          "content": "US Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<USA followed by surname<<given names\n            - Passport number: 9 alphanumeric characters\n            - Fields: Surname, Given Names, Nationality (USA), Date of Birth, Sex, Place of Birth, Issue Date, Expiry Date, Passport Number\n            - Valid expiry: 10 years for adults (16+), 5 years for minors\n            - Security features: holographic laminate, UV ink, RFID chip (ePassport), laser engraved photo"
+        },
+        {
+          "type": "indian_passport",
+          "similarity": -0.002,
+          "content": "Indian Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<IND followed by surname<<given names\n            - MRZ Line 2: passport number (9 chars) + check digit + IND + DOB (YYMMDD) + check digit + sex + expiry (YYMMDD) + check digit + personal number + check digit + composite check digit\n            - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue\n            - Valid expiry: 10 years from issue for adults, 5 years for minors\n            - Passport number format: alphanumeric, starts with letter, 8 chars total\n            - Security features: UV reactive ink, hologram, microtext, laser perforation"
+        }
+      ],
+      "count": 2
+    },
+    "expected_security_features": {
+      "retrieved": true,
+      "expected_features": [
+        {
+          "type": "document_security_features",
+          "content": "Common Document Security Features:\n            - UV fluorescent ink: glows under 365nm UV light\n            - Microtext: text smaller than 0.2mm, blurs when photocopied\n            - Guilloché patterns: complex geometric backgrounds, create Moiré when copied\n            - Rainbow printing: smooth color gradient, impossible on CMYK printers\n            - Hologram: kinegram that shifts color and pattern when tilted\n            - Laser perforation: holes through all pages, conical shape\n            - Security threads: metallic strips woven through paper\n            - Watermarks: visible when held to light\n            - Intaglio printing: raised ink texture, tactile feel\n            - RFID chip: biometric data in ePassports (ICAO 9303 Part 9)"
+        },
+        {
+          "type": "knowledge_base",
+          "content": "“FORM 7\n[Refer rule 16(1) and (2)]\nFORM FOR DRIVING LICENCE (LAMINATED CARD WITHOUT CHIP OR\nSMART CARD) VISUAL INSPECTION ZONE\nA.\nThe design of the card on the front side shall include the following data fields\nin visual form—\nB.\nThe design of the card on the reverse side shall include the following data fields\nin visual form—\n1.\nThe details of the features on the card shall be as under, namely:—\nA.\nFor front side:\n\nB.\nFor reverse side\n2.\nSpecifications.—\n(a) Card Size - 85.6mm x 54.02 mm +/- 2 mm; Thickness minimum 0.7 mm\n(i)\nCard in the form of either laminated card type without chip; or as\nper the defined template in the form of ICC (Integrated Circuit Card)\ncompliant to ISO/IEC 7816-Part 1, 2, 3, 4, 8 and 9, IS16695 (Part 1:\n2018) Smart Card Template Architecture Part 1: Basic Command\nSet (commonly known as SCOSTA Contact Smart Card);\n(ii)\nPICC (Proximity Integrated Circuit Card), if provided, compliant to\nISO/IEC 14443-Part 1, 2, 3 and 4, ISO/IEC 7816-Part 4, 8 and 9,\nIS16695 (Part 1: 2018) Smart Card Template Architecture Part 1: Basic\nCommand Set (commonly known as SCOSTA Contactless Smart\nCard), with card dimensions compliant to ISO/IEC 7810 ID-1\nstandard.\n(b) Font Style and Size specifications\nFront Side\nReverse Side\nSr.\nFeatures\nFont Name\nSize\nSr.\nFeatures\nFont Name\nSize\nNo.\nNo.\n1.\nState/UT\nMyriad Pro\n7 pt\n1.\nDriving\nMyriad\n8 pt\nCode\nRegular\nLicence\nPro\nNumber\nBold\n2.\nNational\nSymbol\n7.37 mm x\n2.\nQR code\nNA\n15 mm x\nEmblem\n12.28 mm\n(As specified\n15 mm\nby Central\nGovernment)\n3.\nCard Header\nMyriad Pro\n9 pt\n3.\nInvalid\nMyriad Pro\n7 pt\nBold\nCarriage#\nRegular\n(Regn.\nNumbers)\n4.\nDriving\nMyriad Pro\n9 pt\n4.\nHazardous\nMyriad Pro\n9 pt\nLicence\nBold\nValidity#\nRegular\nNumber\n\n5.\nIC Chip\nNA\nNA\n5.\nHill Validity#\nMyriad Pro\n7 pt\n(if opted for)\nRegular\n6.\nIssue Date\nMyriad\n7 pt\n6.\nVehicle class\nMyriad Pro\n5 pt\nPro\ntable (Class of Regular\nRegular\nVehicle, Code,\nIssued by,\nDate of Issue,\nVehicle\nCategory,\nBadge\nNumber#,\nBadge Issued\nDate#, Badge\nIssued by#)\n7.\nValidity (NT) Myriad Pro\n7 pt\n7.\nEmergency\nMyriad Pro\n6 pt\nRegular\nContact\nRegular\nNumber\n8.\nValidity (TR)# Myriad Pro\n7 pt\n8.\nLicensing\nMyriad Pro\n6 pt\nRegular\nAuthority\nRegular\n9.\nName\nMyriad Pro\n7 pt\n9.\nForm 7\nMyriad Pro\n6 pt\nRegular\nRule 16(2)\nRegular\n10.\nDate of Birth\nMyriad Pro\n7 pt\nRegular\n11.\nBlood Group\nMyriad Pro\n7 pt\nRegular\n12.\nOrgan Donor\nMyriad Pro\n7 pt\nRegular\n13.\nSon/\nMyriad Pro\n7 pt\nDaughter/\nRegular\nWife of\n14.\nAddress\nMyriad Pro\n7 pt\nRegular\n15.\nDate of First\nMyriad Pro\n6 pt\nIssue\nRegular\n16.\nHolder’s\nMyriad Pro\n5 pt\nSignature\nRegular\n17.\nPhotograph\nNA\n14.82 mm x\n14.82 mm\n# :\nBoth Label and Value would be blank in cases where they are not applicable\nor have not been opted for\n\n(c)\nBackground Colour Details\nFront Side\nReverse Side\nSr.\nHex Code\nPrint colour\nSr.\nHex Code\nPrint colour\nNo.\nNo.\nC1.\n#f8951d\nC: 0 M: 49 Y: 100 K:0\nC1. #ddf1fa\nC:12 M: 1 Y:1 K:0\nC2.\nGradient\nGradient\nC2. Gradient\nGradient\nColour\nColoor\nColour\nColour\nTop:\nTop:\nTop:\nTop:\n#e7f5f5\nC:8 M: 0 Y:3 K:0\n#e7f5f5\nC:8 M: 0 Y:3 K:0\nBottom:\nBottom:\nBottom:\nBottom:\n#a3daf7\nC:33 M:1 Y:0 K:0\n#a3daf7\nC:33 M:1 Y:0 K:0\nC3.\n#edf8fc\nC:6 M: 0 Y:1 K:0\nC3. #edf8fc\nC:6 M: 0 Y:1 K:0\nMACHINE READABLE ZONE (applicable only if opted for Smart Card)\nThe concerned State Governments shall provide the following features of the licence\nin the Machine Readable Zone, namely:—\nSr. No.\nField\n1.\nDL Holder Personal Details :\nDriving Licence Number (DL)\nName of the DL Holder\nFull Name of the DL Holder\nGender\nGuardian (Mother/Father/Husband) Name\nRelation with Guardian (e.g.: S/o, W/o , D/o)\nDate of Birth (in ddmmyyyy format)\nFirst Identification Mark\nSecond Identification Mark\nBlood Group\nMobile Number\nEmail Id\nAlternate Mobile Number\nEmergency Contact Number\nPermanent Address\nPINCODE of Permanent Address\nState Code In Permanent Address\nDistrict Name in Permanent Address\nSub-division/Taluk name in Permanent Address\nVillage Name in Permanent address\n\nPresent Address\nState Code in Present address\nPINCODE of Present address\nDistrict Name in present Address\nSub-division/Taluk Name in present Address\nVillage Name in Present address\n2.\nLicence details :\nValid From (Transport) (in ddmmyyyy format)\nValid Till (Transport) (in ddmmyyyy format)\nValid From (Non-Transport) (in ddmmyyyy format)\nValid From (Non-Transport) (in ddmmyyyy format)\nFirst Date of DL Issuance (in ddmmyyyy format)\nFirst (Original) Issuing Authority\nDate of Hazardous Validity (in ddmmyyyy format)\nDate of Hill Region validity (in ddmmyyyy format)\nAuthority who issued Transport Authorization\nTransport Authorization Number\nTransport Authorization date (in ddmmyyyy format)\nInvalid carriage Vehicle Registration Number\nINVALID Carriage 2nd Vehicle Registration Number, if any\nInvalid carriage 3rd Vehicle Registration Number, if any\n3.\nClass of Vehicle details :\nClass of Vehicle (COV)\nClass of Vehicle Issue Date (in ddmmyyyy format)\nClass of vehicle – Issued By (Name & Designation)\nBadge No.\nBadge Issue Date (in ddmmyyyy format)\nBadge Issued by –LA Office\n4.\nImage details :\nPhotograph of DL Holder\nSignature of DL Holder\n5.\nEnforcement details :\nChallan/Inward Number\nChallan Date (in ddmmyyyy format)\nEndorsement Authority ID\nEndorsement Authority Name\n\nSection/Rule Violated\nDisqualification Type (Suspended/Cancelled)\nDisqualification period from (in ddmmyyyy format)\nDisqualification period Up to (in ddmmyyyy format)\nClass of Vehicle that is suspended/Cancelled\nSettlement date\nReview Date (in ddmmyyyy format)\nReview Authority Name\nRemarks ”\n"
+        }
+      ]
+    },
+    "similar_fraud_cases": {
+      "retrieved": true,
+      "similar_cases": [
+        {
+          "source": "original_visa_indian_person_report.json",
+          "similarity": 0.4818,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
+        },
+        {
+          "source": "dataset-cover_report.json",
+          "similarity": 0.4809,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"dataset-cover.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.22,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 78.0% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"st"
+        },
+        {
+          "source": "passport2_report.json",
+          "similarity": 0.4768,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"passport2.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.121,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 87.9% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"statu"
+        }
+      ],
+      "count": 3
+    }
+  },
+  "image_fingerprint": "f9fd84f730c6102b978274e08f2e9cfca0deb9c20e03d8075fe1a15a7ee0145e",
+  "integrity_seal": {
+    "report_hash": "7465cd246a92f8e6d33a24a251d5952c5fc6cc6f86f9a7ae6198a0374b1dae63",
+    "signature": "a0dc1741ba54650d3f910453b92321b66e4af76cb558c5036a702dcdc6cec63449c28f06a2bdc4edf32d6508ae499663c3e495143f3b4062fd5b13ed32da3226f83047b2a681dad708c94ebcb61d220ad634c461f486423f441b88cd07369ee7a290fce26d25084f57ae87e1977944d4c65fc2755303e112e36fc2401061db6e0bbbcd84dfbdbfa9e7a3428a3bae87a84ef6e273333cd6fa58127938354e6a55f91cd67b9196790e3a91107991dd4e1aaa4baed73857a812c875d5428c331bfb469fc9992e9070b6c00d087cab6a8268a7a0193b630a73f309795ed72e10f39b918aece8910bc747df62c87ec187aa4cf63f4ae01cc261d09dcd37c1ffea75d5",
+    "signed_at": "2026-09-21T09:00:31Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 1,
+    "block_hash": "0070441cd3395f155f52768fd6c327a7ab5695da469ddb9b11ee1debe8fc4908",
+    "previous_hash": "51db9e10b904d20d0b0637472fa70fb66784672f443af34181305baaf2cc8594",
+    "timestamp": "2026-09-21T09:00:31Z",
+    "report_hash": "7465cd246a92f8e6d33a24a251d5952c5fc6cc6f86f9a7ae6198a0374b1dae63",
+    "difficulty": 2
+  },
+  "human_summary": "PAN.jpeg | \u001b[33mNeeds review\u001b[0m | Bayer CFA grid residual ratio computed at 2.75. Lacks physical camera Bayer filter demosaicing signature."
 }
