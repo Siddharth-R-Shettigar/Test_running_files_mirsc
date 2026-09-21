@@ -273,6 +273,9 @@ def manifest():
 
 @app.route("/scan/capture", methods=["POST"])
 def scan_capture():
+    if not session.get("case_id"):
+        session["case_id"] = f"case_{uuid.uuid4().hex[:12]}"
+
     if not session.get("logged_in"):
         return redirect(url_for("login"))
 
@@ -373,6 +376,11 @@ def api_run_case():
         for key in DOC_KEYS
         if captures.get(key) and os.path.exists(str(captures[key]))
     ]
+
+    # Create case id at the START so PDF always has an id (even if analysis fails later)
+    case_id = session.get("case_id") or f"case_{uuid.uuid4().hex[:12]}"
+    session["case_id"] = case_id
+    os.makedirs("case_logs", exist_ok=True)
 
     fallback = {
         "risk_level": "REVIEW",
@@ -475,11 +483,13 @@ def api_run_case():
 
     # Persist merged report
     try:
-        case_id = f"case_{uuid.uuid4().hex[:12]}"
-        merged_report["case_id"] = case_id
+        merged_report["case_id"] = case_id   # use the one created at the start
         merged_log = os.path.join("case_logs", f"{case_id}_report.json")
         with open(merged_log, "w", encoding="utf-8") as fh:
             json.dump(merged_report, fh, indent=2, ensure_ascii=False)
+    
+        ui = _map_result_ui(merged_report)
+        ui["case_id"] = case_id
     except Exception:
         pass
 
