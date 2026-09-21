@@ -391,18 +391,11 @@
       btnDownload.onclick = () => {
         const caseId = data.case_id || '';
         if (caseId) {
-          // Navigate to PDF download endpoint
           window.location.href = `/api/report/${encodeURIComponent(caseId)}.pdf`;
-        } else {
-          // Fallback: download raw JSON
-          const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `kavach_forensic_report_${Date.now()}.json`;
-          a.click();
-          URL.revokeObjectURL(url);
+          return;
         }
+  // Should almost never happen after the FAST_UI fix
+        alert('No case id for this result. Re-run scan or open Case logs.');
       };
     }
 
