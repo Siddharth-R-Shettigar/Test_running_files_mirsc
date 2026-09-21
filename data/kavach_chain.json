@@ -25,5 +25,21 @@
     "previous_hash": "51db9e10b904d20d0b0637472fa70fb66784672f443af34181305baaf2cc8594",
     "nonce": 381,
     "hash": "0070441cd3395f155f52768fd6c327a7ab5695da469ddb9b11ee1debe8fc4908"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-09-21T09:30:08Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "7465cd246a92f8e6d33a24a251d5952c5fc6cc6f86f9a7ae6198a0374b1dae63",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-21T09:30:08Z",
+      "file_analyzed": "PAN.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "0070441cd3395f155f52768fd6c327a7ab5695da469ddb9b11ee1debe8fc4908",
+    "nonce": 54,
+    "hash": "00436d9f09372e1921e074e67f27d798123e32ee641ae42fa7bd6be969adb053"
   }
 ]
