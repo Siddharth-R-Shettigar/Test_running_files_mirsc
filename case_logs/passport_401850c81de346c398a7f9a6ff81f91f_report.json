@@ -1,0 +1,20 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport_401850c81de346c398a7f9a6ff81f91f.jpg",
+  "live_image": "face_e1608397419a4b3a892b782537380814.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.0,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 51.0% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "human_summary": "passport_401850c81de346c398a7f9a6ff81f91f.jpg | \u001b[33mNeeds review\u001b[0m | Image clarity too low; rescan recommended."
+}
