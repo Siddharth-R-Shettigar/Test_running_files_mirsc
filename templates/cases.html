@@ -206,7 +206,7 @@
 
       <div style="display: flex; gap: 10px; margin-top: 24px;">
         <button class="btn-pill btn-primary-orange btn-block" type="button" id="mExportBtn">
-          Export Verified Case JSON
+          Export Verified Case PDF
         </button>
       </div>
     </div>
@@ -257,69 +257,8 @@
   (function () {
     'use strict';
 
-    // ── CASE RECORD DATA ─────────────────────────────────────────────
-    const CASES = [
-      {
-        id: 'KV-2026-0891',
-        name: 'Republic of India — Passport Data Page',
-        color: 'green',
-        risk: 6.2,
-        date: '2026-09-17 10:14',
-        officer: 'officer@agency.gov.in',
-        verdict: 'CLEARANCE GRANTED',
-        summary: 'All holographic and MRZ check digits verified. Biometric face similarity 98.4%.'
-      },
-      {
-        id: 'KV-2026-0890',
-        name: 'Tourist Visa Sticker — Indian National',
-        color: 'yellow',
-        risk: 38.4,
-        date: '2026-09-17 09:42',
-        officer: 'officer@agency.gov.in',
-        verdict: 'SECONDARY REVIEW',
-        summary: 'Date of expiry OCR variation flagged. Substrate guilloche pattern intact.'
-      },
-      {
-        id: 'KV-2026-0889',
-        name: 'Permanent Account Number (PAN) Card',
-        color: 'green',
-        risk: 4.8,
-        date: '2026-09-16 16:55',
-        officer: 'officer@agency.gov.in',
-        verdict: 'CLEARANCE GRANTED',
-        summary: 'Physical substrate font microstructure consistent with national issuance ledger.'
-      },
-      {
-        id: 'KV-2026-0888',
-        name: 'National Identity Credential (Aadhaar)',
-        color: 'red',
-        risk: 84.1,
-        date: '2026-09-16 14:20',
-        officer: 'officer@agency.gov.in',
-        verdict: 'CLEARANCE DENIED',
-        summary: 'Splice boundary artifacts detected around portrait quadrant. High probability of digital manipulation.'
-      },
-      {
-        id: 'KV-2026-0887',
-        name: 'Commercial Driver\'s License — DSC 0153',
-        color: 'yellow',
-        risk: 42.0,
-        date: '2026-09-16 11:08',
-        officer: 'officer@agency.gov.in',
-        verdict: 'SECONDARY REVIEW',
-        summary: 'Security watermark luminescence below calibrated kiosk threshold.'
-      },
-      {
-        id: 'KV-2026-0886',
-        name: 'Schengen Border Permit — Portuguese Republic',
-        color: 'green',
-        risk: 11.5,
-        date: '2026-09-15 18:30',
-        officer: 'officer@agency.gov.in',
-        verdict: 'CLEARANCE GRANTED',
-        summary: 'Full MRZ compliance and cryptographic integrity verified.'
-      }
-    ];
+    // ── LIVE CASES: fetch from /api/cases ────────────────────────────────
+    let CASES = [];
 
     const listEl      = document.getElementById('caseListContainer');
     const searchInput = document.getElementById('searchInput');
@@ -332,6 +271,13 @@
     const mCloseBtn   = document.getElementById('mCloseBtn');
     const mExportBtn  = document.getElementById('mExportBtn');
     let currentSelectedCase = null;
+
+    // ── INTEGRITY BADGE HELPER ────────────────────────────────────────
+    function integrityBadge(status) {
+      if (status === 'intact')   return '<span style="font-size:10px;padding:2px 7px;border-radius:99px;background:#d1fae5;color:#065f46;font-weight:700;">✓ Intact</span>';
+      if (status === 'tampered') return '<span style="font-size:10px;padding:2px 7px;border-radius:99px;background:#fee2e2;color:#7f1d1d;font-weight:700;">⚠ Tampered</span>';
+      return '<span style="font-size:10px;padding:2px 7px;border-radius:99px;background:#f1f5f9;color:#64748b;font-weight:700;">— Unknown</span>';
+    }
 
     // ── RENDER CASE ROWS ─────────────────────────────────────────────
     function renderCases(items) {
@@ -356,6 +302,8 @@
               <span>${c.date}</span>
               <span>&bull;</span>
               <span>${c.officer}</span>
+              <span>&bull;</span>
+              ${integrityBadge(c.integrity)}
             </div>
           </div>
           <span class="case-score-pill tone-${c.color}">
@@ -430,6 +378,10 @@
             ${c.risk.toFixed(1)}%
           </span>
         </div>
+        <div class="modal-data-row">
+          <span class="label">Report Integrity</span>
+          <span class="val">${integrityBadge(c.integrity)}</span>
+        </div>
         <div class="modal-data-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
           <span class="label">Forensic Assessment</span>
           <span class="val" style="text-align: left; font-weight: 500; line-height: 1.55;">${c.summary}</span>
@@ -455,15 +407,35 @@
 
     mExportBtn.addEventListener('click', () => {
       if (!currentSelectedCase) return;
-      const blob = new Blob([JSON.stringify(currentSelectedCase, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `${currentSelectedCase.id}_report.json`;
-      a.click();
+      const c = currentSelectedCase;
+      // PDF download if we have a real case_id, else JSON
+      if (c.id && !c.id.startsWith('KV-')) {
+        window.location.href = `/api/report/${encodeURIComponent(c.id)}.pdf`;
+      } else {
+        const blob = new Blob([JSON.stringify(c, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${c.id}_report.json`;
+        a.click();
+      }
     });
 
-    // Initial render
-    applyFilters();
+    // ── FETCH CASES FROM API ──────────────────────────────────────────
+    listEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-muted);">Loading cases…</div>';
+    fetch('/api/cases', { credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(data => {
+        CASES = data.cases || [];
+        applyFilters();
+      })
+      .catch(() => {
+        // API unavailable — keep empty, show no-cases message
+        CASES = [];
+        applyFilters();
+      });
+
+    // Initial render (empty — API will populate)
+    // applyFilters() called after fetch resolves
   })();
   </script>
   {% endif %}
