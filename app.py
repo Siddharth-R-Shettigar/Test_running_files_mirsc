@@ -68,6 +68,7 @@ def login():
         session.pop("captures", None)
         session.pop("face_path", None)
         session.pop("doc_path", None)
+        session.pop("case_id", None)
         return redirect(url_for("scan"))
 
     return render_template("login.html", error="Invalid login id or password."), 401
@@ -332,6 +333,7 @@ def scan_reset():
     session.pop("captures", None)
     session.pop("face_path", None)
     session.pop("doc_path", None)
+    session.pop("case_id", None)
     return redirect(url_for("scan"))    
 
 
@@ -396,7 +398,7 @@ def api_run_case():
     }
 
     if not available_docs:
-        fallback["risk_reason"] = "No document captures found in session."
+        fallback["risk_reason"] = "No document captures in this session (face only or all skipped). Capture a passport/ID to run document forensics."
         ui = _map_result_ui(fallback)
         ui["case_id"] = case_id
         session["last_case_id"] = case_id
