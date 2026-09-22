@@ -526,9 +526,28 @@ def api_cases():
         integrity = "unknown"
         try:
             from blockchain import get_chain
-            if rep.get("blockchain_anchor") or rep.get("integrity_seal"):
-                result = get_chain().verify_report_hash(rep)
-                integrity = "intact" if result else "tampered"
+
+            report_hash = None
+            anchor = rep.get("blockchain_anchor") or {}
+            seal = rep.get("integrity_seal") or {}
+            if isinstance(anchor, dict):
+                report_hash = anchor.get("report_hash")
+            if not report_hash and isinstance(seal, dict):
+                report_hash = seal.get("report_hash")
+            if not report_hash:
+                report_hash = rep.get("report_hash")
+
+            if report_hash:
+                result = get_chain().verify_report_hash(str(report_hash))
+                if isinstance(result, dict):
+                    if result.get("valid") is True:
+                        integrity = "intact"
+                    elif result.get("reason") in ("not found", None) and result.get("valid") is False:
+                        integrity = "unknown"
+                    else:
+                        integrity = "tampered"
+                else:
+                    integrity = "intact" if result else "unknown"
         except Exception:
             integrity = "unknown"
 
@@ -590,11 +609,8 @@ def api_report_pdf(case_id):
 
     try:
         from report_generator import generate_case_report_pdf, REPORTLAB_AVAILABLE
-        if REPORTLAB_AVAILABLE:
-            pdf_path = os.path.join("case_logs", f"{case_id}_report.pdf")
-            generate_case_report_pdf(merged_or_demo_report, pdf_path)
-    except Exception:
-        pass  # on-demand route still works
+        if not REPORTLAB_AVAILABLE:
+            return jsonify({"error": "PDF generation is unavailable."}), 501
     except ImportError:
         return jsonify({"error": "report_generator module not found."}), 501
 
