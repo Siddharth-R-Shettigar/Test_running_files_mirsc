@@ -1,0 +1,20 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "visa_db9e9fcea0ee4466bceb83e07867dfe1.jpg",
+  "live_image": "face_a9a69111ce084893b2a81ec33827ac09.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.0,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 63.0% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "human_summary": "visa_db9e9fcea0ee4466bceb83e07867dfe1.jpg | \u001b[33mNeeds review\u001b[0m | Image clarity too low; rescan recommended."
+}

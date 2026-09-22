@@ -1,0 +1,20 @@
+{
+  "engine": "KAVACH-FAST-UI",
+  "case_id": "case_0b9647a0cbe0",
+  "risk_level": "REVIEW",
+  "risk_reason": "Manual check recommended (demo mode).",
+  "forensic_risk_score": 0.46,
+  "detector_signals": [
+    {
+      "detector_name": "capture_pipeline",
+      "status": "passed",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Demo path: full ML skipped (KAVACH_FAST_UI=1)."
+    }
+  ],
+  "human_summary": "Demo screening complete. Run with KAVACH_FAST_UI=0 for full forensics.",
+  "documents_analysed": [
+    "demo"
+  ]
+}

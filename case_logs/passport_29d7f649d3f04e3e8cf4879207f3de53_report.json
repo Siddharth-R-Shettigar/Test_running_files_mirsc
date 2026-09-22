@@ -1,0 +1,251 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport_29d7f649d3f04e3e8cf4879207f3de53.png",
+  "live_image": "face_3e7d66ea9e374857addde963f375b8ca.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Critical checks not available: ocr_extraction.",
+  "forensic_risk_score": 0.37,
+  "active_detectors_evaluated": 28,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.182,
+      "confidence": "medium",
+      "explanation": "Image clarity is 81.8% (75-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Could not process metadata: \"exiftool.exe\" is not found, on path or as absolute path",
+      "status": "failed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 1.48. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.14,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 13%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1906.96). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.1,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 1.55.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.45 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 165.74 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1318.24).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.16. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No GEMINI API keys configured.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.4,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.0 (Error Level Analysis computed pixel difference variance of 0.07.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 493.95). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=7.99, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.607,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=11.2, val_std=22.8, hue_std=11.8). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Live image: No face detected in image.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.588,
+      "confidence": "medium",
+      "explanation": "Spoof verdict: 'suspicious'. FFT high-freq energy: 0.42, Color inconsistency: 0.79.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: No face detected in image; duplicate identity check unavailable.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {
+    "similar_fraud_cases": {
+      "retrieved": true,
+      "similar_cases": [
+        {
+          "source": "original_visa_indian_person_report.json",
+          "similarity": 0.603,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
+        },
+        {
+          "source": "dataset-cover_report.json",
+          "similarity": 0.5992,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"dataset-cover.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.22,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 78.0% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"st"
+        },
+        {
+          "source": "PAN_Balwin_report.json",
+          "similarity": 0.5868,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"PAN_Balwin.png\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Flagged signals: resampling_interpolation_analysis, frequency_domain_fft.\",\n  \"forensic_risk_score\": 0.272,\n  \"active_detectors_evaluated\": 19,\n  \"fast_path\": true,\n  \"skipped_detectors\": [\n    \"inpainting\",\n    \"hf_vision_transformer\",\n    \"vision_llm_sanity_analysis\",\n    \"photo_patch_forensics\"\n  ],\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\""
+        }
+      ],
+      "count": 3
+    }
+  },
+  "image_fingerprint": "e2ee239bb1f871737e2341354be8a580247aa242cb3f3ed387b318805c082326",
+  "integrity_seal": {
+    "report_hash": "d2fb1e57e63ab4400aabd41d0f45af4bc1dc0973ff46fffd2f75c6dd5cf09670",
+    "signature": "461bf103a4695261c4d465dcf3f279cafd8a21538754126f3f38113714a60afcd4509901535527768b23ca6899632dc387f021e9698c1f6f74df4827f9184548eb3f9b0cececd6556f4f9169691f5e326cef0fde3b937bd1c26f8878c2158c56a6a22fc55297a94e1d4dab40ae97e1b2c211ab81b65e5a39894b31c16f7502ad5bd497e22508050f31bd1bf783c94266e4c13074e828df3f00be708ae071a3333af9ffcdbcaaab0dcd3df24ee8ae6e9bfcd78e4906191a43fb6b010a16c6a0dfc7a0de0ea454a8efd5e49b241303a5f113435c157ce60b59396a92861c2e7a6730d54d8c1357c25c1a088d842d8880dce6a52d466bedf56bb07e992b44d72973",
+    "signed_at": "2026-09-21T10:55:02Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 12,
+    "block_hash": "0067dbfe01ed9f797ae57737442c3f29e6f34e300ef0a36cb18f859ad0c3fd09",
+    "previous_hash": "00dea4f1ffe52e04bb9b93a05c22fd0324d3dcf6e8c0a337e51aff31403c694b",
+    "timestamp": "2026-09-21T10:55:02Z",
+    "report_hash": "d2fb1e57e63ab4400aabd41d0f45af4bc1dc0973ff46fffd2f75c6dd5cf09670",
+    "difficulty": 2
+  },
+  "human_summary": "passport_29d7f649d3f04e3e8cf4879207f3de53.png | \u001b[33mNeeds review\u001b[0m | Bayer CFA grid residual ratio computed at 1.48. Lacks physical camera Bayer filter demosaicing signature."
+}

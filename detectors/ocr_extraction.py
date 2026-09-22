@@ -23,7 +23,7 @@ logger = logging.getLogger("kavach.ocr")
 # ---------------------------------------------------------------------------
 OCR_BACKENDS = os.getenv("KAVACH_OCR_BACKENDS", "easyocr,paddle,qwen").lower().split(",")
 OCR_LANGS = os.getenv("KAVACH_OCR_LANGS", "en,hi,mr,bn,ta,te,kn,gu,pa").split(",")
-QWEN_MODEL = os.getenv("KAVACH_QWEN_MODEL", "qwen/qwen3.6-27b")
+QWEN_MODEL = os.getenv("KAVACH_QWEN_MODEL", "qwen/qwen3.8-27b")
 GROQ_TIMEOUT = float(os.getenv("KAVACH_GROQ_TIMEOUT", "25"))
 LOCAL_TIMEOUT = float(os.getenv("KAVACH_LOCAL_OCR_TIMEOUT", "20"))
 MAX_IMAGE_SIDE = int(os.getenv("KAVACH_OCR_MAX_SIDE", "2048"))
@@ -51,12 +51,8 @@ def _get_paddle():
     if _paddle_ocr is None:
         try:
             from paddleocr import PaddleOCR
-            _paddle_ocr = PaddleOCR(
-                use_angle_cls=True,
-                lang="en",          # multi-lang via model switch if needed
-                use_gpu=USE_GPU,
-                show_log=False,
-            )
+            # New PaddleOCR: no use_gpu, no show_log
+            _paddle_ocr = PaddleOCR(use_angle_cls=True, lang="en")
         except Exception as e:
             logger.warning("PaddleOCR unavailable: %s", e)
             _paddle_ocr = False

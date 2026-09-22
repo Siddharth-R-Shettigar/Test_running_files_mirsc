@@ -1,0 +1,236 @@
+{
+  "engine": "KAVACH-MULTI",
+  "documents_analysed": [
+    "passport",
+    "visa"
+  ],
+  "live_image": "face_e1608397419a4b3a892b782537380814.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "[visa] Face on document does not match live capture.",
+  "forensic_risk_score": 0.202,
+  "active_detectors_evaluated": 31,
+  "detector_signals": [
+    {
+      "detector_name": "[passport] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 51.0% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[visa] clarity_check",
+      "score": 0.107,
+      "confidence": "medium",
+      "explanation": "Image clarity is 89.3% (75-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "[visa] document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "[visa] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] exiftool",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Could not process metadata: \"exiftool.exe\" is not found, on path or as absolute path",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[visa] c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.74. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] hf_vision_transformer",
+      "score": 0.01,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 1%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 20392.63). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] ela_compression",
+      "score": 0.04,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.57.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 7.1 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 193.22 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] blur_sharpness_analysis",
+      "score": 0.75,
+      "confidence": "medium",
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 9889.16).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 2.72. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.56. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No GEMINI API keys configured.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] photo_patch_forensics",
+      "score": 0.405,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.1.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 2818.78). Image shows signs o).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=8.86, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] hologram_shift",
+      "score": 0.062,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=32.2, val_std=48.2, hue_std=47.7). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] face_verification",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.9329 (match threshold: 0.4). Faces do not match — possible impersonation.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] liveness_analysis",
+      "score": 0.199,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.32, Color inconsistency: 0.05.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] duplicate_identity_check",
+      "score": 0.735,
+      "confidence": "high",
+      "explanation": "No duplicate identity detected. Closest match under a different ID ('face_7b91cf803ad24ecda04d98d4c53d3ecc') had similarity 0.7349, below the 0.85 threshold.",
+      "status": "passed"
+    }
+  ],
+  "case_id": "case_08ec64da82ad"
+}

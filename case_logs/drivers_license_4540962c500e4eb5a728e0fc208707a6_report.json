@@ -1,0 +1,20 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "drivers_license_4540962c500e4eb5a728e0fc208707a6.jpeg",
+  "live_image": "face_f3121eac22ab4846a133315c9a0f03cd.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.0,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 56.4% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "human_summary": "drivers_license_4540962c500e4eb5a728e0fc208707a6.jpeg | \u001b[33mNeeds review\u001b[0m | Image clarity too low; rescan recommended."
+}

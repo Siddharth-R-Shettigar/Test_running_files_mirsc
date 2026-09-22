@@ -1,0 +1,20 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport_0c8cb9e017764c929497e89aff8ede65.jpg",
+  "live_image": "face_8c9affa2b2714780b40e8adc66c0971c.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.0,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 74.8% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "human_summary": "YELLOW | REVIEW | passport_0c8cb9e017764c929497e89aff8ede65.jpg\nWhy: The document requires REVIEW because image clarity is too low (74.8%), hindering reliable OCR. A rescan or higher-resolution image is recommended.\n\nOfficer checklist:\n[ ] Physically inspect the document for legibility and authenticity.\n[ ] Manually verify all printed data against the individual and other available records.\n[ ] Compare the live image with the physical document's photo.\n[ ] Request a new, clearer scan or image of the document if possible.\nSignals: clarity_check=failed"
+}

@@ -1,0 +1,53 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_ca041706653b",
+  "documents_analysed": [
+    "passport",
+    "visa",
+    "national_id",
+    "drivers_license",
+    "border_permit"
+  ],
+  "live_image": "face_a9a69111ce084893b2a81ec33827ac09.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "[passport] Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.0,
+  "active_detectors_evaluated": 5,
+  "detector_signals": [
+    {
+      "detector_name": "[passport] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 63.3% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[visa] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 63.0% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[national_id] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 63.5% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[drivers_license] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 61.6% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[border_permit] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 63.4% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ]
+}

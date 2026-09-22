@@ -1,7 +1,7 @@
 [
   {
     "index": 0,
-    "timestamp": "2026-09-20T23:34:19Z",
+    "timestamp": "2026-09-21T09:00:31Z",
     "data": {
       "message": "KAVACH Genesis",
       "type": "genesis"
@@ -12,50 +12,84 @@
   },
   {
     "index": 1,
-    "timestamp": "2026-09-21T09:21:26Z",
+    "timestamp": "2026-09-21T00:28:10Z",
     "data": {
       "type": "report_anchor",
-      "report_hash": "980a742487e79026b09af4b0db986143b987abf41af428e3e962cc3449e27155",
+      "report_hash": "df8f9dd6c3cbe1fc3bf9f9138be1f7e94cd7c7fe1a893aebf0f45b17d7ede09a",
       "case_id": null,
-      "risk_level": "HIGH RISK",
-      "anchored_at": "2026-09-21T09:21:26Z",
-      "file_analyzed": "visa_6a337444990b48daa8c2ee3076e1f5e7.jpg",
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-21T00:28:10Z",
+      "file_analyzed": "lolol.jpeg",
       "engine": "KAVACH"
     },
     "previous_hash": "d4e6213541de72b72d36070e6b367509d00b9db7e3883e3fa85c4138603f2b48",
-    "nonce": 74,
-    "hash": "00632b9bac5ebeb3bf7cb1f287871e23158785d57be981fcfcdc824d8ad1a735"
+    "nonce": 78,
+    "hash": "00982325c32d86c30927f437043f95e485747be88a03418aba388470b33338f2"
   },
   {
     "index": 2,
-    "timestamp": "2026-09-21T09:50:17Z",
+    "timestamp": "2026-09-21T00:53:47Z",
     "data": {
       "type": "report_anchor",
-      "report_hash": "980a742487e79026b09af4b0db986143b987abf41af428e3e962cc3449e27155",
+      "report_hash": "94a6940d9325c99ce440af9c16a51fe10dd82a8021d33b11bf9984b57132f75c",
       "case_id": null,
-      "risk_level": "HIGH RISK",
-      "anchored_at": "2026-09-21T09:50:17Z",
-      "file_analyzed": "visa_6a337444990b48daa8c2ee3076e1f5e7.jpg",
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-21T00:53:47Z",
+      "file_analyzed": "lolol.jpeg",
       "engine": "KAVACH"
     },
-    "previous_hash": "00632b9bac5ebeb3bf7cb1f287871e23158785d57be981fcfcdc824d8ad1a735",
-    "nonce": 124,
-    "hash": "009ed1ee0caa23edd411cb94e5c38376beb5137e1fb22cfb028394b4b172978b"
+    "previous_hash": "00982325c32d86c30927f437043f95e485747be88a03418aba388470b33338f2",
+    "nonce": 414,
+    "hash": "00d30e9efb24035fca8357edec9c77155e1d69dec0d94dde03865c4f5c8b8135"
   },
   {
     "index": 3,
-    "timestamp": "2026-09-21T09:51:49Z",
+    "timestamp": "2026-09-21T00:58:58Z",
     "data": {
       "type": "report_anchor",
-      "report_hash": "652fc727ee820f6f38fc051a425a57042073f48c4b83f48e87730dd6c6fc0c41",
+      "report_hash": "1378a7815530c8238007ea877a10011e92843d979c8c12ce2d9f61844c3bd713",
       "case_id": null,
-      "risk_level": "HIGH RISK",
-      "anchored_at": "2026-09-21T09:51:49Z",
-      "file_analyzed": "visa_e486a333da2a43ce96152e601bae83c3.jpg",
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-21T00:58:58Z",
+      "file_analyzed": "lolol.jpeg",
       "engine": "KAVACH"
     },
-    "previous_hash": "009ed1ee0caa23edd411cb94e5c38376beb5137e1fb22cfb028394b4b172978b",
-    "nonce": 835,
-    "hash": "00f75a99231ab58224c7c37113d4e09573988bdbb881765bfd8672cd2376506c"
+    "previous_hash": "00d30e9efb24035fca8357edec9c77155e1d69dec0d94dde03865c4f5c8b8135",
+    "nonce": 913,
+    "hash": "0031bf36de1a3cc79c889b8149692576b9a48add3bf2edea1fc330ca9acd1f5c"
+
+    "hash": "51db9e10b904d20d0b0637472fa70fb66784672f443af34181305baaf2cc8594"
+  },
+  {
+    "index": 1,
+    "timestamp": "2026-09-21T09:00:31Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "7465cd246a92f8e6d33a24a251d5952c5fc6cc6f86f9a7ae6198a0374b1dae63",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-21T09:00:31Z",
+      "file_analyzed": "PAN.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "51db9e10b904d20d0b0637472fa70fb66784672f443af34181305baaf2cc8594",
+    "nonce": 381,
+    "hash": "0070441cd3395f155f52768fd6c327a7ab5695da469ddb9b11ee1debe8fc4908"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-09-21T09:30:08Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "7465cd246a92f8e6d33a24a251d5952c5fc6cc6f86f9a7ae6198a0374b1dae63",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-21T09:30:08Z",
+      "file_analyzed": "PAN.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "0070441cd3395f155f52768fd6c327a7ab5695da469ddb9b11ee1debe8fc4908",
+    "nonce": 54,
+    "hash": "00436d9f09372e1921e074e67f27d798123e32ee641ae42fa7bd6be969adb053"
   }
 ]

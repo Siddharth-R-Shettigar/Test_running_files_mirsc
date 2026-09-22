@@ -13,7 +13,14 @@ insightface
 onnxruntime
 easyocr
 pyzbar
-paddleocr
+paddleocr==2.10.0
+paddlepaddle; python_version < "3.14"
 flask
 groq
 reportlab
+cryptography
+google-genai
+chromadb
+sentence-transformers
+PyMuPDF
+PyYAML==6.0.3
