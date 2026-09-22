@@ -285,7 +285,7 @@
     // ── 3. TIMEOUT-SAFE FETCH: CALLS /api/run_case WITH 10S ABORT ────
     async function fetchCaseResult() {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minutes
+      const timeoutId = setTimeout(() => controller.abort(), 300000); // 3 minutes
 
       try {
         const res = await fetch('{{ url_for("api_run_case") }}', {
@@ -300,16 +300,15 @@
         // Fallback demo payload so UI NEVER hangs
         return {
           color: 'yellow',
-          title: 'NEEDS SECONDARY REVIEW',
+          title: 'NEEDS REVIEW',
           label: 'REVIEW',
-          risk_pct: 34.5,
-          why: 'Automated screening complete. Subtle font variation detected in date field — officer manual verification advised.',
+          risk_pct: 50.0,
+          case_id: '',  // none — PDF disabled
+          why: 'Live analysis did not finish in time or failed. Open Case logs if a case was saved, or re-run with documents captured.',
           checklist: [
-            'Compare document photo to the person physically present',
-            'Re-check MRZ check digits and printed expiry dates',
-            'Inspect photo perimeter under tilted light for physical tampering',
-            'Confirm hologram or secondary ghost portrait if present',
-            'Secondary biometric kiosk inspection if still unclear'
+            'Confirm at least one document was captured (not face only)',
+            'Check server terminal for errors',
+            'Retry with KAVACH_FAST_UI=1 for UI demo, or fix full engine path'
           ]
         };
       }
