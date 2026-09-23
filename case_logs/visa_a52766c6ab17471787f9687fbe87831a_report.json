@@ -1,17 +1,17 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "passport-1.jpeg",
-  "live_image": null,
-  "risk_level": "REVIEW",
-  "risk_reason": "Document face photo region shows forensic anomalies.",
-  "forensic_risk_score": 0.475,
+  "file_analyzed": "visa_a52766c6ab17471787f9687fbe87831a.jpeg",
+  "live_image": "face_9a554f5cea0041a2af0e0de862e5a502.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "Face on document does not match live capture.",
+  "forensic_risk_score": 0.434,
   "active_detectors_evaluated": 30,
   "detector_signals": [
     {
       "detector_name": "clarity_check",
-      "score": 0.12,
+      "score": 0.19,
       "confidence": "medium",
-      "explanation": "Image clarity is 88.0% (75-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "explanation": "Image clarity is 81.0% (75-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
       "status": "passed"
     },
     {
@@ -22,774 +22,590 @@
       "status": "passed",
       "fields": [
         {
-          "text": "OBSERVATION",
-          "confidence": 0.9969,
+          "text": "889588",
+          "confidence": 0.672,
           "source": "paddleocr",
           "bbox": [
+            [
+              30.0,
+              27.0
+            ],
             [
               62.0,
-              7.0
+              26.0
             ],
             [
-              81.0,
-              7.0
+              64.0,
+              139.0
             ],
             [
-              80.0,
-              151.0
-            ],
-            [
-              61.0,
-              150.0
+              32.0,
+              140.0
             ]
           ]
         },
         {
-          "text": "REPUBLIC OF EOLIE",
-          "confidence": 0.9503,
+          "text": "AMLS R",
+          "confidence": 0.5972,
           "source": "paddleocr",
           "bbox": [
             [
-              193.0,
-              308.0
+              254.0,
+              100.0
             ],
             [
-              355.0,
-              308.0
+              304.0,
+              85.0
             ],
             [
-              355.0,
-              325.0
+              309.0,
+              100.0
             ],
             [
-              193.0,
-              325.0
+              258.0,
+              115.0
             ]
           ]
         },
         {
-          "text": "PASSEPORT",
+          "text": "ARRIWAL",
+          "confidence": 0.9682,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              262.0,
+              114.0
+            ],
+            [
+              304.0,
+              103.0
+            ],
+            [
+              307.0,
+              118.0
+            ],
+            [
+              265.0,
+              129.0
+            ]
+          ]
+        },
+        {
+          "text": "ZIT JUN O10",
+          "confidence": 0.6116,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              254.0,
+              146.0
+            ],
+            [
+              335.0,
+              119.0
+            ],
+            [
+              341.0,
+              141.0
+            ],
+            [
+              261.0,
+              168.0
+            ]
+          ]
+        },
+        {
+          "text": "earrvy",
+          "confidence": 0.5828,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              285.0,
+              174.0
+            ],
+            [
+              320.0,
+              164.0
+            ],
+            [
+              324.0,
+              178.0
+            ],
+            [
+              289.0,
+              188.0
+            ]
+          ]
+        },
+        {
+          "text": "TAMU NADU URER",
+          "confidence": 0.8225,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              260.0,
+              198.0
+            ],
+            [
+              336.0,
+              174.0
+            ],
+            [
+              341.0,
+              191.0
+            ],
+            [
+              265.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "text": "Re",
+          "confidence": 0.5747,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              26.0,
+              280.0
+            ],
+            [
+              47.0,
+              280.0
+            ],
+            [
+              47.0,
+              299.0
+            ],
+            [
+              26.0,
+              299.0
+            ]
+          ]
+        },
+        {
+          "text": "R R REPUBLIC OFINDIA",
+          "confidence": 0.9089,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              123.0,
+              281.0
+            ],
+            [
+              340.0,
+              282.0
+            ],
+            [
+              340.0,
+              299.0
+            ],
+            [
+              123.0,
+              298.0
+            ]
+          ]
+        },
+        {
+          "text": "VISA",
+          "confidence": 0.9941,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              66.0,
+              295.0
+            ],
+            [
+              114.0,
+              295.0
+            ],
+            [
+              114.0,
+              313.0
+            ],
+            [
+              66.0,
+              313.0
+            ]
+          ]
+        },
+        {
+          "text": "PRRAR-RARE",
+          "confidence": 0.622,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              39.0,
+              329.0
+            ],
+            [
+              131.0,
+              327.0
+            ],
+            [
+              131.0,
+              341.0
+            ],
+            [
+              39.0,
+              344.0
+            ]
+          ]
+        },
+        {
+          "text": "Sot Hcgenfe ofore",
+          "confidence": 0.7071,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              260.0,
+              326.0
+            ],
+            [
+              349.0,
+              327.0
+            ],
+            [
+              349.0,
+              342.0
+            ],
+            [
+              260.0,
+              340.0
+            ]
+          ]
+        },
+        {
+          "text": "TUNGEE",
+          "confidence": 0.9686,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              177.0,
+              341.0
+            ],
+            [
+              227.0,
+              341.0
+            ],
+            [
+              227.0,
+              352.0
+            ],
+            [
+              177.0,
+              352.0
+            ]
+          ]
+        },
+        {
+          "text": "SINGLE",
           "confidence": 0.9961,
           "source": "paddleocr",
           "bbox": [
             [
-              22.0,
-              321.0
-            ],
-            [
-              109.0,
-              321.0
-            ],
-            [
-              109.0,
-              337.0
-            ],
-            [
-              22.0,
-              337.0
-            ]
-          ]
-        },
-        {
-          "text": "PASSPORT",
-          "confidence": 0.9967,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              22.0,
-              340.0
-            ],
-            [
-              102.0,
-              340.0
-            ],
-            [
-              102.0,
-              357.0
-            ],
-            [
-              22.0,
-              357.0
-            ]
-          ]
-        },
-        {
-          "text": "Type/Type",
-          "confidence": 0.8175,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              192.0,
-              333.0
-            ],
-            [
-              227.0,
-              333.0
-            ],
-            [
-              227.0,
-              347.0
-            ],
-            [
-              192.0,
-              347.0
-            ]
-          ]
-        },
-        {
-          "text": "Pays mttng Coy",
-          "confidence": 0.7438,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              264.0,
-              332.0
-            ],
-            [
-              365.0,
-              334.0
-            ],
-            [
-              365.0,
-              347.0
-            ],
-            [
-              264.0,
-              346.0
-            ]
-          ]
-        },
-        {
-          "text": "sseportN/Passpot",
-          "confidence": 0.8286,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              433.0,
-              333.0
-            ],
-            [
-              510.0,
-              333.0
-            ],
-            [
-              510.0,
-              344.0
-            ],
-            [
-              433.0,
-              344.0
-            ]
-          ]
-        },
-        {
-          "text": "P",
-          "confidence": 0.9745,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              194.0,
-              350.0
-            ],
-            [
-              203.0,
-              350.0
-            ],
-            [
-              203.0,
-              361.0
-            ],
-            [
-              194.0,
-              361.0
-            ]
-          ]
-        },
-        {
-          "text": "EOL",
-          "confidence": 0.9983,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              270.0,
-              348.0
-            ],
-            [
-              296.0,
-              348.0
-            ],
-            [
-              296.0,
-              363.0
-            ],
-            [
-              270.0,
-              363.0
-            ]
-          ]
-        },
-        {
-          "text": "PP3000000",
-          "confidence": 0.9964,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              426.0,
-              346.0
-            ],
-            [
-              490.0,
-              348.0
-            ],
-            [
-              489.0,
-              363.0
-            ],
-            [
-              425.0,
-              361.0
-            ]
-          ]
-        },
-        {
-          "text": "Nom'Surname",
-          "confidence": 0.9016,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              193.0,
-              366.0
-            ],
-            [
-              240.0,
-              366.0
-            ],
-            [
-              240.0,
-              377.0
-            ],
-            [
-              193.0,
-              377.0
-            ]
-          ]
-        },
-        {
-          "text": "SMITH",
-          "confidence": 0.9968,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              192.0,
-              377.0
-            ],
-            [
-              232.0,
-              380.0
-            ],
-            [
-              231.0,
-              395.0
-            ],
-            [
-              191.0,
-              392.0
-            ]
-          ]
-        },
-        {
-          "text": "Prenoms/Given",
-          "confidence": 0.9211,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              192.0,
-              396.0
-            ],
-            [
-              243.0,
-              396.0
-            ],
-            [
-              243.0,
-              407.0
-            ],
-            [
-              192.0,
-              407.0
-            ]
-          ]
-        },
-        {
-          "text": "JANE",
-          "confidence": 0.9969,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              193.0,
-              410.0
-            ],
-            [
-              226.0,
-              410.0
-            ],
-            [
-              226.0,
-              424.0
-            ],
-            [
-              193.0,
-              424.0
-            ]
-          ]
-        },
-        {
-          "text": "Nationalte/Natonalty",
-          "confidence": 0.7514,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              191.0,
-              424.0
-            ],
-            [
-              263.0,
-              426.0
-            ],
-            [
-              263.0,
-              440.0
-            ],
-            [
-              191.0,
-              438.0
-            ]
-          ]
-        },
-        {
-          "text": "Jalletfeign",
-          "confidence": 0.6752,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              360.0,
-              427.0
-            ],
-            [
-              397.0,
-              427.0
-            ],
-            [
-              397.0,
-              437.0
-            ],
-            [
-              360.0,
-              437.0
-            ]
-          ]
-        },
-        {
-          "text": "EOLIAN",
-          "confidence": 0.9973,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              192.0,
-              437.0
-            ],
-            [
-              245.0,
-              440.0
-            ],
-            [
-              244.0,
-              458.0
-            ],
-            [
-              191.0,
-              455.0
-            ]
-          ]
-        },
-        {
-          "text": "1,70m",
-          "confidence": 0.9177,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              361.0,
-              441.0
-            ],
-            [
-              396.0,
-              441.0
-            ],
-            [
-              396.0,
-              455.0
-            ],
-            [
-              361.0,
-              455.0
-            ]
-          ]
-        },
-        {
-          "text": "Date den",
-          "confidence": 0.8855,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              193.0,
-              461.0
-            ],
-            [
-              226.0,
-              461.0
-            ],
-            [
-              226.0,
-              471.0
-            ],
-            [
-              193.0,
-              471.0
-            ]
-          ]
-        },
-        {
-          "text": "sarca/Dae af birt",
-          "confidence": 0.6442,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              234.0,
-              461.0
-            ],
-            [
-              292.0,
-              461.0
-            ],
-            [
-              292.0,
-              471.0
-            ],
-            [
-              234.0,
-              471.0
-            ]
-          ]
-        },
-        {
-          "text": "Lieu de naissanca/Pace ofbes",
-          "confidence": 0.8178,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              321.0,
-              461.0
-            ],
-            [
-              418.0,
-              461.0
-            ],
-            [
-              418.0,
-              471.0
-            ],
-            [
-              321.0,
-              471.0
-            ]
-          ]
-        },
-        {
-          "text": "14.07.1981",
-          "confidence": 0.9913,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              192.0,
-              473.0
-            ],
-            [
-              245.0,
-              473.0
-            ],
-            [
-              245.0,
-              487.0
-            ],
-            [
-              192.0,
-              487.0
-            ]
-          ]
-        },
-        {
-          "text": "THYRENION",
-          "confidence": 0.9976,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              320.0,
-              473.0
-            ],
-            [
-              380.0,
-              473.0
-            ],
-            [
-              380.0,
-              487.0
+              261.0,
+              338.0
             ],
             [
               320.0,
-              487.0
+              341.0
+            ],
+            [
+              320.0,
+              355.0
+            ],
+            [
+              261.0,
+              352.0
             ]
           ]
         },
         {
-          "text": "Dae de delivrare/Date ofissue",
-          "confidence": 0.8083,
+          "text": "27/12/2016",
+          "confidence": 0.991,
           "source": "paddleocr",
           "bbox": [
             [
-              193.0,
-              492.0
+              41.0,
+              358.0
             ],
             [
-              295.0,
-              492.0
+              114.0,
+              358.0
             ],
             [
-              295.0,
-              502.0
+              114.0,
+              369.0
             ],
             [
-              193.0,
-              502.0
+              41.0,
+              369.0
             ]
           ]
         },
         {
-          "text": "01.01.2013",
-          "confidence": 0.9836,
+          "text": "ganogiCaoticnatnoglrry",
+          "confidence": 0.6061,
           "source": "paddleocr",
           "bbox": [
             [
-              193.0,
-              504.0
+              175.0,
+              353.0
             ],
             [
-              246.0,
-              504.0
+              315.0,
+              353.0
             ],
             [
-              246.0,
-              517.0
+              315.0,
+              366.0
             ],
             [
-              193.0,
-              517.0
+              175.0,
+              366.0
             ]
           ]
         },
         {
-          "text": "Autre de dassgAoy",
-          "confidence": 0.6847,
+          "text": "26/01/200",
+          "confidence": 0.9925,
           "source": "paddleocr",
           "bbox": [
             [
-              191.0,
+              173.0,
+              364.0
+            ],
+            [
+              256.0,
+              364.0
+            ],
+            [
+              256.0,
+              377.0
+            ],
+            [
+              173.0,
+              377.0
+            ]
+          ]
+        },
+        {
+          "text": "fool ge Sns fnden",
+          "confidence": 0.5793,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              136.0,
+              377.0
+            ],
+            [
+              243.0,
+              377.0
+            ],
+            [
+              243.0,
+              390.0
+            ],
+            [
+              136.0,
+              390.0
+            ]
+          ]
+        },
+        {
+          "text": "INOIDANAL",
+          "confidence": 0.7439,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              267.0,
+              390.0
+            ],
+            [
+              316.0,
+              373.0
+            ],
+            [
+              322.0,
+              391.0
+            ],
+            [
+              272.0,
+              408.0
+            ]
+          ]
+        },
+        {
+          "text": "RERNARL",
+          "confidence": 0.8228,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              277.0,
+              403.0
+            ],
+            [
+              319.0,
+              393.0
+            ],
+            [
+              322.0,
+              408.0
+            ],
+            [
+              281.0,
+              418.0
+            ]
+          ]
+        },
+        {
+          "text": "AIC OWE SA",
+          "confidence": 0.7709,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              271.0,
+              433.0
+            ],
+            [
+              348.0,
+              411.0
+            ],
+            [
+              354.0,
+              431.0
+            ],
+            [
+              276.0,
+              453.0
+            ]
+          ]
+        },
+        {
+          "text": "het o gp aet:Chsgec aPagctee RaAbeec",
+          "confidence": 0.6632,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              24.0,
+              471.0
+            ],
+            [
+              233.0,
+              471.0
+            ],
+            [
+              233.0,
+              484.0
+            ],
+            [
+              24.0,
+              484.0
+            ]
+          ]
+        },
+        {
+          "text": "TAMA",
+          "confidence": 0.8461,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              275.0,
+              482.0
+            ],
+            [
+              300.0,
+              475.0
+            ],
+            [
+              303.0,
+              486.0
+            ],
+            [
+              278.0,
+              493.0
+            ]
+          ]
+        },
+        {
+          "text": "VTINDCHANG<<ANTHONSHUKRR<<<<<<<<<<<<<<<",
+          "confidence": 0.8525,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              38.0,
+              499.0
+            ],
+            [
+              437.0,
+              498.0
+            ],
+            [
+              437.0,
+              512.0
+            ],
+            [
+              38.0,
+              513.0
+            ]
+          ]
+        },
+        {
+          "text": "VI",
+          "confidence": 0.9851,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              38.0,
               519.0
             ],
             [
-              316.0,
-              520.0
+              60.0,
+              519.0
             ],
             [
-              316.0,
+              60.0,
+              535.0
+            ],
+            [
+              38.0,
+              535.0
+            ]
+          ]
+        },
+        {
+          "text": "AUS931014M1706262AUS<<<<<",
+          "confidence": 0.9077,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              139.0,
+              519.0
+            ],
+            [
+              435.0,
+              519.0
+            ],
+            [
+              435.0,
               534.0
             ],
             [
-              191.0,
-              533.0
-            ]
-          ]
-        },
-        {
-          "text": "INTERIORMINISTRY",
-          "confidence": 0.9945,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              194.0,
-              535.0
-            ],
-            [
-              291.0,
-              535.0
-            ],
-            [
-              291.0,
-              548.0
-            ],
-            [
-              194.0,
-              548.0
-            ]
-          ]
-        },
-        {
-          "text": "Jodar's.sicnaton",
-          "confidence": 0.6963,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              376.0,
-              532.0
-            ],
-            [
-              429.0,
-              532.0
-            ],
-            [
-              429.0,
-              539.0
-            ],
-            [
-              376.0,
-              539.0
-            ]
-          ]
-        },
-        {
-          "text": "Date dexpiraoDa ofepiy",
-          "confidence": 0.8074,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              191.0,
-              553.0
-            ],
-            [
-              294.0,
-              555.0
-            ],
-            [
-              293.0,
-              569.0
-            ],
-            [
-              191.0,
-              567.0
-            ]
-          ]
-        },
-        {
-          "text": "gnatur",
-          "confidence": 0.8491,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              390.0,
-              555.0
-            ],
-            [
-              446.0,
-              551.0
-            ],
-            [
-              447.0,
-              565.0
-            ],
-            [
-              391.0,
-              570.0
-            ]
-          ]
-        },
-        {
-          "text": "31.12.2022",
-          "confidence": 0.9813,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              193.0,
-              570.0
-            ],
-            [
-              246.0,
-              570.0
-            ],
-            [
-              246.0,
-              583.0
-            ],
-            [
-              193.0,
-              583.0
-            ]
-          ]
-        },
-        {
-          "text": "PEOLSMITHJANE<<<",
-          "confidence": 0.9013,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              39.0,
-              635.0
-            ],
-            [
-              580.0,
-              635.0
-            ],
-            [
-              580.0,
-              649.0
-            ],
-            [
-              39.0,
-              649.0
-            ]
-          ]
-        },
-        {
-          "text": "01PP300009E0L8107145F2212315<<<<<02",
-          "confidence": 0.9238,
-          "source": "paddleocr",
-          "bbox": [
-            [
-              39.0,
-              664.0
-            ],
-            [
-              580.0,
-              664.0
-            ],
-            [
-              580.0,
-              681.0
-            ],
-            [
-              39.0,
-              681.0
+              139.0,
+              534.0
             ]
           ]
         }
       ],
       "mrz_lines": [
-        "01PP300009E0L8107145F2212315<<<<<02"
+        "VTINDCHANG<<ANTHONSHUKRR<<<<<<<<<<<<<<<"
       ]
     },
     {
       "detector_name": "document_classifier",
       "score": 0.25,
-      "confidence": "high",
-      "explanation": "Classified as passport (score=8.5)",
+      "confidence": "medium",
+      "explanation": "Classified as passport (score=4.5)",
       "status": "passed",
       "doc_type": "passport",
       "needs_mrz": true
@@ -844,42 +660,42 @@
       "detector_name": "cfa_demosaicing_analysis",
       "score": 0.85,
       "confidence": "medium",
-      "explanation": "Bayer CFA grid residual ratio computed at 7.05. Lacks physical camera Bayer filter demosaicing signature.",
+      "explanation": "Bayer CFA grid residual ratio computed at 6.73. Lacks physical camera Bayer filter demosaicing signature.",
       "status": "flagged"
     },
     {
       "detector_name": "hf_vision_transformer",
-      "score": 0.23,
+      "score": 0.01,
       "confidence": "high",
-      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 23%.",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 0%.",
       "status": "passed"
     },
     {
       "detector_name": "resampling_interpolation_analysis",
       "score": 0.8,
       "confidence": "medium",
-      "explanation": "Periodic interpolation artifacts detected (metric: 4476.94). Image shows signs of AI upscaling or non-native resampling.",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1227.49). Image shows signs of AI upscaling or non-native resampling.",
       "status": "flagged"
     },
     {
       "detector_name": "ela_compression",
-      "score": 0.03,
+      "score": 0.06,
       "confidence": "medium",
-      "explanation": "Error Level Analysis computed pixel difference variance of 0.47.",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.83.",
       "status": "passed"
     },
     {
       "detector_name": "histogram_color_forensics",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Color channel entropy computed at 6.5 bits. Standard natural RGB channel distribution.",
+      "explanation": "Color channel entropy computed at 6.8 bits. Standard natural RGB channel distribution.",
       "status": "passed"
     },
     {
       "detector_name": "frequency_domain_fft",
       "score": 0.8,
       "confidence": "medium",
-      "explanation": "FFT spectral power calculated at 175.22 dB. High-frequency grid noise detected.",
+      "explanation": "FFT spectral power calculated at 155.28 dB. High-frequency grid noise detected.",
       "status": "flagged"
     },
     {
@@ -891,10 +707,10 @@
     },
     {
       "detector_name": "blur_sharpness_analysis",
-      "score": 0.75,
+      "score": 0.15,
       "confidence": "medium",
-      "explanation": "Excessive edge sharpening detected (sharpness metric: 2755.62).",
-      "status": "flagged"
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1055.15).",
+      "status": "passed"
     },
     {
       "detector_name": "perceptual_hashing",
@@ -907,7 +723,7 @@
       "detector_name": "jpeg_ghost_analysis",
       "score": 0.85,
       "confidence": "medium",
-      "explanation": "JPEG Ghost variance computed at 1.7. Suspicious uniform compression grid detected.",
+      "explanation": "JPEG Ghost variance computed at 1.19. Suspicious uniform compression grid detected.",
       "status": "flagged"
     },
     {
@@ -921,21 +737,21 @@
       "detector_name": "inpainting_trace_analysis",
       "score": 0.15,
       "confidence": "medium",
-      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.51. Uniform pixel edge continuity verified across image patches.",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.27. Uniform pixel edge continuity verified across image patches.",
       "status": "passed"
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 1.0,
+      "score": 0.9,
       "confidence": "high",
-      "explanation": "The document is for a fictional country (\"Republic of Eolie\"), the visible passport number (PP3000000) does not match the number in the MRZ (PP300009), and both the main and ghost photos appear digitally inserted and likely AI-generated, indicating strong fraud risk.",
+      "explanation": "The primary photograph on the visa page depicts a different individual than the ghost images appearing on both the top right and bottom right of the document, which is a strong indicator of photo substitution or identity fraud.",
       "status": "flagged"
     },
     {
       "detector_name": "photo_patch_forensics",
-      "score": 0.4,
+      "score": 0.41,
       "confidence": "high",
-      "explanation": "Photo-patch forensics on document face crop. ELA score=0.0 (Error Level Analysis computed pixel difference variance of 0.07.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 695.91). Image shows signs of).",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.24.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 908.31). Image shows signs of).",
       "status": "flagged"
     },
     {
@@ -947,45 +763,45 @@
     },
     {
       "detector_name": "rainbow_gradient",
-      "score": 0.25,
+      "score": 0.65,
       "confidence": "low",
-      "explanation": "GENUINE GRADIENT",
-      "status": "passed"
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
     },
     {
       "detector_name": "guilloche_pattern",
       "score": 0.0,
       "confidence": "low",
-      "explanation": "Background frequency energy=8.43, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "explanation": "Background frequency energy=8.03, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
       "status": "passed"
     },
     {
       "detector_name": "hologram_shift",
-      "score": 0.347,
+      "score": 0.45,
       "confidence": "low",
-      "explanation": "Single-frame foil proxy (sat_std=19.9, val_std=36.4, hue_std=31.7). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "explanation": "Single-frame foil proxy (sat_std=20.8, val_std=26.1, hue_std=36.5). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
       "status": "passed"
     },
     {
       "detector_name": "face_verification",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "No live image provided; face match skipped.",
-      "status": "unavailable"
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.9848 (match threshold: 0.4). Faces do not match — possible impersonation.",
+      "status": "flagged"
     },
     {
       "detector_name": "liveness_analysis",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "No live image provided; liveness skipped.",
-      "status": "unavailable"
+      "score": 0.221,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.36, Color inconsistency: 0.05.",
+      "status": "passed"
     },
     {
       "detector_name": "duplicate_identity_check",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "No live image provided; duplicate-ID skipped.",
-      "status": "unavailable"
+      "score": 0.596,
+      "confidence": "high",
+      "explanation": "No duplicate identity detected. Closest match under a different ID ('face_88d52055e9b245199fd5fbc86b3d89b5') had similarity 0.5959, below the 0.85 threshold.",
+      "status": "passed"
     }
   ],
   "rag_context": {
@@ -1023,38 +839,38 @@
       "similar_cases": [
         {
           "source": "original_visa_indian_person_report.json",
-          "similarity": 0.5845,
+          "similarity": 0.587,
           "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
         },
         {
           "source": "passport2_report.json",
-          "similarity": 0.5486,
+          "similarity": 0.5491,
           "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"passport2.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.121,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 87.9% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"statu"
         },
         {
           "source": "dataset-cover_report.json",
-          "similarity": 0.5427,
+          "similarity": 0.5439,
           "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"dataset-cover.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.22,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 78.0% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"st"
         }
       ],
       "count": 3
     }
   },
-  "image_fingerprint": "8cced4f86ec4e4f6558d812b4241ed4e53c5cf4bf7cd2e51d86043ddb62a6fbf",
+  "image_fingerprint": "59432ac5bd4b38a66b5b5570d7c4fce2b225355ca4f3dcff036bd42ba568833e",
   "integrity_seal": {
-    "report_hash": "5a839297af327ef65d66ebec8d584d932970b6e5d142acc801be3eca9bef8e85",
-    "signature": "2f67ebeca0e185dc02f43fd445920fda7b489f976d7c11564760bddf25676d51e9c2d1fbd21a3bdfeacf8251e51ba2411f8c22d4d1bc8b8b8a6f7f652acdf145890c8099a7ca2600d2207c704c034ee3697778ae5759b5c750e3f33a3e7e2a1832d4d2ec92e0ab08cfebdf38ceada174cfb9ff0248b035ef202ef7eea225773da2625152ec01e8f0557129f7ad063a3f07fe3ab545fb878cecffdee328dc73b6216625e39398c96be031b62bcd1e09dfa1fa7d3e2682c247f13ec9eb8a5a181e97a309b72d4372b3110d2a4b3cfa04eec66f4dcc348c909c45d723f3753684f653c9a58ffc49133fc66c32467b7eb0d3418b31f2b2414e1095f2563a96c3ad85",
-    "signed_at": "2026-09-23T11:11:01Z",
+    "report_hash": "3b32f69cab182834d83c46e169fc96f8809f0dad53afb9677d76c8b684b81ed3",
+    "signature": "2ce3370ccfe5ed4def7cc2d4c74ab9bd6b879066841c041a9fa19a391bba7f125a5aea8cbf1a4c127844cdfcc719cb049f89fc318d3eda3be0ac45e3cfdde431f1faa237961e9512ed8fe00fac66eda14f8207d5630fb5352d307c0582c9b45fa986f895fee9b92ab2632697d83a31f2216a90eb766ecc65c53c4ba0280121239700d776e058ea0a145cc3760103e23edf502c3e4ea799e5adcd014c9f92bb0168875ba3cacba590e5fdf3dafd08be88a674e33850f3bde392f4ecacf6e6bb5e62c33296bce0f4a63e903126e97841ca1b9a65b06ebfe77a9a0ac4035da4ad3953b93a1bc93810eb5a9e831213af1c677f6ac5b232eb57dbb49f733df96eaf29",
+    "signed_at": "2026-09-23T11:36:06Z",
     "algorithm": "RSA-PKCS1v15-SHA256",
     "verified": true
   },
   "blockchain_anchor": {
-    "block_index": 11,
-    "block_hash": "00819b6eeacad101fdc73f1e78e927a3a60eba823d9d3f4736ab342a4eb462f1",
-    "previous_hash": "00f9742b8aa7becfb45c629eecaacc968248a483dfad82ee835ecc29e90a483a",
-    "timestamp": "2026-09-23T11:11:01Z",
-    "report_hash": "5a839297af327ef65d66ebec8d584d932970b6e5d142acc801be3eca9bef8e85",
+    "block_index": 12,
+    "block_hash": "00fe1d53fdeefd64c983025e811a32b587dc4689b505f16f56a385287da98275",
+    "previous_hash": "00819b6eeacad101fdc73f1e78e927a3a60eba823d9d3f4736ab342a4eb462f1",
+    "timestamp": "2026-09-23T11:36:06Z",
+    "report_hash": "3b32f69cab182834d83c46e169fc96f8809f0dad53afb9677d76c8b684b81ed3",
     "difficulty": 2
   },
-  "human_summary": "YELLOW | REVIEW | passport-1.jpeg\nWhy: This case is flagged for REVIEW due to a computed forensic risk score of 47.5%. KAVACH detected multiple forensic anomalies, including signs of digitally inserted and likely AI-generated photos, a fictional country, and inconsistent passport numbers.\n\nOfficer checklist:\n[ ] Verify the document's issuing authority and country of origin.\n[ ] Manually compare the visible passport number with any MRZ or embedded data.\n[ ] Closely inspect the main and ghost photos for signs of digital insertion or AI generation (e.g., unusual textures, lighting).\n[ ] Examine the physical document for image manipulation, such as resampling artifacts or unusual compression patterns.\nSignals: vision_llm_sanity_analysis=flagged, cfa_demosaicing_analysis=flagged, jpeg_ghost_analysis=flagged, resampling_interpolation_analysis=flagged, photo_patch_forensics=flagged"
+  "human_summary": "RED | HIGH RISK | visa_a52766c6ab17471787f9687fbe87831a.jpeg\nWhy: This is a HIGH RISK case with a computed forensic risk score of 43.4%. Face verification failed, indicating possible impersonation, and the document shows signs of photo substitution and image manipulation.\n\nOfficer checklist:\n[ ] Manually verify the applicant's face against the document photo and any ghost images.\n[ ] Physically inspect the document for signs of photo substitution or alteration.\n[ ] Check the document for unusual print quality or inconsistencies suggesting manipulation.\n[ ] Question the applicant regarding discrepancies in their identity document.\n[ ] Refer for secondary inspection.\nSignals: face_verification=flagged vision_llm_sanity_analysis=flagged resampling_interpolation_analysis=flagged jpeg_ghost_analysis=flagged cfa_demosaicing_analysis=flagged"
 }
