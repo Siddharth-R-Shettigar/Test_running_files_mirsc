@@ -99,22 +99,22 @@
           <div class="carousel-track" id="carouselTrack">
             <div class="carousel-slide" data-index="0" role="group" aria-roledescription="slide" aria-label="1 of 4: Officer Guided Kiosk Approach">
               <div class="slide-card glass-card">
-                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_01.jpg') }}" alt="01. Officer Guided Kiosk Approach" class="slide-img" loading="eager">
+                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_01.png', v='v2') }}" alt="01. Officer Guided Kiosk Approach" class="slide-img" loading="eager">
               </div>
             </div>
             <div class="carousel-slide" data-index="1" role="group" aria-roledescription="slide" aria-label="2 of 4: Facial Vector Alignment">
               <div class="slide-card glass-card">
-                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_02.jpg') }}" alt="02. Facial Vector Alignment" class="slide-img" loading="lazy">
+                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_02.png', v='v2') }}" alt="02. Facial Vector Alignment" class="slide-img" loading="lazy">
               </div>
             </div>
             <div class="carousel-slide" data-index="2" role="group" aria-roledescription="slide" aria-label="3 of 4: Multi-Credential Surface Scan">
               <div class="slide-card glass-card">
-                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_03.jpg') }}" alt="03. Multi-Credential Surface Scan" class="slide-img" loading="lazy">
+                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_03.png', v='v2') }}" alt="03. Multi-Credential Surface Scan" class="slide-img" loading="lazy">
               </div>
             </div>
             <div class="carousel-slide" data-index="3" role="group" aria-roledescription="slide" aria-label="4 of 4: Verified Gate Clearance">
               <div class="slide-card glass-card">
-                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_04.jpg') }}" alt="04. Verified Gate Clearance" class="slide-img" loading="lazy">
+                <img src="{{ url_for('static', filename='img/carousel/kiosk_step_04.png', v='v2') }}" alt="04. Verified Gate Clearance" class="slide-img" loading="lazy">
               </div>
             </div>
           </div>
@@ -400,7 +400,7 @@
         container.addEventListener('mouseleave', resumeAutoplay);
       }
 
-      // Initialize
+      // Initialize: change this index to 0-3 to choose which slide appears first.
       updateCarousel(0);
       startAutoplay();
     })();
