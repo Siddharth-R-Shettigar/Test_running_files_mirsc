@@ -68,6 +68,7 @@ def login():
         session.pop("captures", None)
         session.pop("face_path", None)
         session.pop("doc_path", None)
+        session.pop("case_id", None)
         return redirect(url_for("scan"))
 
     return render_template("login.html", error="Invalid login id or password."), 401
@@ -86,6 +87,8 @@ def scan():
 
     if "captures" not in session:
         session["captures"] = {}
+    if "case_id" not in session:
+        session["case_id"] = f"case_{uuid.uuid4().hex[:12]}"
 
     idx = _scan_index()
     if idx >= len(SCAN_STEPS):
@@ -97,6 +100,7 @@ def scan():
         current_index=idx,
         current=SCAN_STEPS[idx],
         captures=session.get("captures") or {},
+        case_id=session.get("case_id"),
     )
 
 def _map_result_ui(report):
@@ -273,6 +277,9 @@ def manifest():
 
 @app.route("/scan/capture", methods=["POST"])
 def scan_capture():
+    if not session.get("case_id"):
+        session["case_id"] = f"case_{uuid.uuid4().hex[:12]}"
+
     if not session.get("logged_in"):
         return redirect(url_for("login"))
 
@@ -329,19 +336,43 @@ def scan_reset():
     session.pop("captures", None)
     session.pop("face_path", None)
     session.pop("doc_path", None)
+    session.pop("case_id", None)
     return redirect(url_for("scan"))    
 
 
 @app.route("/api/run_case")
 def api_run_case():
-    # ── FAST UI demo: return immediately without ML ──────────────────────────
+    # One case id for this session (created in /scan; fallback if missing)
+    case_id = session.get("case_id") or f"case_{uuid.uuid4().hex[:12]}"
+    session["case_id"] = case_id
+    os.makedirs("case_logs", exist_ok=True)
+
+    # ── FAST UI demo: no heavy ML ────────────────────────────────────────────
     if os.environ.get("KAVACH_FAST_UI", "1").strip() != "0":
-        return jsonify(_map_result_ui({
+        demo_report = {
+            "engine": "KAVACH-FAST-UI",
+            "case_id": case_id,
             "risk_level": "REVIEW",
-            "risk_reason": "Manual check recommended",
+            "risk_reason": "Manual check recommended (demo mode).",
             "forensic_risk_score": 0.46,
             "detector_signals": [],
-        }))
+            "human_summary": "Demo screening complete.",
+            "documents_analysed": ["demo"],
+        }
+        try:
+            with open(os.path.join("case_logs", f"{case_id}_report.json"), "w", encoding="utf-8") as fh:
+                json.dump(demo_report, fh, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"[WARNING] could not save demo case log: {e}")
+
+        ui = _map_result_ui(demo_report)
+        ui["case_id"] = case_id
+        try:
+            session["last_case_id"] = case_id
+            session["last_result_ui"] = ui
+        except Exception:
+            pass
+        return jsonify(ui)
 
     if not session.get("logged_in"):
         return jsonify({"error": "not logged in"}), 401
@@ -349,7 +380,6 @@ def api_run_case():
     captures = session.get("captures") or {}
     face_path = session.get("face_path") or captures.get("face")
 
-    # Document keys to analyse in priority order
     DOC_KEYS = ["passport", "visa", "national_id", "drivers_license", "border_permit"]
     available_docs = [
         (key, captures[key])
@@ -357,19 +387,27 @@ def api_run_case():
         if captures.get(key) and os.path.exists(str(captures[key]))
     ]
 
+    # Create case id at the START so PDF always has an id (even if analysis fails later)
+    case_id = session.get("case_id") or f"case_{uuid.uuid4().hex[:12]}"
+    session["case_id"] = case_id
+    os.makedirs("case_logs", exist_ok=True)
+
     fallback = {
         "risk_level": "REVIEW",
         "risk_reason": "Full analysis did not finish on this machine. Captures were saved.",
         "forensic_risk_score": 0.5,
         "detector_signals": [],
+        "case_id": case_id,
     }
 
     if not available_docs:
-        fallback["risk_reason"] = "No document captures found in session."
-        return jsonify(_map_result_ui(fallback))
+        fallback["risk_reason"] = "No document captures in this session (face only or all skipped). Capture a passport/ID to run document forensics."
+        ui = _map_result_ui(fallback)
+        ui["case_id"] = case_id
+        session["last_case_id"] = case_id
+        return jsonify(ui)
 
     # ── Run engine for each document and merge signals ────────────────────────
-    os.makedirs("case_logs", exist_ok=True)
     merged_signals = []
     merged_risk_scores = []
     merged_risk_level = "REVIEW"
@@ -424,7 +462,11 @@ def api_run_case():
                     merged_risk_level = "REVIEW"
                     if "complete" in merged_risk_reason:
                         merged_risk_reason = f"[{doc_key}] {doc_report.get('risk_reason', '')}"
-                elif doc_rl in ("PASS", "GENUINE") and merged_risk_level not in ("HIGH RISK", "HIGH_RISK", "REVIEW"):
+                elif doc_rl in ("PASS", "GENUINE") and merged_risk_level not in (
+                    "HIGH RISK",
+                    "HIGH_RISK",
+                    "REVIEW",
+                ):
                     merged_risk_level = "PASS"
 
         except subprocess.TimeoutExpired:
@@ -447,6 +489,7 @@ def api_run_case():
     avg_risk = (sum(merged_risk_scores) / len(merged_risk_scores)) if merged_risk_scores else 0.5
     merged_report = {
         "engine": "KAVACH-MULTI",
+        "case_id": case_id,
         "documents_analysed": [k for k, _ in available_docs],
         "live_image": os.path.basename(str(face_path)) if face_path else None,
         "risk_level": merged_risk_level,
@@ -456,25 +499,22 @@ def api_run_case():
         "detector_signals": merged_signals,
     }
 
-    # Persist merged report
     try:
-        case_id = f"case_{uuid.uuid4().hex[:12]}"
-        merged_report["case_id"] = case_id
+        merged_report["case_id"] = case_id   # use the one created at the start
         merged_log = os.path.join("case_logs", f"{case_id}_report.json")
         with open(merged_log, "w", encoding="utf-8") as fh:
             json.dump(merged_report, fh, indent=2, ensure_ascii=False)
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"[WARNING] could not save case log: {e}")
 
     ui = _map_result_ui(merged_report)
-    ui["case_id"] = merged_report.get("case_id", "")
+    ui["case_id"] = case_id
     try:
         session["last_result_ui"] = ui
-        session["last_case_id"] = merged_report.get("case_id", "")
+        session["last_case_id"] = case_id
     except Exception:
         pass
     return jsonify(ui)
-
 
 # ── GET /api/cases ─────────────────────────────────────────────────────────────
 @app.route("/api/cases")
@@ -499,9 +539,28 @@ def api_cases():
         integrity = "unknown"
         try:
             from blockchain import get_chain
-            if rep.get("blockchain_anchor") or rep.get("integrity_seal"):
-                result = get_chain().verify_report_hash(rep)
-                integrity = "intact" if result else "tampered"
+
+            report_hash = None
+            anchor = rep.get("blockchain_anchor") or {}
+            seal = rep.get("integrity_seal") or {}
+            if isinstance(anchor, dict):
+                report_hash = anchor.get("report_hash")
+            if not report_hash and isinstance(seal, dict):
+                report_hash = seal.get("report_hash")
+            if not report_hash:
+                report_hash = rep.get("report_hash")
+
+            if report_hash:
+                result = get_chain().verify_report_hash(str(report_hash))
+                if isinstance(result, dict):
+                    if result.get("valid") is True:
+                        integrity = "intact"
+                    elif result.get("reason") in ("not found", None) and result.get("valid") is False:
+                        integrity = "unknown"
+                    else:
+                        integrity = "tampered"
+                else:
+                    integrity = "intact" if result else "unknown"
         except Exception:
             integrity = "unknown"
 

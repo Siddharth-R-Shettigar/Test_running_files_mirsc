@@ -1,10 +1,10 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "passport-1.jpeg",
-  "live_image": null,
+  "file_analyzed": "passport_3d2f28c627974d23a016713f2e54b30c.jpeg",
+  "live_image": "face_016c05e5ca2140af9e6a55d52736142f.jpg",
   "risk_level": "REVIEW",
   "risk_reason": "Critical checks not available: ocr_extraction.",
-  "forensic_risk_score": 0.455,
+  "forensic_risk_score": 0.51,
   "active_detectors_evaluated": 29,
   "detector_signals": [
     {
@@ -151,9 +151,9 @@
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.8,
+      "score": 1.0,
       "confidence": "high",
-      "explanation": "The photographs appear digitally inserted and lack seamless integration with the document's background and security features, particularly the ghost image on the left which seems poorly composited.",
+      "explanation": "The visible passport number (PP3000000) does not match the passport number in the machine-readable zone (PP300009), indicating a clear alteration or a fraudulent document. Additionally, the ghost image has an unexplained translucent overlay, and the main photo appears digitally inserted with sharp edges.",
       "status": "flagged"
     },
     {
@@ -195,40 +195,40 @@
       "detector_name": "face_verification",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "No live image provided; face match skipped.",
+      "explanation": "Detector unavailable (import or call failed).",
       "status": "unavailable"
     },
     {
       "detector_name": "liveness_analysis",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "No live image provided; liveness skipped.",
+      "explanation": "Detector unavailable (import or call failed).",
       "status": "unavailable"
     },
     {
       "detector_name": "duplicate_identity_check",
-      "score": 0.5,
+      "score": 0.0,
       "confidence": "low",
-      "explanation": "No live image provided; duplicate-ID skipped.",
-      "status": "unavailable"
+      "explanation": "Duplicate identity check crashed during execution: opencv-python is not installed; duplicate identity check unavailable.",
+      "status": "failed"
     }
   ],
   "rag_context": {},
   "image_fingerprint": "8cced4f86ec4e4f6558d812b4241ed4e53c5cf4bf7cd2e51d86043ddb62a6fbf",
   "integrity_seal": {
-    "report_hash": "13d673da9b062906148fdb5a07606534cdeddb6d689124c6588f3b9a5c2dd985",
-    "signature": "c0661cf8634bbc70d14e11775b3f35d3a4d3cb764f03973889d7405d36ad66e95aaaa4f4b54a35842d2233436495b4739a925f1860a9f075343628e54cb49523f1165a0ca7e872fa6fed8babbdf89504259645278b859c9969f2a5c05d120616ad24904f786cd8a7cb1cfc45bfa3926b62c4cddca880b4342226c5fae03b0a45bfd4f780e2e5412f0471796f491198b5f1e586c3abf673e5137e2f91749fda6541de270c6908ab27281b3635a83761210ee1552bb5b2577134e9e1fe8278eccd7e20a52fa1243de996f9f60bef9d0e3a6d0c2ed8a96f9ccad2e763a17f0411ebf363a985fffc21bb60ec3e8b240d90f03f18ec639fc727526fe67eb96f3e8fed",
-    "signed_at": "2026-09-22T15:39:22Z",
+    "report_hash": "c165e2681bd3014d4f23d9b2c22b48e061be99a8aa86cd3a25f675a315ff3609",
+    "signature": "dad9dfdfb4e9022158d54519ba59b6bf2ebf64206f063c90f19fcf0362932561436926f08687975697a6d6f04873c7d6facbc4756e982e9f069ccfc19a9211635701fe56314148071f6e6db47d96e9cbbda0c78ef37b995480d102276cc80ca3a7fbb4271f1d23bf08bdc5347d6c8bc7d6d0b548ae12bd5c8ee97324ffd3fa7c7a55d54befc5db074eb50e9444f315d37715a1b050155b8fba538d8f57b6ddafad1fe2abce45c30e2f13651aa6d3ad0e0483b5932ae601ac5543f5653a895a15a33e07c4579bb84b1b72d4ce955aa5b0fd6f430f8a6b05b07f7c9351ec34307faec98f53a7600473f21ab8349fff48027275b6480b7dced6945d89dfe7ed2d46",
+    "signed_at": "2026-09-22T15:35:02Z",
     "algorithm": "RSA-PKCS1v15-SHA256",
     "verified": true
   },
   "blockchain_anchor": {
-    "block_index": 2,
-    "block_hash": "0087e00b5b35a8c4df7db36a25dacd50a302a773719141da39f03607b423b249",
-    "previous_hash": "00c8415dcc3267a1462e8b4c5e61f1fb9b072e29c385f6a597938a0f5d6a7ab9",
-    "timestamp": "2026-09-22T15:39:22Z",
-    "report_hash": "13d673da9b062906148fdb5a07606534cdeddb6d689124c6588f3b9a5c2dd985",
+    "block_index": 1,
+    "block_hash": "00c8415dcc3267a1462e8b4c5e61f1fb9b072e29c385f6a597938a0f5d6a7ab9",
+    "previous_hash": "0b4b452e4ae311a90bd03a5369adcfb27611fc4b8252743970f35c10202bc35f",
+    "timestamp": "2026-09-22T15:35:02Z",
+    "report_hash": "c165e2681bd3014d4f23d9b2c22b48e061be99a8aa86cd3a25f675a315ff3609",
     "difficulty": 2
   },
-  "human_summary": "YELLOW | REVIEW | passport-1.jpeg\nWhy: The document requires review because critical OCR data extraction was unavailable, and multiple forensic indicators suggest potential digital manipulation, including suspicious photo insertion and unusual JPEG compression.\n\nOfficer checklist:\n[ ] Manually verify all document details as critical OCR data extraction failed.\n[ ] Closely inspect the photographs for signs of digital insertion or poor integration with the document's security features.\n[ ] Check for any visible signs of alteration or tampering related to document compression or image quality.\n[ ] Perform a manual face-to-document match, as automated live image verification was skipped.\nSignals: vision_llm_sanity_analysis=flagged jpeg_ghost_analysis=flagged jpeg_quantization_analysis=flagged ocr_extraction=unavailable mrz_parser=unavailable"
+  "human_summary": "YELLOW | REVIEW | passport_3d2f28c627974d23a016713f2e54b30c.jpeg\nWhy: Critical OCR data extraction was unavailable. Additionally, the system detected a mismatch in passport numbers between the visible and machine-readable zones, along with other image manipulation indicators.\n\nOfficer checklist:\n[ ] Manually verify all document details, especially the passport number, against the presented physical document.\n[ ] Check for physical alterations or signs of tampering on the document, paying close attention to the ghost image area.\n[ ] Confirm the traveler's identity against the document photo and conduct a live face verification (this check was skipped by KAVACH).\n[ ] Examine the physical document for any unusual compression patterns or missing security features.\nSignals: ocr_extraction=unavailable, vision_llm_sanity_analysis=flagged, jpeg_ghost_analysis=flagged, jpeg_quantization_analysis=flagged, face_verification=unavailable"
 }
