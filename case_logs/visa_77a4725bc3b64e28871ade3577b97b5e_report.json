@@ -1,10 +1,10 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "visa_67092952c3ba4234a15a2f340f37ed4b.jpeg",
-  "live_image": "face_3551bf85a3aa479bb23c1ba506ce7f97.jpg",
+  "file_analyzed": "visa_77a4725bc3b64e28871ade3577b97b5e.jpeg",
+  "live_image": "face_4edfcbe9541f4f4fa16d54295d272930.jpeg",
   "risk_level": "REVIEW",
   "risk_reason": "Critical checks not available: ocr_extraction.",
-  "forensic_risk_score": 0.382,
+  "forensic_risk_score": 0.399,
   "active_detectors_evaluated": 30,
   "detector_signals": [
     {
@@ -209,9 +209,9 @@
     },
     {
       "detector_name": "liveness_analysis",
-      "score": 0.291,
-      "confidence": "medium",
-      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.44, Color inconsistency: 0.10.",
+      "score": 0.198,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.35, Color inconsistency: 0.01.",
       "status": "passed"
     },
     {
@@ -247,19 +247,19 @@
   },
   "image_fingerprint": "59432ac5bd4b38a66b5b5570d7c4fce2b225355ca4f3dcff036bd42ba568833e",
   "integrity_seal": {
-    "report_hash": "2b79662f653c1f0f9a955802d7586a1f7e4df88335b7f84f2156a644c63dfd3f",
-    "signature": "72a7a0b9c2bd87d703a69ce5d5528ad82af4bf9dd2cbe0fd35a72658af4abf76d6dd7cec1953f41e7f22173a63420a47381c5f5e66fce08a9bb2e39ad3cca61bf395dc660127045ce24a084865a267283776d8e45a7ce0382072e90a76c11337deb65c7e048330d726b703baa35abc92cd3cac2af6796d3db1728ecae7eb11271aa7649efbac105ae52ca9f96439a1f1a62ac65d3cc361ee47fb72b06364cc77791ba188f658acc11f8d26777794c40217f092d03f97fa9541b76a4acb0bbdccd3cba67c429a6579e64ac5b3f29cbef9f40d051ee66e301e080a8312a26102d83dd810f0f047af94390c5979fdfc95df54a87ce8c765c0589f4b573356c62744",
-    "signed_at": "2026-09-23T12:13:45Z",
+    "report_hash": "18058ae11065abf9d46a5095c6e539ad16e69ccc2008ef78f74de4cd29d83cd3",
+    "signature": "6c8f0f27c765baea2d1b04937c4b8d44e0c4a99e4991c85c76ec3f3adb503ea4f301b7e39ce1995af02318f3fcd74ffa8c88539184648a0c9c23bf6316ec726093258cf5893f5ac7d90037e8c05188a69cc5b215645de10113f9157a3f7038910d1cc7bed0484cb95bb9b956f3aed762cb49e535952b9f2de798586a2fe65921f5964bf4d5e159bcbf4671831f5720b0994cf9148de6e0ae6740a1c0b5f2b9a9edceadf960d646186aaf4d240b39cc6d5cf617f7106d5a19a911c5e282a94d88bf60d478da8ba9472d4b8209da4c7dcef706627815c192560c64fafbdb1924742d3666de0b5afe1c1d4b1c6e8c29d074c330e1b0dc9d4fcc92a3cd2ea14bddbe",
+    "signed_at": "2026-09-23T12:50:26Z",
     "algorithm": "RSA-PKCS1v15-SHA256",
     "verified": true
   },
   "blockchain_anchor": {
-    "block_index": 4,
-    "block_hash": "005ef128924bd063a6a1cb88993c865e81117954b5c5699a7e5db6020749f20a",
-    "previous_hash": "0020ef78f606edacbed18374cdcde6f1ebf87f3b462a7214b6cb5c55d1544d3e",
-    "timestamp": "2026-09-23T12:13:45Z",
-    "report_hash": "2b79662f653c1f0f9a955802d7586a1f7e4df88335b7f84f2156a644c63dfd3f",
+    "block_index": 11,
+    "block_hash": "00bb9951196ddda47692dc5f6192beb143740e3fb75338283c1c5befc65f885a",
+    "previous_hash": "00f2003c6936ecbdbddc357d1f110c28854fa5acd22e4a96a360a49fa8b9a65a",
+    "timestamp": "2026-09-23T12:50:26Z",
+    "report_hash": "18058ae11065abf9d46a5095c6e539ad16e69ccc2008ef78f74de4cd29d83cd3",
     "difficulty": 2
   },
-  "human_summary": "visa_67092952c3ba4234a15a2f340f37ed4b.jpeg | Needs review | forensic risk 38.2% | Bayer CFA grid residual ratio computed at 6.73. Lacks physical camera Bayer filter demosaicing signature."
+  "human_summary": "visa_77a4725bc3b64e28871ade3577b97b5e.jpeg | Needs review | forensic risk 39.9% | Bayer CFA grid residual ratio computed at 6.73. Lacks physical camera Bayer filter demosaicing signature."
 }

@@ -1,9 +1,54 @@
 import json
 import sys
 import os
+import signal
+import concurrent.futures
+from contextlib import contextmanager
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# ---------------------------------------------------------------------------
+# Timeout helpers
+# ---------------------------------------------------------------------------
+class TimeoutException(Exception):
+    pass
+
+@contextmanager
+def time_limit(seconds):
+    def signal_handler(signum, frame):
+        raise TimeoutException(f"Analysis timed out after {seconds}s")
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(seconds)
+    try:
+        yield
+    finally:
+        signal.alarm(0)
+
+
+def _run_with_timeout(fn, args, timeout=8):
+    """Run a single detector with its own timeout."""
+    if fn is None:
+        return None
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+        future = executor.submit(fn, *args)
+        try:
+            return future.result(timeout=timeout)
+        except concurrent.futures.TimeoutError:
+            return {
+                "status": "failed",
+                "score": 0.5,
+                "confidence": "low",
+                "explanation": f"Detector timed out after {timeout}s"
+            }
+        except Exception as e:
+            return {
+                "status": "failed",
+                "score": 0.5,
+                "confidence": "low",
+                "explanation": f"Detector crashed: {e}"
+            }
+
 
 # ---------------------------------------------------------------------------
 # RAG Integration
@@ -14,6 +59,7 @@ try:
 except Exception as e:
     print(f"[WARNING] RAG not available: {e}", file=sys.stderr)
     RAG_AVAILABLE = False
+
 try:
     from crypto_utils import hash_image, sign_report, build_integrity_manifest
     CRYPTO_AVAILABLE = True
@@ -35,7 +81,6 @@ def _safe_import(module_path, func_name):
 # ---------------------------------------------------------------------------
 # Detector imports
 # ---------------------------------------------------------------------------
-
 run_exif_detector = _safe_import("detectors.exif_detector", "run_exif_detector")
 run_c2pa_detector = _safe_import("detectors.c2pa_detector", "run_c2pa_detector")
 run_ela_detector = _safe_import("detectors.ela_detector", "run_ela_detector")
@@ -74,7 +119,6 @@ validate_national_id = _safe_import("detectors.national_id_validator", "validate
 # ---------------------------------------------------------------------------
 # Normalization utilities
 # ---------------------------------------------------------------------------
-
 def _confidence_str(value):
     if value is None:
         return "low"
@@ -174,7 +218,6 @@ def _run_safe(fn, *args, detector_name="unknown", score_means_risk=True, **kwarg
 # ---------------------------------------------------------------------------
 # Risk helpers
 # ---------------------------------------------------------------------------
-
 def _risk_level(signals, forensic_risk):
     statuses = {s["detector_name"]: s for s in signals}
 
@@ -224,7 +267,6 @@ def _risk_level(signals, forensic_risk):
 # ---------------------------------------------------------------------------
 # MRZ / OCR helpers
 # ---------------------------------------------------------------------------
-
 def _clean_mrz_candidate(text: str) -> str:
     if not text:
         return ""
@@ -344,8 +386,7 @@ def _normalize_doc_type(doc_type):
 # ---------------------------------------------------------------------------
 # Main analysis
 # ---------------------------------------------------------------------------
-
-def analyze_media(image_path, live_image_path=None):
+def analyze_media(image_path, live_image_path=None, timeout_seconds=45):
     if not os.path.exists(image_path):
         return {"error": f"File {image_path} not found."}
 
@@ -356,346 +397,354 @@ def analyze_media(image_path, live_image_path=None):
     rag_context = {}
     image_hash = hash_image(image_path) if CRYPTO_AVAILABLE else None
 
-    # ----- 0) Clarity / rescan gate -----
-    if check_image_clarity is not None:
-        clarity_sig = _run_safe(
-            check_image_clarity,
-            image_path,
-            detector_name="clarity_check",
-            score_means_risk=False,
-        )
-        signals.append(clarity_sig)
-        if clarity_sig.get("status") == "failed":
-            return {
-                "engine": "KAVACH",
-                "file_analyzed": os.path.basename(image_path),
-                "live_image": os.path.basename(live_image_path) if live_image_path else None,
-                "risk_level": "REVIEW",
-                "risk_reason": "Image clarity too low; rescan recommended.",
-                "forensic_risk_score": 0.0,
-                "active_detectors_evaluated": len(signals),
-                "detector_signals": signals,
-                "rag_context": {},
-            }
-
-    # ----- 1) OCR -----
-    ocr_raw = None
-    if extract_text is not None:
-        try:
-            ocr_raw = extract_text(image_path)
-        except Exception as e:
-            ocr_raw = {
-                "status": "failed",
-                "score": 0.0,
-                "confidence": "low",
-                "explanation": str(e),
-                "fields": [],
-                "mrz_lines": [],
-            }
-
-    signals.append(_normalize("ocr_extraction", ocr_raw, score_means_risk=False))
-
-    ocr_text = ""
-    if isinstance(ocr_raw, dict):
-        parts = []
-        for f in ocr_raw.get("fields") or []:
-            if isinstance(f, dict) and f.get("text"):
-                parts.append(str(f["text"]))
-            elif isinstance(f, str):
-                parts.append(f)
-        ocr_text = " ".join(parts)
-
-    # ----- 2) Document classification -----
-    doc_type = "unknown"
-    country = "unknown"
-    needs_mrz = False
-
-    if classify_document is not None:
-        clf_raw = _run_safe(
-            classify_document,
-            image_path,
-            ocr_text,
-            detector_name="document_classifier",
-            score_means_risk=False,
-        )
-        signals.append(clf_raw)
-        doc_type = _normalize_doc_type(clf_raw.get("doc_type", "unknown")) or "unknown"
-        needs_mrz = bool(clf_raw.get("needs_mrz", False))
-
-        # Extract country from doc_type for RAG
-        if "ind" in doc_type or "india" in doc_type or "pan" in doc_type or "aadhaar" in doc_type:
-            country = "India"
-        elif "us" in doc_type or "usa" in doc_type or "american" in doc_type:
-            country = "USA"
-        elif "schengen" in doc_type or "eu" in doc_type:
-            country = "EU"
-        elif "poland" in doc_type or "polish" in doc_type:
-            country = "Poland"
-        elif "portugal" in doc_type or "portuguese" in doc_type:
-            country = "Portugal"
-    else:
-        signals.append(_normalize(
-            "document_classifier",
-            {
-                "status": "unavailable",
-                "score": 0.0,
-                "confidence": "low",
-                "explanation": "document_classifier not loaded.",
-            },
-            score_means_risk=False,
-        ))
-
-    # ----- 2b) RAG — Document Standards Query -----
-    # Query RAG immediately after classification to get standards for this doc type
-    if RAG_AVAILABLE and doc_type != "unknown":
-        try:
-            from rag_query import query_document_standards, query_security_features
-            standards = query_document_standards(doc_type, country)
-            security_features = query_security_features(doc_type)
-            rag_context["document_standards"] = standards
-            rag_context["expected_security_features"] = security_features
-            print(f"[RAG] Standards retrieved for: {doc_type} ({country})", file=sys.stderr)
-        except Exception as e:
-            print(f"[RAG] Standards query failed: {e}", file=sys.stderr)
-
-    # ----- 3) MRZ pipeline -----
-    mrz_lines = _collect_mrz_lines(ocr_raw) if isinstance(ocr_raw, dict) else []
-    has_detected_mrz = bool(mrz_lines)
-    run_mrz_pipeline = needs_mrz or has_detected_mrz
-
-    mrz_fields = {}
-    ocr_fields_for_consistency = {}
-
-    if run_mrz_pipeline:
-        mrz_raw = None
-        if parse_mrz is not None and len(mrz_lines) >= 2:
-            try:
-                mrz_raw = parse_mrz(mrz_lines)
-                mrz_fields = (mrz_raw or {}).get("fields") or {}
-            except Exception as e:
-                mrz_raw = {
-                    "status": "failed",
-                    "score": 0.0,
-                    "confidence": "low",
-                    "explanation": str(e),
-                    "fields": {},
-                }
-        elif parse_mrz is not None:
-            mrz_raw = {
-                "status": "unavailable",
-                "score": 0.0,
-                "confidence": "low",
-                "explanation": (
-                    f"'{doc_type}' requires MRZ but could not build two lines from OCR "
-                    f"(got {len(mrz_lines)})."
-                ),
-                "fields": {},
-                "issues": ["Two MRZ lines are required."],
-            }
-
-        signals.append(_normalize("mrz_parser", mrz_raw, score_means_risk=False))
-
-        if mrz_fields:
-            ocr_fields_for_consistency = {
-                "passport_number": mrz_fields.get("passport_number") or mrz_fields.get("document_number") or "",
-                "dob": mrz_fields.get("dob") or mrz_fields.get("date_of_birth") or "",
-                "expiry": mrz_fields.get("expiry") or mrz_fields.get("date_of_expiry") or "",
-                "surname": mrz_fields.get("surname") or mrz_fields.get("primary_identifier") or "",
-                "nationality": mrz_fields.get("nationality") or mrz_fields.get("country_code") or "",
-            }
-
-        if validate_document_fields is not None and mrz_fields:
-            signals.append(_run_safe(
-                validate_document_fields,
-                mrz_fields,
-                doc_type,
-                detector_name="field_validator",
-                score_means_risk=False,
-            ))
-        else:
-            signals.append(_normalize(
-                "field_validator",
-                {
-                    "status": "unavailable",
-                    "score": 0.0,
-                    "confidence": "low",
-                    "explanation": f"Skipped; '{doc_type}' needs MRZ but parsing yielded no fields.",
-                },
-                score_means_risk=False,
-            ))
-
-        if check_ocr_mrz_consistency is not None and mrz_fields:
-            signals.append(_run_safe(
-                check_ocr_mrz_consistency,
-                ocr_fields_for_consistency,
-                mrz_fields,
-                detector_name="ocr_mrz_consistency",
-                score_means_risk=False,
-            ))
-        else:
-            signals.append(_normalize(
-                "ocr_mrz_consistency",
-                {
-                    "status": "unavailable",
-                    "score": 0.0,
-                    "confidence": "low",
-                    "explanation": "Skipped; no MRZ fields to cross-check against.",
-                },
-                score_means_risk=False,
-            ))
-
-    else:
-        skip_reason = (
-            f"Not applicable: '{doc_type}' does not carry an MRZ strip."
-            if doc_type != "unknown"
-            else "Document type unknown; MRZ pipeline skipped."
-        )
-        for name in ("mrz_parser", "field_validator", "ocr_mrz_consistency"):
-            signals.append(_normalize(
-                name,
-                {
-                    "status": "unavailable",
-                    "score": 0.0,
-                    "confidence": "low",
-                    "explanation": skip_reason,
-                },
-                score_means_risk=False,
-            ))
-
-    # ----- 4) National ID validation -----
-    national_hits = _find_national_ids(ocr_text)
-    if validate_national_id is not None and national_hits:
-        id_type, id_value = national_hits[0]
-        try:
-            raw = validate_national_id(id_type, id_value)
-            if not isinstance(raw, dict):
-                raw = {"status": "failed", "score": 0.0, "confidence": "low", "explanation": str(raw)}
-            if "score" not in raw:
-                raw["score"] = 1.0 if raw.get("status") == "passed" else 0.0
-            if "confidence" not in raw:
-                raw["confidence"] = "high"
-            if "detector_name" not in raw:
-                raw["detector_name"] = "national_id_validator"
-            signals.append(_normalize("national_id_validator", raw, score_means_risk=False))
-        except Exception as e:
-            signals.append(_normalize(
-                "national_id_validator",
-                {
-                    "status": "failed",
-                    "score": 0.5,
-                    "confidence": "low",
-                    "explanation": str(e),
-                },
-                score_means_risk=False,
-            ))
-    else:
-        signals.append(_normalize(
-            "national_id_validator",
-            {
-                "status": "unavailable",
-                "score": 0.0,
-                "confidence": "low",
-                "explanation": "No Aadhaar/PAN pattern found in OCR text.",
-            },
-            score_means_risk=False,
-        ))
-
-    # ----- 5) Forensics (sequential) -----
-    forensic_pipeline = [
-        (run_exif_detector, "exiftool", 0.4, False),
-        (run_c2pa_detector, "c2pa", 0.0, False),
-        (run_cfa_detector, "cfa_demosaicing_analysis", 1.8, False),
-        (run_hf_ai_detector, "hf_vision_transformer", 1.2, False),
-        (run_resampling_detector, "resampling_interpolation_analysis", 1.8, False),
-        (run_ela_detector, "ela_compression", 1.3, False),
-        (run_histogram_detector, "histogram_color_forensics", 0.5, False),
-        (run_frequency_detector, "frequency_domain_fft", 0.5, False),
-        (run_copy_move_detector, "copy_move_forgery", 2.0, False),
-        (run_blur_detector, "blur_sharpness_analysis", 0.5, False),
-        (run_phash_detector, "phash", 0.0, False),
-        (run_jpeg_ghost_detector, "jpeg_ghost_analysis", 0.4, True),
-        (run_quantization_detector, "jpeg_quantization_analysis", 1.0, True),
-        (run_inpainting_detector, "inpainting", 1.5, False),
-        (run_vision_llm_inspector, "vision_llm_sanity_analysis", 1.5, False),
-        (run_photo_tampering_detector, "photo_patch_forensics", 2.0, False),
-        (run_microtext_detector, "microtext_analysis", 0.35, False),
-        (run_rainbow_gradient_detector, "rainbow_gradient", 0.35, False),
-        (run_guilloche_detector, "guilloche_pattern", 0.35, False),
-        (run_hologram_detector, "hologram_shift", 0.25, False),
-    ]
-
+    FAST_MODE = os.getenv("KAVACH_FAST_UI", "0") == "1"
     weighted_sum = 0.0
     total_weight = 0.0
+    forensic_risk = 0.5
 
-    for fn, name, weight, req_jpeg in forensic_pipeline:
-        if req_jpeg and not is_jpeg:
-            continue
+    try:
+        with time_limit(timeout_seconds):
 
-        sig = _run_safe(fn, image_path, detector_name=name, score_means_risk=True)
-        signals.append(sig)
+            # ----- 0) Clarity / rescan gate -----
+            if check_image_clarity is not None:
+                clarity_sig = _run_safe(
+                    check_image_clarity,
+                    image_path,
+                    detector_name="clarity_check",
+                    score_means_risk=False,
+                )
+                signals.append(clarity_sig)
+                if clarity_sig.get("status") == "failed":
+                    return {
+                        "engine": "KAVACH",
+                        "file_analyzed": os.path.basename(image_path),
+                        "live_image": os.path.basename(live_image_path) if live_image_path else None,
+                        "risk_level": "REVIEW",
+                        "risk_reason": "Image clarity too low; rescan recommended.",
+                        "forensic_risk_score": 0.0,
+                        "active_detectors_evaluated": len(signals),
+                        "detector_signals": signals,
+                        "rag_context": {},
+                    }
 
-        if weight > 0 and sig.get("confidence") != "low" and sig.get("status") not in ("failed", "unavailable"):
-            weighted_sum += sig["score"] * weight
-            total_weight += weight
+            # ----- 1) OCR -----
+            ocr_raw = None
+            if extract_text is not None:
+                try:
+                    ocr_raw = extract_text(image_path)
+                except Exception as e:
+                    ocr_raw = {
+                        "status": "failed",
+                        "score": 0.0,
+                        "confidence": "low",
+                        "explanation": str(e),
+                        "fields": [],
+                        "mrz_lines": [],
+                    }
 
-    forensic_risk = weighted_sum / max(total_weight, 1.0)
+            signals.append(_normalize("ocr_extraction", ocr_raw, score_means_risk=False))
 
-    # ----- 5b) RAG — Fraud Pattern Query -----
-    # Query after all detectors run — use results to find similar past cases
-    if RAG_AVAILABLE:
-        try:
-            detector_summary = {
-                s["detector_name"]: {
-                    "score": s["score"],
-                    "status": s["status"]
+            ocr_text = ""
+            if isinstance(ocr_raw, dict):
+                parts = []
+                for f in ocr_raw.get("fields") or []:
+                    if isinstance(f, dict) and f.get("text"):
+                        parts.append(str(f["text"]))
+                    elif isinstance(f, str):
+                        parts.append(f)
+                ocr_text = " ".join(parts)
+
+            # ----- 2) Document classification -----
+            doc_type = "unknown"
+            country = "unknown"
+            needs_mrz = False
+
+            if classify_document is not None:
+                clf_raw = _run_safe(
+                    classify_document,
+                    image_path,
+                    ocr_text,
+                    detector_name="document_classifier",
+                    score_means_risk=False,
+                )
+                signals.append(clf_raw)
+                doc_type = _normalize_doc_type(clf_raw.get("doc_type", "unknown")) or "unknown"
+                needs_mrz = bool(clf_raw.get("needs_mrz", False))
+
+                if "ind" in doc_type or "india" in doc_type or "pan" in doc_type or "aadhaar" in doc_type:
+                    country = "India"
+                elif "us" in doc_type or "usa" in doc_type or "american" in doc_type:
+                    country = "USA"
+                elif "schengen" in doc_type or "eu" in doc_type:
+                    country = "EU"
+                elif "poland" in doc_type or "polish" in doc_type:
+                    country = "Poland"
+                elif "portugal" in doc_type or "portuguese" in doc_type:
+                    country = "Portugal"
+            else:
+                signals.append(_normalize(
+                    "document_classifier",
+                    {
+                        "status": "unavailable",
+                        "score": 0.0,
+                        "confidence": "low",
+                        "explanation": "document_classifier not loaded.",
+                    },
+                    score_means_risk=False,
+                ))
+
+            # ----- 2b) RAG — Document Standards Query -----
+            if RAG_AVAILABLE and doc_type != "unknown":
+                try:
+                    from rag_query import query_document_standards, query_security_features
+                    standards = query_document_standards(doc_type, country)
+                    security_features = query_security_features(doc_type)
+                    rag_context["document_standards"] = standards
+                    rag_context["expected_security_features"] = security_features
+                    print(f"[RAG] Standards retrieved for: {doc_type} ({country})", file=sys.stderr)
+                except Exception as e:
+                    print(f"[RAG] Standards query failed: {e}", file=sys.stderr)
+
+            # ----- 3) MRZ pipeline -----
+            mrz_lines = _collect_mrz_lines(ocr_raw) if isinstance(ocr_raw, dict) else []
+            has_detected_mrz = bool(mrz_lines)
+            run_mrz_pipeline = needs_mrz or has_detected_mrz
+
+            mrz_fields = {}
+            ocr_fields_for_consistency = {}
+
+            if run_mrz_pipeline:
+                mrz_raw = None
+                if parse_mrz is not None and len(mrz_lines) >= 2:
+                    try:
+                        mrz_raw = parse_mrz(mrz_lines)
+                        mrz_fields = (mrz_raw or {}).get("fields") or {}
+                    except Exception as e:
+                        mrz_raw = {
+                            "status": "failed",
+                            "score": 0.0,
+                            "confidence": "low",
+                            "explanation": str(e),
+                            "fields": {},
+                        }
+                elif parse_mrz is not None:
+                    mrz_raw = {
+                        "status": "unavailable",
+                        "score": 0.0,
+                        "confidence": "low",
+                        "explanation": (
+                            f"'{doc_type}' requires MRZ but could not build two lines from OCR "
+                            f"(got {len(mrz_lines)})."
+                        ),
+                        "fields": {},
+                        "issues": ["Two MRZ lines are required."],
+                    }
+
+                signals.append(_normalize("mrz_parser", mrz_raw, score_means_risk=False))
+
+                if mrz_fields:
+                    ocr_fields_for_consistency = {
+                        "passport_number": mrz_fields.get("passport_number") or mrz_fields.get("document_number") or "",
+                        "dob": mrz_fields.get("dob") or mrz_fields.get("date_of_birth") or "",
+                        "expiry": mrz_fields.get("expiry") or mrz_fields.get("date_of_expiry") or "",
+                        "surname": mrz_fields.get("surname") or mrz_fields.get("primary_identifier") or "",
+                        "nationality": mrz_fields.get("nationality") or mrz_fields.get("country_code") or "",
+                    }
+
+                if validate_document_fields is not None and mrz_fields:
+                    signals.append(_run_safe(
+                        validate_document_fields,
+                        mrz_fields,
+                        doc_type,
+                        detector_name="field_validator",
+                        score_means_risk=False,
+                    ))
+                else:
+                    signals.append(_normalize(
+                        "field_validator",
+                        {
+                            "status": "unavailable",
+                            "score": 0.0,
+                            "confidence": "low",
+                            "explanation": f"Skipped; '{doc_type}' needs MRZ but parsing yielded no fields.",
+                        },
+                        score_means_risk=False,
+                    ))
+
+                if check_ocr_mrz_consistency is not None and mrz_fields:
+                    signals.append(_run_safe(
+                        check_ocr_mrz_consistency,
+                        ocr_fields_for_consistency,
+                        mrz_fields,
+                        detector_name="ocr_mrz_consistency",
+                        score_means_risk=False,
+                    ))
+                else:
+                    signals.append(_normalize(
+                        "ocr_mrz_consistency",
+                        {
+                            "status": "unavailable",
+                            "score": 0.0,
+                            "confidence": "low",
+                            "explanation": "Skipped; no MRZ fields to cross-check against.",
+                        },
+                        score_means_risk=False,
+                    ))
+
+            else:
+                skip_reason = (
+                    f"Not applicable: '{doc_type}' does not carry an MRZ strip."
+                    if doc_type != "unknown"
+                    else "Document type unknown; MRZ pipeline skipped."
+                )
+                for name in ("mrz_parser", "field_validator", "ocr_mrz_consistency"):
+                    signals.append(_normalize(
+                        name,
+                        {
+                            "status": "unavailable",
+                            "score": 0.0,
+                            "confidence": "low",
+                            "explanation": skip_reason,
+                        },
+                        score_means_risk=False,
+                    ))
+
+            # ----- 4) National ID validation -----
+            national_hits = _find_national_ids(ocr_text)
+            if validate_national_id is not None and national_hits:
+                id_type, id_value = national_hits[0]
+                try:
+                    raw = validate_national_id(id_type, id_value)
+                    if not isinstance(raw, dict):
+                        raw = {"status": "failed", "score": 0.0, "confidence": "low", "explanation": str(raw)}
+                    if "score" not in raw:
+                        raw["score"] = 1.0 if raw.get("status") == "passed" else 0.0
+                    if "confidence" not in raw:
+                        raw["confidence"] = "high"
+                    if "detector_name" not in raw:
+                        raw["detector_name"] = "national_id_validator"
+                    signals.append(_normalize("national_id_validator", raw, score_means_risk=False))
+                except Exception as e:
+                    signals.append(_normalize(
+                        "national_id_validator",
+                        {
+                            "status": "failed",
+                            "score": 0.5,
+                            "confidence": "low",
+                            "explanation": str(e),
+                        },
+                        score_means_risk=False,
+                    ))
+            else:
+                signals.append(_normalize(
+                    "national_id_validator",
+                    {
+                        "status": "unavailable",
+                        "score": 0.0,
+                        "confidence": "low",
+                        "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+                    },
+                    score_means_risk=False,
+                ))
+
+            # ----- 5) Forensics (with per-detector timeouts) -----
+            forensic_pipeline = [
+                (run_exif_detector,               "exiftool",                        0.4, False),
+                (run_c2pa_detector,               "c2pa",                            0.0, False),
+                (run_cfa_detector,                "cfa_demosaicing_analysis",        1.8, False),
+                (run_hf_ai_detector,              "hf_vision_transformer",           1.8, False),
+                (run_resampling_detector,         "resampling_interpolation_analysis", 1.8, False),
+                (run_ela_detector,                "ela_compression",                 1.3, False),
+                (run_histogram_detector,          "histogram_color_forensics",       0.5, False),
+                (run_frequency_detector,          "frequency_domain_fft",            0.8, False),
+                (run_copy_move_detector,          "copy_move_forgery",               1.5, False),
+                (run_blur_detector,               "blur_sharpness_analysis",         0.5, False),
+                (run_phash_detector,              "phash",                           0.0, False),
+                (run_jpeg_ghost_detector,         "jpeg_ghost_analysis",             0.6, True),
+                (run_quantization_detector,       "jpeg_quantization_analysis",      0.8, True),
+                (run_inpainting_detector,         "inpainting",                      1.2, False),
+                (run_vision_llm_inspector,        "vision_llm_sanity_analysis",      1.0, False),
+                (run_photo_tampering_detector,    "photo_patch_forensics",           1.5, False),
+                (run_microtext_detector,          "microtext_analysis",              0.35, False),
+                (run_rainbow_gradient_detector,   "rainbow_gradient",                0.35, False),
+                (run_guilloche_detector,          "guilloche_pattern",               0.35, False),
+                (run_hologram_detector,           "hologram_shift",                  0.25, False),
+            ]
+
+            if FAST_MODE:
+                keep = {
+                    "hf_vision_transformer", "cfa_demosaicing_analysis",
+                    "resampling_interpolation_analysis", "ela_compression",
+                    "frequency_domain_fft", "jpeg_ghost_analysis"
                 }
-                for s in signals
-                if s.get("status") not in ("unavailable",)
-            }
-            from rag_query import query_fraud_patterns
-            fraud_matches = query_fraud_patterns(doc_type, detector_summary)
-            rag_context["similar_fraud_cases"] = fraud_matches
-            print(f"[RAG] Fraud patterns retrieved: {fraud_matches.get('count', 0)} similar cases", file=sys.stderr)
-        except Exception as e:
-            print(f"[RAG] Fraud query failed: {e}", file=sys.stderr)
+                forensic_pipeline = [p for p in forensic_pipeline if p[1] in keep]
 
-    # ----- 6) Face stack (needs live image) -----
-    if live_image_path and os.path.exists(live_image_path):
-        signals.append(_run_safe(
-            run_face_verification,
-            image_path,
-            live_image_path,
-            detector_name="face_verification",
-            score_means_risk=True,
-        ))
-        signals.append(_run_safe(
-            run_liveness_detection,
-            live_image_path,
-            detector_name="liveness_analysis",
-            score_means_risk=True,
-        ))
-        signals.append(_run_safe(
-            run_duplicate_id_detector,
-            live_image_path,
-            detector_name="duplicate_identity_check",
-            score_means_risk=True,
-        ))
-    else:
-        for name, expl in [
-            ("face_verification", "No live image provided; face match skipped."),
-            ("liveness_analysis", "No live image provided; liveness skipped."),
-            ("duplicate_identity_check", "No live image provided; duplicate-ID skipped."),
-        ]:
-            signals.append(_normalize(
-                name,
-                {
-                    "status": "unavailable",
-                    "score": 0.5,
-                    "confidence": "low",
-                    "explanation": expl,
-                },
-                score_means_risk=True,
-            ))
+            for fn, name, weight, req_jpeg in forensic_pipeline:
+                if req_jpeg and not is_jpeg:
+                    continue
+
+                raw = _run_with_timeout(fn, (image_path,), timeout=6 if FAST_MODE else 12)
+                sig = _normalize(name, raw, score_means_risk=True)
+                signals.append(sig)
+
+                if weight > 0 and sig.get("confidence") != "low" and sig.get("status") not in ("failed", "unavailable"):
+                    weighted_sum += sig["score"] * weight
+                    total_weight += weight
+
+            forensic_risk = weighted_sum / max(total_weight, 1.0)
+
+            # ----- 5b) RAG — Fraud Pattern Query -----
+            if RAG_AVAILABLE:
+                try:
+                    detector_summary = {
+                        s["detector_name"]: {
+                            "score": s["score"],
+                            "status": s["status"]
+                        }
+                        for s in signals
+                        if s.get("status") not in ("unavailable",)
+                    }
+                    from rag_query import query_fraud_patterns
+                    fraud_matches = query_fraud_patterns(doc_type, detector_summary)
+                    rag_context["similar_fraud_cases"] = fraud_matches
+                    print(f"[RAG] Fraud patterns retrieved: {fraud_matches.get('count', 0)} similar cases", file=sys.stderr)
+                except Exception as e:
+                    print(f"[RAG] Fraud query failed: {e}", file=sys.stderr)
+
+            # ----- 6) Face stack (needs live image) -----
+            if live_image_path and os.path.exists(live_image_path):
+                for fn, name, args in [
+                    (run_face_verification, "face_verification", (image_path, live_image_path)),
+                    (run_liveness_detection, "liveness_analysis", (live_image_path,)),
+                    (run_duplicate_id_detector, "duplicate_identity_check", (live_image_path,)),
+                ]:
+                    raw = _run_with_timeout(fn, args, timeout=5)
+                    signals.append(_normalize(name, raw, score_means_risk=True))
+            else:
+                for name, expl in [
+                    ("face_verification", "No live image provided; face match skipped."),
+                    ("liveness_analysis", "No live image provided; liveness skipped."),
+                    ("duplicate_identity_check", "No live image provided; duplicate-ID skipped."),
+                ]:
+                    signals.append(_normalize(
+                        name,
+                        {
+                            "status": "unavailable",
+                            "score": 0.5,
+                            "confidence": "low",
+                            "explanation": expl,
+                        },
+                        score_means_risk=True,
+                    ))
+
+    except TimeoutException as e:
+        print(f"[TIMEOUT] {e}", file=sys.stderr)
+        # continue with whatever we already have
+
+    # Final safety net
+    if total_weight == 0:
+        forensic_risk = 0.5
+    forensic_risk = round(forensic_risk, 3)
 
     level, reason = _risk_level(signals, forensic_risk)
 
@@ -705,7 +754,7 @@ def analyze_media(image_path, live_image_path=None):
         "live_image": os.path.basename(live_image_path) if live_image_path else None,
         "risk_level": level,
         "risk_reason": reason,
-        "forensic_risk_score": round(forensic_risk, 3),
+        "forensic_risk_score": forensic_risk,
         "active_detectors_evaluated": len(signals),
         "detector_signals": signals,
         "rag_context": rag_context,
@@ -713,13 +762,11 @@ def analyze_media(image_path, live_image_path=None):
     }
 
     if CRYPTO_AVAILABLE:
-        # 1. Sign the report
         try:
             report["integrity_seal"] = sign_report(report)
         except Exception as e:
             print(f"[WARNING] Report signing failed: {e}", file=sys.stderr)
 
-        # 2. Anchor on blockchain
         try:
             from crypto_utils import anchor_report_on_chain
             blockchain_receipt = anchor_report_on_chain(report)
@@ -753,7 +800,7 @@ if __name__ == "__main__":
     except Exception as e:
         report["human_summary"] = f"(AI summary unavailable: {e})"
 
-    print(json.dumps(report, indent=2,ensure_ascii=False))
+    print(json.dumps(report, indent=2, ensure_ascii=False))
 
     os.makedirs("case_logs", exist_ok=True)
     safe_name = os.path.splitext(os.path.basename(target))[0]
