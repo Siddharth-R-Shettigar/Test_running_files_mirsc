@@ -1,13 +1,13 @@
 {
   "engine": "KAVACH-MULTI",
-  "case_id": "case_11d3a45a5059",
+  "case_id": "case_b71604b0033e",
   "documents_analysed": [
     "passport",
     "visa",
     "national_id",
     "drivers_license"
   ],
-  "live_image": "face_78dd04f38764470792943aa9de993247.jpeg",
+  "live_image": "face_e5551e4f672b40e88c218a0c54a4adaf.jpeg",
   "risk_level": "HIGH RISK",
   "risk_reason": "[national_id] Face on document does not match live capture.",
   "forensic_risk_score": 0.799,
@@ -22,148 +22,42 @@
     },
     {
       "detector_name": "[passport] ocr_extraction",
-      "score": 0.25,
-      "confidence": "high",
-      "explanation": "Hybrid OCR completed",
-      "status": "passed",
-      "fields": [
-        {
-          "text": "भारत सरकार GOVERNMENT OF INDIA PASSPORT",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "पासपोर्ट ना J1234567",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Type P",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Country Code IND",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Passport No. J1234567",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Surname DURAISAMY",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Given Name(s) MANIKANDAN",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Nationality INDIAN",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Sex M",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "D.O.B 16/07/1996",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Place of Birth Chennai",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Father's Name T. DURAISAMY",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Mother's Name RADHESWARI",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Date of Issue, 28/07/2021",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "Date of Expiry 27/07/2031",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "P<INDDUR AISAMY<<MANIKANDAN<<<<<<<<<<<<",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "J1234567<1IND9607168M3107278<<<<<<<<<<<<",
-          "confidence": 0.92,
-          "source": "qwen"
-        }
-      ],
-      "mrz_lines": [
-        "P<INDDUR AISAMY<<MANIKANDAN<<<<<<<<<<<<",
-        "J1234567<1IND9607168M3107278<<<<<<<<<<<<",
-        "P<INDDURAISAMY<<MANIKANDAN<<<<<<<<<<<<"
-      ]
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
     },
     {
       "detector_name": "[passport] document_classifier",
-      "score": 0.25,
-      "confidence": "high",
-      "explanation": "Classified as passport (score=10.5)",
-      "status": "passed",
-      "doc_type": "passport",
-      "needs_mrz": true
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
     },
     {
       "detector_name": "[passport] mrz_parser",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "MRZ parsing error: invalid literal for int() with base 10: '<'",
-      "status": "unavailable",
-      "fields": {
-        "doc_type": "P",
-        "country_code": "IND",
-        "surname": "DURAISAMY",
-        "given_names": "MANIKANDAN",
-        "passport_number": "J1234567",
-        "nationality": "IND",
-        "dob": "960716",
-        "sex": "M",
-        "expiry": "310727",
-        "personal_number": ""
-      },
-      "issues": [
-        "invalid literal for int() with base 10: '<'"
-      ]
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
     },
     {
       "detector_name": "[passport] field_validator",
-      "score": 0.25,
-      "confidence": "high",
-      "explanation": "All required fields present",
-      "status": "passed"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
     },
     {
       "detector_name": "[passport] ocr_mrz_consistency",
-      "score": 0.25,
-      "confidence": "high",
-      "explanation": "Visual OCR and MRZ fields are consistent",
-      "status": "passed",
-      "mismatches": []
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
     },
     {
       "detector_name": "[passport] national_id_validator",
@@ -237,10 +131,10 @@
     },
     {
       "detector_name": "[passport] duplicate_identity_check",
-      "score": 0.07,
+      "score": 1.0,
       "confidence": "high",
-      "explanation": "No duplicate identity detected. Closest match under a different ID ('ID003') had similarity 0.0703, below the 0.85 threshold.",
-      "status": "passed"
+      "explanation": "HIGH RISK: Face matches an existing record under a different ID ('face_78dd04f38764470792943aa9de993247') with similarity 1.0000, above the 0.85 duplicate-identity threshold.",
+      "status": "flagged"
     },
     {
       "detector_name": "[visa] clarity_check",
@@ -251,146 +145,42 @@
     },
     {
       "detector_name": "[visa] ocr_extraction",
-      "score": 0.25,
-      "confidence": "high",
-      "explanation": "Hybrid OCR completed",
-      "status": "passed",
-      "fields": [
-        {
-          "text": "TAMIL NADU",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "ARRIVAL",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "21/2 JUN 010",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "TAMIL NADU AIRPORT",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "भारत सरकार REPUBLIC OF INDIA",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "VISA",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "CHENNAI A PRFS/03",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "PER MAR-PARTE",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "27/12/2016",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "SINGLE",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "TUNGEE",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "26/01/2003",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "INDEPENDENT",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "RETRIABLE",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "ATC OWE SD",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "VT INDCHANG<<ANTHONSHUKR<<<<<<<<<<<<<<",
-          "confidence": 0.92,
-          "source": "qwen"
-        },
-        {
-          "text": "VI AUS931014M1706262AUS<<<<<<<<<<",
-          "confidence": 0.92,
-          "source": "qwen"
-        }
-      ],
-      "mrz_lines": [
-        "VT INDCHANG<<ANTHONSHUKR<<<<<<<<<<<<<<",
-        "VI AUS931014M1706262AUS<<<<<<<<<<",
-        "VTINDCHANG<<ANTHONSHUKR<<<<<<<<<<<<<<",
-        "VIAUS931014M1706262AUS<<<<<<<<<<"
-      ]
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
     },
     {
       "detector_name": "[visa] document_classifier",
-      "score": 0.25,
-      "confidence": "medium",
-      "explanation": "Classified as passport (score=4.5)",
-      "status": "passed",
-      "doc_type": "passport",
-      "needs_mrz": true
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
     },
     {
       "detector_name": "[visa] mrz_parser",
       "score": 0.5,
       "confidence": "low",
-      "explanation": "MRZ parsing error: invalid literal for int() with base 10: 'A'",
-      "status": "unavailable",
-      "fields": {
-        "doc_type": "V",
-        "country_code": "IND",
-        "surname": "CHANG",
-        "given_names": "ANTHONSHUKR",
-        "passport_number": "VIAUS9310",
-        "nationality": "4M1",
-        "dob": "706262"
-      },
-      "issues": [
-        "invalid literal for int() with base 10: 'A'"
-      ]
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
     },
     {
       "detector_name": "[visa] field_validator",
-      "score": 0.7,
-      "confidence": "medium",
-      "explanation": "Missing mandatory fields for passport: expiry",
-      "status": "flagged"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
     },
     {
       "detector_name": "[visa] ocr_mrz_consistency",
-      "score": 0.25,
-      "confidence": "high",
-      "explanation": "Visual OCR and MRZ fields are consistent",
-      "status": "passed",
-      "mismatches": []
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
     },
     {
       "detector_name": "[visa] national_id_validator",
@@ -464,10 +254,10 @@
     },
     {
       "detector_name": "[visa] duplicate_identity_check",
-      "score": 0.07,
+      "score": 1.0,
       "confidence": "high",
-      "explanation": "No duplicate identity detected. Closest match under a different ID ('ID003') had similarity 0.0703, below the 0.85 threshold.",
-      "status": "passed"
+      "explanation": "HIGH RISK: Face matches an existing record under a different ID ('face_78dd04f38764470792943aa9de993247') with similarity 1.0000, above the 0.85 duplicate-identity threshold.",
+      "status": "flagged"
     },
     {
       "detector_name": "[national_id] clarity_check",
@@ -683,10 +473,10 @@
     },
     {
       "detector_name": "[national_id] duplicate_identity_check",
-      "score": 0.07,
+      "score": 1.0,
       "confidence": "high",
-      "explanation": "No duplicate identity detected. Closest match under a different ID ('ID003') had similarity 0.0703, below the 0.85 threshold.",
-      "status": "passed"
+      "explanation": "HIGH RISK: Face matches an existing record under a different ID ('face_78dd04f38764470792943aa9de993247') with similarity 1.0000, above the 0.85 duplicate-identity threshold.",
+      "status": "flagged"
     },
     {
       "detector_name": "[drivers_license] clarity_check",
