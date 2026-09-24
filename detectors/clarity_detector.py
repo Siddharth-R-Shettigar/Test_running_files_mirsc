@@ -29,7 +29,7 @@ WEIGHT_EDGE      = 0.39
 WEIGHT_TENENGRAD = 0.39
 
 THRESHOLD_EXCELLENT  = 0.93
-THRESHOLD_ACCEPTABLE = 0.75
+THRESHOLD_ACCEPTABLE = 0.60
 
 
 def _clamp(value, low=0.0, high=1.0):
@@ -170,7 +170,7 @@ def check_image_clarity(image_path, debug=False):
     if img is None:
         return {
             "status": "failed", "score": 0.0, "clarity_percent": 0.0,
-            "band": "below 75%", "action": "reject", "confidence": "low",
+            "band": "below 60%", "action": "reject", "confidence": "low",
             "explanation": error,
         }
 
@@ -202,12 +202,12 @@ def check_image_clarity(image_path, debug=False):
             band, action, status, confidence = "93-100%", "paddle_only", "passed", "high"
             explanation = (f"Image clarity is {clarity_percent}% ({band}). "
                            "Excellent quality – running PaddleOCR only.")
-        elif clarity_percent >= 75:
-            band, action, status, confidence = "75-93%", "paddle_plus_ai", "passed", "medium"
+        elif clarity_percent >= 60:
+            band, action, status, confidence = "60-93%", "paddle_plus_ai", "passed", "medium"
             explanation = (f"Image clarity is {clarity_percent}% ({band}). "
                            "Acceptable quality – running PaddleOCR + AI post-processing.")
         else:
-            band, action, status, confidence = "below 75%", "reject", "failed", "low"
+            band, action, status, confidence = "below 60%", "reject", "failed", "low"
             explanation = (f"Image clarity is {clarity_percent}% ({band}). "
                            "Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.")
 
@@ -224,7 +224,7 @@ def check_image_clarity(image_path, debug=False):
     except Exception as e:
         return {
             "status": "failed", "score": 0.0, "clarity_percent": 0.0,
-            "band": "below 75%", "action": "reject", "confidence": "low",
+            "band": "below 60%", "action": "reject", "confidence": "low",
             "explanation": f"Clarity check failed: {str(e)}",
         }
 

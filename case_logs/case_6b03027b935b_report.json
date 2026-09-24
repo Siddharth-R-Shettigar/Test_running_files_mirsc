@@ -1,0 +1,834 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_6b03027b935b",
+  "documents_analysed": [
+    "passport",
+    "visa",
+    "national_id",
+    "drivers_license"
+  ],
+  "live_image": "face_9a554f5cea0041a2af0e0de862e5a502.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "[visa] Face on document does not match live capture.",
+  "forensic_risk_score": 0.108,
+  "active_detectors_evaluated": 33,
+  "detector_signals": [
+    {
+      "detector_name": "[passport] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 65.4% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[visa] clarity_check",
+      "score": 0.19,
+      "confidence": "medium",
+      "explanation": "Image clarity is 81.0% (75-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "889588",
+          "confidence": 0.672,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              30.0,
+              27.0
+            ],
+            [
+              62.0,
+              26.0
+            ],
+            [
+              64.0,
+              139.0
+            ],
+            [
+              32.0,
+              140.0
+            ]
+          ]
+        },
+        {
+          "text": "AMLS R",
+          "confidence": 0.5972,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              254.0,
+              100.0
+            ],
+            [
+              304.0,
+              85.0
+            ],
+            [
+              309.0,
+              100.0
+            ],
+            [
+              258.0,
+              115.0
+            ]
+          ]
+        },
+        {
+          "text": "ARRIWAL",
+          "confidence": 0.9682,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              262.0,
+              114.0
+            ],
+            [
+              304.0,
+              103.0
+            ],
+            [
+              307.0,
+              118.0
+            ],
+            [
+              265.0,
+              129.0
+            ]
+          ]
+        },
+        {
+          "text": "ZIT JUN O10",
+          "confidence": 0.6116,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              254.0,
+              146.0
+            ],
+            [
+              335.0,
+              119.0
+            ],
+            [
+              341.0,
+              141.0
+            ],
+            [
+              261.0,
+              168.0
+            ]
+          ]
+        },
+        {
+          "text": "earrvy",
+          "confidence": 0.5828,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              285.0,
+              174.0
+            ],
+            [
+              320.0,
+              164.0
+            ],
+            [
+              324.0,
+              178.0
+            ],
+            [
+              289.0,
+              188.0
+            ]
+          ]
+        },
+        {
+          "text": "TAMU NADU URER",
+          "confidence": 0.8225,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              260.0,
+              198.0
+            ],
+            [
+              336.0,
+              174.0
+            ],
+            [
+              341.0,
+              191.0
+            ],
+            [
+              265.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "text": "Re",
+          "confidence": 0.5747,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              26.0,
+              280.0
+            ],
+            [
+              47.0,
+              280.0
+            ],
+            [
+              47.0,
+              299.0
+            ],
+            [
+              26.0,
+              299.0
+            ]
+          ]
+        },
+        {
+          "text": "R R REPUBLIC OFINDIA",
+          "confidence": 0.9089,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              123.0,
+              281.0
+            ],
+            [
+              340.0,
+              282.0
+            ],
+            [
+              340.0,
+              299.0
+            ],
+            [
+              123.0,
+              298.0
+            ]
+          ]
+        },
+        {
+          "text": "VISA",
+          "confidence": 0.9941,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              66.0,
+              295.0
+            ],
+            [
+              114.0,
+              295.0
+            ],
+            [
+              114.0,
+              313.0
+            ],
+            [
+              66.0,
+              313.0
+            ]
+          ]
+        },
+        {
+          "text": "PRRAR-RARE",
+          "confidence": 0.622,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              39.0,
+              329.0
+            ],
+            [
+              131.0,
+              327.0
+            ],
+            [
+              131.0,
+              341.0
+            ],
+            [
+              39.0,
+              344.0
+            ]
+          ]
+        },
+        {
+          "text": "Sot Hcgenfe ofore",
+          "confidence": 0.7071,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              260.0,
+              326.0
+            ],
+            [
+              349.0,
+              327.0
+            ],
+            [
+              349.0,
+              342.0
+            ],
+            [
+              260.0,
+              340.0
+            ]
+          ]
+        },
+        {
+          "text": "TUNGEE",
+          "confidence": 0.9686,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              177.0,
+              341.0
+            ],
+            [
+              227.0,
+              341.0
+            ],
+            [
+              227.0,
+              352.0
+            ],
+            [
+              177.0,
+              352.0
+            ]
+          ]
+        },
+        {
+          "text": "SINGLE",
+          "confidence": 0.9961,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              261.0,
+              338.0
+            ],
+            [
+              320.0,
+              341.0
+            ],
+            [
+              320.0,
+              355.0
+            ],
+            [
+              261.0,
+              352.0
+            ]
+          ]
+        },
+        {
+          "text": "27/12/2016",
+          "confidence": 0.991,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              41.0,
+              358.0
+            ],
+            [
+              114.0,
+              358.0
+            ],
+            [
+              114.0,
+              369.0
+            ],
+            [
+              41.0,
+              369.0
+            ]
+          ]
+        },
+        {
+          "text": "ganogiCaoticnatnoglrry",
+          "confidence": 0.6061,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              175.0,
+              353.0
+            ],
+            [
+              315.0,
+              353.0
+            ],
+            [
+              315.0,
+              366.0
+            ],
+            [
+              175.0,
+              366.0
+            ]
+          ]
+        },
+        {
+          "text": "26/01/200",
+          "confidence": 0.9925,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              173.0,
+              364.0
+            ],
+            [
+              256.0,
+              364.0
+            ],
+            [
+              256.0,
+              377.0
+            ],
+            [
+              173.0,
+              377.0
+            ]
+          ]
+        },
+        {
+          "text": "fool ge Sns fnden",
+          "confidence": 0.5793,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              136.0,
+              377.0
+            ],
+            [
+              243.0,
+              377.0
+            ],
+            [
+              243.0,
+              390.0
+            ],
+            [
+              136.0,
+              390.0
+            ]
+          ]
+        },
+        {
+          "text": "INOIDANAL",
+          "confidence": 0.7439,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              267.0,
+              390.0
+            ],
+            [
+              316.0,
+              373.0
+            ],
+            [
+              322.0,
+              391.0
+            ],
+            [
+              272.0,
+              408.0
+            ]
+          ]
+        },
+        {
+          "text": "RERNARL",
+          "confidence": 0.8228,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              277.0,
+              403.0
+            ],
+            [
+              319.0,
+              393.0
+            ],
+            [
+              322.0,
+              408.0
+            ],
+            [
+              281.0,
+              418.0
+            ]
+          ]
+        },
+        {
+          "text": "AIC OWE SA",
+          "confidence": 0.7709,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              271.0,
+              433.0
+            ],
+            [
+              348.0,
+              411.0
+            ],
+            [
+              354.0,
+              431.0
+            ],
+            [
+              276.0,
+              453.0
+            ]
+          ]
+        },
+        {
+          "text": "het o gp aet:Chsgec aPagctee RaAbeec",
+          "confidence": 0.6632,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              24.0,
+              471.0
+            ],
+            [
+              233.0,
+              471.0
+            ],
+            [
+              233.0,
+              484.0
+            ],
+            [
+              24.0,
+              484.0
+            ]
+          ]
+        },
+        {
+          "text": "TAMA",
+          "confidence": 0.8461,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              275.0,
+              482.0
+            ],
+            [
+              300.0,
+              475.0
+            ],
+            [
+              303.0,
+              486.0
+            ],
+            [
+              278.0,
+              493.0
+            ]
+          ]
+        },
+        {
+          "text": "VTINDCHANG<<ANTHONSHUKRR<<<<<<<<<<<<<<<",
+          "confidence": 0.8525,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              38.0,
+              499.0
+            ],
+            [
+              437.0,
+              498.0
+            ],
+            [
+              437.0,
+              512.0
+            ],
+            [
+              38.0,
+              513.0
+            ]
+          ]
+        },
+        {
+          "text": "VI",
+          "confidence": 0.9851,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              38.0,
+              519.0
+            ],
+            [
+              60.0,
+              519.0
+            ],
+            [
+              60.0,
+              535.0
+            ],
+            [
+              38.0,
+              535.0
+            ]
+          ]
+        },
+        {
+          "text": "AUS931014M1706262AUS<<<<<",
+          "confidence": 0.9077,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              139.0,
+              519.0
+            ],
+            [
+              435.0,
+              519.0
+            ],
+            [
+              435.0,
+              534.0
+            ],
+            [
+              139.0,
+              534.0
+            ]
+          ]
+        }
+      ],
+      "mrz_lines": [
+        "VTINDCHANG<<ANTHONSHUKRR<<<<<<<<<<<<<<<"
+      ]
+    },
+    {
+      "detector_name": "[visa] document_classifier",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Classified as passport (score=4.5)",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true
+    },
+    {
+      "detector_name": "[visa] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "'passport' requires MRZ but could not build two lines from OCR (got 1).",
+      "status": "unavailable",
+      "fields": {},
+      "issues": [
+        "Two MRZ lines are required."
+      ]
+    },
+    {
+      "detector_name": "[visa] field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Skipped; 'passport' needs MRZ but parsing yielded no fields.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Skipped; no MRZ fields to cross-check against.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 6.73. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] hf_vision_transformer",
+      "score": 0.01,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 0%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1227.49). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] ela_compression",
+      "score": 0.06,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.83.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.8 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 155.28 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1055.15).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.19. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.27. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] vision_llm_sanity_analysis",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "The primary photograph on the visa page depicts a different individual than the ghost images appearing on both the top right and bottom right of the document, which is a strong indicator of photo substitution or identity fraud.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] photo_patch_forensics",
+      "score": 0.41,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.24.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 908.31). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=8.03, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] hologram_shift",
+      "score": 0.45,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=20.8, val_std=26.1, hue_std=36.5). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] face_verification",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.9848 (match threshold: 0.4). Faces do not match — possible impersonation.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] liveness_analysis",
+      "score": 0.221,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.36, Color inconsistency: 0.05.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] duplicate_identity_check",
+      "score": 0.596,
+      "confidence": "high",
+      "explanation": "No duplicate identity detected. Closest match under a different ID ('face_88d52055e9b245199fd5fbc86b3d89b5') had similarity 0.5959, below the 0.85 threshold.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[national_id] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 62.0% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[drivers_license] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 56.4% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ]
+}

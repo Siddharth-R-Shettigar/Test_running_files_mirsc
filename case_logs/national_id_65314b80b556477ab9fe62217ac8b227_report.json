@@ -1,0 +1,20 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "national_id_65314b80b556477ab9fe62217ac8b227.jpeg",
+  "live_image": "face_9a554f5cea0041a2af0e0de862e5a502.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.0,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 62.0% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "human_summary": "YELLOW | REVIEW | national_id_65314b80b556477ab9fe62217ac8b227.jpeg\nWhy: This case is flagged for REVIEW due to low image clarity, making reliable OCR difficult. The computed forensic risk score is 0.0%.\n\nOfficer checklist:\n[ ] Visually inspect the national ID document for legibility and authenticity.\n[ ] Manually verify all document details against the individual and their live image.\n[ ] Request a sharper, higher-resolution scan or physical document for re-screening.\nSignals: clarity_check=failed"
+}

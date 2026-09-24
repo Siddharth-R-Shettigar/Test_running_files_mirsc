@@ -1,0 +1,356 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_3c8ca3759968",
+  "documents_analysed": [
+    "passport",
+    "visa",
+    "national_id",
+    "drivers_license"
+  ],
+  "live_image": "face_3551bf85a3aa479bb23c1ba506ce7f97.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "[passport] Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.096,
+  "active_detectors_evaluated": 33,
+  "detector_signals": [
+    {
+      "detector_name": "[passport] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 65.4% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[visa] clarity_check",
+      "score": 0.19,
+      "confidence": "medium",
+      "explanation": "Image clarity is 81.0% (75-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "TAMIL NADU",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "ARRIVAL",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "21/2 JUN 010",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "TAMIL NADU AIRPORT",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "भारत सरकार REPUBLIC OF INDIA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "VISA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "CHENNAI A PRFS/03",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "PER MAR-PARTE",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "27/12/2016",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "SINGLE",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "TUNGEE",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "26/01/2003",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "INDEPENDENT",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "RETRIABLE",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "ATC OWE SD",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "VT INDCHANG<<ANTHONSHUKR<<<<<<<<<<<<<<",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "VI AUS931014M1706262AUS<<<<<<<<<<",
+          "confidence": 0.92,
+          "source": "qwen"
+        }
+      ],
+      "mrz_lines": [
+        "VT INDCHANG<<ANTHONSHUKR<<<<<<<<<<<<<<",
+        "VI AUS931014M1706262AUS<<<<<<<<<<",
+        "VTINDCHANG<<ANTHONSHUKR<<<<<<<<<<<<<<",
+        "VIAUS931014M1706262AUS<<<<<<<<<<"
+      ]
+    },
+    {
+      "detector_name": "[visa] document_classifier",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Classified as passport (score=4.5)",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true
+    },
+    {
+      "detector_name": "[visa] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "MRZ parsing error: invalid literal for int() with base 10: 'A'",
+      "status": "unavailable",
+      "fields": {
+        "doc_type": "V",
+        "country_code": "IND",
+        "surname": "CHANG",
+        "given_names": "ANTHONSHUKR",
+        "passport_number": "VIAUS9310",
+        "nationality": "4M1",
+        "dob": "706262"
+      },
+      "issues": [
+        "invalid literal for int() with base 10: 'A'"
+      ]
+    },
+    {
+      "detector_name": "[visa] field_validator",
+      "score": 0.7,
+      "confidence": "medium",
+      "explanation": "Missing mandatory fields for passport: expiry",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] ocr_mrz_consistency",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Visual OCR and MRZ fields are consistent",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "[visa] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 6.73. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] hf_vision_transformer",
+      "score": 0.01,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 0%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1227.49). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] ela_compression",
+      "score": 0.06,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.83.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.8 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 155.28 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1055.15).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.19. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.27. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No GEMINI API keys configured.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] photo_patch_forensics",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Photo-patch forensics failed: No module named 'insightface'",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[visa] microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=8.03, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] hologram_shift",
+      "score": 0.45,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=20.8, val_std=26.1, hue_std=36.5). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector crashed: No module named 'insightface'",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[visa] liveness_analysis",
+      "score": 0.291,
+      "confidence": "medium",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.44, Color inconsistency: 0.10.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: insightface is not installed; duplicate identity check unavailable.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[national_id] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 62.0% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[drivers_license] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 56.4% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ]
+}

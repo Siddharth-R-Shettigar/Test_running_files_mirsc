@@ -1,0 +1,12 @@
+{
+  "engine": "KAVACH-FAST-UI",
+  "case_id": "case_b8bddb2431ec",
+  "risk_level": "REVIEW",
+  "risk_reason": "Manual check recommended (demo mode).",
+  "forensic_risk_score": 0.46,
+  "detector_signals": [],
+  "human_summary": "Demo screening complete.",
+  "documents_analysed": [
+    "demo"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "drivers_license_11a2255e0a944a4da39eb77b61d10725.jpeg",
+  "live_image": "face_9a554f5cea0041a2af0e0de862e5a502.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.0,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 56.4% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "human_summary": "YELLOW | REVIEW | drivers_license_11a2255e0a944a4da39eb77b61d10725.jpeg\nWhy: The document is flagged for REVIEW due to low image clarity, which hinders reliable OCR. The computed forensic risk score is 0.0%.\n\nOfficer checklist:\n[ ] Verify the physical document's details visually for accuracy.\n[ ] Confirm all textual information is legible and matches other provided data.\n[ ] Assess the overall quality and legibility of the physical document.\n[ ] If possible, request a higher-resolution or clearer scan of the document.\nSignals: clarity_check=failed"
+}

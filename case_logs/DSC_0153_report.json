@@ -1,4 +1,4 @@
 {
-  "error": "File DSC_0153.JPG not found.",
-  "human_summary": "None | \u001b[36mUnknown\u001b[0m | No reason provided."
+  "error": "File images/DSC_0153.JPG not found.",
+  "human_summary": "YELLOW | REVIEW | Unknown Case\nWhy: KAVACH system was unable to process the document or produce a risk assessment, with all indicators and detector signals reporting null. A full manual review is required.\n\nOfficer checklist:\n[ ] Manually verify all document security features (e.g., holograms, watermarks, UV features).\n[ ] Manually inspect the document for signs of alteration, damage, or tampering.\n[ ] Compare the traveler's face against the document photo for likeness.\n[ ] Verbally verify traveler's identity and travel purpose.\nSignals: None reported."
 }

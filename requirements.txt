@@ -1,5 +1,4 @@
 pillow
-opencv-python-headless
 numpy
 imagehash
 PyExifTool
@@ -15,6 +14,8 @@ easyocr
 pyzbar
 paddleocr==2.10.0
 paddlepaddle; python_version < "3.14"
+# Keep the headless OpenCV payload after InsightFace's opencv-python dependency.
+opencv-python-headless
 flask
 groq
 reportlab

@@ -115,16 +115,16 @@ def _slim_report(report):
 
 
 def _fallback_summary(report: dict) -> str:
-    file_name = report.get("file_analyzed", "unknown file")
+    file_name = report.get("file_analyzed") or report.get("case_id") or "unknown"
     risk_level = report.get("risk_level", "UNKNOWN")
     verdict = _risk_to_verdict(risk_level)
     reason = _pick_reason(report)
-
-    return (
-        f"{file_name} | "
-        f"{_color_for_verdict(verdict)} | "
-        f"{reason}"
-    )
+    try:
+        s = float(report.get("forensic_risk_score", 0))
+        pct = round(s * 100, 1) if s <= 1.0 else round(s, 1)
+    except (TypeError, ValueError):
+        pct = "?"
+    return f"{file_name} | {verdict} | forensic risk {pct}% | {reason}"
 
 def _groq_keys():
     keys = []
@@ -145,16 +145,35 @@ def _groq_keys():
 
 
 def _summary_prompt(slim: dict) -> str:
+    score = slim.get("forensic_risk_score")
+    try:
+        score_f = float(score)
+        pct = round(score_f * 100, 1) if score_f <= 1.0 else round(score_f, 1)
+    except (TypeError, ValueError):
+        pct = None
+
+    pct_line = (
+        f"Computed forensic risk score: {pct}% (0% = low concern, 100% = high concern). "
+        f"Official risk_level: {slim.get('risk_level')}. "
+        f"LINE1 colour/level MUST match risk_level. "
+        f"In LINE2, mention the forensic risk percentage ({pct}%) explicitly. "
+        f"Do not invent a different percentage or risk level."
+        if pct is not None
+        else f"Official risk_level: {slim.get('risk_level')}. Do not invent a percentage."
+    )
+
     return f"""
 You are writing a short brief for a border officer using KAVACH (automated document screening).
+
+{pct_line}
 
 Report JSON:
 {json.dumps(slim, indent=2)}
 
 Output EXACTLY in this format (plain text, no markdown fences):
 
-LINE1: <GREEN or YELLOW or RED> | <PASS or REVIEW or HIGH RISK> | <file_name>
-LINE2: Why: <one or two short sentences; use risk_level and strongest flagged signals; do not invent facts>
+LINE1: <GREEN or YELLOW or RED> | <PASS or REVIEW or HIGH RISK> | <file_name or case id>
+LINE2: Why: <one or two short sentences; MUST mention the forensic risk percentage if given above; use risk_level and strongest flagged signals; do not invent facts>
 LINE3: empty
 Then heading: Officer checklist:
 Then 3 to 5 lines starting with [ ] describing concrete things the officer should verify manually.
@@ -164,10 +183,9 @@ Rules:
 - GREEN only if risk_level is PASS.
 - YELLOW if risk_level is REVIEW.
 - RED if risk_level is HIGH RISK.
-- Prefer fail-closed language (when unsure, push checklist, not "definitely fake").
-- Mention if face live-check was skipped.
-- Do not claim hologram/microtext proof from phone capture alone.
-""".strip()
+- Prefer real detector names from the JSON; if OCR failed, say so; do not invent MRZ/font issues.
+- Keep total under ~120 words.
+"""
 
 
 def _groq_summary(slim: dict) -> str:

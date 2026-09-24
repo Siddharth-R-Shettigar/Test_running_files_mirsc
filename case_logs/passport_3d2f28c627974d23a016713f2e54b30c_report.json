@@ -1,0 +1,234 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport_3d2f28c627974d23a016713f2e54b30c.jpeg",
+  "live_image": "face_016c05e5ca2140af9e6a55d52736142f.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Critical checks not available: ocr_extraction.",
+  "forensic_risk_score": 0.51,
+  "active_detectors_evaluated": 29,
+  "detector_signals": [
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.23,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 23%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.03,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.47.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.7. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 1.0,
+      "confidence": "high",
+      "explanation": "The visible passport number (PP3000000) does not match the passport number in the machine-readable zone (PP300009), indicating a clear alteration or a fraudulent document. Additionally, the ghost image has an unexplained translucent overlay, and the main photo appears digitally inserted with sharp edges.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: opencv-python is not installed; duplicate identity check unavailable.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "image_fingerprint": "8cced4f86ec4e4f6558d812b4241ed4e53c5cf4bf7cd2e51d86043ddb62a6fbf",
+  "integrity_seal": {
+    "report_hash": "c165e2681bd3014d4f23d9b2c22b48e061be99a8aa86cd3a25f675a315ff3609",
+    "signature": "dad9dfdfb4e9022158d54519ba59b6bf2ebf64206f063c90f19fcf0362932561436926f08687975697a6d6f04873c7d6facbc4756e982e9f069ccfc19a9211635701fe56314148071f6e6db47d96e9cbbda0c78ef37b995480d102276cc80ca3a7fbb4271f1d23bf08bdc5347d6c8bc7d6d0b548ae12bd5c8ee97324ffd3fa7c7a55d54befc5db074eb50e9444f315d37715a1b050155b8fba538d8f57b6ddafad1fe2abce45c30e2f13651aa6d3ad0e0483b5932ae601ac5543f5653a895a15a33e07c4579bb84b1b72d4ce955aa5b0fd6f430f8a6b05b07f7c9351ec34307faec98f53a7600473f21ab8349fff48027275b6480b7dced6945d89dfe7ed2d46",
+    "signed_at": "2026-09-22T15:35:02Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 1,
+    "block_hash": "00c8415dcc3267a1462e8b4c5e61f1fb9b072e29c385f6a597938a0f5d6a7ab9",
+    "previous_hash": "0b4b452e4ae311a90bd03a5369adcfb27611fc4b8252743970f35c10202bc35f",
+    "timestamp": "2026-09-22T15:35:02Z",
+    "report_hash": "c165e2681bd3014d4f23d9b2c22b48e061be99a8aa86cd3a25f675a315ff3609",
+    "difficulty": 2
+  },
+  "human_summary": "YELLOW | REVIEW | passport_3d2f28c627974d23a016713f2e54b30c.jpeg\nWhy: Critical OCR data extraction was unavailable. Additionally, the system detected a mismatch in passport numbers between the visible and machine-readable zones, along with other image manipulation indicators.\n\nOfficer checklist:\n[ ] Manually verify all document details, especially the passport number, against the presented physical document.\n[ ] Check for physical alterations or signs of tampering on the document, paying close attention to the ghost image area.\n[ ] Confirm the traveler's identity against the document photo and conduct a live face verification (this check was skipped by KAVACH).\n[ ] Examine the physical document for any unusual compression patterns or missing security features.\nSignals: ocr_extraction=unavailable, vision_llm_sanity_analysis=flagged, jpeg_ghost_analysis=flagged, jpeg_quantization_analysis=flagged, face_verification=unavailable"
+}

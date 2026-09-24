@@ -1,0 +1,21 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "VISA.jpg",
+  "live_image": null,
+  "risk_level": "RESCAN",
+  "risk_reason": "Image clarity too low; rescan recommended.",
+  "forensic_risk_score": null,
+  "needs_rescan": true,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 42.0% (below 60%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "human_summary": "YELLOW | REVIEW | VISA.jpg\nWhy: KAVACH recommends a RESCAN as the image clarity is too low (42.0%), which hinders reliable OCR.\n\nOfficer checklist:\n[ ] Manually verify all biographical data and visa details against the physical document.\n[ ] Examine the physical visa for any signs of tampering or poor print quality.\n[ ] Confirm the traveler's identity against the photo on the physical visa.\n[ ] Consider re-scanning the document for a clearer image.\nSignals: clarity_check=failed"
+}
