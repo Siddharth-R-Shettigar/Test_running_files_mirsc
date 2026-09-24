@@ -1,0 +1,1050 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport_0b3df02e7e9d42b28a6ab323ae9de594.jpeg",
+  "live_image": "face_06fe03e9f8794047b06df94b67966fb2.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "Face on document does not match live capture.",
+  "forensic_risk_score": 0.956,
+  "active_detectors_evaluated": 30,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Image clarity is 65.4% (60-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "HRAROR",
+          "confidence": 0.8005,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              62.0,
+              19.0
+            ],
+            [
+              155.0,
+              19.0
+            ],
+            [
+              155.0,
+              33.0
+            ],
+            [
+              62.0,
+              33.0
+            ]
+          ]
+        },
+        {
+          "text": "GOVERNMENT OFINDIA PASSPORT",
+          "confidence": 0.9554,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              167.0,
+              18.0
+            ],
+            [
+              412.0,
+              18.0
+            ],
+            [
+              412.0,
+              32.0
+            ],
+            [
+              167.0,
+              32.0
+            ]
+          ]
+        },
+        {
+          "text": "Type",
+          "confidence": 0.9977,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              149.0,
+              40.0
+            ],
+            [
+              173.0,
+              40.0
+            ],
+            [
+              173.0,
+              56.0
+            ],
+            [
+              149.0,
+              56.0
+            ]
+          ]
+        },
+        {
+          "text": "Country Code",
+          "confidence": 0.9582,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              219.0,
+              39.0
+            ],
+            [
+              286.0,
+              39.0
+            ],
+            [
+              286.0,
+              53.0
+            ],
+            [
+              219.0,
+              53.0
+            ]
+          ]
+        },
+        {
+          "text": "P",
+          "confidence": 0.898,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              152.0,
+              51.0
+            ],
+            [
+              164.0,
+              53.0
+            ],
+            [
+              161.0,
+              69.0
+            ],
+            [
+              149.0,
+              66.0
+            ]
+          ]
+        },
+        {
+          "text": "Passpost No.",
+          "confidence": 0.9651,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              329.0,
+              42.0
+            ],
+            [
+              397.0,
+              42.0
+            ],
+            [
+              397.0,
+              56.0
+            ],
+            [
+              329.0,
+              56.0
+            ]
+          ]
+        },
+        {
+          "text": "J1234567",
+          "confidence": 0.9989,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              52.0,
+              56.0
+            ],
+            [
+              113.0,
+              56.0
+            ],
+            [
+              113.0,
+              69.0
+            ],
+            [
+              52.0,
+              69.0
+            ]
+          ]
+        },
+        {
+          "text": "IND",
+          "confidence": 0.9989,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              238.0,
+              56.0
+            ],
+            [
+              267.0,
+              56.0
+            ],
+            [
+              267.0,
+              71.0
+            ],
+            [
+              238.0,
+              71.0
+            ]
+          ]
+        },
+        {
+          "text": "Surname",
+          "confidence": 0.9965,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              151.0,
+              70.0
+            ],
+            [
+              201.0,
+              70.0
+            ],
+            [
+              201.0,
+              83.0
+            ],
+            [
+              151.0,
+              83.0
+            ]
+          ]
+        },
+        {
+          "text": "C9090",
+          "confidence": 0.5032,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              412.0,
+              68.0
+            ],
+            [
+              444.0,
+              68.0
+            ],
+            [
+              446.0,
+              196.0
+            ],
+            [
+              415.0,
+              196.0
+            ]
+          ]
+        },
+        {
+          "text": "DURAISAMY",
+          "confidence": 0.9973,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              150.0,
+              82.0
+            ],
+            [
+              242.0,
+              82.0
+            ],
+            [
+              242.0,
+              99.0
+            ],
+            [
+              150.0,
+              99.0
+            ]
+          ]
+        },
+        {
+          "text": "Given Name's",
+          "confidence": 0.9304,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              151.0,
+              100.0
+            ],
+            [
+              230.0,
+              100.0
+            ],
+            [
+              230.0,
+              113.0
+            ],
+            [
+              151.0,
+              113.0
+            ]
+          ]
+        },
+        {
+          "text": "MANIKANDAN",
+          "confidence": 0.9978,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              150.0,
+              114.0
+            ],
+            [
+              261.0,
+              114.0
+            ],
+            [
+              261.0,
+              130.0
+            ],
+            [
+              150.0,
+              130.0
+            ]
+          ]
+        },
+        {
+          "text": "Nationality",
+          "confidence": 0.9968,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              151.0,
+              131.0
+            ],
+            [
+              214.0,
+              131.0
+            ],
+            [
+              214.0,
+              145.0
+            ],
+            [
+              151.0,
+              145.0
+            ]
+          ]
+        },
+        {
+          "text": "Sex",
+          "confidence": 0.9972,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              257.0,
+              130.0
+            ],
+            [
+              280.0,
+              130.0
+            ],
+            [
+              280.0,
+              146.0
+            ],
+            [
+              257.0,
+              146.0
+            ]
+          ]
+        },
+        {
+          "text": "D08",
+          "confidence": 0.9697,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              321.0,
+              130.0
+            ],
+            [
+              348.0,
+              130.0
+            ],
+            [
+              348.0,
+              145.0
+            ],
+            [
+              321.0,
+              145.0
+            ]
+          ]
+        },
+        {
+          "text": "INDIAN",
+          "confidence": 0.9977,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              150.0,
+              144.0
+            ],
+            [
+              210.0,
+              144.0
+            ],
+            [
+              210.0,
+              160.0
+            ],
+            [
+              150.0,
+              160.0
+            ]
+          ]
+        },
+        {
+          "text": "M",
+          "confidence": 0.9975,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              258.0,
+              142.0
+            ],
+            [
+              276.0,
+              142.0
+            ],
+            [
+              276.0,
+              160.0
+            ],
+            [
+              258.0,
+              160.0
+            ]
+          ]
+        },
+        {
+          "text": "16/07/1996",
+          "confidence": 0.9974,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              320.0,
+              141.0
+            ],
+            [
+              398.0,
+              141.0
+            ],
+            [
+              398.0,
+              158.0
+            ],
+            [
+              320.0,
+              158.0
+            ]
+          ]
+        },
+        {
+          "text": "Rlaber's",
+          "confidence": 0.9322,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              151.0,
+              161.0
+            ],
+            [
+              201.0,
+              161.0
+            ],
+            [
+              201.0,
+              174.0
+            ],
+            [
+              151.0,
+              174.0
+            ]
+          ]
+        },
+        {
+          "text": "Place of Birth",
+          "confidence": 0.9535,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              320.0,
+              160.0
+            ],
+            [
+              394.0,
+              160.0
+            ],
+            [
+              394.0,
+              173.0
+            ],
+            [
+              320.0,
+              173.0
+            ]
+          ]
+        },
+        {
+          "text": "T.DURAISAMY",
+          "confidence": 0.995,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              151.0,
+              176.0
+            ],
+            [
+              261.0,
+              176.0
+            ],
+            [
+              261.0,
+              190.0
+            ],
+            [
+              151.0,
+              190.0
+            ]
+          ]
+        },
+        {
+          "text": "Chennai",
+          "confidence": 0.9946,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              321.0,
+              175.0
+            ],
+            [
+              384.0,
+              175.0
+            ],
+            [
+              384.0,
+              192.0
+            ],
+            [
+              321.0,
+              192.0
+            ]
+          ]
+        },
+        {
+          "text": "Mother's Name",
+          "confidence": 0.9691,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              151.0,
+              190.0
+            ],
+            [
+              239.0,
+              193.0
+            ],
+            [
+              239.0,
+              207.0
+            ],
+            [
+              150.0,
+              205.0
+            ]
+          ]
+        },
+        {
+          "text": "Father's Name,",
+          "confidence": 0.9439,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              320.0,
+              192.0
+            ],
+            [
+              397.0,
+              194.0
+            ],
+            [
+              396.0,
+              209.0
+            ],
+            [
+              320.0,
+              207.0
+            ]
+          ]
+        },
+        {
+          "text": "RADHESWARI",
+          "confidence": 0.9978,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              151.0,
+              208.0
+            ],
+            [
+              254.0,
+              208.0
+            ],
+            [
+              254.0,
+              224.0
+            ],
+            [
+              151.0,
+              224.0
+            ]
+          ]
+        },
+        {
+          "text": "Date of Issue,",
+          "confidence": 0.9275,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              150.0,
+              222.0
+            ],
+            [
+              229.0,
+              225.0
+            ],
+            [
+              229.0,
+              241.0
+            ],
+            [
+              149.0,
+              238.0
+            ]
+          ]
+        },
+        {
+          "text": "Date of Expiry",
+          "confidence": 0.913,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              320.0,
+              225.0
+            ],
+            [
+              402.0,
+              227.0
+            ],
+            [
+              401.0,
+              240.0
+            ],
+            [
+              320.0,
+              238.0
+            ]
+          ]
+        },
+        {
+          "text": "28/07/2021",
+          "confidence": 0.9981,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              151.0,
+              241.0
+            ],
+            [
+              225.0,
+              241.0
+            ],
+            [
+              225.0,
+              255.0
+            ],
+            [
+              151.0,
+              255.0
+            ]
+          ]
+        },
+        {
+          "text": "27/07/2031",
+          "confidence": 0.9974,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              319.0,
+              239.0
+            ],
+            [
+              400.0,
+              241.0
+            ],
+            [
+              399.0,
+              259.0
+            ],
+            [
+              319.0,
+              256.0
+            ]
+          ]
+        },
+        {
+          "text": "P<INDDURAISAMY<<MANIKANDAN<<<<<<<<<<<",
+          "confidence": 0.8733,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              25.0,
+              273.0
+            ],
+            [
+              436.0,
+              273.0
+            ],
+            [
+              436.0,
+              286.0
+            ],
+            [
+              25.0,
+              286.0
+            ]
+          ]
+        },
+        {
+          "text": "J1234567<1IND9607168M3107278<<<<<<<<<<<",
+          "confidence": 0.8986,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              25.0,
+              298.0
+            ],
+            [
+              436.0,
+              298.0
+            ],
+            [
+              436.0,
+              311.0
+            ],
+            [
+              25.0,
+              311.0
+            ]
+          ]
+        }
+      ],
+      "mrz_lines": [
+        "P<INDDURAISAMY<<MANIKANDAN<<<<<<<<<<<",
+        "J1234567<1IND9607168M3107278<<<<<<<<<<<"
+      ]
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as passport (score=6.5) (User uploaded category: 'passport')",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "MRZ parsing error: invalid literal for int() with base 10: '<'",
+      "status": "unavailable",
+      "fields": {
+        "doc_type": "P",
+        "country_code": "IND",
+        "surname": "DURAISAMY",
+        "given_names": "MANIKANDAN",
+        "passport_number": "J1234567",
+        "nationality": "IND",
+        "dob": "960716",
+        "sex": "M",
+        "expiry": "310727",
+        "personal_number": ""
+      },
+      "issues": [
+        "invalid literal for int() with base 10: '<'"
+      ]
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "All required fields present",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Visual OCR and MRZ fields are consistent",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.14. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.35. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 3652.86). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 157.13 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.49,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 48%.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.41,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.26.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 965.31). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.75,
+      "confidence": "medium",
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 3193.28).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.05,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.74.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.69 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.16. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "The document contains significant textual inconsistencies: the field 'Rlaber's' is present, and the 'Father's Name' field lists a date (16/07/1996) which is identical to the Date of Birth, rather than a name. These are strong indicators of tampering or a fraudulent document.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image too small for reliable background pattern analysis.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.283,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=15.4, val_std=47.2, hue_std=31.5). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.8802 (match threshold: 0.4). Faces do not match — possible impersonation.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.225,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.41, Color inconsistency: 0.00.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.933,
+      "confidence": "high",
+      "explanation": "HIGH RISK: Face matches an existing record under a different ID ('face_774192a8ce074039a08012b072690d85') with similarity 0.9328, above the 0.85 duplicate-identity threshold.",
+      "status": "flagged"
+    }
+  ],
+  "rag_context": {
+    "document_standards": {
+      "retrieved": true,
+      "standards": [
+        {
+          "type": "us_passport",
+          "similarity": 0.4088,
+          "content": "US Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<USA followed by surname<<given names\n            - Passport number: 9 alphanumeric characters\n            - Fields: Surname, Given Names, Nationality (USA), Date of Birth, Sex, Place of Birth, Issue Date, Expiry Date, Passport Number\n            - Valid expiry: 10 years for adults (16+), 5 years for minors\n            - Security features: holographic laminate, UV ink, RFID chip (ePassport), laser engraved photo"
+        },
+        {
+          "type": "indian_passport",
+          "similarity": 0.3368,
+          "content": "Indian Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<IND followed by surname<<given names\n            - MRZ Line 2: passport number (9 chars) + check digit + IND + DOB (YYMMDD) + check digit + sex + expiry (YYMMDD) + check digit + personal number + check digit + composite check digit\n            - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue\n            - Valid expiry: 10 years from issue for adults, 5 years for minors\n            - Passport number format: alphanumeric, starts with letter, 8 chars total\n            - Security features: UV reactive ink, hologram, microtext, laser perforation"
+        }
+      ],
+      "count": 2
+    },
+    "expected_security_features": {
+      "retrieved": true,
+      "expected_features": [
+        {
+          "type": "document_security_features",
+          "content": "Common Document Security Features:\n            - UV fluorescent ink: glows under 365nm UV light\n            - Microtext: text smaller than 0.2mm, blurs when photocopied\n            - Guilloché patterns: complex geometric backgrounds, create Moiré when copied\n            - Rainbow printing: smooth color gradient, impossible on CMYK printers\n            - Hologram: kinegram that shifts color and pattern when tilted\n            - Laser perforation: holes through all pages, conical shape\n            - Security threads: metallic strips woven through paper\n            - Watermarks: visible when held to light\n            - Intaglio printing: raised ink texture, tactile feel\n            - RFID chip: biometric data in ePassports (ICAO 9303 Part 9)"
+        },
+        {
+          "type": "indian_passport",
+          "content": "Indian Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<IND followed by surname<<given names\n            - MRZ Line 2: passport number (9 chars) + check digit + IND + DOB (YYMMDD) + check digit + sex + expiry (YYMMDD) + check digit + personal number + check digit + composite check digit\n            - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue\n            - Valid expiry: 10 years from issue for adults, 5 years for minors\n            - Passport number format: alphanumeric, starts with letter, 8 chars total\n            - Security features: UV reactive ink, hologram, microtext, laser perforation"
+        }
+      ]
+    },
+    "similar_fraud_cases": {
+      "retrieved": true,
+      "similar_cases": [
+        {
+          "source": "original_visa_indian_person_report.json",
+          "similarity": 0.5522,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
+        },
+        {
+          "source": "lol_report.json",
+          "similarity": 0.5229,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"lol.jpeg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: mrz_parser, ocr_mrz_consistency.\",\n  \"forensic_risk_score\": 0.499,\n  \"active_detectors_evaluated\": 25,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\",\n      \"score\": 0.0,\n      \"confidence\": \"high\",\n      \"explanation\": \"Extracted 12 tokens. Found 0 MRZ candidates.\",\n      \"status\": \"passed\",\n      \"fields\": [\n        {\n   "
+        },
+        {
+          "source": "pan_report.json",
+          "similarity": 0.521,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"PAN.jpeg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: mrz_parser, ocr_mrz_consistency.\",\n  \"forensic_risk_score\": 0.357,\n  \"active_detectors_evaluated\": 25,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\",\n      \"score\": 0.0,\n      \"confidence\": \"high\",\n      \"explanation\": \"Extracted 13 tokens. Found 0 MRZ candidates.\",\n      \"status\": \"passed\",\n      \"fields\": [\n        {\n   "
+        }
+      ],
+      "count": 3
+    }
+  },
+  "image_fingerprint": "39bf306120be81634fa66d4b2c7cbd4275e20d67e6a2afcf6bae81f817c56ce4",
+  "integrity_seal": {
+    "report_hash": "a418cbb1b0f4cbc76428d64540904fdd05c19d4c25fc40451ec000334984aabc",
+    "signature": "80a288085913f19bc22c2d92a88aeb916bba8bdf7d78d5d58d056416cc74347dd732a40bcdf1e00e5e56c2ec5dc4b0e42d3d5916a0af80ebcb2bfbce563006cea4735f8c16a7f92612d8dcd96588995cb36bc43814ce4503ba0de8aee06306db7d73d4a7b00fe8d73e4bd1febaf0026950187f425bee63905cd341c577aad6f00e3934ac65daa74cb1b7a71511b8ed201ce7e4a5f4e6d4d6cdc7ce09d305094c5c46514ca3ad3b2862f4f423ba95dddc0bcb80b8f831a75cbe2bfdd5e13d199fc0fbc9568c5dc8ea3b81f84b9daaa996d30ef47b3ebb53f36621869b9a343c953e9ad0f85453a2ffc72ecb5b3f66f07354b85d2c5274ea8ab44d891f8b77bb92",
+    "signed_at": "2026-09-24T13:20:20Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 29,
+    "block_hash": "000927ec515e792931dbbdac7fba39a0b5da136ff4cc6883029af985663a315c",
+    "previous_hash": "00df6de4a3a139a2b9de41c1ce43244be8411d80636ca57385730be5177c4f5f",
+    "timestamp": "2026-09-24T13:20:20Z",
+    "report_hash": "a418cbb1b0f4cbc76428d64540904fdd05c19d4c25fc40451ec000334984aabc",
+    "difficulty": 2
+  },
+  "human_summary": "RED | HIGH RISK | passport_0b3df02e7e9d42b28a6ab323ae9de594.jpeg\nWhy: KAVACH indicates HIGH RISK with a 95.6% forensic risk score. The face on the document does not match the live capture, and the document shows signs of manipulation and textual inconsistencies.\n\nOfficer checklist:\n[ ] Verify the traveler's identity against the physical document and live capture.\n[ ] Carefully inspect the document for physical alteration or synthetic elements.\n[ ] Review the document's textual fields for inconsistencies (e.g., 'Father's Name' lists a date).\n[ ] Check for any visible signs of resampling or artificial image generation.\n[ ] Cross-reference the traveler's face against existing duplicate identity records.\n\nSignals: face_verification=flagged, duplicate_identity_check=flagged, vision_llm_sanity_analysis=flagged, cfa_demosaicing_analysis=flagged, resampling_interpolation_analysis=flagged"
+}

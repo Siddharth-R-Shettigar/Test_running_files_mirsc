@@ -1,0 +1,755 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "national_id_99d9682966c646b79abd2aab4d48f24c.jpeg",
+  "live_image": "face_06fe03e9f8794047b06df94b67966fb2.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "Face on document does not match live capture.",
+  "forensic_risk_score": 0.935,
+  "active_detectors_evaluated": 30,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Image clarity is 62.0% (60-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "HR R",
+          "confidence": 0.6333,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              174.0,
+              24.0
+            ],
+            [
+              261.0,
+              24.0
+            ],
+            [
+              261.0,
+              38.0
+            ],
+            [
+              174.0,
+              38.0
+            ]
+          ]
+        },
+        {
+          "text": "GOVERNMENT OF INDIA",
+          "confidence": 0.9629,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              139.0,
+              46.0
+            ],
+            [
+              298.0,
+              46.0
+            ],
+            [
+              298.0,
+              60.0
+            ],
+            [
+              139.0,
+              60.0
+            ]
+          ]
+        },
+        {
+          "text": "3TER",
+          "confidence": 0.5403,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              378.0,
+              53.0
+            ],
+            [
+              429.0,
+              55.0
+            ],
+            [
+              428.0,
+              70.0
+            ],
+            [
+              377.0,
+              68.0
+            ]
+          ]
+        },
+        {
+          "text": "/Name",
+          "confidence": 0.964,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              164.0,
+              86.0
+            ],
+            [
+              226.0,
+              86.0
+            ],
+            [
+              226.0,
+              97.0
+            ],
+            [
+              164.0,
+              97.0
+            ]
+          ]
+        },
+        {
+          "text": "DURAISAMY MANIKANDAN",
+          "confidence": 0.976,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              165.0,
+              99.0
+            ],
+            [
+              332.0,
+              99.0
+            ],
+            [
+              332.0,
+              113.0
+            ],
+            [
+              165.0,
+              113.0
+            ]
+          ]
+        },
+        {
+          "text": "f/Fathers Name",
+          "confidence": 0.8952,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              163.0,
+              114.0
+            ],
+            [
+              307.0,
+              116.0
+            ],
+            [
+              307.0,
+              133.0
+            ],
+            [
+              162.0,
+              131.0
+            ]
+          ]
+        },
+        {
+          "text": "T.DURAISAMY",
+          "confidence": 0.9917,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              165.0,
+              132.0
+            ],
+            [
+              260.0,
+              132.0
+            ],
+            [
+              260.0,
+              146.0
+            ],
+            [
+              165.0,
+              146.0
+            ]
+          ]
+        },
+        {
+          "text": "faf/Date of Birth",
+          "confidence": 0.8437,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              162.0,
+              146.0
+            ],
+            [
+              294.0,
+              145.0
+            ],
+            [
+              294.0,
+              162.0
+            ],
+            [
+              163.0,
+              163.0
+            ]
+          ]
+        },
+        {
+          "text": "16/07/1996",
+          "confidence": 0.997,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              165.0,
+              162.0
+            ],
+            [
+              237.0,
+              162.0
+            ],
+            [
+              237.0,
+              176.0
+            ],
+            [
+              165.0,
+              176.0
+            ]
+          ]
+        },
+        {
+          "text": "/Ades",
+          "confidence": 0.9829,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              163.0,
+              180.0
+            ],
+            [
+              222.0,
+              180.0
+            ],
+            [
+              222.0,
+              194.0
+            ],
+            [
+              163.0,
+              194.0
+            ]
+          ]
+        },
+        {
+          "text": "/Sex",
+          "confidence": 0.9552,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              250.0,
+              178.0
+            ],
+            [
+              304.0,
+              178.0
+            ],
+            [
+              304.0,
+              192.0
+            ],
+            [
+              250.0,
+              192.0
+            ]
+          ]
+        },
+        {
+          "text": "1210/1/2021",
+          "confidence": 0.999,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              164.0,
+              196.0
+            ],
+            [
+              232.0,
+              196.0
+            ],
+            [
+              232.0,
+              210.0
+            ],
+            [
+              164.0,
+              210.0
+            ]
+          ]
+        },
+        {
+          "text": "M",
+          "confidence": 0.9946,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              251.0,
+              196.0
+            ],
+            [
+              266.0,
+              196.0
+            ],
+            [
+              266.0,
+              209.0
+            ],
+            [
+              251.0,
+              209.0
+            ]
+          ]
+        },
+        {
+          "text": "Race Road",
+          "confidence": 0.9513,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              163.0,
+              212.0
+            ],
+            [
+              225.0,
+              212.0
+            ],
+            [
+              225.0,
+              226.0
+            ],
+            [
+              163.0,
+              226.0
+            ]
+          ]
+        },
+        {
+          "text": "Radheswari",
+          "confidence": 0.9961,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              164.0,
+              226.0
+            ],
+            [
+              229.0,
+              226.0
+            ],
+            [
+              229.0,
+              240.0
+            ],
+            [
+              164.0,
+              240.0
+            ]
+          ]
+        },
+        {
+          "text": "Nadu,316030",
+          "confidence": 0.9692,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              165.0,
+              241.0
+            ],
+            [
+              236.0,
+              241.0
+            ],
+            [
+              236.0,
+              252.0
+            ],
+            [
+              165.0,
+              252.0
+            ]
+          ]
+        },
+        {
+          "text": "234567890123",
+          "confidence": 0.997,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              164.0,
+              260.0
+            ],
+            [
+              319.0,
+              260.0
+            ],
+            [
+              319.0,
+              277.0
+            ],
+            [
+              164.0,
+              277.0
+            ]
+          ]
+        },
+        {
+          "text": "dt/-UIDy",
+          "confidence": 0.7047,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              345.0,
+              254.0
+            ],
+            [
+              410.0,
+              254.0
+            ],
+            [
+              410.0,
+              265.0
+            ],
+            [
+              345.0,
+              265.0
+            ]
+          ]
+        },
+        {
+          "text": "27/07/2022",
+          "confidence": 0.9985,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              344.0,
+              268.0
+            ],
+            [
+              403.0,
+              268.0
+            ],
+            [
+              403.0,
+              279.0
+            ],
+            [
+              344.0,
+              279.0
+            ]
+          ]
+        },
+        {
+          "text": "Aadhaar-Mera Aadhaar, Meri Pehchaan",
+          "confidence": 0.9467,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              75.0,
+              290.0
+            ],
+            [
+              407.0,
+              290.0
+            ],
+            [
+              407.0,
+              307.0
+            ],
+            [
+              75.0,
+              307.0
+            ]
+          ]
+        }
+      ],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as national_id (score=9.0) (User uploaded category: 'id_card')",
+      "status": "passed",
+      "doc_type": "national_id",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 4.72. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.16. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 3316.69). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 155.93 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.31,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 30%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.41,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.32.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 952.59). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.75,
+      "confidence": "medium",
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 2945.6).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.06,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.84.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.65 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.32. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "The Aadhaar number '2345 6789 0123' is highly suspicious due to its generic, sequential pattern, common in sample or fake IDs. Additionally, the 'Address' field contains '1210/1/2021', which is formatted like a date rather than an address, indicating a significant data inconsistency or error.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image too small for reliable background pattern analysis.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=33.3, val_std=54.0, hue_std=36.5). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.913 (match threshold: 0.4). Faces do not match — possible impersonation.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.225,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.41, Color inconsistency: 0.00.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.933,
+      "confidence": "high",
+      "explanation": "HIGH RISK: Face matches an existing record under a different ID ('face_774192a8ce074039a08012b072690d85') with similarity 0.9328, above the 0.85 duplicate-identity threshold.",
+      "status": "flagged"
+    }
+  ],
+  "rag_context": {
+    "document_standards": {
+      "retrieved": true,
+      "standards": [
+        {
+          "type": "us_passport",
+          "similarity": 0.0842,
+          "content": "US Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<USA followed by surname<<given names\n            - Passport number: 9 alphanumeric characters\n            - Fields: Surname, Given Names, Nationality (USA), Date of Birth, Sex, Place of Birth, Issue Date, Expiry Date, Passport Number\n            - Valid expiry: 10 years for adults (16+), 5 years for minors\n            - Security features: holographic laminate, UV ink, RFID chip (ePassport), laser engraved photo"
+        },
+        {
+          "type": "indian_passport",
+          "similarity": -0.002,
+          "content": "Indian Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<IND followed by surname<<given names\n            - MRZ Line 2: passport number (9 chars) + check digit + IND + DOB (YYMMDD) + check digit + sex + expiry (YYMMDD) + check digit + personal number + check digit + composite check digit\n            - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue\n            - Valid expiry: 10 years from issue for adults, 5 years for minors\n            - Passport number format: alphanumeric, starts with letter, 8 chars total\n            - Security features: UV reactive ink, hologram, microtext, laser perforation"
+        }
+      ],
+      "count": 2
+    },
+    "expected_security_features": {
+      "retrieved": true,
+      "expected_features": [
+        {
+          "type": "document_security_features",
+          "content": "Common Document Security Features:\n            - UV fluorescent ink: glows under 365nm UV light\n            - Microtext: text smaller than 0.2mm, blurs when photocopied\n            - Guilloché patterns: complex geometric backgrounds, create Moiré when copied\n            - Rainbow printing: smooth color gradient, impossible on CMYK printers\n            - Hologram: kinegram that shifts color and pattern when tilted\n            - Laser perforation: holes through all pages, conical shape\n            - Security threads: metallic strips woven through paper\n            - Watermarks: visible when held to light\n            - Intaglio printing: raised ink texture, tactile feel\n            - RFID chip: biometric data in ePassports (ICAO 9303 Part 9)"
+        },
+        {
+          "type": "knowledge_base",
+          "content": "“FORM 7\n[Refer rule 16(1) and (2)]\nFORM FOR DRIVING LICENCE (LAMINATED CARD WITHOUT CHIP OR\nSMART CARD) VISUAL INSPECTION ZONE\nA.\nThe design of the card on the front side shall include the following data fields\nin visual form—\nB.\nThe design of the card on the reverse side shall include the following data fields\nin visual form—\n1.\nThe details of the features on the card shall be as under, namely:—\nA.\nFor front side:\n\nB.\nFor reverse side\n2.\nSpecifications.—\n(a) Card Size - 85.6mm x 54.02 mm +/- 2 mm; Thickness minimum 0.7 mm\n(i)\nCard in the form of either laminated card type without chip; or as\nper the defined template in the form of ICC (Integrated Circuit Card)\ncompliant to ISO/IEC 7816-Part 1, 2, 3, 4, 8 and 9, IS16695 (Part 1:\n2018) Smart Card Template Architecture Part 1: Basic Command\nSet (commonly known as SCOSTA Contact Smart Card);\n(ii)\nPICC (Proximity Integrated Circuit Card), if provided, compliant to\nISO/IEC 14443-Part 1, 2, 3 and 4, ISO/IEC 7816-Part 4, 8 and 9,\nIS16695 (Part 1: 2018) Smart Card Template Architecture Part 1: Basic\nCommand Set (commonly known as SCOSTA Contactless Smart\nCard), with card dimensions compliant to ISO/IEC 7810 ID-1\nstandard.\n(b) Font Style and Size specifications\nFront Side\nReverse Side\nSr.\nFeatures\nFont Name\nSize\nSr.\nFeatures\nFont Name\nSize\nNo.\nNo.\n1.\nState/UT\nMyriad Pro\n7 pt\n1.\nDriving\nMyriad\n8 pt\nCode\nRegular\nLicence\nPro\nNumber\nBold\n2.\nNational\nSymbol\n7.37 mm x\n2.\nQR code\nNA\n15 mm x\nEmblem\n12.28 mm\n(As specified\n15 mm\nby Central\nGovernment)\n3.\nCard Header\nMyriad Pro\n9 pt\n3.\nInvalid\nMyriad Pro\n7 pt\nBold\nCarriage#\nRegular\n(Regn.\nNumbers)\n4.\nDriving\nMyriad Pro\n9 pt\n4.\nHazardous\nMyriad Pro\n9 pt\nLicence\nBold\nValidity#\nRegular\nNumber\n\n5.\nIC Chip\nNA\nNA\n5.\nHill Validity#\nMyriad Pro\n7 pt\n(if opted for)\nRegular\n6.\nIssue Date\nMyriad\n7 pt\n6.\nVehicle class\nMyriad Pro\n5 pt\nPro\ntable (Class of Regular\nRegular\nVehicle, Code,\nIssued by,\nDate of Issue,\nVehicle\nCategory,\nBadge\nNumber#,\nBadge Issued\nDate#, Badge\nIssued by#)\n7.\nValidity (NT) Myriad Pro\n7 pt\n7.\nEmergency\nMyriad Pro\n6 pt\nRegular\nContact\nRegular\nNumber\n8.\nValidity (TR)# Myriad Pro\n7 pt\n8.\nLicensing\nMyriad Pro\n6 pt\nRegular\nAuthority\nRegular\n9.\nName\nMyriad Pro\n7 pt\n9.\nForm 7\nMyriad Pro\n6 pt\nRegular\nRule 16(2)\nRegular\n10.\nDate of Birth\nMyriad Pro\n7 pt\nRegular\n11.\nBlood Group\nMyriad Pro\n7 pt\nRegular\n12.\nOrgan Donor\nMyriad Pro\n7 pt\nRegular\n13.\nSon/\nMyriad Pro\n7 pt\nDaughter/\nRegular\nWife of\n14.\nAddress\nMyriad Pro\n7 pt\nRegular\n15.\nDate of First\nMyriad Pro\n6 pt\nIssue\nRegular\n16.\nHolder’s\nMyriad Pro\n5 pt\nSignature\nRegular\n17.\nPhotograph\nNA\n14.82 mm x\n14.82 mm\n# :\nBoth Label and Value would be blank in cases where they are not applicable\nor have not been opted for\n\n(c)\nBackground Colour Details\nFront Side\nReverse Side\nSr.\nHex Code\nPrint colour\nSr.\nHex Code\nPrint colour\nNo.\nNo.\nC1.\n#f8951d\nC: 0 M: 49 Y: 100 K:0\nC1. #ddf1fa\nC:12 M: 1 Y:1 K:0\nC2.\nGradient\nGradient\nC2. Gradient\nGradient\nColour\nColoor\nColour\nColour\nTop:\nTop:\nTop:\nTop:\n#e7f5f5\nC:8 M: 0 Y:3 K:0\n#e7f5f5\nC:8 M: 0 Y:3 K:0\nBottom:\nBottom:\nBottom:\nBottom:\n#a3daf7\nC:33 M:1 Y:0 K:0\n#a3daf7\nC:33 M:1 Y:0 K:0\nC3.\n#edf8fc\nC:6 M: 0 Y:1 K:0\nC3. #edf8fc\nC:6 M: 0 Y:1 K:0\nMACHINE READABLE ZONE (applicable only if opted for Smart Card)\nThe concerned State Governments shall provide the following features of the licence\nin the Machine Readable Zone, namely:—\nSr. No.\nField\n1.\nDL Holder Personal Details :\nDriving Licence Number (DL)\nName of the DL Holder\nFull Name of the DL Holder\nGender\nGuardian (Mother/Father/Husband) Name\nRelation with Guardian (e.g.: S/o, W/o , D/o)\nDate of Birth (in ddmmyyyy format)\nFirst Identification Mark\nSecond Identification Mark\nBlood Group\nMobile Number\nEmail Id\nAlternate Mobile Number\nEmergency Contact Number\nPermanent Address\nPINCODE of Permanent Address\nState Code In Permanent Address\nDistrict Name in Permanent Address\nSub-division/Taluk name in Permanent Address\nVillage Name in Permanent address\n\nPresent Address\nState Code in Present address\nPINCODE of Present address\nDistrict Name in present Address\nSub-division/Taluk Name in present Address\nVillage Name in Present address\n2.\nLicence details :\nValid From (Transport) (in ddmmyyyy format)\nValid Till (Transport) (in ddmmyyyy format)\nValid From (Non-Transport) (in ddmmyyyy format)\nValid From (Non-Transport) (in ddmmyyyy format)\nFirst Date of DL Issuance (in ddmmyyyy format)\nFirst (Original) Issuing Authority\nDate of Hazardous Validity (in ddmmyyyy format)\nDate of Hill Region validity (in ddmmyyyy format)\nAuthority who issued Transport Authorization\nTransport Authorization Number\nTransport Authorization date (in ddmmyyyy format)\nInvalid carriage Vehicle Registration Number\nINVALID Carriage 2nd Vehicle Registration Number, if any\nInvalid carriage 3rd Vehicle Registration Number, if any\n3.\nClass of Vehicle details :\nClass of Vehicle (COV)\nClass of Vehicle Issue Date (in ddmmyyyy format)\nClass of vehicle – Issued By (Name & Designation)\nBadge No.\nBadge Issue Date (in ddmmyyyy format)\nBadge Issued by –LA Office\n4.\nImage details :\nPhotograph of DL Holder\nSignature of DL Holder\n5.\nEnforcement details :\nChallan/Inward Number\nChallan Date (in ddmmyyyy format)\nEndorsement Authority ID\nEndorsement Authority Name\n\nSection/Rule Violated\nDisqualification Type (Suspended/Cancelled)\nDisqualification period from (in ddmmyyyy format)\nDisqualification period Up to (in ddmmyyyy format)\nClass of Vehicle that is suspended/Cancelled\nSettlement date\nReview Date (in ddmmyyyy format)\nReview Authority Name\nRemarks ”\n"
+        }
+      ]
+    },
+    "similar_fraud_cases": {
+      "retrieved": true,
+      "similar_cases": [
+        {
+          "source": "original_visa_indian_person_report.json",
+          "similarity": 0.5478,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
+        },
+        {
+          "source": "dataset-cover_report.json",
+          "similarity": 0.5338,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"dataset-cover.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.22,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 78.0% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"st"
+        },
+        {
+          "source": "passport2_report.json",
+          "similarity": 0.524,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"passport2.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.121,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 87.9% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"statu"
+        }
+      ],
+      "count": 3
+    }
+  },
+  "image_fingerprint": "ff1ac3fb554dca87a1688480ca2c6ff196998ae9926068ace9f720e2a31615a5",
+  "integrity_seal": {
+    "report_hash": "f2e94f499d59e922edaeec2b64f242430519a4d09b49a63e30994e6e3e2668d1",
+    "signature": "73b90a532f2a13ecd02be680258b0d2fb8310b6ede48814319fad6ae87b59ca3ada8d07f81f943b8c6f4063cf6d9fd7c6eb39fcd5335e537e37f7df595a9ef417832a36e5f799a8989077106e6997aaf2a55bc1f19eb6ac2369e58a6192b7eb7ebb75ee6dfd8100425f6bc037d55adb803a21e260caacc454d1ebfc7ee531233a4e45f7d88721aeac45512eba2442e01bdc91263af5d15c43078f263989652b64f75815ec977b606619a82d3177d3375c9b8b014ceefbfe39414746b10db58f3988d5795ed7c512644ef8e46ab9e94c83cfcde16f666758ae694c9a116f5a56e593ec8ebb2c9e44a3d874c57192008e6f9d63bf01c9e2c5d425475882c447965",
+    "signed_at": "2026-09-24T13:22:54Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 31,
+    "block_hash": "00baa63a7b51712f38e7c259394d9765440e99b9c868ea8c3f9e14dfc62b67b8",
+    "previous_hash": "0071f6e2ec856318aea1b368463b16a7a1c73d632d1d0e1511050a88aed3c260",
+    "timestamp": "2026-09-24T13:22:54Z",
+    "report_hash": "f2e94f499d59e922edaeec2b64f242430519a4d09b49a63e30994e6e3e2668d1",
+    "difficulty": 2
+  },
+  "human_summary": "RED | HIGH RISK | national_id_99d9682966c646b79abd2aab4d48f24c.jpeg\nWhy: KAVACH detected a HIGH RISK with a forensic risk score of 93.5%. The document face does not match the live capture, and the individual's face matches an existing record. Additionally, the Aadhaar number and address format on the document appear suspicious.\n\nOfficer checklist:\n[ ] Conduct a thorough manual face-to-document verification, comparing physical features carefully.\n[ ] Question the individual regarding the suspicious Aadhaar number and address format on the ID.\n[ ] Investigate the linked duplicate identity reference.\n[ ] Physically examine the ID document for signs of digital tampering or forgery (e.g., photo insertion, print quality).\nSignals: face_verification=flagged duplicate_identity_check=flagged vision_llm_sanity_analysis=flagged cfa_demosaicing_analysis=flagged jpeg_ghost_analysis=flagged"
+}
