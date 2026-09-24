@@ -315,6 +315,9 @@ def scan_capture():
             return redirect(url_for("scan", error=err_msg))
     except Exception as e:
         print(f"[WARNING] Clarity pre-check error: {e}", file=sys.stderr)
+        if os.path.exists(path):
+            os.remove(path)
+        return redirect(url_for("scan", error="Image check unavailable. Please try again."))
 
     # 2. Instantaneous Face Presence Check (Face capture step)
     if step["key"] == "face":
@@ -327,6 +330,10 @@ def scan_capture():
                 return redirect(url_for("scan", error=face_msg))
         except Exception as e:
             print(f"[WARNING] Face presence pre-check error: {e}", file=sys.stderr)
+            if os.path.exists(path):
+                os.remove(path)
+            return redirect(url_for("scan", error=f"Face check error: {e}"))
+
 
     captures = dict(session.get("captures") or {})
     captures[step["key"]] = path

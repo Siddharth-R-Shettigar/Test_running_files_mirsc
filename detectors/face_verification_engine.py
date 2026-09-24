@@ -39,62 +39,81 @@ def _get_largest_face_embedding(image_path):
 
 
 _CASCADES = []
+_CASCADES_INITIALIZED = False
 
 def _init_cascades():
-    global _CASCADES
-    if not _CASCADES:
-        paths = [
-            cv2.data.haarcascades + 'haarcascade_frontalface_default.xml',
-            cv2.data.haarcascades + 'haarcascade_frontalface_alt2.xml',
-            cv2.data.haarcascades + 'haarcascade_profileface.xml',
-        ]
-        for p in paths:
-            if os.path.exists(p):
-                c = cv2.CascadeClassifier(p)
-                if not c.empty():
-                    _CASCADES.append(c)
+    global _CASCADES, _CASCADES_INITIALIZED
+    if not _CASCADES_INITIALIZED:
+        _CASCADES_INITIALIZED = True
+        if hasattr(cv2, 'CascadeClassifier') and hasattr(cv2, 'data'):
+            paths = [
+                getattr(cv2.data, 'haarcascades', '') + 'haarcascade_frontalface_default.xml',
+                getattr(cv2.data, 'haarcascades', '') + 'haarcascade_frontalface_alt2.xml',
+                getattr(cv2.data, 'haarcascades', '') + 'haarcascade_profileface.xml',
+            ]
+            for p in paths:
+                try:
+                    if p and os.path.exists(p):
+                        c = cv2.CascadeClassifier(p)
+                        if not c.empty():
+                            _CASCADES.append(c)
+                except Exception:
+                    pass
 
 def check_face_presence(image_path):
     """
     Fast face detection for instantaneous kiosk feedback.
-    Uses multi-cascade OpenCV check (frontal + alt + profile, ~20ms).
-    Falls back to InsightFace if OpenCV cascades miss (e.g. angle / lighting).
+    Uses multi-cascade OpenCV check (~20ms) if CascadeClassifier available.
+    Falls back to InsightFace (ArcFace).
     Returns (has_face: bool, message: str)
+    Never raises an unhandled exception.
     """
-    if not os.path.exists(image_path):
-        return False, "File not found."
-
-    img = cv2.imread(image_path)
-    if img is None:
-        return False, "Could not load image file."
-
-    _init_cascades()
-
-    gray = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR) if len(img.shape) == 2 else cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
-    # 1. Ultra-fast OpenCV cascades
-    for cascade in _CASCADES:
-        faces = cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(35, 35))
-        if len(faces) > 0:
-            return True, f"Face detected ({len(faces)} face(s) found)."
-
-    # Try horizontally flipped gray image for profile cascade
-    flipped_gray = cv2.flip(gray, 1)
-    for cascade in _CASCADES:
-        faces = cascade.detectMultiScale(flipped_gray, scaleFactor=1.1, minNeighbors=3, minSize=(35, 35))
-        if len(faces) > 0:
-            return True, f"Face detected ({len(faces)} face(s) found)."
-
-    # 2. Secondary fallback with InsightFace if OpenCV missed
     try:
-        app = _get_face_app()
-        faces = app.get(img)
-        if faces and len(faces) > 0:
-            return True, f"Face detected via InsightFace ({len(faces)} face(s) found)."
-    except Exception as e:
-        print(f"[WARNING] InsightFace face check fallback skipped: {e}", file=sys.stderr)
+        if not os.path.exists(image_path):
+            return False, "File not found."
 
-    return False, "No face detected in the captured image. Please ensure your face is clearly visible and centered, then try again."
+        img = cv2.imread(image_path)
+        if img is None:
+            return False, "Could not load image file."
+
+        # Grayscale conversion
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) if len(img.shape) == 3 else img
+
+        # Brightness check
+        if float(gray.mean()) < 35:
+            return False, "Image too dark. Improve lighting and recapture."
+
+        # 1. OpenCV cascades if supported by environment
+        _init_cascades()
+        if _CASCADES:
+            for cascade in _CASCADES:
+                faces = cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(60, 60))
+                if len(faces) > 0:
+                    return True, f"Face detected ({len(faces)} face(s) found)."
+
+            # Try horizontally flipped gray image for profile cascade
+            flipped_gray = cv2.flip(gray, 1)
+            for cascade in _CASCADES:
+                faces = cascade.detectMultiScale(flipped_gray, scaleFactor=1.1, minNeighbors=5, minSize=(60, 60))
+                if len(faces) > 0:
+                    return True, f"Face detected ({len(faces)} face(s) found)."
+
+        # 2. Secondary/primary fallback with InsightFace
+        try:
+            app = _get_face_app()
+            faces = app.get(img)
+            if faces and len(faces) > 0:
+                return True, f"Face detected via InsightFace ({len(faces)} face(s) found)."
+        except Exception as e:
+            print(f"[WARNING] InsightFace face check fallback skipped: {e}", file=sys.stderr)
+
+        return False, "No face detected in the captured image. Please center your face with even light, then try again."
+
+    except Exception as e:
+        print(f"[WARNING] check_face_presence crashed: {e}", file=sys.stderr)
+        return False, f"Face check failed internally: {e}"
+
+
 
 
 
