@@ -1,7 +1,7 @@
 # KAVACH
 ### Verifiable Evidence & Digital Authenticity
 
-**KAVACH** is a forensic document and image authenticity verification system designed for high-assurance identity screening (border control, law-enforcement, and official document checks).  
+**KAVACH** is a forensic document and image authenticity verification system designed for high-assurance identity screening (border control, law-enforcement, and official document checks).
 
 It combines classical image forensics, OCR + MRZ analysis, face verification, security-feature detection, AI-generated content detection, and LLM-based reasoning into a single risk-scoring pipeline.
 

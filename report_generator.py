@@ -255,9 +255,10 @@ def generate_case_report_pdf(report: dict, output_path: str) -> str:
     # ── Human summary (if present) ────────────────────────────────────────────
     human_summary = report.get("human_summary")
     if human_summary and str(human_summary).strip():
-        story.append(Paragraph("AI Officer Summary (Groq / Gemini)", style_h2))
+        story.append(Paragraph("AI Officer Summary (Groq)", style_h2))
         story.append(Paragraph(str(human_summary)[:1200], style_value))
         story.append(Spacer(1, 0.3 * cm))
+
 
     # ── Integrity ─────────────────────────────────────────────────────────────
     integrity = report.get("integrity_seal") or report.get("blockchain_anchor")
