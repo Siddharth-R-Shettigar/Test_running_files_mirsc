@@ -361,5 +361,149 @@
     "previous_hash": "00fae1d0a4cdfca9389de98ac535c95af50939d69440d60f788970a462dde099",
     "nonce": 114,
     "hash": "0088d7ac728c3623fa52490322c3ba8b32669cec4af446ac5ebe51b86b151c44"
+  },
+  {
+    "index": 23,
+    "timestamp": "2026-09-24T13:13:00Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "89a1633a6323d8f387df66b65fca44d674071075aa40d9c382ff6a736242d05d",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-09-24T13:13:00Z",
+      "file_analyzed": "passport_1fce7f9fc17047ffa8898fed11f64881.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "0088d7ac728c3623fa52490322c3ba8b32669cec4af446ac5ebe51b86b151c44",
+    "nonce": 812,
+    "hash": "0048b84d15cf4da9958825d09e93cb18b521a09aaf8a5ca691b647db55773ae4"
+  },
+  {
+    "index": 24,
+    "timestamp": "2026-09-24T13:14:17Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "2af2d09dd5dd6bc66e84c2361dbed1b7feb9a9b1ef2d0c881e3d7c713796c933",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-09-24T13:14:17Z",
+      "file_analyzed": "visa_34bd6d0270e044fda84c45a80689aa61.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "0048b84d15cf4da9958825d09e93cb18b521a09aaf8a5ca691b647db55773ae4",
+    "nonce": 363,
+    "hash": "00581ad5c7b1c83c6d171f18ddfd1beca666fd6bd243e8fa2eba646ba678c59f"
+  },
+  {
+    "index": 25,
+    "timestamp": "2026-09-24T13:15:39Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "b7eb328a89b49e07a0db04543b3255c4d10b6363a9943fad192a8fc5412a97df",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-09-24T13:15:39Z",
+      "file_analyzed": "national_id_5de11608b5b54cc9bdd34a4b0e29ba25.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00581ad5c7b1c83c6d171f18ddfd1beca666fd6bd243e8fa2eba646ba678c59f",
+    "nonce": 21,
+    "hash": "009477bc860bd514e5df6b29da601ff98f11e57d9757ef6229144d2cb1781f4d"
+  },
+  {
+    "index": 26,
+    "timestamp": "2026-09-24T13:17:52Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "f31bc04c2741f78f5b24fe756080f0541fd241a5d7f37a9cb4576b3c5fe67cd3",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-09-24T13:17:52Z",
+      "file_analyzed": "passport_1fce7f9fc17047ffa8898fed11f64881.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "009477bc860bd514e5df6b29da601ff98f11e57d9757ef6229144d2cb1781f4d",
+    "nonce": 233,
+    "hash": "00549b831abba474c5ee840fee95490469f198ce822f8836932e75bfbc6d9421"
+  },
+  {
+    "index": 27,
+    "timestamp": "2026-09-24T13:19:06Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "8df5f17e15ce16bf915b5f71c41ecbd5d4a73257bcf36302de6be830c48741c9",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-09-24T13:19:06Z",
+      "file_analyzed": "visa_34bd6d0270e044fda84c45a80689aa61.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00549b831abba474c5ee840fee95490469f198ce822f8836932e75bfbc6d9421",
+    "nonce": 203,
+    "hash": "007f86ce0b0b25094cb127458720e1f8eff18b826e1658078db5b99e32ccb576"
+  },
+  {
+    "index": 28,
+    "timestamp": "2026-09-24T13:19:58Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "ceb24f1c0fcac4c9d58e9148fbaa4e461128ceb4e81487e8e3dfd1ba6e84e1a6",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-09-24T13:19:58Z",
+      "file_analyzed": "national_id_5de11608b5b54cc9bdd34a4b0e29ba25.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "007f86ce0b0b25094cb127458720e1f8eff18b826e1658078db5b99e32ccb576",
+    "nonce": 538,
+    "hash": "00df6de4a3a139a2b9de41c1ce43244be8411d80636ca57385730be5177c4f5f"
+  },
+  {
+    "index": 29,
+    "timestamp": "2026-09-24T13:20:20Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "a418cbb1b0f4cbc76428d64540904fdd05c19d4c25fc40451ec000334984aabc",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-09-24T13:20:20Z",
+      "file_analyzed": "passport_0b3df02e7e9d42b28a6ab323ae9de594.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00df6de4a3a139a2b9de41c1ce43244be8411d80636ca57385730be5177c4f5f",
+    "nonce": 21,
+    "hash": "000927ec515e792931dbbdac7fba39a0b5da136ff4cc6883029af985663a315c"
+  },
+  {
+    "index": 30,
+    "timestamp": "2026-09-24T13:21:26Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "e7f309b43d0bcfdf9498223810df3984c5199f246d87e27e26f6288ff013ef15",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-09-24T13:21:26Z",
+      "file_analyzed": "visa_361db738219643ddae939c0143040f4c.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "000927ec515e792931dbbdac7fba39a0b5da136ff4cc6883029af985663a315c",
+    "nonce": 608,
+    "hash": "0071f6e2ec856318aea1b368463b16a7a1c73d632d1d0e1511050a88aed3c260"
+  },
+  {
+    "index": 31,
+    "timestamp": "2026-09-24T13:22:54Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "f2e94f499d59e922edaeec2b64f242430519a4d09b49a63e30994e6e3e2668d1",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-09-24T13:22:54Z",
+      "file_analyzed": "national_id_99d9682966c646b79abd2aab4d48f24c.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "0071f6e2ec856318aea1b368463b16a7a1c73d632d1d0e1511050a88aed3c260",
+    "nonce": 136,
+    "hash": "00baa63a7b51712f38e7c259394d9765440e99b9c868ea8c3f9e14dfc62b67b8"
   }
 ]
