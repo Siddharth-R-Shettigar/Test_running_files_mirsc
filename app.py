@@ -94,6 +94,8 @@ def scan():
     if idx >= len(SCAN_STEPS):
         return redirect(url_for("result_placeholder"))
 
+    error_msg = request.args.get("error")
+
     return render_template(
         "scan.html",
         steps=SCAN_STEPS,
@@ -101,7 +103,9 @@ def scan():
         current=SCAN_STEPS[idx],
         captures=session.get("captures") or {},
         case_id=session.get("case_id"),
+        scan_error=error_msg,
     )
+
 
 def _map_result_ui(report):
     """Map engine / connector output → compact UI fields."""
@@ -297,6 +301,30 @@ def scan_capture():
     path = os.path.join(UPLOAD_FOLDER, name)
     f.save(path)
 
+    # 1. Instantaneous Clarity Check
+    try:
+        from detectors.clarity_detector import check_image_clarity
+        clarity_res = check_image_clarity(path)
+        if clarity_res.get("status") == "failed":
+            if os.path.exists(path):
+                os.remove(path)
+            err_msg = f"Image clarity too low ({clarity_res.get('clarity_percent', 0)}%). Quality is insufficient for verification. Please capture or re-upload a sharper image."
+            return redirect(url_for("scan", error=err_msg))
+    except Exception as e:
+        print(f"[WARNING] Clarity pre-check error: {e}", file=sys.stderr)
+
+    # 2. Instantaneous Face Presence Check (Face capture step)
+    if step["key"] == "face":
+        try:
+            from detectors.face_verification_engine import check_face_presence
+            has_face, face_msg = check_face_presence(path)
+            if not has_face:
+                if os.path.exists(path):
+                    os.remove(path)
+                return redirect(url_for("scan", error=face_msg))
+        except Exception as e:
+            print(f"[WARNING] Face presence pre-check error: {e}", file=sys.stderr)
+
     captures = dict(session.get("captures") or {})
     captures[step["key"]] = path
     session["captures"] = captures
@@ -309,6 +337,7 @@ def scan_capture():
     if _scan_index() >= len(SCAN_STEPS):
         return redirect(url_for("result_placeholder"))
     return redirect(url_for("scan"))
+
 
 @app.route("/scan/skip", methods=["POST"])
 def scan_skip():
@@ -418,6 +447,10 @@ def api_run_case():
             cmd = [sys.executable, "kavach_engine.py", str(doc_path)]
             if face_path and os.path.exists(str(face_path)):
                 cmd.append(str(face_path))
+            else:
+                cmd.append("")
+            cmd.append(str(doc_key))
+
 
             proc = subprocess.run(
                 cmd,

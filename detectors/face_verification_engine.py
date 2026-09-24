@@ -38,6 +38,48 @@ def _get_largest_face_embedding(image_path):
     return largest_face.normed_embedding, None  # already L2-normalized 512-D vector
 
 
+_HAAR_CASCADE = None
+
+def check_face_presence(image_path):
+    """
+    Fast face detection for instantaneous kiosk feedback.
+    Uses OpenCV Haar Cascade first (ultra-fast, ~20ms).
+    Falls back to InsightFace if available.
+    Returns (has_face: bool, message: str)
+    """
+    if not os.path.exists(image_path):
+        return False, "File not found."
+
+    img = cv2.imread(image_path)
+    if img is None:
+        return False, "Could not load image."
+
+    global _HAAR_CASCADE
+    if _HAAR_CASCADE is None:
+        cascade_path = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+        if os.path.exists(cascade_path):
+            _HAAR_CASCADE = cv2.CascadeClassifier(cascade_path)
+
+    if _HAAR_CASCADE is not None and not _HAAR_CASCADE.empty():
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # Fast Haar check
+        faces = _HAAR_CASCADE.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=4, minSize=(60, 60))
+        if len(faces) > 0:
+            return True, f"Face detected ({len(faces)} face(s) found)."
+
+    # Secondary check with InsightFace if Haar missed (or cascade unavailable)
+    try:
+        app = _get_face_app()
+        faces = app.get(img)
+        if faces and len(faces) > 0:
+            return True, f"Face detected via InsightFace ({len(faces)} face(s) found)."
+    except Exception as e:
+        print(f"[WARNING] InsightFace face check fallback skipped: {e}", file=sys.stderr)
+
+    return False, "No face detected in the captured image. Please ensure your face is clearly visible and centered, then try again."
+
+
+
 def run_face_verification(document_image_path, live_image_path):
     doc_embedding, doc_err = _get_largest_face_embedding(document_image_path)
     if doc_embedding is None:

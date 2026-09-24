@@ -181,11 +181,50 @@ def _risk_level(signals, forensic_risk):
     def st(name):
         return statuses.get(name, {}).get("status")
 
+    def score(name):
+        try:
+            return float(statuses.get(name, {}).get("score") or 0.0)
+        except (TypeError, ValueError):
+            return 0.0
+
+    def conf(name):
+        return str(statuses.get(name, {}).get("confidence", "low")).lower()
+
     clf = statuses.get("document_classifier", {})
     is_mrz_doc = bool(clf.get("needs_mrz", False))
 
+    # ── Hard overrides ──────────────────────────────────────────────────────
     if st("face_verification") == "flagged":
         return "HIGH RISK", "Face on document does not match live capture."
+
+    # Count strong forensic flags (classic synthesis / camera-absence signals)
+    strong_flags = []
+    for name, threshold in [
+        ("cfa_demosaicing_analysis", 0.70),
+        ("jpeg_ghost_analysis", 0.70),
+        ("resampling_interpolation_analysis", 0.70),
+        ("frequency_domain_fft", 0.70),
+        ("photo_patch_forensics", 0.35),
+        ("blur_sharpness_analysis", 0.70),
+        ("jpeg_quantization_analysis", 0.55),
+        ("hf_vision_transformer", 0.55),
+        ("vision_llm_sanity_analysis", 0.60),
+    ]:
+        if score(name) >= threshold and conf(name) != "low":
+            strong_flags.append(name)
+
+    if len(strong_flags) >= 3:
+        return "HIGH RISK", f"Multiple strong forensic anomalies: {', '.join(strong_flags[:4])}."
+
+    if len(strong_flags) >= 2 and forensic_risk >= 0.35:
+        return "HIGH RISK", f"Combined forensic anomalies: {', '.join(strong_flags[:3])}."
+
+    # Single very strong AI signal
+    if score("hf_vision_transformer") >= 0.55 and conf("hf_vision_transformer") != "low":
+        return "HIGH RISK", "Strong generative / AI-synthesis signals detected."
+    if score("vision_llm_sanity_analysis") >= 0.60 and conf("vision_llm_sanity_analysis") != "low":
+        return "HIGH RISK", "Vision LLM flagged synthetic content."
+
     if is_mrz_doc and st("ocr_mrz_consistency") == "flagged":
         return "HIGH RISK", "OCR and MRZ data disagree."
     if is_mrz_doc and st("mrz_parser") == "flagged":
@@ -198,7 +237,6 @@ def _risk_level(signals, forensic_risk):
         for name in ("mrz_parser", "ocr_mrz_consistency"):
             if st(name) == "failed":
                 critical_missing.append(name)
-
     if critical_missing:
         return "REVIEW", f"Critical checks not available: {', '.join(critical_missing)}."
 
@@ -209,9 +247,10 @@ def _risk_level(signals, forensic_risk):
     if st("photo_patch_forensics") == "flagged":
         return "REVIEW", "Document face photo region shows forensic anomalies."
 
-    if forensic_risk >= 0.55:
+    # Lower thresholds so 0.40-range cases become HIGH RISK when warranted
+    if forensic_risk >= 0.42:
         return "HIGH RISK", "Combined forensic risk is high."
-    if forensic_risk >= 0.35:
+    if forensic_risk >= 0.28:
         return "REVIEW", "Combined forensic risk is moderate."
 
     flagged = [s["detector_name"] for s in signals if s.get("status") == "flagged"]
@@ -219,6 +258,7 @@ def _risk_level(signals, forensic_risk):
         return "REVIEW", f"Flagged signals: {', '.join(flagged[:6])}."
 
     return "PASS", "No strong risk signals from available checks."
+
 
 
 # ---------------------------------------------------------------------------
@@ -345,7 +385,7 @@ def _normalize_doc_type(doc_type):
 # Main analysis
 # ---------------------------------------------------------------------------
 
-def analyze_media(image_path, live_image_path=None):
+def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
     if not os.path.exists(image_path):
         return {"error": f"File {image_path} not found."}
 
@@ -370,9 +410,10 @@ def analyze_media(image_path, live_image_path=None):
                 "engine": "KAVACH",
                 "file_analyzed": os.path.basename(image_path),
                 "live_image": os.path.basename(live_image_path) if live_image_path else None,
-                "risk_level": "REVIEW",
+                "risk_level": "RESCAN",
                 "risk_reason": "Image clarity too low; rescan recommended.",
-                "forensic_risk_score": 0.0,
+                "forensic_risk_score": None,
+                "needs_rescan": True,
                 "active_detectors_evaluated": len(signals),
                 "detector_signals": signals,
                 "rag_context": {},
@@ -410,6 +451,8 @@ def analyze_media(image_path, live_image_path=None):
     country = "unknown"
     needs_mrz = False
 
+    norm_expected = _normalize_doc_type(expected_doc_type) if expected_doc_type else None
+
     if classify_document is not None:
         clf_raw = _run_safe(
             classify_document,
@@ -419,8 +462,16 @@ def analyze_media(image_path, live_image_path=None):
             score_means_risk=False,
         )
         signals.append(clf_raw)
-        doc_type = _normalize_doc_type(clf_raw.get("doc_type", "unknown")) or "unknown"
-        needs_mrz = bool(clf_raw.get("needs_mrz", False))
+        classified_type = _normalize_doc_type(clf_raw.get("doc_type", "unknown")) or "unknown"
+
+        if norm_expected:
+            doc_type = norm_expected
+            if isinstance(clf_raw, dict) and "explanation" in clf_raw:
+                clf_raw["explanation"] += f" (User uploaded category: '{norm_expected}')"
+        else:
+            doc_type = classified_type
+
+        needs_mrz = bool(clf_raw.get("needs_mrz", False)) or doc_type in ("passport", "visa")
 
         # Extract country from doc_type for RAG
         if "ind" in doc_type or "india" in doc_type or "pan" in doc_type or "aadhaar" in doc_type:
@@ -434,6 +485,8 @@ def analyze_media(image_path, live_image_path=None):
         elif "portugal" in doc_type or "portuguese" in doc_type:
             country = "Portugal"
     else:
+        doc_type = norm_expected or "unknown"
+        needs_mrz = doc_type in ("passport", "visa")
         signals.append(_normalize(
             "document_classifier",
             {
@@ -600,28 +653,28 @@ def analyze_media(image_path, live_image_path=None):
             score_means_risk=False,
         ))
 
-    # ----- 5) Forensics (sequential) -----
+    # ----- 5) Forensics (sequential, with updated weights & low-confidence adjustment) -----
     forensic_pipeline = [
-        (run_exif_detector, "exiftool", 0.4, False),
-        (run_c2pa_detector, "c2pa", 0.0, False),
-        (run_cfa_detector, "cfa_demosaicing_analysis", 1.8, False),
-        (run_hf_ai_detector, "hf_vision_transformer", 1.2, False),
-        (run_resampling_detector, "resampling_interpolation_analysis", 1.8, False),
-        (run_ela_detector, "ela_compression", 1.3, False),
-        (run_histogram_detector, "histogram_color_forensics", 0.5, False),
-        (run_frequency_detector, "frequency_domain_fft", 0.5, False),
-        (run_copy_move_detector, "copy_move_forgery", 2.0, False),
-        (run_blur_detector, "blur_sharpness_analysis", 0.5, False),
-        (run_phash_detector, "phash", 0.0, False),
-        (run_jpeg_ghost_detector, "jpeg_ghost_analysis", 0.4, True),
-        (run_quantization_detector, "jpeg_quantization_analysis", 1.0, True),
-        (run_inpainting_detector, "inpainting", 1.5, False),
-        (run_vision_llm_inspector, "vision_llm_sanity_analysis", 1.5, False),
-        (run_photo_tampering_detector, "photo_patch_forensics", 2.0, False),
-        (run_microtext_detector, "microtext_analysis", 0.35, False),
-        (run_rainbow_gradient_detector, "rainbow_gradient", 0.35, False),
-        (run_guilloche_detector, "guilloche_pattern", 0.35, False),
-        (run_hologram_detector, "hologram_shift", 0.25, False),
+        (run_cfa_detector,             "cfa_demosaicing_analysis",          2.5, False),
+        (run_jpeg_ghost_detector,      "jpeg_ghost_analysis",               2.2, True),
+        (run_resampling_detector,      "resampling_interpolation_analysis", 2.2, False),
+        (run_frequency_detector,       "frequency_domain_fft",              1.8, False),
+        (run_hf_ai_detector,           "hf_vision_transformer",             2.5, False),
+        (run_photo_tampering_detector, "photo_patch_forensics",             2.0, False),
+        (run_blur_detector,            "blur_sharpness_analysis",           1.2, False),
+        (run_exif_detector,            "exiftool",                          0.4, False),
+        (run_c2pa_detector,            "c2pa",                              0.0, False),
+        (run_ela_detector,             "ela_compression",                   1.3, False),
+        (run_histogram_detector,       "histogram_color_forensics",         0.5, False),
+        (run_copy_move_detector,       "copy_move_forgery",                 2.0, False),
+        (run_phash_detector,           "phash",                             0.0, False),
+        (run_quantization_detector,    "jpeg_quantization_analysis",        1.0, True),
+        (run_inpainting_detector,     "inpainting",                        1.5, False),
+        (run_vision_llm_inspector,     "vision_llm_sanity_analysis",        1.5, False),
+        (run_microtext_detector,       "microtext_analysis",                0.35, False),
+        (run_rainbow_gradient_detector,"rainbow_gradient",                  0.35, False),
+        (run_guilloche_detector,       "guilloche_pattern",                 0.35, False),
+        (run_hologram_detector,        "hologram_shift",                    0.25, False),
     ]
 
     weighted_sum = 0.0
@@ -634,11 +687,45 @@ def analyze_media(image_path, live_image_path=None):
         sig = _run_safe(fn, image_path, detector_name=name, score_means_risk=True)
         signals.append(sig)
 
-        if weight > 0 and sig.get("confidence") != "low" and sig.get("status") not in ("failed", "unavailable"):
-            weighted_sum += sig["score"] * weight
-            total_weight += weight
+        if weight > 0 and sig.get("status") not in ("failed", "unavailable"):
+            w = weight * (0.5 if sig.get("confidence") == "low" else 1.0)
+            weighted_sum += sig["score"] * w
+            total_weight += w
 
     forensic_risk = weighted_sum / max(total_weight, 1.0)
+
+    # ── Helper to read a detector score from the signals list ───────────────
+    def _sig_score(name):
+        for s in signals:
+            if s.get("detector_name") == name:
+                try:
+                    return float(s.get("score") or 0.0)
+                except (TypeError, ValueError):
+                    return 0.0
+        return 0.0
+
+    # Soft boost when several classic synthesis detectors agree
+    high_classic = sum(
+        1 for name in (
+            "cfa_demosaicing_analysis",
+            "jpeg_ghost_analysis",
+            "resampling_interpolation_analysis",
+            "frequency_domain_fft",
+        )
+        if _sig_score(name) >= 0.70
+    )
+    if high_classic >= 3:
+        forensic_risk = min(1.0, forensic_risk + 0.25)
+    elif high_classic >= 2:
+        forensic_risk = min(1.0, forensic_risk + 0.15)
+
+    # Optional AI boost
+    if _sig_score("hf_vision_transformer") >= 0.55:
+        forensic_risk = min(1.0, forensic_risk + 0.18)
+    if _sig_score("vision_llm_sanity_analysis") >= 0.60:
+        forensic_risk = min(1.0, forensic_risk + 0.15)
+
+    forensic_risk = round(min(max(forensic_risk, 0.0), 1.0), 3)
 
     # ----- 5b) RAG — Fraud Pattern Query -----
     # Query after all detectors run — use results to find similar past cases
@@ -734,18 +821,19 @@ def analyze_media(image_path, live_image_path=None):
     return report
 
 
-def analyze_file(path, live_image_path=None):
+def analyze_file(path, live_image_path=None, expected_doc_type=None):
     ext = os.path.splitext(path)[1].lower()
     image_exts = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tiff"}
     if ext in image_exts:
-        return analyze_media(path, live_image_path=live_image_path)
+        return analyze_media(path, live_image_path=live_image_path, expected_doc_type=expected_doc_type)
     return {"error": f"Unsupported file type: {ext}"}
 
 
 if __name__ == "__main__":
     target = sys.argv[1] if len(sys.argv) > 1 else "DSC_0153.JPG"
     live = sys.argv[2] if len(sys.argv) > 2 else None
-    report = analyze_file(target, live_image_path=live)
+    exp_doc = sys.argv[3] if len(sys.argv) > 3 else None
+    report = analyze_file(target, live_image_path=live, expected_doc_type=exp_doc)
 
     try:
         from llm_fusion import generate_human_summary
