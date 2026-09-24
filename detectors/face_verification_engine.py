@@ -38,13 +38,27 @@ def _get_largest_face_embedding(image_path):
     return largest_face.normed_embedding, None  # already L2-normalized 512-D vector
 
 
-_HAAR_CASCADE = None
+_CASCADES = []
+
+def _init_cascades():
+    global _CASCADES
+    if not _CASCADES:
+        paths = [
+            cv2.data.haarcascades + 'haarcascade_frontalface_default.xml',
+            cv2.data.haarcascades + 'haarcascade_frontalface_alt2.xml',
+            cv2.data.haarcascades + 'haarcascade_profileface.xml',
+        ]
+        for p in paths:
+            if os.path.exists(p):
+                c = cv2.CascadeClassifier(p)
+                if not c.empty():
+                    _CASCADES.append(c)
 
 def check_face_presence(image_path):
     """
     Fast face detection for instantaneous kiosk feedback.
-    Uses OpenCV Haar Cascade first (ultra-fast, ~20ms).
-    Falls back to InsightFace if available.
+    Uses multi-cascade OpenCV check (frontal + alt + profile, ~20ms).
+    Falls back to InsightFace if OpenCV cascades miss (e.g. angle / lighting).
     Returns (has_face: bool, message: str)
     """
     if not os.path.exists(image_path):
@@ -52,22 +66,26 @@ def check_face_presence(image_path):
 
     img = cv2.imread(image_path)
     if img is None:
-        return False, "Could not load image."
+        return False, "Could not load image file."
 
-    global _HAAR_CASCADE
-    if _HAAR_CASCADE is None:
-        cascade_path = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-        if os.path.exists(cascade_path):
-            _HAAR_CASCADE = cv2.CascadeClassifier(cascade_path)
+    _init_cascades()
 
-    if _HAAR_CASCADE is not None and not _HAAR_CASCADE.empty():
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        # Fast Haar check
-        faces = _HAAR_CASCADE.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=4, minSize=(60, 60))
+    gray = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR) if len(img.shape) == 2 else cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
+    # 1. Ultra-fast OpenCV cascades
+    for cascade in _CASCADES:
+        faces = cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(35, 35))
         if len(faces) > 0:
             return True, f"Face detected ({len(faces)} face(s) found)."
 
-    # Secondary check with InsightFace if Haar missed (or cascade unavailable)
+    # Try horizontally flipped gray image for profile cascade
+    flipped_gray = cv2.flip(gray, 1)
+    for cascade in _CASCADES:
+        faces = cascade.detectMultiScale(flipped_gray, scaleFactor=1.1, minNeighbors=3, minSize=(35, 35))
+        if len(faces) > 0:
+            return True, f"Face detected ({len(faces)} face(s) found)."
+
+    # 2. Secondary fallback with InsightFace if OpenCV missed
     try:
         app = _get_face_app()
         faces = app.get(img)
@@ -77,6 +95,7 @@ def check_face_presence(image_path):
         print(f"[WARNING] InsightFace face check fallback skipped: {e}", file=sys.stderr)
 
     return False, "No face detected in the captured image. Please ensure your face is clearly visible and centered, then try again."
+
 
 
 

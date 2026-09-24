@@ -117,8 +117,11 @@ def _map_result_ui(report):
         color, title, label = "green", "AUTHENTIC & VERIFIED", "PASS"
     elif risk_level in ("HIGH RISK", "HIGH_RISK") or report.get("verdict") == "likely_fake":
         color, title, label = "red", "HIGH RISK — REVIEW REQUIRED", "HIGH RISK"
+    elif risk_level == "RESCAN" or report.get("needs_rescan"):
+        color, title, label = "orange", "IMAGE CLARITY TOO LOW — RE-CAPTURE RECOMMENDED", "RESCAN"
     else:
         color, title, label = "yellow", "NEEDS REVIEW", "REVIEW"
+
 
     score = report.get("forensic_risk_score")
     if score is None:
@@ -491,10 +494,14 @@ def api_run_case():
                 if doc_rl in ("HIGH RISK", "HIGH_RISK"):
                     merged_risk_level = "HIGH RISK"
                     merged_risk_reason = f"[{doc_key}] {doc_report.get('risk_reason', '')}"
-                elif doc_rl == "REVIEW" and merged_risk_level not in ("HIGH RISK", "HIGH_RISK"):
+                elif doc_rl == "RESCAN" and merged_risk_level not in ("HIGH RISK", "HIGH_RISK"):
+                    merged_risk_level = "RESCAN"
+                    merged_risk_reason = f"[{doc_key}] {doc_report.get('risk_reason', '')}"
+                elif doc_rl == "REVIEW" and merged_risk_level not in ("HIGH RISK", "HIGH_RISK", "RESCAN"):
                     merged_risk_level = "REVIEW"
                     if "complete" in merged_risk_reason:
                         merged_risk_reason = f"[{doc_key}] {doc_report.get('risk_reason', '')}"
+
                 elif doc_rl in ("PASS", "GENUINE") and merged_risk_level not in (
                     "HIGH RISK",
                     "HIGH_RISK",

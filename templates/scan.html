@@ -285,9 +285,18 @@
         });
         videoStream = stream;
         video.srcObject = stream;
-        statusText.textContent = 'Optical sensor active — align document';
-        statusDot.style.background = 'var(--tone-green)';
-        statusDot.style.boxShadow = '0 0 8px var(--tone-green)';
+        const urlParams = new URLSearchParams(window.location.search);
+        const errParam = urlParams.get('error');
+        if (errParam) {
+          statusText.textContent = '⚠️ Alert: ' + errParam;
+          statusDot.style.background = 'var(--tone-red-text)';
+          statusDot.style.boxShadow = '0 0 8px var(--tone-red-text)';
+        } else {
+          statusText.textContent = 'Optical sensor active — align document';
+          statusDot.style.background = 'var(--tone-green)';
+          statusDot.style.boxShadow = '0 0 8px var(--tone-green)';
+        }
+
       } catch (err) {
         console.warn('Camera access error:', err);
         setCameraFallback('Camera feed inactive. Tap Capture or Upload File.');
