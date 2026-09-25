@@ -4,7 +4,7 @@
   "live_image": "face_06fe03e9f8794047b06df94b67966fb2.jpg",
   "risk_level": "HIGH RISK",
   "risk_reason": "Face on document does not match live capture.",
-  "forensic_risk_score": 0.935,
+  "forensic_risk_score": 0.76,
   "active_detectors_evaluated": 30,
   "detector_signals": [
     {
@@ -628,10 +628,10 @@
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.9,
-      "confidence": "high",
-      "explanation": "The Aadhaar number '2345 6789 0123' is highly suspicious due to its generic, sequential pattern, common in sample or fake IDs. Additionally, the 'Address' field contains '1210/1/2021', which is formatted like a date rather than an address, indicating a significant data inconsistency or error.",
-      "status": "flagged"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No candidates: {\"error\": {\"code\": 404, \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.6-flash for the latest features and improvements. We recommend you to use the Interactions API ",
+      "status": "unavailable"
     },
     {
       "detector_name": "microtext_analysis",
@@ -737,19 +737,19 @@
   },
   "image_fingerprint": "ff1ac3fb554dca87a1688480ca2c6ff196998ae9926068ace9f720e2a31615a5",
   "integrity_seal": {
-    "report_hash": "f2e94f499d59e922edaeec2b64f242430519a4d09b49a63e30994e6e3e2668d1",
-    "signature": "73b90a532f2a13ecd02be680258b0d2fb8310b6ede48814319fad6ae87b59ca3ada8d07f81f943b8c6f4063cf6d9fd7c6eb39fcd5335e537e37f7df595a9ef417832a36e5f799a8989077106e6997aaf2a55bc1f19eb6ac2369e58a6192b7eb7ebb75ee6dfd8100425f6bc037d55adb803a21e260caacc454d1ebfc7ee531233a4e45f7d88721aeac45512eba2442e01bdc91263af5d15c43078f263989652b64f75815ec977b606619a82d3177d3375c9b8b014ceefbfe39414746b10db58f3988d5795ed7c512644ef8e46ab9e94c83cfcde16f666758ae694c9a116f5a56e593ec8ebb2c9e44a3d874c57192008e6f9d63bf01c9e2c5d425475882c447965",
-    "signed_at": "2026-09-24T13:22:54Z",
+    "report_hash": "f696e43d12cf2b2eccadbb6048783f77e707b9ea727025feb7d5e4f407ba2959",
+    "signature": "386a313d6eba27e21d79dbdb0bcbe2e7dda021144732f7c08c85228cbc6fd963b71996e3b581be9b3a7ba7d6e0bdf436b6402cae18398b137287ea59af8ee831921f78a519633352ce32434464076b49547ef8b5a489e1a50a9284a4b3c82293cfadc482aaa46ebd029aa1d8056988918f55888de4c737a501384544deef4ef6e7343ff78b0b6db2365c5cd7f483344a37fa0a31bf515ad0eb022dd28e7a079c24b8f6cfe899498a9db659b592b4aeb436db75648679a35a9a028417fcb2f06b44f4d7f60dc1799b3d918144f47a9133bca3d3e093e0497ace8c6098dc6c05fba5d89f61c5654ce01bd8b5007034f7ce30d62c8c9ac781e0bece89a98629fa53",
+    "signed_at": "2026-09-24T13:45:51Z",
     "algorithm": "RSA-PKCS1v15-SHA256",
     "verified": true
   },
   "blockchain_anchor": {
-    "block_index": 31,
-    "block_hash": "00baa63a7b51712f38e7c259394d9765440e99b9c868ea8c3f9e14dfc62b67b8",
-    "previous_hash": "0071f6e2ec856318aea1b368463b16a7a1c73d632d1d0e1511050a88aed3c260",
-    "timestamp": "2026-09-24T13:22:54Z",
-    "report_hash": "f2e94f499d59e922edaeec2b64f242430519a4d09b49a63e30994e6e3e2668d1",
+    "block_index": 34,
+    "block_hash": "005ed3041f450b80e3c3a8495e0a087160d39143252f3665872f1fa5217c1970",
+    "previous_hash": "0095f2662ff8fccb84018414cfd2648f0b07525947112e6319ffe3c1e43f7ccb",
+    "timestamp": "2026-09-24T13:45:51Z",
+    "report_hash": "f696e43d12cf2b2eccadbb6048783f77e707b9ea727025feb7d5e4f407ba2959",
     "difficulty": 2
   },
-  "human_summary": "RED | HIGH RISK | national_id_99d9682966c646b79abd2aab4d48f24c.jpeg\nWhy: KAVACH detected a HIGH RISK with a forensic risk score of 93.5%. The document face does not match the live capture, and the individual's face matches an existing record. Additionally, the Aadhaar number and address format on the document appear suspicious.\n\nOfficer checklist:\n[ ] Conduct a thorough manual face-to-document verification, comparing physical features carefully.\n[ ] Question the individual regarding the suspicious Aadhaar number and address format on the ID.\n[ ] Investigate the linked duplicate identity reference.\n[ ] Physically examine the ID document for signs of digital tampering or forgery (e.g., photo insertion, print quality).\nSignals: face_verification=flagged duplicate_identity_check=flagged vision_llm_sanity_analysis=flagged cfa_demosaicing_analysis=flagged jpeg_ghost_analysis=flagged"
+  "human_summary": "national_id_99d9682966c646b79abd2aab4d48f24c.jpeg | Likely fake | forensic risk 76.0% | Bayer CFA grid residual ratio computed at 4.72. Lacks physical camera Bayer filter demosaicing signature."
 }

@@ -1,0 +1,83 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_demo_ananya",
+  "file_analyzed": "Ananya_Karthik_multi_doc",
+  "documents_analysed": [
+    "passport",
+    "visa",
+    "national_id",
+    "drivers_license",
+    "border_permit"
+  ],
+  "live_image": "face_capture",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "Multiple documents show strong generative / synthetic image signals; passport number on visa (Z1234567) does not match passport (Z78456231); photo-patch and AI-vision detectors flagged the ID portraits.",
+  "forensic_risk_score": 0.72,
+  "active_detectors_evaluated": 24,
+  "officer_checklist": [
+  "Compare live person to all document photos",
+  "Confirm visa passport number matches passport Z78456231",
+  "Inspect physical documents for print quality and photo splice",
+  "Do not rely on Aadhaar QR alone",
+  "Escalate if originals are not produced"
+],
+  "detector_signals": [
+    {
+      "detector_name": "[passport] hf_vision_transformer",
+      "score": 0.78,
+      "confidence": "high",
+      "status": "flagged",
+      "explanation": "Strong generative-image patterns on passport data page."
+    },
+    {
+      "detector_name": "[passport] photo_patch_forensics",
+      "score": 0.62,
+      "confidence": "high",
+      "status": "flagged",
+      "explanation": "Face photo region shows compression / splice inconsistencies."
+    },
+    {
+      "detector_name": "[visa] ocr_mrz_consistency",
+      "score": 0.55,
+      "confidence": "medium",
+      "status": "flagged",
+      "explanation": "Visa passport number Z1234567 does not match scanned passport Z78456231."
+    },
+    {
+      "detector_name": "[national_id] hf_vision_transformer",
+      "score": 0.71,
+      "confidence": "high",
+      "status": "flagged",
+      "explanation": "Aadhaar card image classified as likely synthetic."
+    },
+    {
+      "detector_name": "[drivers_license] cfa_demosaicing_analysis",
+      "score": 0.68,
+      "confidence": "medium",
+      "status": "flagged",
+      "explanation": "Sensor demosaicing signature weak or absent (typical of rendered images)."
+    },
+    {
+      "detector_name": "[border_permit] vision_llm_sanity_analysis",
+      "score": 0.58,
+      "confidence": "medium",
+      "status": "flagged",
+      "explanation": "Permit is a plain letter layout; limited security features; identity fields aligned to subject name."
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.22,
+      "confidence": "high",
+      "status": "passed",
+      "explanation": "Live face matches document portraits within threshold (same synthetic subject)."
+    },
+    {
+      "detector_name": "clarity_check",
+      "score": 0.12,
+      "confidence": "high",
+      "status": "passed",
+      "explanation": "Uploaded document images meet clarity threshold."
+    }
+  ],
+  "human_summary": "AI-synthesis and photo-patch detectors flagged passport, visa, and Aadhaar images; visa passport number does not match the passport MRZ/number."
+}

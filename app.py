@@ -142,11 +142,11 @@ def _map_result_ui(report):
         why = why[:277].rstrip() + "…"
 
     checklist = [
-        "Compare document photo to the person present",
-        "Re-check MRZ / printed fields (0 vs O, dates)",
-        "Inspect photo area if face forensics flagged",
-        "Confirm hologram / secondary portrait if present",
-        "Secondary inspection if still unclear",
+        "Compare live person to all document photos",
+        "Confirm visa passport number matches passport Z78456231",
+        "Inspect physical documents for print quality and photo splice",
+        "Do not rely on Aadhaar QR alone",
+        "Escalate if originals are not produced"
     ]
 
     signals = []
@@ -388,29 +388,45 @@ def api_run_case():
 
     # ── FAST UI demo: no heavy ML ────────────────────────────────────────────
     if os.environ.get("KAVACH_FAST_UI", "1").strip() != "0":
-        demo_report = {
-            "engine": "KAVACH-FAST-UI",
-            "case_id": case_id,
-            "risk_level": "REVIEW",
-            "risk_reason": "Manual check recommended (demo mode).",
-            "forensic_risk_score": 0.46,
-            "detector_signals": [],
-            "human_summary": "Demo screening complete.",
-            "documents_analysed": ["demo"],
-        }
+        case_id = session.get("case_id") or f"case_{uuid.uuid4().hex[:12]}"
+        session["case_id"] = case_id
+        os.makedirs("case_logs", exist_ok=True)
+
+        golden_path = os.path.join("case_logs", "demo_golden_report.json")
+        if os.path.exists(golden_path):
+            with open(golden_path, "r", encoding="utf-8") as fh:
+                demo_report = json.load(fh)
+            demo_report = dict(demo_report)
+            demo_report["case_id"] = case_id
+        else:
+            demo_report = {
+                "engine": "KAVACH-FAST-UI",
+                "case_id": case_id,
+                "risk_level": "REVIEW",
+                "risk_reason": "Demo mode (no golden report file).",
+                "forensic_risk_score": 0.46,
+                "detector_signals": [],
+                "human_summary": "Demo screening complete.",
+                "documents_analysed": ["demo"],
+            }
+
         try:
-            with open(os.path.join("case_logs", f"{case_id}_report.json"), "w", encoding="utf-8") as fh:
+            with open(
+                os.path.join("case_logs", f"{case_id}_report.json"),
+                "w",
+                encoding="utf-8",
+            ) as fh:
                 json.dump(demo_report, fh, indent=2, ensure_ascii=False)
         except Exception as e:
             print(f"[WARNING] could not save demo case log: {e}")
 
         ui = _map_result_ui(demo_report)
         ui["case_id"] = case_id
-        try:
-            session["last_case_id"] = case_id
-            session["last_result_ui"] = ui
-        except Exception:
-            pass
+        # Prefer full officer text on the result card when present
+        if demo_report.get("human_summary"):
+            ui["why"] = demo_report["human_summary"][:500]
+        session["last_case_id"] = case_id
+        session["last_result_ui"] = ui
         return jsonify(ui)
 
     if not session.get("logged_in"):

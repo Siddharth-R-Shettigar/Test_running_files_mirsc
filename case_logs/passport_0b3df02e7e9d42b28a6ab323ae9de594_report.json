@@ -4,7 +4,7 @@
   "live_image": "face_06fe03e9f8794047b06df94b67966fb2.jpg",
   "risk_level": "HIGH RISK",
   "risk_reason": "Face on document does not match live capture.",
-  "forensic_risk_score": 0.956,
+  "forensic_risk_score": 0.782,
   "active_detectors_evaluated": 30,
   "detector_signals": [
     {
@@ -923,10 +923,10 @@
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.9,
-      "confidence": "high",
-      "explanation": "The document contains significant textual inconsistencies: the field 'Rlaber's' is present, and the 'Father's Name' field lists a date (16/07/1996) which is identical to the Date of Birth, rather than a name. These are strong indicators of tampering or a fraudulent document.",
-      "status": "flagged"
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM inspection failed: HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Read timed out. (read timeout=60)",
+      "status": "failed"
     },
     {
       "detector_name": "microtext_analysis",
@@ -1022,7 +1022,7 @@
           "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"lol.jpeg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: mrz_parser, ocr_mrz_consistency.\",\n  \"forensic_risk_score\": 0.499,\n  \"active_detectors_evaluated\": 25,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\",\n      \"score\": 0.0,\n      \"confidence\": \"high\",\n      \"explanation\": \"Extracted 12 tokens. Found 0 MRZ candidates.\",\n      \"status\": \"passed\",\n      \"fields\": [\n        {\n   "
         },
         {
-          "source": "pan_report.json",
+          "source": "PAN_report.json",
           "similarity": 0.521,
           "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"PAN.jpeg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: mrz_parser, ocr_mrz_consistency.\",\n  \"forensic_risk_score\": 0.357,\n  \"active_detectors_evaluated\": 25,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\",\n      \"score\": 0.0,\n      \"confidence\": \"high\",\n      \"explanation\": \"Extracted 13 tokens. Found 0 MRZ candidates.\",\n      \"status\": \"passed\",\n      \"fields\": [\n        {\n   "
         }
@@ -1032,19 +1032,19 @@
   },
   "image_fingerprint": "39bf306120be81634fa66d4b2c7cbd4275e20d67e6a2afcf6bae81f817c56ce4",
   "integrity_seal": {
-    "report_hash": "a418cbb1b0f4cbc76428d64540904fdd05c19d4c25fc40451ec000334984aabc",
-    "signature": "80a288085913f19bc22c2d92a88aeb916bba8bdf7d78d5d58d056416cc74347dd732a40bcdf1e00e5e56c2ec5dc4b0e42d3d5916a0af80ebcb2bfbce563006cea4735f8c16a7f92612d8dcd96588995cb36bc43814ce4503ba0de8aee06306db7d73d4a7b00fe8d73e4bd1febaf0026950187f425bee63905cd341c577aad6f00e3934ac65daa74cb1b7a71511b8ed201ce7e4a5f4e6d4d6cdc7ce09d305094c5c46514ca3ad3b2862f4f423ba95dddc0bcb80b8f831a75cbe2bfdd5e13d199fc0fbc9568c5dc8ea3b81f84b9daaa996d30ef47b3ebb53f36621869b9a343c953e9ad0f85453a2ffc72ecb5b3f66f07354b85d2c5274ea8ab44d891f8b77bb92",
-    "signed_at": "2026-09-24T13:20:20Z",
+    "report_hash": "f159657c8ec2cc1ee7a50643bbe2c319985996af42970e42867217be64751672",
+    "signature": "3f19dce000393e436d673a5dd02f5fe8298bbdf14597f4ab8c3e450c06e0b386ef1a41eec88912e954ec25f21881f3287f0f8266813088aba5661c6d75efea7cc415fff5d7fd204fc21b062d4321c16bd28361eca5276f3fdcf6a8395229d8b430d64f29dcd1e884ab0dfdc399ec6b0d143631ab53daccf53cecd5f50655a8cec6d149c9e47873a8420e3a88605bad3ad4a50c963f7388b5119c1f948107ac8ad396b485556270eba08a705239cdecb2d58410864072c35c12be5f2a29e983e4a005d33455f43160fd2c3fe0e1c2dbc77782e55497d28e973e8e8cc975d51610de300a7725074ec97efb1b835bd667dc3b154ebce70fc47917c581eb35a3198c",
+    "signed_at": "2026-09-24T13:44:28Z",
     "algorithm": "RSA-PKCS1v15-SHA256",
     "verified": true
   },
   "blockchain_anchor": {
-    "block_index": 29,
-    "block_hash": "000927ec515e792931dbbdac7fba39a0b5da136ff4cc6883029af985663a315c",
-    "previous_hash": "00df6de4a3a139a2b9de41c1ce43244be8411d80636ca57385730be5177c4f5f",
-    "timestamp": "2026-09-24T13:20:20Z",
-    "report_hash": "a418cbb1b0f4cbc76428d64540904fdd05c19d4c25fc40451ec000334984aabc",
+    "block_index": 32,
+    "block_hash": "007c2c138b4af18cdf9b4e381de09ef0615575d66e1a98f254489c036351a2a7",
+    "previous_hash": "00baa63a7b51712f38e7c259394d9765440e99b9c868ea8c3f9e14dfc62b67b8",
+    "timestamp": "2026-09-24T13:44:28Z",
+    "report_hash": "f159657c8ec2cc1ee7a50643bbe2c319985996af42970e42867217be64751672",
     "difficulty": 2
   },
-  "human_summary": "RED | HIGH RISK | passport_0b3df02e7e9d42b28a6ab323ae9de594.jpeg\nWhy: KAVACH indicates HIGH RISK with a 95.6% forensic risk score. The face on the document does not match the live capture, and the document shows signs of manipulation and textual inconsistencies.\n\nOfficer checklist:\n[ ] Verify the traveler's identity against the physical document and live capture.\n[ ] Carefully inspect the document for physical alteration or synthetic elements.\n[ ] Review the document's textual fields for inconsistencies (e.g., 'Father's Name' lists a date).\n[ ] Check for any visible signs of resampling or artificial image generation.\n[ ] Cross-reference the traveler's face against existing duplicate identity records.\n\nSignals: face_verification=flagged, duplicate_identity_check=flagged, vision_llm_sanity_analysis=flagged, cfa_demosaicing_analysis=flagged, resampling_interpolation_analysis=flagged"
+  "human_summary": "RED | HIGH RISK | passport_0b3df02e7e9d42b28a6ab323ae9de594.jpeg\nWhy: This is a HIGH RISK case with a computed forensic risk score of 78.2%. The face on the document does not match the live capture, and the individual's face also matches an existing record under a different identity.\n\nOfficer checklist:\n[ ] Manually verify the document's physical authenticity (e.g., security features, print quality).\n[ ] Carefully compare the document photo with the traveler's live face for any discrepancies.\n[ ] Investigate the duplicate identity alert against existing records.\n[ ] Check the document for signs of image manipulation or resampling artifacts.\nSignals: face_verification=flagged, duplicate_identity_check=flagged, cfa_demosaicing_analysis=flagged, jpeg_ghost_analysis=flagged, resampling_interpolation_analysis=flagged"
 }
