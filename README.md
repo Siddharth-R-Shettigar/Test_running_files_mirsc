@@ -25,12 +25,12 @@ It combines classical image forensics, OCR + MRZ analysis, face verification, se
   Face matching between live capture and document photo + basic liveness / presentation-attack signals.
 
 - **LLM fusion layer**  
-  Combines detector scores into human-readable officer summaries (Groq + Gemini fallback).
+  Combines detector scores into human-readable officer summaries (Groq fallback).
 
 - **Integrity & auditability**  
-  Image hashing, report signing/encryption, integrity manifests, and optional blockchain/ledger validation.
+  Image hashing, report signing/encryption, integrity manifests, and blockchain/ledger validation.
 
-- **RAG enrichment** (optional)  
+- **RAG enrichment**  
   Knowledge-base retrieval to ground analysis against known document standards.
 
 - **Web UI**  
@@ -50,7 +50,7 @@ app.py (Flask)
         └── analyst.py / llm_fusion.py   (LLM reasoning & summary)
 ```
 
-`kavach_engine.analyze_media()` runs the full detector battery, normalises scores, applies risk rules, optionally enriches with RAG, signs the report, and returns a structured verdict.
+`kavach_engine.analyze_media()` runs the full detector battery, normalises scores, applies risk rules, enriches with RAG, signs the report, and returns a structured verdict.
 
 ---
 
@@ -92,11 +92,11 @@ app.py (Flask)
 2. Follow the guided capture steps:
    - Live face
    - Passport data page
-   - Visa (optional)
+   - Visa
    - National ID
    - Driver’s licence
    - Border permit
-3. System runs the full detector pipeline (or demo path).
+3. System runs the full detector pipeline.
 4. Results page shows:
    - Risk label (PASS / REVIEW / HIGH RISK)
    - Forensic risk score
