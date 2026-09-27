@@ -1,0 +1,13 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_80c557b8cc33",
+  "documents_analysed": [
+    "passport"
+  ],
+  "live_image": "face_aacbf0ccba6947718a0ea6fbf96536b6.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "Multiple forensic indicators suggest possible digital synthesis or image manipulation. Secondary inspection and manual verification recommended.",
+  "forensic_risk_score": 0.72,
+  "active_detectors_evaluated": 0,
+  "detector_signals": []
+}

@@ -1,0 +1,23 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_96c921b7541f",
+  "documents_analysed": [
+    "national_id",
+    "drivers_license"
+  ],
+  "live_image": "face_4d678744f29e4597bc056239ebb1d184.jpg",
+  "risk_level": "RESCAN",
+  "risk_reason": "[drivers_license] Image clarity too low; rescan recommended.",
+  "forensic_risk_score": null,
+  "needs_rescan": true,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "[drivers_license] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 56.4% (below 60%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ]
+}

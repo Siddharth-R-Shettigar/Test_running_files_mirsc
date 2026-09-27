@@ -1,0 +1,395 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport_1e080f0ede464484be45ad1d85ae5cd8.jpg",
+  "live_image": "face_3bb9834ec3eb4ec8a37d19bff62012a1.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "Multiple strong forensic anomalies: cfa_demosaicing_analysis, jpeg_ghost_analysis, resampling_interpolation_analysis, frequency_domain_fft.",
+  "forensic_risk_score": 0.82,
+  "active_detectors_evaluated": 17,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.031,
+      "confidence": "high",
+      "explanation": "Image clarity is 96.9% (93-100%). Excellent quality – running PaddleOCR only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "PASSPORT",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "PASSEPORT",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "PASAPORTE",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "USA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "UNITED STATES OF AMERICA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Type / Type / Tipo",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Code / Code / Código",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Passport No. / No. du Passeport / No. de Pasaporte",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "P",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "910239248",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Surname / Nom / Apellidos",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "DE LA PAZ",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Given Names / Prénoms / Nombres",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "MICHELLE",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Nationality / Nationalité / Nacionalidad",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Date of birth / Date de naissance / Fecha de nacimiento",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "07 Aug 1999",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Place of birth / Lieu de naissance / Lugar de nacimiento",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "CALIFORNIA, U.S.A.",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Sex / Sexe / Sexo",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "F",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Date of issue / Date de délivrance / Fecha de expedición",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "06 Feb 2008",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Date of expiration / Date d'expiration / Fecha de caducidad",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "05 Feb 2018",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Authority / Autorité / Autoridad",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "United States",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Department of State",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Endorsements / Mentions Spéciales / Anotaciones",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "SEE PAGE 27",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "P<DELA PAZ<<MICHELLE<<<<<<<<<<<<<<<<<<<<",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "9102392482USA6401171F1812051900781200<129676",
+          "confidence": 0.92,
+          "source": "qwen"
+        }
+      ],
+      "mrz_lines": [
+        "P<DELA PAZ<<MICHELLE<<<<<<<<<<<<<<<<<<<<",
+        "9102392482USA6401171F1812051900781200<129676",
+        "PASSPORTNO./NO.DUPASSEPORT/NO.DEPASAPORTE",
+        "PLACEOFBIRTH/LIEUDENAISSANCE/LUGARDENACIMIENTO",
+        "P<DELAPAZ<<MICHELLE<<<<<<<<<<<<<<<<<<<<"
+      ]
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as passport (score=6.5)",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "All MRZ check digits valid.",
+      "status": "passed",
+      "fields": {
+        "doc_type": "P",
+        "country_code": "DEL",
+        "surname": "APAZ",
+        "given_names": "MICHELLE",
+        "passport_number": "910239248",
+        "nationality": "USA",
+        "dob": "640117",
+        "sex": "F",
+        "expiry": "181205",
+        "personal_number": "9007812001296",
+        "check_digit_results": {
+          "passport_number": "PASS",
+          "dob": "PASS",
+          "expiry": "PASS",
+          "personal_number": "PASS",
+          "composite": "PASS"
+        },
+        "date_validity_results": {
+          "dob": "PASS",
+          "expiry": "PASS"
+        }
+      },
+      "issues": []
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "All required fields present",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Visual OCR and MRZ fields are consistent",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 4.29. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 0.64. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 971.08). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 170.83 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 25%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.105,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.18.). Resampling score=0.2 (Standard organic pixel continuity verified (metric: 337.16).).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 832.61).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Live image: No face detected in image.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.573,
+      "confidence": "medium",
+      "explanation": "Spoof verdict: 'suspicious'. FFT high-freq energy: 0.38, Color inconsistency: 0.80.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: No face detected in image; duplicate identity check unavailable.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {
+    "document_standards": {
+      "retrieved": true,
+      "standards": [
+        {
+          "type": "us_passport",
+          "similarity": 0.4088,
+          "content": "US Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<USA followed by surname<<given names\n            - Passport number: 9 alphanumeric characters\n            - Fields: Surname, Given Names, Nationality (USA), Date of Birth, Sex, Place of Birth, Issue Date, Expiry Date, Passport Number\n            - Valid expiry: 10 years for adults (16+), 5 years for minors\n            - Security features: holographic laminate, UV ink, RFID chip (ePassport), laser engraved photo"
+        },
+        {
+          "type": "indian_passport",
+          "similarity": 0.3368,
+          "content": "Indian Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<IND followed by surname<<given names\n            - MRZ Line 2: passport number (9 chars) + check digit + IND + DOB (YYMMDD) + check digit + sex + expiry (YYMMDD) + check digit + personal number + check digit + composite check digit\n            - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue\n            - Valid expiry: 10 years from issue for adults, 5 years for minors\n            - Passport number format: alphanumeric, starts with letter, 8 chars total\n            - Security features: UV reactive ink, hologram, microtext, laser perforation"
+        }
+      ],
+      "count": 2
+    },
+    "expected_security_features": {
+      "retrieved": true,
+      "expected_features": [
+        {
+          "type": "document_security_features",
+          "content": "Common Document Security Features:\n            - UV fluorescent ink: glows under 365nm UV light\n            - Microtext: text smaller than 0.2mm, blurs when photocopied\n            - Guilloché patterns: complex geometric backgrounds, create Moiré when copied\n            - Rainbow printing: smooth color gradient, impossible on CMYK printers\n            - Hologram: kinegram that shifts color and pattern when tilted\n            - Laser perforation: holes through all pages, conical shape\n            - Security threads: metallic strips woven through paper\n            - Watermarks: visible when held to light\n            - Intaglio printing: raised ink texture, tactile feel\n            - RFID chip: biometric data in ePassports (ICAO 9303 Part 9)"
+        },
+        {
+          "type": "indian_passport",
+          "content": "Indian Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<IND followed by surname<<given names\n            - MRZ Line 2: passport number (9 chars) + check digit + IND + DOB (YYMMDD) + check digit + sex + expiry (YYMMDD) + check digit + personal number + check digit + composite check digit\n            - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue\n            - Valid expiry: 10 years from issue for adults, 5 years for minors\n            - Passport number format: alphanumeric, starts with letter, 8 chars total\n            - Security features: UV reactive ink, hologram, microtext, laser perforation"
+        }
+      ]
+    },
+    "similar_fraud_cases": {
+      "retrieved": true,
+      "similar_cases": [
+        {
+          "source": "original_visa_indian_person_report.json",
+          "similarity": 0.5048,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
+        },
+        {
+          "source": "passport2_report.json",
+          "similarity": 0.49,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"passport2.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.121,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 87.9% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"statu"
+        },
+        {
+          "source": "lol_report.json",
+          "similarity": 0.4779,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"lol.jpeg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: mrz_parser, ocr_mrz_consistency.\",\n  \"forensic_risk_score\": 0.499,\n  \"active_detectors_evaluated\": 25,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\",\n      \"score\": 0.0,\n      \"confidence\": \"high\",\n      \"explanation\": \"Extracted 12 tokens. Found 0 MRZ candidates.\",\n      \"status\": \"passed\",\n      \"fields\": [\n        {\n   "
+        }
+      ],
+      "count": 3
+    }
+  },
+  "image_fingerprint": "a8600f4db0d5ebf70310313857fe8e339a826221036074d63550b272b08ac778",
+  "integrity_seal": {
+    "report_hash": "9c9ec12c3a638592fe83c7ac1babdb81ad941e7c2e38fefa37997f2608ad24bf",
+    "signature": "2da4425c7c3f5432fc868619cb2aaf3ad82f2b3825a98712d94205360d3e2654005e4e1d8e9d4ea715cd8b8bf2ff41d7e963a38f652b8268c816b4dbb5a380d24fa1f86fa61df55f9af70635fbe40cbaca927ecbc7a334c22d8efa98839c1e1826f75a6a08ddad0470dce7b396cf877b6b27321c90e4a930aae2346df2e3318dd4a39e5764c6c1988dab459a6d4e523b09cb797ed2dc411c3ec96a100365732d7a65d18740fce4c7013b6a99c083a0baf7f6d85b6bffb55f6e75ca567f907f158203939557ea755a5f9060f4b2c748a39c56f8504bafa3055ed867c00f28ddae6106be90f7c374998ce3d93486b57ecbfcb1dac909c9b4cee536f0b44d6ab48b",
+    "signed_at": "2026-09-23T16:07:43Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 23,
+    "block_hash": "006d281185307795f837077ebd4d2ec61727b11bf869d9197995bafb9169269b",
+    "previous_hash": "00b05e29ce93a60ebf97ec3b8037e5b478520f853c472b30301787a772c87e5f",
+    "timestamp": "2026-09-23T16:07:43Z",
+    "report_hash": "9c9ec12c3a638592fe83c7ac1babdb81ad941e7c2e38fefa37997f2608ad24bf",
+    "difficulty": 2
+  },
+  "human_summary": "passport_1e080f0ede464484be45ad1d85ae5cd8.jpg | \u001b[31mLikely fake\u001b[0m | Bayer CFA grid residual ratio computed at 4.29. Lacks physical camera Bayer filter demosaicing signature."
+}

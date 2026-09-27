@@ -1,0 +1,303 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_e413a8ec7912",
+  "documents_analysed": [
+    "passport",
+    "visa"
+  ],
+  "live_image": "face_c19cf43627ae48fa91cc080430255b24.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "[visa] Multiple strong forensic anomalies: cfa_demosaicing_analysis, jpeg_ghost_analysis, resampling_interpolation_analysis, frequency_domain_fft.",
+  "forensic_risk_score": 0.87,
+  "active_detectors_evaluated": 17,
+  "detector_signals": [
+    {
+      "detector_name": "[visa] clarity_check",
+      "score": 0.107,
+      "confidence": "medium",
+      "explanation": "Image clarity is 89.3% (60-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "VISA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "UNITED STATES",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "OF AMERICA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Issuing Post Name",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "NEW DELHI",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Surname",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "KAUR",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Given Name",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "PRITPAL",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Passport Number",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "M4132309",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Entries",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "M",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Annotation",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Control Number",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "20152117560002",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Visa Type / Class",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "R B1/B2",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Birth Date",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "04FEB1964",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Nationality",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "IND",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Issue Date",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "31JUL2015",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Expiration Date",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "29JUL2025",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "0101",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "K4296887",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "VNUSAKAUR<<PRITPAL<<<<<<<<<<<<<<<<<<<<<<",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "M4132309<4IND6402042F2507293B3NDOVWF5141056",
+          "confidence": 0.92,
+          "source": "qwen"
+        }
+      ],
+      "mrz_lines": [
+        "VNUSAKAUR<<PRITPAL<<<<<<<<<<<<<<<<<<<<<<",
+        "M4132309<4IND6402042F2507293B3NDOVWF5141056"
+      ]
+    },
+    {
+      "detector_name": "[visa] document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as passport (score=6.5)",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true
+    },
+    {
+      "detector_name": "[visa] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "MRZ parsing error: invalid literal for int() with base 10: '<'",
+      "status": "unavailable",
+      "fields": {
+        "doc_type": "M",
+        "country_code": "132",
+        "surname": "309 4IND6402042F2507293B3NDOVWF5141056",
+        "given_names": "",
+        "passport_number": "VNUSAKAUR"
+      },
+      "issues": [
+        "invalid literal for int() with base 10: '<'"
+      ]
+    },
+    {
+      "detector_name": "[visa] field_validator",
+      "score": 0.7,
+      "confidence": "medium",
+      "explanation": "Missing mandatory fields for passport: dob, expiry",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] ocr_mrz_consistency",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Visual OCR and MRZ fields are consistent",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "[visa] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.74. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 2.72. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 20392.63). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 193.22 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] hf_vision_transformer",
+      "score": 0.01,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 1%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] photo_patch_forensics",
+      "score": 0.405,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.1.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 2818.78). Image shows signs o).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] blur_sharpness_analysis",
+      "score": 0.75,
+      "confidence": "medium",
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 9889.16).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Live image: No face detected in image.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] liveness_analysis",
+      "score": 0.544,
+      "confidence": "medium",
+      "explanation": "Spoof verdict: 'suspicious'. FFT high-freq energy: 0.40, Color inconsistency: 0.72.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: No face detected in image; duplicate identity check unavailable.",
+      "status": "failed"
+    }
+  ]
+}

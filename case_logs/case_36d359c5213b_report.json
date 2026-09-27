@@ -1,0 +1,329 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_36d359c5213b",
+  "documents_analysed": [
+    "passport"
+  ],
+  "live_image": "face_3bb9834ec3eb4ec8a37d19bff62012a1.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "[passport] Multiple strong forensic anomalies: cfa_demosaicing_analysis, jpeg_ghost_analysis, resampling_interpolation_analysis, frequency_domain_fft.",
+  "forensic_risk_score": 0.82,
+  "active_detectors_evaluated": 17,
+  "detector_signals": [
+    {
+      "detector_name": "[passport] clarity_check",
+      "score": 0.031,
+      "confidence": "high",
+      "explanation": "Image clarity is 96.9% (93-100%). Excellent quality – running PaddleOCR only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[passport] ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "PASSPORT",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "PASSEPORT",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "PASAPORTE",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "USA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "UNITED STATES OF AMERICA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Type / Type / Tipo",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Code / Code / Código",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Passport No. / No. du Passeport / No. de Pasaporte",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "P",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "910239248",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Surname / Nom / Apellidos",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "DE LA PAZ",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Given Names / Prénoms / Nombres",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "MICHELLE",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Nationality / Nationalité / Nacionalidad",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Date of birth / Date de naissance / Fecha de nacimiento",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "07 Aug 1999",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Place of birth / Lieu de naissance / Lugar de nacimiento",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "CALIFORNIA, U.S.A.",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Sex / Sexe / Sexo",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "F",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Date of issue / Date de délivrance / Fecha de expedición",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "06 Feb 2008",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Date of expiration / Date d'expiration / Fecha de caducidad",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "05 Feb 2018",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Authority / Autorité / Autoridad",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "United States",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Department of State",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Endorsements / Mentions Spéciales / Anotaciones",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "SEE PAGE 27",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "P<DELA PAZ<<MICHELLE<<<<<<<<<<<<<<<<<<<<",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "9102392482USA6401171F1812051900781200<129676",
+          "confidence": 0.92,
+          "source": "qwen"
+        }
+      ],
+      "mrz_lines": [
+        "P<DELA PAZ<<MICHELLE<<<<<<<<<<<<<<<<<<<<",
+        "9102392482USA6401171F1812051900781200<129676",
+        "PASSPORTNO./NO.DUPASSEPORT/NO.DEPASAPORTE",
+        "PLACEOFBIRTH/LIEUDENAISSANCE/LUGARDENACIMIENTO",
+        "P<DELAPAZ<<MICHELLE<<<<<<<<<<<<<<<<<<<<"
+      ]
+    },
+    {
+      "detector_name": "[passport] document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as passport (score=6.5)",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true
+    },
+    {
+      "detector_name": "[passport] mrz_parser",
+      "score": 0.0,
+      "confidence": "high",
+      "explanation": "All MRZ check digits valid.",
+      "status": "passed",
+      "fields": {
+        "doc_type": "P",
+        "country_code": "DEL",
+        "surname": "APAZ",
+        "given_names": "MICHELLE",
+        "passport_number": "910239248",
+        "nationality": "USA",
+        "dob": "640117",
+        "sex": "F",
+        "expiry": "181205",
+        "personal_number": "9007812001296",
+        "check_digit_results": {
+          "passport_number": "PASS",
+          "dob": "PASS",
+          "expiry": "PASS",
+          "personal_number": "PASS",
+          "composite": "PASS"
+        },
+        "date_validity_results": {
+          "dob": "PASS",
+          "expiry": "PASS"
+        }
+      },
+      "issues": []
+    },
+    {
+      "detector_name": "[passport] field_validator",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "All required fields present",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[passport] ocr_mrz_consistency",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Visual OCR and MRZ fields are consistent",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "[passport] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[passport] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 4.29. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 0.64. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 971.08). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 170.83 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] hf_vision_transformer",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 25%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[passport] photo_patch_forensics",
+      "score": 0.105,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.18.). Resampling score=0.2 (Standard organic pixel continuity verified (metric: 337.16).).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[passport] blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 832.61).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[passport] face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Live image: No face detected in image.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[passport] liveness_analysis",
+      "score": 0.573,
+      "confidence": "medium",
+      "explanation": "Spoof verdict: 'suspicious'. FFT high-freq energy: 0.38, Color inconsistency: 0.80.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: No face detected in image; duplicate identity check unavailable.",
+      "status": "failed"
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_151d28dded11",
+  "documents_analysed": [
+    "passport",
+    "national_id",
+    "drivers_license"
+  ],
+  "live_image": "face_61b4320142934601b8f0f5b75557f718.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "[drivers_license] Multiple strong forensic anomalies: cfa_demosaicing_analysis, resampling_interpolation_analysis, frequency_domain_fft, photo_patch_forensics.",
+  "forensic_risk_score": 0.933,
+  "active_detectors_evaluated": 32,
+  "detector_signals": [
+    {
+      "detector_name": "[national_id] clarity_check",
+      "score": 0.087,
+      "confidence": "medium",
+      "explanation": "Image clarity is 91.3% (60-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[national_id] ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "[national_id] document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "[national_id] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[national_id] field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[national_id] ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[national_id] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[national_id] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 6.71. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 2252.76). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 177.03 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] hf_vision_transformer",
+      "score": 0.13,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 13%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[national_id] photo_patch_forensics",
+      "score": 0.405,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.15.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 917.59). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1819.76).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[national_id] face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Live image: No face detected in image.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[national_id] liveness_analysis",
+      "score": 0.553,
+      "confidence": "medium",
+      "explanation": "Spoof verdict: 'suspicious'. FFT high-freq energy: 0.42, Color inconsistency: 0.72.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: No face detected in image; duplicate identity check unavailable.",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[drivers_license] clarity_check",
+      "score": 0.083,
+      "confidence": "medium",
+      "explanation": "Image clarity is 91.7% (60-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[drivers_license] ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "[drivers_license] document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "[drivers_license] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[drivers_license] field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[drivers_license] ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[drivers_license] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[drivers_license] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 4.47. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[drivers_license] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 3834.54). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[drivers_license] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 184.48 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[drivers_license] hf_vision_transformer",
+      "score": 0.52,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 51%.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[drivers_license] photo_patch_forensics",
+      "score": 0.405,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.11.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 556.75). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[drivers_license] blur_sharpness_analysis",
+      "score": 0.75,
+      "confidence": "medium",
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 2545.34).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[drivers_license] face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Live image: No face detected in image.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[drivers_license] liveness_analysis",
+      "score": 0.553,
+      "confidence": "medium",
+      "explanation": "Spoof verdict: 'suspicious'. FFT high-freq energy: 0.42, Color inconsistency: 0.72.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[drivers_license] duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: No face detected in image; duplicate identity check unavailable.",
+      "status": "failed"
+    }
+  ]
+}

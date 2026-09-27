@@ -1,0 +1,13 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_e61736332648",
+  "documents_analysed": [
+    "passport"
+  ],
+  "live_image": "face_632dd787e1ca4d7c883a89886d3e3499.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Automated multi-document screening complete.",
+  "forensic_risk_score": 0.5,
+  "active_detectors_evaluated": 0,
+  "detector_signals": []
+}

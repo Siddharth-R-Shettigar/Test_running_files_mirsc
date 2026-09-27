@@ -1,0 +1,298 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "passport_64f2451fc2964426a116eee57e1020e7.jpeg",
+  "live_image": "face_9e8fca8cfbeb499492b0973fdff6d927.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "Multiple strong forensic anomalies: cfa_demosaicing_analysis, jpeg_ghost_analysis, resampling_interpolation_analysis, frequency_domain_fft.",
+  "forensic_risk_score": 0.796,
+  "active_detectors_evaluated": 30,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Image clarity is 65.4% (60-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text (User uploaded category: 'passport')",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "'passport' requires MRZ but could not build two lines from OCR (got 0).",
+      "status": "unavailable",
+      "fields": {},
+      "issues": [
+        "Two MRZ lines are required."
+      ]
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Skipped; 'passport' needs MRZ but parsing yielded no fields.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Skipped; no MRZ fields to cross-check against.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.14. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.35. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 3652.86). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 157.13 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.49,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 48%.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Photo-patch forensics failed: Error parsing message with type 'onnx.ModelProto': Arena alloc failed",
+      "status": "failed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.75,
+      "confidence": "medium",
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 3193.28).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Could not process metadata: \"exiftool.exe\" is not found, on path or as absolute path",
+      "status": "failed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.05,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.74.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.69 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.16. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No GEMINI API keys configured.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image too small for reliable background pattern analysis.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.283,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=15.4, val_std=47.2, hue_std=31.5). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector crashed: Error parsing message with type 'onnx.ModelProto': Arena alloc failed",
+      "status": "failed"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.165,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.27, Color inconsistency: 0.03.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: Error parsing message with type 'onnx.ModelProto': Arena alloc failed",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {
+    "document_standards": {
+      "retrieved": true,
+      "standards": [
+        {
+          "type": "us_passport",
+          "similarity": 0.4088,
+          "content": "US Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<USA followed by surname<<given names\n            - Passport number: 9 alphanumeric characters\n            - Fields: Surname, Given Names, Nationality (USA), Date of Birth, Sex, Place of Birth, Issue Date, Expiry Date, Passport Number\n            - Valid expiry: 10 years for adults (16+), 5 years for minors\n            - Security features: holographic laminate, UV ink, RFID chip (ePassport), laser engraved photo"
+        },
+        {
+          "type": "indian_passport",
+          "similarity": 0.3368,
+          "content": "Indian Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<IND followed by surname<<given names\n            - MRZ Line 2: passport number (9 chars) + check digit + IND + DOB (YYMMDD) + check digit + sex + expiry (YYMMDD) + check digit + personal number + check digit + composite check digit\n            - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue\n            - Valid expiry: 10 years from issue for adults, 5 years for minors\n            - Passport number format: alphanumeric, starts with letter, 8 chars total\n            - Security features: UV reactive ink, hologram, microtext, laser perforation"
+        }
+      ],
+      "count": 2
+    },
+    "expected_security_features": {
+      "retrieved": true,
+      "expected_features": [
+        {
+          "type": "document_security_features",
+          "content": "Common Document Security Features:\n            - UV fluorescent ink: glows under 365nm UV light\n            - Microtext: text smaller than 0.2mm, blurs when photocopied\n            - Guilloché patterns: complex geometric backgrounds, create Moiré when copied\n            - Rainbow printing: smooth color gradient, impossible on CMYK printers\n            - Hologram: kinegram that shifts color and pattern when tilted\n            - Laser perforation: holes through all pages, conical shape\n            - Security threads: metallic strips woven through paper\n            - Watermarks: visible when held to light\n            - Intaglio printing: raised ink texture, tactile feel\n            - RFID chip: biometric data in ePassports (ICAO 9303 Part 9)"
+        },
+        {
+          "type": "indian_passport",
+          "content": "Indian Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<IND followed by surname<<given names\n            - MRZ Line 2: passport number (9 chars) + check digit + IND + DOB (YYMMDD) + check digit + sex + expiry (YYMMDD) + check digit + personal number + check digit + composite check digit\n            - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue\n            - Valid expiry: 10 years from issue for adults, 5 years for minors\n            - Passport number format: alphanumeric, starts with letter, 8 chars total\n            - Security features: UV reactive ink, hologram, microtext, laser perforation"
+        }
+      ]
+    },
+    "similar_fraud_cases": {
+      "retrieved": true,
+      "similar_cases": [
+        {
+          "source": "original_visa_indian_person_report.json",
+          "similarity": 0.6153,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
+        },
+        {
+          "source": "passport_7baf4cf7d9434ac49d80a86fbefa3856_report.json",
+          "similarity": 0.5761,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"passport_7baf4cf7d9434ac49d80a86fbefa3856.jpg\",\n  \"live_image\": \"face_12010f2e4c1842b28aec96cc63931398.jpg\",\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Image clarity too low; rescan recommended.\",\n  \"forensic_risk_score\": 0.0,\n  \"active_detectors_evaluated\": 1,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.5,\n      \"confidence\": \"low\",\n      \"explanation\": \"Image clarity is 35.4% (below 75%). Quality too low fo"
+        },
+        {
+          "source": "passport_efbf346ae02b4db28b319ef20c105894_report.json",
+          "similarity": 0.5687,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"passport_efbf346ae02b4db28b319ef20c105894.jpg\",\n  \"live_image\": \"face_d052c76445ba48f89dd1e57660b633f4.jpg\",\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Image clarity too low; rescan recommended.\",\n  \"forensic_risk_score\": 0.0,\n  \"active_detectors_evaluated\": 1,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.5,\n      \"confidence\": \"low\",\n      \"explanation\": \"Image clarity is 45.0% (below 75%). Quality too low fo"
+        }
+      ],
+      "count": 3
+    }
+  },
+  "image_fingerprint": "39bf306120be81634fa66d4b2c7cbd4275e20d67e6a2afcf6bae81f817c56ce4",
+  "integrity_seal": {
+    "report_hash": "266419e419839cadfc60eeebccd9c419d3aa9ca4d848cc199eee90effa96e4bd",
+    "signature": "3ce904b6c3aa4af46970728a5d9dbd17015f04ea76eb349ec043539de0ea5d319e13cf4c0570078c99ab66d3d0cabcae186739679f5770081d90ca82cd34782f0d2326f8723d587feed12603bf5132124bf3b4db5f2f958ba9327429bb4b28c8f21f070d950ec087d3c42f9961d8a9420ee8af15569ca7f80153ee2e66698913e087cad44b413bcc2113eacd3849f9e4b52e42c335be855f12d21d4333e0aca69d4469c14c3d613849069409d222cf3e39cdfe9d0b1a079b847a8118485921e8cc9ea59d87e646797550008ab51af73dc800076eeb18a968835d67a1962991a9a0fdd066a4d346508c60408fa45fcc569c476b6f2f2bd366db074ac908720f64",
+    "signed_at": "2026-09-24T15:15:22Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 33,
+    "block_hash": "0056031a6b2df4d73fc52fd332433694551a3a07844132bd318be42baa50bad1",
+    "previous_hash": "003cd431497d4057636f8f4c46c39218e8d3afcfdc6c947fbbeeb9a6317b2d8e",
+    "timestamp": "2026-09-24T15:15:22Z",
+    "report_hash": "266419e419839cadfc60eeebccd9c419d3aa9ca4d848cc199eee90effa96e4bd",
+    "difficulty": 2
+  },
+  "human_summary": "passport_64f2451fc2964426a116eee57e1020e7.jpeg | Likely fake | forensic risk 79.6% | Bayer CFA grid residual ratio computed at 2.14. Lacks physical camera Bayer filter demosaicing signature."
+}

@@ -1,0 +1,20 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "national_id_f66cc30e44684d24934d8f438f226b50.jpeg",
+  "live_image": "face_be51c3420c7a435eb36f0c2a54f15a65.jpg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Image clarity too low; rescan recommended.",
+  "forensic_risk_score": 0.0,
+  "active_detectors_evaluated": 1,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 62.0% (below 75%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "human_summary": "national_id_f66cc30e44684d24934d8f438f226b50.jpeg | \u001b[33mNeeds review\u001b[0m | Image clarity too low; rescan recommended."
+}
