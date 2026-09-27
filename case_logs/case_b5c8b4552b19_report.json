@@ -1,17 +1,17 @@
 {
   "engine": "KAVACH-MULTI",
-  "case_id": "case_3c8ca3759968",
+  "case_id": "case_b5c8b4552b19",
   "documents_analysed": [
     "passport",
     "visa",
     "national_id",
     "drivers_license"
   ],
-  "live_image": "face_3551bf85a3aa479bb23c1ba506ce7f97.jpg",
+  "live_image": "face_4edfcbe9541f4f4fa16d54295d272930.jpeg",
   "risk_level": "REVIEW",
   "risk_reason": "[passport] Combined forensic risk is moderate.",
-  "forensic_risk_score": 0.317,
-  "active_detectors_evaluated": 91,
+  "forensic_risk_score": 0.347,
+  "active_detectors_evaluated": 71,
   "detector_signals": [
     {
       "detector_name": "[passport] clarity_check",
@@ -321,9 +321,9 @@
     },
     {
       "detector_name": "[passport] liveness_analysis",
-      "score": 0.291,
-      "confidence": "medium",
-      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.44, Color inconsistency: 0.10.",
+      "score": 0.198,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.35, Color inconsistency: 0.01.",
       "status": "passed"
     },
     {
@@ -535,9 +535,9 @@
     },
     {
       "detector_name": "[visa] liveness_analysis",
-      "score": 0.291,
-      "confidence": "medium",
-      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.44, Color inconsistency: 0.10.",
+      "score": 0.198,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.35, Color inconsistency: 0.01.",
       "status": "passed"
     },
     {
@@ -716,146 +716,6 @@
       "confidence": "medium",
       "explanation": "Bayer CFA grid residual ratio computed at 4.72. Lacks physical camera Bayer filter demosaicing signature.",
       "status": "flagged"
-    },
-    {
-      "detector_name": "[national_id] hf_vision_transformer",
-      "score": 0.31,
-      "confidence": "high",
-      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 30%.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "[national_id] resampling_interpolation_analysis",
-      "score": 0.8,
-      "confidence": "medium",
-      "explanation": "Periodic interpolation artifacts detected (metric: 3316.69). Image shows signs of AI upscaling or non-native resampling.",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "[national_id] ela_compression",
-      "score": 0.06,
-      "confidence": "medium",
-      "explanation": "Error Level Analysis computed pixel difference variance of 0.84.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "[national_id] histogram_color_forensics",
-      "score": 0.15,
-      "confidence": "medium",
-      "explanation": "Color channel entropy computed at 6.65 bits. Standard natural RGB channel distribution.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "[national_id] frequency_domain_fft",
-      "score": 0.8,
-      "confidence": "medium",
-      "explanation": "FFT spectral power calculated at 155.93 dB. High-frequency grid noise detected.",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "[national_id] copy_move_forgery",
-      "score": 0.0,
-      "confidence": "medium",
-      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "[national_id] blur_sharpness_analysis",
-      "score": 0.75,
-      "confidence": "medium",
-      "explanation": "Excessive edge sharpening detected (sharpness metric: 2945.6).",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "[national_id] perceptual_hashing",
-      "score": 0.1,
-      "confidence": "high",
-      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "[national_id] jpeg_ghost_analysis",
-      "score": 0.85,
-      "confidence": "medium",
-      "explanation": "JPEG Ghost variance computed at 1.16. Suspicious uniform compression grid detected.",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "[national_id] jpeg_quantization_analysis",
-      "score": 0.6,
-      "confidence": "medium",
-      "explanation": "Missing standard JPEG quantization tables.",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "[national_id] inpainting_trace_analysis",
-      "score": 0.15,
-      "confidence": "medium",
-      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.32. Uniform pixel edge continuity verified across image patches.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "[national_id] vision_llm_sanity_analysis",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Vision LLM unavailable after key rotation. Last error: No GEMINI API keys configured.",
-      "status": "unavailable"
-    },
-    {
-      "detector_name": "[national_id] photo_patch_forensics",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Photo-patch forensics failed: No module named 'insightface'",
-      "status": "failed"
-    },
-    {
-      "detector_name": "[national_id] microtext_analysis",
-      "score": 0.25,
-      "confidence": "low",
-      "explanation": "MICROTEXT PRESENT — document likely genuine",
-      "status": "passed"
-    },
-    {
-      "detector_name": "[national_id] rainbow_gradient",
-      "score": 0.65,
-      "confidence": "low",
-      "explanation": "SUSPICIOUS — possible CMYK print",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "[national_id] guilloche_pattern",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Image too small for reliable background pattern analysis.",
-      "status": "unavailable"
-    },
-    {
-      "detector_name": "[national_id] hologram_shift",
-      "score": 0.0,
-      "confidence": "low",
-      "explanation": "Single-frame foil proxy (sat_std=33.3, val_std=54.0, hue_std=36.5). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "[national_id] face_verification",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Detector crashed: No module named 'insightface'",
-      "status": "failed"
-    },
-    {
-      "detector_name": "[national_id] liveness_analysis",
-      "score": 0.291,
-      "confidence": "medium",
-      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.44, Color inconsistency: 0.10.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "[national_id] duplicate_identity_check",
-      "score": 0.0,
-      "confidence": "low",
-      "explanation": "Duplicate identity check crashed during execution: insightface is not installed; duplicate identity check unavailable.",
-      "status": "failed"
     },
     {
       "detector_name": "[drivers_license] clarity_check",

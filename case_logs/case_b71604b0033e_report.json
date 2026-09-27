@@ -1,0 +1,489 @@
+{
+  "engine": "KAVACH-MULTI",
+  "case_id": "case_b71604b0033e",
+  "documents_analysed": [
+    "passport",
+    "visa",
+    "national_id",
+    "drivers_license"
+  ],
+  "live_image": "face_e5551e4f672b40e88c218a0c54a4adaf.jpeg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "[national_id] Face on document does not match live capture.",
+  "forensic_risk_score": 0.799,
+  "active_detectors_evaluated": 52,
+  "detector_signals": [
+    {
+      "detector_name": "[passport] clarity_check",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Image clarity is 65.4% (60-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[passport] ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "[passport] document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "[passport] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[passport] field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[passport] ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[passport] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[passport] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.14. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.35. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 3652.86). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 157.13 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] hf_vision_transformer",
+      "score": 0.49,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 48%.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] photo_patch_forensics",
+      "score": 0.41,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.26.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 965.31). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] blur_sharpness_analysis",
+      "score": 0.75,
+      "confidence": "medium",
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 3193.28).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] face_verification",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.8456 (match threshold: 0.4). Faces do not match — possible impersonation.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[passport] liveness_analysis",
+      "score": 0.198,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.35, Color inconsistency: 0.01.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[passport] duplicate_identity_check",
+      "score": 1.0,
+      "confidence": "high",
+      "explanation": "HIGH RISK: Face matches an existing record under a different ID ('face_78dd04f38764470792943aa9de993247') with similarity 1.0000, above the 0.85 duplicate-identity threshold.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] clarity_check",
+      "score": 0.19,
+      "confidence": "medium",
+      "explanation": "Image clarity is 81.0% (60-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "[visa] document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "[visa] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[visa] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 6.73. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.19. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 1227.49). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 155.28 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] hf_vision_transformer",
+      "score": 0.01,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 0%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] photo_patch_forensics",
+      "score": 0.41,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.24.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 908.31). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1055.15).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] face_verification",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.9964 (match threshold: 0.4). Faces do not match — possible impersonation.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[visa] liveness_analysis",
+      "score": 0.198,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.35, Color inconsistency: 0.01.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[visa] duplicate_identity_check",
+      "score": 1.0,
+      "confidence": "high",
+      "explanation": "HIGH RISK: Face matches an existing record under a different ID ('face_78dd04f38764470792943aa9de993247') with similarity 1.0000, above the 0.85 duplicate-identity threshold.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] clarity_check",
+      "score": 0.25,
+      "confidence": "medium",
+      "explanation": "Image clarity is 62.0% (60-93%). Acceptable quality – running PaddleOCR + AI post-processing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[national_id] ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "भारत सरकार",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "GOVERNMENT OF INDIA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "आधार",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "नाम / Name",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "DURAISAMY MANIKANDAN",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "पिता का नाम / Father's Name",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "T. DURAISAMY",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "जन्म तिथि / Date of Birth",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "16/07/1996",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "पता / Ades",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Razer Road",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Radheswari",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Nadu, 316030",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "लिंग / Sex",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "M",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "2345 6789 0123",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "वैधता /-UIDy",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "27/07/2022",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Aadhaar – Mera Aadhaar, Meri Pehchaan",
+          "confidence": 0.92,
+          "source": "qwen"
+        }
+      ],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "[national_id] document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as national_id (score=13.0)",
+      "status": "passed",
+      "doc_type": "national_id",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "[national_id] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[national_id] field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[national_id] ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "[national_id] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "validate_national_id() takes 1 positional argument but 2 were given",
+      "status": "failed"
+    },
+    {
+      "detector_name": "[national_id] cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 4.72. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.16. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 3316.69). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 155.93 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] hf_vision_transformer",
+      "score": 0.31,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 30%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[national_id] photo_patch_forensics",
+      "score": 0.41,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.02 (Error Level Analysis computed pixel difference variance of 0.32.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 952.59). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] blur_sharpness_analysis",
+      "score": 0.75,
+      "confidence": "medium",
+      "explanation": "Excessive edge sharpening detected (sharpness metric: 2945.6).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] face_verification",
+      "score": 0.9,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.8772 (match threshold: 0.4). Faces do not match — possible impersonation.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[national_id] liveness_analysis",
+      "score": 0.198,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.35, Color inconsistency: 0.01.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "[national_id] duplicate_identity_check",
+      "score": 1.0,
+      "confidence": "high",
+      "explanation": "HIGH RISK: Face matches an existing record under a different ID ('face_78dd04f38764470792943aa9de993247') with similarity 1.0000, above the 0.85 duplicate-identity threshold.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "[drivers_license] clarity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Image clarity is 56.4% (below 60%). Quality too low for reliable OCR. Please rescan or re-upload a sharper, higher-resolution image.",
+      "status": "failed"
+    }
+  ]
+}

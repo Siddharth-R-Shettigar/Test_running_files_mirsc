@@ -1,11 +1,11 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "national_id_0fcb94c45b2c48acb3a1077b0c2c554e.jpeg",
-  "live_image": "face_3551bf85a3aa479bb23c1ba506ce7f97.jpg",
+  "file_analyzed": "national_id_b36c8340b2b0401981cb84e2bdb85f09.jpeg",
+  "live_image": "face_4edfcbe9541f4f4fa16d54295d272930.jpeg",
   "risk_level": "REVIEW",
   "risk_reason": "Combined forensic risk is moderate.",
-  "forensic_risk_score": 0.435,
-  "active_detectors_evaluated": 30,
+  "forensic_risk_score": 0.5,
+  "active_detectors_evaluated": 10,
   "detector_signals": [
     {
       "detector_name": "clarity_check",
@@ -176,146 +176,6 @@
       "confidence": "medium",
       "explanation": "Bayer CFA grid residual ratio computed at 4.72. Lacks physical camera Bayer filter demosaicing signature.",
       "status": "flagged"
-    },
-    {
-      "detector_name": "hf_vision_transformer",
-      "score": 0.31,
-      "confidence": "high",
-      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 30%.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "resampling_interpolation_analysis",
-      "score": 0.8,
-      "confidence": "medium",
-      "explanation": "Periodic interpolation artifacts detected (metric: 3316.69). Image shows signs of AI upscaling or non-native resampling.",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "ela_compression",
-      "score": 0.06,
-      "confidence": "medium",
-      "explanation": "Error Level Analysis computed pixel difference variance of 0.84.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "histogram_color_forensics",
-      "score": 0.15,
-      "confidence": "medium",
-      "explanation": "Color channel entropy computed at 6.65 bits. Standard natural RGB channel distribution.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "frequency_domain_fft",
-      "score": 0.8,
-      "confidence": "medium",
-      "explanation": "FFT spectral power calculated at 155.93 dB. High-frequency grid noise detected.",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "copy_move_forgery",
-      "score": 0.0,
-      "confidence": "medium",
-      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "blur_sharpness_analysis",
-      "score": 0.75,
-      "confidence": "medium",
-      "explanation": "Excessive edge sharpening detected (sharpness metric: 2945.6).",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "perceptual_hashing",
-      "score": 0.1,
-      "confidence": "high",
-      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "jpeg_ghost_analysis",
-      "score": 0.85,
-      "confidence": "medium",
-      "explanation": "JPEG Ghost variance computed at 1.16. Suspicious uniform compression grid detected.",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "jpeg_quantization_analysis",
-      "score": 0.6,
-      "confidence": "medium",
-      "explanation": "Missing standard JPEG quantization tables.",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "inpainting_trace_analysis",
-      "score": 0.15,
-      "confidence": "medium",
-      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.32. Uniform pixel edge continuity verified across image patches.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "vision_llm_sanity_analysis",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Vision LLM unavailable after key rotation. Last error: No GEMINI API keys configured.",
-      "status": "unavailable"
-    },
-    {
-      "detector_name": "photo_patch_forensics",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Photo-patch forensics failed: No module named 'insightface'",
-      "status": "failed"
-    },
-    {
-      "detector_name": "microtext_analysis",
-      "score": 0.25,
-      "confidence": "low",
-      "explanation": "MICROTEXT PRESENT — document likely genuine",
-      "status": "passed"
-    },
-    {
-      "detector_name": "rainbow_gradient",
-      "score": 0.65,
-      "confidence": "low",
-      "explanation": "SUSPICIOUS — possible CMYK print",
-      "status": "flagged"
-    },
-    {
-      "detector_name": "guilloche_pattern",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Image too small for reliable background pattern analysis.",
-      "status": "unavailable"
-    },
-    {
-      "detector_name": "hologram_shift",
-      "score": 0.0,
-      "confidence": "low",
-      "explanation": "Single-frame foil proxy (sat_std=33.3, val_std=54.0, hue_std=36.5). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "face_verification",
-      "score": 0.5,
-      "confidence": "low",
-      "explanation": "Detector crashed: No module named 'insightface'",
-      "status": "failed"
-    },
-    {
-      "detector_name": "liveness_analysis",
-      "score": 0.291,
-      "confidence": "medium",
-      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.44, Color inconsistency: 0.10.",
-      "status": "passed"
-    },
-    {
-      "detector_name": "duplicate_identity_check",
-      "score": 0.0,
-      "confidence": "low",
-      "explanation": "Duplicate identity check crashed during execution: insightface is not installed; duplicate identity check unavailable.",
-      "status": "failed"
     }
   ],
   "rag_context": {
@@ -347,44 +207,23 @@
           "content": "“FORM 7\n[Refer rule 16(1) and (2)]\nFORM FOR DRIVING LICENCE (LAMINATED CARD WITHOUT CHIP OR\nSMART CARD) VISUAL INSPECTION ZONE\nA.\nThe design of the card on the front side shall include the following data fields\nin visual form—\nB.\nThe design of the card on the reverse side shall include the following data fields\nin visual form—\n1.\nThe details of the features on the card shall be as under, namely:—\nA.\nFor front side:\n\nB.\nFor reverse side\n2.\nSpecifications.—\n(a) Card Size - 85.6mm x 54.02 mm +/- 2 mm; Thickness minimum 0.7 mm\n(i)\nCard in the form of either laminated card type without chip; or as\nper the defined template in the form of ICC (Integrated Circuit Card)\ncompliant to ISO/IEC 7816-Part 1, 2, 3, 4, 8 and 9, IS16695 (Part 1:\n2018) Smart Card Template Architecture Part 1: Basic Command\nSet (commonly known as SCOSTA Contact Smart Card);\n(ii)\nPICC (Proximity Integrated Circuit Card), if provided, compliant to\nISO/IEC 14443-Part 1, 2, 3 and 4, ISO/IEC 7816-Part 4, 8 and 9,\nIS16695 (Part 1: 2018) Smart Card Template Architecture Part 1: Basic\nCommand Set (commonly known as SCOSTA Contactless Smart\nCard), with card dimensions compliant to ISO/IEC 7810 ID-1\nstandard.\n(b) Font Style and Size specifications\nFront Side\nReverse Side\nSr.\nFeatures\nFont Name\nSize\nSr.\nFeatures\nFont Name\nSize\nNo.\nNo.\n1.\nState/UT\nMyriad Pro\n7 pt\n1.\nDriving\nMyriad\n8 pt\nCode\nRegular\nLicence\nPro\nNumber\nBold\n2.\nNational\nSymbol\n7.37 mm x\n2.\nQR code\nNA\n15 mm x\nEmblem\n12.28 mm\n(As specified\n15 mm\nby Central\nGovernment)\n3.\nCard Header\nMyriad Pro\n9 pt\n3.\nInvalid\nMyriad Pro\n7 pt\nBold\nCarriage#\nRegular\n(Regn.\nNumbers)\n4.\nDriving\nMyriad Pro\n9 pt\n4.\nHazardous\nMyriad Pro\n9 pt\nLicence\nBold\nValidity#\nRegular\nNumber\n\n5.\nIC Chip\nNA\nNA\n5.\nHill Validity#\nMyriad Pro\n7 pt\n(if opted for)\nRegular\n6.\nIssue Date\nMyriad\n7 pt\n6.\nVehicle class\nMyriad Pro\n5 pt\nPro\ntable (Class of Regular\nRegular\nVehicle, Code,\nIssued by,\nDate of Issue,\nVehicle\nCategory,\nBadge\nNumber#,\nBadge Issued\nDate#, Badge\nIssued by#)\n7.\nValidity (NT) Myriad Pro\n7 pt\n7.\nEmergency\nMyriad Pro\n6 pt\nRegular\nContact\nRegular\nNumber\n8.\nValidity (TR)# Myriad Pro\n7 pt\n8.\nLicensing\nMyriad Pro\n6 pt\nRegular\nAuthority\nRegular\n9.\nName\nMyriad Pro\n7 pt\n9.\nForm 7\nMyriad Pro\n6 pt\nRegular\nRule 16(2)\nRegular\n10.\nDate of Birth\nMyriad Pro\n7 pt\nRegular\n11.\nBlood Group\nMyriad Pro\n7 pt\nRegular\n12.\nOrgan Donor\nMyriad Pro\n7 pt\nRegular\n13.\nSon/\nMyriad Pro\n7 pt\nDaughter/\nRegular\nWife of\n14.\nAddress\nMyriad Pro\n7 pt\nRegular\n15.\nDate of First\nMyriad Pro\n6 pt\nIssue\nRegular\n16.\nHolder’s\nMyriad Pro\n5 pt\nSignature\nRegular\n17.\nPhotograph\nNA\n14.82 mm x\n14.82 mm\n# :\nBoth Label and Value would be blank in cases where they are not applicable\nor have not been opted for\n\n(c)\nBackground Colour Details\nFront Side\nReverse Side\nSr.\nHex Code\nPrint colour\nSr.\nHex Code\nPrint colour\nNo.\nNo.\nC1.\n#f8951d\nC: 0 M: 49 Y: 100 K:0\nC1. #ddf1fa\nC:12 M: 1 Y:1 K:0\nC2.\nGradient\nGradient\nC2. Gradient\nGradient\nColour\nColoor\nColour\nColour\nTop:\nTop:\nTop:\nTop:\n#e7f5f5\nC:8 M: 0 Y:3 K:0\n#e7f5f5\nC:8 M: 0 Y:3 K:0\nBottom:\nBottom:\nBottom:\nBottom:\n#a3daf7\nC:33 M:1 Y:0 K:0\n#a3daf7\nC:33 M:1 Y:0 K:0\nC3.\n#edf8fc\nC:6 M: 0 Y:1 K:0\nC3. #edf8fc\nC:6 M: 0 Y:1 K:0\nMACHINE READABLE ZONE (applicable only if opted for Smart Card)\nThe concerned State Governments shall provide the following features of the licence\nin the Machine Readable Zone, namely:—\nSr. No.\nField\n1.\nDL Holder Personal Details :\nDriving Licence Number (DL)\nName of the DL Holder\nFull Name of the DL Holder\nGender\nGuardian (Mother/Father/Husband) Name\nRelation with Guardian (e.g.: S/o, W/o , D/o)\nDate of Birth (in ddmmyyyy format)\nFirst Identification Mark\nSecond Identification Mark\nBlood Group\nMobile Number\nEmail Id\nAlternate Mobile Number\nEmergency Contact Number\nPermanent Address\nPINCODE of Permanent Address\nState Code In Permanent Address\nDistrict Name in Permanent Address\nSub-division/Taluk name in Permanent Address\nVillage Name in Permanent address\n\nPresent Address\nState Code in Present address\nPINCODE of Present address\nDistrict Name in present Address\nSub-division/Taluk Name in present Address\nVillage Name in Present address\n2.\nLicence details :\nValid From (Transport) (in ddmmyyyy format)\nValid Till (Transport) (in ddmmyyyy format)\nValid From (Non-Transport) (in ddmmyyyy format)\nValid From (Non-Transport) (in ddmmyyyy format)\nFirst Date of DL Issuance (in ddmmyyyy format)\nFirst (Original) Issuing Authority\nDate of Hazardous Validity (in ddmmyyyy format)\nDate of Hill Region validity (in ddmmyyyy format)\nAuthority who issued Transport Authorization\nTransport Authorization Number\nTransport Authorization date (in ddmmyyyy format)\nInvalid carriage Vehicle Registration Number\nINVALID Carriage 2nd Vehicle Registration Number, if any\nInvalid carriage 3rd Vehicle Registration Number, if any\n3.\nClass of Vehicle details :\nClass of Vehicle (COV)\nClass of Vehicle Issue Date (in ddmmyyyy format)\nClass of vehicle – Issued By (Name & Designation)\nBadge No.\nBadge Issue Date (in ddmmyyyy format)\nBadge Issued by –LA Office\n4.\nImage details :\nPhotograph of DL Holder\nSignature of DL Holder\n5.\nEnforcement details :\nChallan/Inward Number\nChallan Date (in ddmmyyyy format)\nEndorsement Authority ID\nEndorsement Authority Name\n\nSection/Rule Violated\nDisqualification Type (Suspended/Cancelled)\nDisqualification period from (in ddmmyyyy format)\nDisqualification period Up to (in ddmmyyyy format)\nClass of Vehicle that is suspended/Cancelled\nSettlement date\nReview Date (in ddmmyyyy format)\nReview Authority Name\nRemarks ”\n"
         }
       ]
-    },
-    "similar_fraud_cases": {
-      "retrieved": true,
-      "similar_cases": [
-        {
-          "source": "original_visa_indian_person_report.json",
-          "similarity": 0.4803,
-          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
-        },
-        {
-          "source": "dataset-cover_report.json",
-          "similarity": 0.4799,
-          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"dataset-cover.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.22,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 78.0% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"st"
-        },
-        {
-          "source": "passport2_report.json",
-          "similarity": 0.4751,
-          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"passport2.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: ocr_extraction.\",\n  \"forensic_risk_score\": 0.388,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.121,\n      \"confidence\": \"medium\",\n      \"explanation\": \"Image clarity is 87.9% (75-93%). Acceptable quality \\u2013 running PaddleOCR + AI post-processing.\",\n      \"statu"
-        }
-      ],
-      "count": 3
     }
   },
   "image_fingerprint": "ff1ac3fb554dca87a1688480ca2c6ff196998ae9926068ace9f720e2a31615a5",
   "integrity_seal": {
-    "report_hash": "5681cf53349acd9293e8701fe4e285e5575e692a4d8a6ce5915cc25e9e0207c3",
-    "signature": "95fa97e7442ff02ad0b7c8cb9c17481ec295d5d7ea7694ff4f1dfbf43e5ec45a40b0e67365d50476fb541c7e58a6e6ad73f4d6518b5e6688aed9e731978f8c21a88aa2f126f3975712235a7eb1eb1e3cf3d772aa328e4b1e188cc6568c5d094c0216a855b694b165f40af43941e4d9dae66e4baad3a1d6aed8ef7046f6ad4c52dcd51452c67caabba5885db9ebe1db62577c967875af3bd94f4f5f4644c42507e0728b26e9f15fde2f7b4df3fa6a431b54bb390732b39adede0b3e6d63dcce268c79ac352b8d470b4d0de8568592f92bb099e31022d4403cc57ccf03b83611c78042ea0844cbcb13868a69b1f2bd4cb8bd2a57cf80bea54e36b330b2dee13254",
-    "signed_at": "2026-09-23T12:14:54Z",
+    "report_hash": "7b4fcc174bc7ad19c031b18d3e372ba2951f23c96dbae6ad748c8e3977c176cf",
+    "signature": "d62803905db391e66ef541453d3c79f2eeee26c82dae0b4b198126a6fa8ab0ee0a740d1d720d5e279c3c7e10c2e67ec240093f9351aa564b828d126d390a4c1a85124980d03eafd21fd41f2157e9afca9014f4cb4d335e67421cc2016d4c35b7291f4e26ff534698b9550ecd2e1285ee7e4b78be55e6b61d92bb1cffb1de3e49319bbdf0b516f19016fe4e929793924993e3238913b2b0c37e49f298759513114e546b48eabb7db9125e2d52f37f0d99b87ca729f218aa8824093feff080b6d7c21d41f39914eec36043b0aeae49ab9e6792c95878ff8fbb138f0cf139b019a967c0cee951565c4a3ae01256d0da8815ec951e8cd6113dd1b517fc8a474646d7",
+    "signed_at": "2026-09-23T12:51:32Z",
     "algorithm": "RSA-PKCS1v15-SHA256",
     "verified": true
   },
   "blockchain_anchor": {
-    "block_index": 6,
-    "block_hash": "006bdd79115f57f7c28bff147c9b83b12a09678beb20c5886ef3521be3d64527",
-    "previous_hash": "0053dff5217069d4470fd74dc4e619d7e091ee6881aa551d234f61b662584181",
-    "timestamp": "2026-09-23T12:14:54Z",
-    "report_hash": "5681cf53349acd9293e8701fe4e285e5575e692a4d8a6ce5915cc25e9e0207c3",
+    "block_index": 12,
+    "block_hash": "00c8184dffad6a09f1624840ff0c1214b4aeb296e52b3d561f42707fae26728d",
+    "previous_hash": "00bb9951196ddda47692dc5f6192beb143740e3fb75338283c1c5befc65f885a",
+    "timestamp": "2026-09-23T12:51:32Z",
+    "report_hash": "7b4fcc174bc7ad19c031b18d3e372ba2951f23c96dbae6ad748c8e3977c176cf",
     "difficulty": 2
   },
-  "human_summary": "national_id_0fcb94c45b2c48acb3a1077b0c2c554e.jpeg | Needs review | forensic risk 43.5% | Bayer CFA grid residual ratio computed at 4.72. Lacks physical camera Bayer filter demosaicing signature."
+  "human_summary": "national_id_b36c8340b2b0401981cb84e2bdb85f09.jpeg | Needs review | forensic risk 50.0% | Bayer CFA grid residual ratio computed at 4.72. Lacks physical camera Bayer filter demosaicing signature."
 }

@@ -1,10 +1,11 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "drivers_license_cfaf252bbfdf4d03b203275045cca81b.jpeg",
-  "live_image": "face_3551bf85a3aa479bb23c1ba506ce7f97.jpg",
-  "risk_level": "REVIEW",
+  "file_analyzed": "drivers_license_a4c93f54f0894a91b762bcac70d369fe.jpeg",
+  "live_image": "face_78dd04f38764470792943aa9de993247.jpeg",
+  "risk_level": "RESCAN",
   "risk_reason": "Image clarity too low; rescan recommended.",
-  "forensic_risk_score": 0.0,
+  "forensic_risk_score": null,
+  "needs_rescan": true,
   "active_detectors_evaluated": 1,
   "detector_signals": [
     {
@@ -16,5 +17,5 @@
     }
   ],
   "rag_context": {},
-  "human_summary": "drivers_license_cfaf252bbfdf4d03b203275045cca81b.jpeg | Needs review | forensic risk 0.0% | Image clarity too low; rescan recommended."
+  "human_summary": "drivers_license_a4c93f54f0894a91b762bcac70d369fe.jpeg | Unknown | forensic risk ?% | Image clarity too low; rescan recommended."
 }

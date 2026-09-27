@@ -141,7 +141,7 @@ def _map_result_ui(report):
     if isinstance(why, str) and len(why) > 280:
         why = why[:277].rstrip() + "…"
 
-    checklist = [
+    checklist = report.get("officer_checklist") or [
         "Compare document photo to the person present",
         "Re-check MRZ / printed fields (0 vs O, dates)",
         "Inspect photo area if face forensics flagged",
@@ -387,6 +387,7 @@ def api_run_case():
     os.makedirs("case_logs", exist_ok=True)
 
     # ── FAST UI demo: no heavy ML ────────────────────────────────────────────
+        # ── FAST UI: lightweight demo path (no heavy ML) ─────────────────────────
     if os.environ.get("KAVACH_FAST_UI", "1").strip() != "0":
         demo_report = {
             "engine": "KAVACH-FAST-UI",
@@ -399,7 +400,11 @@ def api_run_case():
             "documents_analysed": ["demo"],
         }
         try:
-            with open(os.path.join("case_logs", f"{case_id}_report.json"), "w", encoding="utf-8") as fh:
+            with open(
+                os.path.join("case_logs", f"{case_id}_report.json"),
+                "w",
+                encoding="utf-8",
+            ) as fh:
                 json.dump(demo_report, fh, indent=2, ensure_ascii=False)
         except Exception as e:
             print(f"[WARNING] could not save demo case log: {e}")

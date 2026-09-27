@@ -1,13 +1,13 @@
 {
   "engine": "KAVACH-MULTI",
-  "case_id": "case_3c8ca3759968",
+  "case_id": "case_f316a695430d",
   "documents_analysed": [
     "passport",
     "visa",
     "national_id",
     "drivers_license"
   ],
-  "live_image": "face_3551bf85a3aa479bb23c1ba506ce7f97.jpg",
+  "live_image": "face_c38e2edf3e754fb9bdf80fa5e30e3733.jpg",
   "risk_level": "REVIEW",
   "risk_reason": "[passport] Combined forensic risk is moderate.",
   "forensic_risk_score": 0.317,
@@ -321,9 +321,9 @@
     },
     {
       "detector_name": "[passport] liveness_analysis",
-      "score": 0.291,
-      "confidence": "medium",
-      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.44, Color inconsistency: 0.10.",
+      "score": 0.227,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.39, Color inconsistency: 0.03.",
       "status": "passed"
     },
     {
@@ -535,9 +535,9 @@
     },
     {
       "detector_name": "[visa] liveness_analysis",
-      "score": 0.291,
-      "confidence": "medium",
-      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.44, Color inconsistency: 0.10.",
+      "score": 0.227,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.39, Color inconsistency: 0.03.",
       "status": "passed"
     },
     {
@@ -845,9 +845,9 @@
     },
     {
       "detector_name": "[national_id] liveness_analysis",
-      "score": 0.291,
-      "confidence": "medium",
-      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.44, Color inconsistency: 0.10.",
+      "score": 0.227,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.39, Color inconsistency: 0.03.",
       "status": "passed"
     },
     {

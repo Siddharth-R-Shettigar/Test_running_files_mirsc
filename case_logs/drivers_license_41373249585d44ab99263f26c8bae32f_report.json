@@ -1,7 +1,7 @@
 {
   "engine": "KAVACH",
-  "file_analyzed": "drivers_license_cfaf252bbfdf4d03b203275045cca81b.jpeg",
-  "live_image": "face_3551bf85a3aa479bb23c1ba506ce7f97.jpg",
+  "file_analyzed": "drivers_license_41373249585d44ab99263f26c8bae32f.jpeg",
+  "live_image": "face_c38e2edf3e754fb9bdf80fa5e30e3733.jpg",
   "risk_level": "REVIEW",
   "risk_reason": "Image clarity too low; rescan recommended.",
   "forensic_risk_score": 0.0,
@@ -16,5 +16,5 @@
     }
   ],
   "rag_context": {},
-  "human_summary": "drivers_license_cfaf252bbfdf4d03b203275045cca81b.jpeg | Needs review | forensic risk 0.0% | Image clarity too low; rescan recommended."
+  "human_summary": "drivers_license_41373249585d44ab99263f26c8bae32f.jpeg | Needs review | forensic risk 0.0% | Image clarity too low; rescan recommended."
 }

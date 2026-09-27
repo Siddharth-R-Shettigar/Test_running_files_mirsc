@@ -1,0 +1,893 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "visa_9ac84a99c3034916b6d8da6fe3e5c4aa.png",
+  "live_image": "face_6198ccaf5600483893d3930b8bfc2cfc.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "Multiple strong forensic anomalies: cfa_demosaicing_analysis, resampling_interpolation_analysis, frequency_domain_fft.",
+  "forensic_risk_score": 0.607,
+  "active_detectors_evaluated": 28,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.047,
+      "confidence": "high",
+      "explanation": "Image clarity is 95.3% (93-100%). Excellent quality – running PaddleOCR only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "Visa Number",
+          "confidence": 0.9658,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              373.0,
+              175.0
+            ],
+            [
+              539.0,
+              175.0
+            ],
+            [
+              539.0,
+              201.0
+            ],
+            [
+              373.0,
+              201.0
+            ]
+          ]
+        },
+        {
+          "text": "Surname",
+          "confidence": 0.9986,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              599.0,
+              171.0
+            ],
+            [
+              722.0,
+              175.0
+            ],
+            [
+              721.0,
+              205.0
+            ],
+            [
+              598.0,
+              200.0
+            ]
+          ]
+        },
+        {
+          "text": "V9876543",
+          "confidence": 0.9985,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              371.0,
+              209.0
+            ],
+            [
+              547.0,
+              209.0
+            ],
+            [
+              547.0,
+              243.0
+            ],
+            [
+              371.0,
+              243.0
+            ]
+          ]
+        },
+        {
+          "text": "KARTHIK",
+          "confidence": 0.9976,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              601.0,
+              208.0
+            ],
+            [
+              767.0,
+              208.0
+            ],
+            [
+              767.0,
+              242.0
+            ],
+            [
+              601.0,
+              242.0
+            ]
+          ]
+        },
+        {
+          "text": ".",
+          "confidence": 0.5693,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              143.0,
+              229.0
+            ],
+            [
+              216.0,
+              229.0
+            ],
+            [
+              216.0,
+              242.0
+            ],
+            [
+              143.0,
+              242.0
+            ]
+          ]
+        },
+        {
+          "text": "Given Names",
+          "confidence": 0.9728,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              373.0,
+              260.0
+            ],
+            [
+              547.0,
+              260.0
+            ],
+            [
+              547.0,
+              286.0
+            ],
+            [
+              373.0,
+              286.0
+            ]
+          ]
+        },
+        {
+          "text": "Entries",
+          "confidence": 0.9991,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              600.0,
+              256.0
+            ],
+            [
+              696.0,
+              259.0
+            ],
+            [
+              695.0,
+              290.0
+            ],
+            [
+              599.0,
+              287.0
+            ]
+          ]
+        },
+        {
+          "text": "ANANYA",
+          "confidence": 0.9984,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              371.0,
+              296.0
+            ],
+            [
+              527.0,
+              296.0
+            ],
+            [
+              527.0,
+              330.0
+            ],
+            [
+              371.0,
+              330.0
+            ]
+          ]
+        },
+        {
+          "text": "MULTIPLE/d",
+          "confidence": 0.9129,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              600.0,
+              290.0
+            ],
+            [
+              869.0,
+              298.0
+            ],
+            [
+              868.0,
+              336.0
+            ],
+            [
+              599.0,
+              328.0
+            ]
+          ]
+        },
+        {
+          "text": "Sex/Nationality Date of Birth",
+          "confidence": 0.9506,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              373.0,
+              349.0
+            ],
+            [
+              765.0,
+              349.0
+            ],
+            [
+              765.0,
+              378.0
+            ],
+            [
+              373.0,
+              378.0
+            ]
+          ]
+        },
+        {
+          "text": "Passport No.",
+          "confidence": 0.9769,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              832.0,
+              351.0
+            ],
+            [
+              999.0,
+              351.0
+            ],
+            [
+              999.0,
+              377.0
+            ],
+            [
+              832.0,
+              377.0
+            ]
+          ]
+        },
+        {
+          "text": "IND/yRdy",
+          "confidence": 0.7532,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              371.0,
+              388.0
+            ],
+            [
+              584.0,
+              388.0
+            ],
+            [
+              584.0,
+              418.0
+            ],
+            [
+              371.0,
+              418.0
+            ]
+          ]
+        },
+        {
+          "text": "14/03/2003",
+          "confidence": 0.9995,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              570.0,
+              388.0
+            ],
+            [
+              796.0,
+              388.0
+            ],
+            [
+              796.0,
+              414.0
+            ],
+            [
+              570.0,
+              414.0
+            ]
+          ]
+        },
+        {
+          "text": "Z1234567",
+          "confidence": 0.9994,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              828.0,
+              388.0
+            ],
+            [
+              1004.0,
+              388.0
+            ],
+            [
+              1004.0,
+              418.0
+            ],
+            [
+              828.0,
+              418.0
+            ]
+          ]
+        },
+        {
+          "text": "Type",
+          "confidence": 0.9985,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              370.0,
+              442.0
+            ],
+            [
+              437.0,
+              442.0
+            ],
+            [
+              437.0,
+              476.0
+            ],
+            [
+              370.0,
+              476.0
+            ]
+          ]
+        },
+        {
+          "text": "VELLORE, TAMILNADU",
+          "confidence": 0.9664,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              602.0,
+              441.0
+            ],
+            [
+              1030.0,
+              441.0
+            ],
+            [
+              1030.0,
+              471.0
+            ],
+            [
+              602.0,
+              471.0
+            ]
+          ]
+        },
+        {
+          "text": "TOURIST/qycq",
+          "confidence": 0.8422,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              375.0,
+              484.0
+            ],
+            [
+              669.0,
+              484.0
+            ],
+            [
+              669.0,
+              511.0
+            ],
+            [
+              375.0,
+              511.0
+            ]
+          ]
+        },
+        {
+          "text": "Date of Issue",
+          "confidence": 0.9611,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              373.0,
+              533.0
+            ],
+            [
+              533.0,
+              533.0
+            ],
+            [
+              533.0,
+              559.0
+            ],
+            [
+              373.0,
+              559.0
+            ]
+          ]
+        },
+        {
+          "text": "Valid Until",
+          "confidence": 0.9828,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              601.0,
+              529.0
+            ],
+            [
+              732.0,
+              529.0
+            ],
+            [
+              732.0,
+              560.0
+            ],
+            [
+              601.0,
+              560.0
+            ]
+          ]
+        },
+        {
+          "text": "Place of Issue",
+          "confidence": 0.9647,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              829.0,
+              529.0
+            ],
+            [
+              1006.0,
+              532.0
+            ],
+            [
+              1006.0,
+              561.0
+            ],
+            [
+              829.0,
+              559.0
+            ]
+          ]
+        },
+        {
+          "text": "28/06/2025",
+          "confidence": 0.9988,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              371.0,
+              569.0
+            ],
+            [
+              567.0,
+              569.0
+            ],
+            [
+              567.0,
+              602.0
+            ],
+            [
+              371.0,
+              602.0
+            ]
+          ]
+        },
+        {
+          "text": "27/06/2035",
+          "confidence": 0.9989,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              599.0,
+              570.0
+            ],
+            [
+              797.0,
+              570.0
+            ],
+            [
+              797.0,
+              600.0
+            ],
+            [
+              599.0,
+              600.0
+            ]
+          ]
+        },
+        {
+          "text": "CHENNAI",
+          "confidence": 0.9933,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              829.0,
+              570.0
+            ],
+            [
+              979.0,
+              570.0
+            ],
+            [
+              979.0,
+              600.0
+            ],
+            [
+              829.0,
+              600.0
+            ]
+          ]
+        },
+        {
+          "text": "27th June 2035",
+          "confidence": 0.9497,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              603.0,
+              611.0
+            ],
+            [
+              792.0,
+              611.0
+            ],
+            [
+              792.0,
+              637.0
+            ],
+            [
+              603.0,
+              637.0
+            ]
+          ]
+        },
+        {
+          "text": "V<INDANANYA<<KARTHIK<<<<<<<<<<<<<<<<<<",
+          "confidence": 0.9237,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              85.0,
+              720.0
+            ],
+            [
+              1096.0,
+              717.0
+            ],
+            [
+              1096.0,
+              751.0
+            ],
+            [
+              85.0,
+              753.0
+            ]
+          ]
+        },
+        {
+          "text": "Z1234567<5IND0303142F3506272<<<<<<<<<<0",
+          "confidence": 0.9789,
+          "source": "paddleocr",
+          "bbox": [
+            [
+              89.0,
+              782.0
+            ],
+            [
+              1092.0,
+              779.0
+            ],
+            [
+              1092.0,
+              812.0
+            ],
+            [
+              89.0,
+              814.0
+            ]
+          ]
+        }
+      ],
+      "mrz_lines": [
+        "V<INDANANYA<<KARTHIK<<<<<<<<<<<<<<<<<<",
+        "Z1234567<5IND0303142F3506272<<<<<<<<<<0"
+      ]
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as passport (score=6.5) (User uploaded category: 'visa')",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "MRZ parsing error: invalid literal for int() with base 10: 'Y'",
+      "status": "unavailable",
+      "fields": {
+        "doc_type": "Z",
+        "country_code": "234",
+        "surname": "567 5IND0303142F3506272",
+        "given_names": "0",
+        "passport_number": "VINDANAN"
+      },
+      "issues": [
+        "invalid literal for int() with base 10: 'Y'"
+      ]
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.7,
+      "confidence": "medium",
+      "explanation": "Missing mandatory fields for visa: dob",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Visual OCR and MRZ fields are consistent",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 2.47. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 3535.32). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 184.36 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 9%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.105,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.16.). Resampling score=0.2 (Standard organic pixel continuity verified (metric: 272.33).).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 2403.87).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.1,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 1.44.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.67 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.46. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No candidates: {\"error\": {\"code\": 404, \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API ",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "GENUINE GRADIENT",
+      "status": "passed"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=9.01, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=48.4, val_std=57.8, hue_std=50.9). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.1576 (match threshold: 0.4). Faces match — likely the same person.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.212,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.37, Color inconsistency: 0.02.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.11,
+      "confidence": "high",
+      "explanation": "No duplicate identity detected. Closest match under a different ID ('face_9a554f5cea0041a2af0e0de862e5a502') had similarity 0.1096, below the 0.85 threshold.",
+      "status": "passed"
+    }
+  ],
+  "rag_context": {
+    "document_standards": {
+      "retrieved": true,
+      "standards": [
+        {
+          "type": "us_passport",
+          "similarity": 0.1661,
+          "content": "US Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<USA followed by surname<<given names\n            - Passport number: 9 alphanumeric characters\n            - Fields: Surname, Given Names, Nationality (USA), Date of Birth, Sex, Place of Birth, Issue Date, Expiry Date, Passport Number\n            - Valid expiry: 10 years for adults (16+), 5 years for minors\n            - Security features: holographic laminate, UV ink, RFID chip (ePassport), laser engraved photo"
+        },
+        {
+          "type": "indian_passport",
+          "similarity": 0.1094,
+          "content": "Indian Passport Standards:\n            - MRZ Type: TD3 (2 lines, 44 chars each)\n            - MRZ Line 1: P<IND followed by surname<<given names\n            - MRZ Line 2: passport number (9 chars) + check digit + IND + DOB (YYMMDD) + check digit + sex + expiry (YYMMDD) + check digit + personal number + check digit + composite check digit\n            - Fields: Surname, Given Names, Nationality (IND), Date of Birth, Sex, Place of Birth, Date of Issue, Date of Expiry, Place of Issue\n            - Valid expiry: 10 years from issue for adults, 5 years for minors\n            - Passport number format: alphanumeric, starts with letter, 8 chars total\n            - Security features: UV reactive ink, hologram, microtext, laser perforation"
+        }
+      ],
+      "count": 2
+    },
+    "expected_security_features": {
+      "retrieved": true,
+      "expected_features": [
+        {
+          "type": "document_security_features",
+          "content": "Common Document Security Features:\n            - UV fluorescent ink: glows under 365nm UV light\n            - Microtext: text smaller than 0.2mm, blurs when photocopied\n            - Guilloché patterns: complex geometric backgrounds, create Moiré when copied\n            - Rainbow printing: smooth color gradient, impossible on CMYK printers\n            - Hologram: kinegram that shifts color and pattern when tilted\n            - Laser perforation: holes through all pages, conical shape\n            - Security threads: metallic strips woven through paper\n            - Watermarks: visible when held to light\n            - Intaglio printing: raised ink texture, tactile feel\n            - RFID chip: biometric data in ePassports (ICAO 9303 Part 9)"
+        },
+        {
+          "type": "schengen_visa",
+          "content": "Schengen Visa Standards:\n            - Visa sticker dimensions: 105mm x 74mm\n            - MRZ: 2 lines, 36 chars each (TD1 format)\n            - Fields: Valid From, Valid Until, Duration of Stay, Number of Entries, Issued In, On Date, Number, Type, Remarks\n            - Entry types: single (01), double (02), multiple (MULT)\n            - Holographic kinegram with EU stars\n            - Color shifting ink on visa number\n            - Microtext on borders\n            - Countries: 26 Schengen member states"
+        }
+      ]
+    },
+    "similar_fraud_cases": {
+      "retrieved": true,
+      "similar_cases": [
+        {
+          "source": "original_visa_indian_person_report.json",
+          "similarity": 0.4826,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"original_visa_indian_person.jpg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Document face photo region shows forensic anomalies.\",\n  \"forensic_risk_score\": 0.404,\n  \"active_detectors_evaluated\": 30,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"clarity_check\",\n      \"score\": 0.063,\n      \"confidence\": \"high\",\n      \"explanation\": \"Image clarity is 93.7% (93-100%). Excellent quality \\u2013 running PaddleOCR only.\",\n      "
+        },
+        {
+          "source": "PAN_report.json",
+          "similarity": 0.433,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"PAN.jpeg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: mrz_parser, ocr_mrz_consistency.\",\n  \"forensic_risk_score\": 0.357,\n  \"active_detectors_evaluated\": 25,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\",\n      \"score\": 0.0,\n      \"confidence\": \"high\",\n      \"explanation\": \"Extracted 13 tokens. Found 0 MRZ candidates.\",\n      \"status\": \"passed\",\n      \"fields\": [\n        {\n   "
+        },
+        {
+          "source": "pan_report.json",
+          "similarity": 0.433,
+          "content": "{\n  \"engine\": \"KAVACH\",\n  \"file_analyzed\": \"PAN.jpeg\",\n  \"live_image\": null,\n  \"risk_level\": \"REVIEW\",\n  \"risk_reason\": \"Critical checks not available: mrz_parser, ocr_mrz_consistency.\",\n  \"forensic_risk_score\": 0.357,\n  \"active_detectors_evaluated\": 25,\n  \"detector_signals\": [\n    {\n      \"detector_name\": \"ocr_extraction\",\n      \"score\": 0.0,\n      \"confidence\": \"high\",\n      \"explanation\": \"Extracted 13 tokens. Found 0 MRZ candidates.\",\n      \"status\": \"passed\",\n      \"fields\": [\n        {\n   "
+        }
+      ],
+      "count": 3
+    }
+  },
+  "image_fingerprint": "6c1d287de10aa81e858be8628726746c9469d3fceea16393ff82d5d3d68d7df7",
+  "integrity_seal": {
+    "report_hash": "90dba668a66507ecf8c296aae1e65d2c729be1ae3da98895f9984f1424565160",
+    "signature": "74c7d785d18173d52fad833106e89d2dfb7570370035de708382e34c0dc3db2b197f25d140a217edf4ce04edbbc648012008dbd4dd9a4a63767a8a9d2845138817a2769cbfb09f073794dc7566645f8cdf79d631b309ff30d606c6c27b83711a519caee575b7d04872c0294305eee8df55ce3c0c7de9016ff80cc9d8a4eccdaf357d323610f32d0ecd5fb71dae3cc5e4e7ea7bbdcec73e110787c3039cbd6192f8889ad9ddfba7fab101d4ff47bd6da07c40d5a5f01ea7462aa7353ae250a91d5166ff6fcf403af56d63ba9fdadb14dbf29be4f50b68b1f0fd353a1f5ca09c51c4245a6546d2d4ca894833bd8fa5d8630dba189e55c895bced08a8dc25c0fbbe",
+    "signed_at": "2026-09-25T00:41:35Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 35,
+    "block_hash": "00b7dc4959e7c5eea918cc04b07b461ffa97611342c4d6b1adbecfc4b50ebc68",
+    "previous_hash": "005ed3041f450b80e3c3a8495e0a087160d39143252f3665872f1fa5217c1970",
+    "timestamp": "2026-09-25T00:41:35Z",
+    "report_hash": "90dba668a66507ecf8c296aae1e65d2c729be1ae3da98895f9984f1424565160",
+    "difficulty": 2
+  },
+  "human_summary": "visa_9ac84a99c3034916b6d8da6fe3e5c4aa.png | Likely fake | forensic risk 60.7% | Missing mandatory fields for visa: dob"
+}
