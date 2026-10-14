@@ -1,14 +1,46 @@
-flask
-flask-cors
-gunicorn
-python-dotenv
-requests
-pillow
-opencv-python-headless
-numpy
-scipy
-imagehash
-PyExifTool
-c2pa-python
-transformers
-groq
+# ──────────────────────────────────────────────────────────────
+# KAVACH – Complete requirements
+# ──────────────────────────────────────────────────────────────
+
+# Web / App
+flask>=3.0.0
+flask-cors>=4.0.0
+gunicorn>=22.0.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# Image processing
+pillow>=10.0.0
+opencv-python-headless>=4.8.0
+numpy>=1.24.0
+scipy>=1.11.0
+imagehash>=4.3.1
+
+# Forensics / Metadata
+PyExifTool>=0.5.0
+c2pa-python>=0.5.0
+
+# AI / ML
+transformers>=4.40.0
+torch>=2.1.0                # required by transformers + insightface
+groq>=0.9.0
+
+# OCR
+easyocr>=1.7.0
+paddleocr>=2.7.0
+paddlepaddle>=2.6.0         # backend for PaddleOCR
+
+# Face verification & liveness
+insightface>=0.7.3
+onnxruntime>=1.16.0         # InsightFace runtime
+
+# RAG
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+
+# Crypto / Integrity
+cryptography>=42.0.0
+
+# Optional but used in some detectors / future
+# google-genai          # only if you switch vision_llm to the official SDK
+# reportlab             # if you enable PDF report generation

@@ -9,13 +9,13 @@ load_dotenv()
 # RAG Integration
 # ---------------------------------------------------------------------------
 try:
-    from RAG_blockchain_crypto.rag_integration import enrich_with_rag, validate_against_standards, build_enriched_prompt
+    from rag_integration import enrich_with_rag, validate_against_standards, build_enriched_prompt
     RAG_AVAILABLE = True
 except Exception as e:
     print(f"[WARNING] RAG not available: {e}", file=sys.stderr)
     RAG_AVAILABLE = False
 try:
-    from RAG_blockchain_crypto.crypto_utils import hash_image, sign_report, build_integrity_manifest
+    from crypto_utils import hash_image, sign_report, build_integrity_manifest
     CRYPTO_AVAILABLE = True
 except Exception as e:
     print(f"[WARNING] Crypto not available: {e}", file=sys.stderr)
@@ -502,7 +502,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
     # Query RAG immediately after classification to get standards for this doc type
     if RAG_AVAILABLE and doc_type != "unknown":
         try:
-            from RAG_blockchain_crypto.rag_query import query_document_standards, query_security_features
+            from rag_query import query_document_standards, query_security_features
             standards = query_document_standards(doc_type, country)
             security_features = query_security_features(doc_type)
             rag_context["document_standards"] = standards
@@ -739,7 +739,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                 for s in signals
                 if s.get("status") not in ("unavailable",)
             }
-            from RAG_blockchain_crypto.rag_query import query_fraud_patterns
+            from rag_query import query_fraud_patterns
             fraud_matches = query_fraud_patterns(doc_type, detector_summary)
             rag_context["similar_fraud_cases"] = fraud_matches
             print(f"[RAG] Fraud patterns retrieved: {fraud_matches.get('count', 0)} similar cases", file=sys.stderr)
@@ -808,7 +808,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
 
         # 2. Anchor on blockchain
         try:
-            from RAG_blockchain_crypto.crypto_utils import anchor_report_on_chain
+            from crypto_utils import anchor_report_on_chain
             blockchain_receipt = anchor_report_on_chain(report)
             report["blockchain_anchor"] = blockchain_receipt
             print(
