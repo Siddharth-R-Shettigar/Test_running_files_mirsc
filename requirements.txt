@@ -1,27 +1,14 @@
+flask
+flask-cors
+gunicorn
+python-dotenv
+requests
 pillow
+opencv-python-headless
 numpy
+scipy
 imagehash
 PyExifTool
 c2pa-python
 transformers
-torch
-requests
-scipy
-python-dotenv
-insightface
-onnxruntime
-easyocr
-pyzbar
-paddleocr==2.10.0
-paddlepaddle; python_version < "3.14"
-# Keep the headless OpenCV payload after InsightFace's opencv-python dependency.
-opencv-python-headless
-flask
 groq
-reportlab
-cryptography
-google-genai
-chromadb
-sentence-transformers
-PyMuPDF
-PyYAML==6.0.3
