@@ -59,7 +59,7 @@ def run_diagnostic():
     # 4. Check Crypto/Security Layer
     check_step("Crypto & Integrity Seals")
     try:
-        from crypto_utils import generate_keys, sign_report, verify_report
+        from RAG_blockchain_crypto.crypto_utils import generate_keys, sign_report, verify_report
         generate_keys() # Ensure keys exist
         test_data = {"test": "data"}
         seal = sign_report(test_data)

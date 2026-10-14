@@ -328,7 +328,7 @@ def anchor_report_on_chain(report_dict: dict, case_id: str = None) -> dict:
     Create a clean hash of the report and anchor it on the local blockchain.
     Returns the blockchain receipt.
     """
-    from blockchain import get_chain
+    from RAG_blockchain_crypto.blockchain import get_chain
 
     # Hash the report without previous seals/anchors
     report_copy = {
@@ -353,7 +353,7 @@ def anchor_report_on_chain(report_dict: dict, case_id: str = None) -> dict:
 
 def verify_report_on_chain(report_dict: dict) -> dict:
     """Verify both the RSA signature and the blockchain anchor."""
-    from blockchain import get_chain
+    from RAG_blockchain_crypto.blockchain import get_chain
 
     # 1. Existing RSA check
     rsa_result = verify_report(report_dict)
@@ -384,7 +384,7 @@ def anchor_report_on_chain(report_dict, case_id=None):
     Create a clean hash of the report and anchor it on the local blockchain.
     Returns the blockchain receipt.
     """
-    from blockchain import get_chain
+    from RAG_blockchain_crypto.blockchain import get_chain
 
     # Hash the report without previous seals/anchors
     report_copy = {
@@ -409,7 +409,7 @@ def anchor_report_on_chain(report_dict, case_id=None):
 
 def verify_report_on_chain(report_dict):
     """Verify both the RSA signature and the blockchain anchor."""
-    from blockchain import get_chain
+    from RAG_blockchain_crypto.blockchain import get_chain
 
     # 1. Existing RSA check
     rsa_result = verify_report(report_dict)

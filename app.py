@@ -16,7 +16,7 @@ UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 try:
-    from crypto_utils import encrypt_sensitive, decrypt_sensitive
+    from RAG_blockchain_crypto.crypto_utils import encrypt_sensitive, decrypt_sensitive
     CRYPTO_AVAILABLE = True
 except Exception as e:
     print(f"[WARNING] Crypto not available: {e}")
@@ -264,7 +264,7 @@ def decrypt():
 @app.route("/verify", methods=["POST"])
 def verify():
     try:
-        from crypto_utils import verify_report
+        from RAG_blockchain_crypto.crypto_utils import verify_report
         data = request.get_json()
         if not data:
             return jsonify({"error": "No report provided."}), 400
@@ -276,7 +276,7 @@ def verify():
 @app.route("/manifest", methods=["GET"])
 def manifest():
     try:
-        from crypto_utils import build_integrity_manifest
+        from RAG_blockchain_crypto.crypto_utils import build_integrity_manifest
         return jsonify(build_integrity_manifest())
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -590,7 +590,7 @@ def api_cases():
 
         integrity = "unknown"
         try:
-            from blockchain import get_chain
+            from RAG_blockchain_crypto.blockchain import get_chain
 
             report_hash = None
             anchor = rep.get("blockchain_anchor") or {}

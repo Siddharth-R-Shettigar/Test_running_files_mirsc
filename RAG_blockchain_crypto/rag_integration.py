@@ -1,6 +1,6 @@
 import json
 import os
-from rag_query import build_rag_context
+from RAG_blockchain_crypto.rag_query import build_rag_context
 
 def enrich_with_rag(doc_type, country, detector_results):
     """
@@ -59,7 +59,7 @@ def validate_against_standards(doc_type, country, extracted_fields):
     Validates extracted OCR fields against retrieved standards.
     Use this in field_validator.py for dynamic validation.
     """
-    from rag_query import query_document_standards
+    from RAG_blockchain_crypto.rag_query import query_document_standards
 
     standards = query_document_standards(doc_type, country)
 
