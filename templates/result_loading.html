@@ -378,7 +378,20 @@
       phaseScan.hidden = true;
       phaseResult.hidden = false;
 
+<<<<<<< HEAD
+      // 7. Wire Download Report — PDF if case_id known, else JSON fallback
+      btnDownload.onclick = () => {
+        const caseId = data.case_id || '';
+        if (caseId) {
+          window.location.href = `/api/report/${encodeURIComponent(caseId)}.pdf`;
+          return;
+        }
+  // Should almost never happen after the FAST_UI fix
+        alert('No case id for this result. Re-run scan or open Case logs.');
+      };
+=======
       // 7. Verdict rendering is complete.
+>>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
     }
 
     // ── 5. MAIN EXECUTION PIPELINE ──────────────────────────────────

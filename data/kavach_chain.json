@@ -8,6 +8,169 @@
     },
     "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
     "nonce": 0,
+<<<<<<< HEAD
+    "hash": "d4e6213541de72b72d36070e6b367509d00b9db7e3883e3fa85c4138603f2b48"
+  },
+  {
+    "index": 1,
+    "timestamp": "2026-09-21T00:28:10Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "df8f9dd6c3cbe1fc3bf9f9138be1f7e94cd7c7fe1a893aebf0f45b17d7ede09a",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-21T00:28:10Z",
+      "file_analyzed": "lolol.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "d4e6213541de72b72d36070e6b367509d00b9db7e3883e3fa85c4138603f2b48",
+    "nonce": 78,
+    "hash": "00982325c32d86c30927f437043f95e485747be88a03418aba388470b33338f2"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-09-21T00:53:47Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "94a6940d9325c99ce440af9c16a51fe10dd82a8021d33b11bf9984b57132f75c",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-21T00:53:47Z",
+      "file_analyzed": "lolol.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00982325c32d86c30927f437043f95e485747be88a03418aba388470b33338f2",
+    "nonce": 414,
+    "hash": "00d30e9efb24035fca8357edec9c77155e1d69dec0d94dde03865c4f5c8b8135"
+  },
+  {
+    "index": 3,
+    "timestamp": "2026-09-21T00:58:58Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "1378a7815530c8238007ea877a10011e92843d979c8c12ce2d9f61844c3bd713",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-09-21T00:58:58Z",
+      "file_analyzed": "lolol.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00d30e9efb24035fca8357edec9c77155e1d69dec0d94dde03865c4f5c8b8135",
+    "nonce": 913,
+    "hash": "0031bf36de1a3cc79c889b8149692576b9a48add3bf2edea1fc330ca9acd1f5c"
+  },
+  {
+    "index": 4,
+    "timestamp": "2026-10-04T13:54:40Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "8cd134b9dfa0b1f3be2e0e3631830b58483f23b7bacf3e8d5d2fdbab933eea47",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-10-04T13:54:40Z",
+      "file_analyzed": "lolol.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "0031bf36de1a3cc79c889b8149692576b9a48add3bf2edea1fc330ca9acd1f5c",
+    "nonce": 149,
+    "hash": "0083121ab5c7f254e7a9f800586caa9fe617e08443f4ad82c9ba2c41b5016e39"
+  },
+  {
+    "index": 5,
+    "timestamp": "2026-10-04T14:10:20Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "75652ecc305c452a4be177f2ae9909c1ffac612a31a5a76313b02bf8f1d17308",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-10-04T14:10:20Z",
+      "file_analyzed": "VISA.jpg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "0083121ab5c7f254e7a9f800586caa9fe617e08443f4ad82c9ba2c41b5016e39",
+    "nonce": 15,
+    "hash": "00168ccd0b3d4aeae4a62e31f9bc5e0c137ebd1691e7e81ced16c7528613e5c2"
+  },
+  {
+    "index": 6,
+    "timestamp": "2026-10-15T15:12:19Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "e52993a835ea13b939529cc3133517e405b468f39c8d017477c5c76705ef361c",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-10-15T15:12:19Z",
+      "file_analyzed": "passport_6cdb1b5e3c194181a8bdda8f0c31e80d.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00168ccd0b3d4aeae4a62e31f9bc5e0c137ebd1691e7e81ced16c7528613e5c2",
+    "nonce": 187,
+    "hash": "009f4bd2757616d45f74c6123dec5b4eac11699914ac10791eb4777a75374306"
+  },
+  {
+    "index": 7,
+    "timestamp": "2026-10-15T15:12:55Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "8dde17bf689d6eb6bd8db85f851b68b8ea5096b16407c30f13b2ac4f62f60ae3",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-10-15T15:12:55Z",
+      "file_analyzed": "visa_8455e3e1c7ee4fa28ae92b56e78881f4.png",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "009f4bd2757616d45f74c6123dec5b4eac11699914ac10791eb4777a75374306",
+    "nonce": 326,
+    "hash": "00a2d6257899c065057cd87aa25022d7a674c7cd77b62e9e4aca379d20b6b034"
+  },
+  {
+    "index": 8,
+    "timestamp": "2026-10-15T15:13:18Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "a80d4a5c6ee631867c78c5b88ec365371f293d43ac712899cac8284ab424ec47",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-10-15T15:13:18Z",
+      "file_analyzed": "national_id_7f5ceae4f357434490650f2a91bdfab9.png",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00a2d6257899c065057cd87aa25022d7a674c7cd77b62e9e4aca379d20b6b034",
+    "nonce": 1045,
+    "hash": "00920d4919dcda7ac8c8b2cb90b9d93ca824f6e34d7b2bc0298703c70fc03caf"
+  },
+  {
+    "index": 9,
+    "timestamp": "2026-10-15T15:13:40Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "685acabf46ce54fc9b1ee0aeff90d7922620b3da955f76ccd7aa1feb3156b384",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-10-15T15:13:40Z",
+      "file_analyzed": "drivers_license_9a9321cf40874b6690ad92b8c4c42e79.png",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00920d4919dcda7ac8c8b2cb90b9d93ca824f6e34d7b2bc0298703c70fc03caf",
+    "nonce": 125,
+    "hash": "00af695eac2e150a7e0e0eb399a9ed9203f239d82e785a79c06f06b3bba01c02"
+  },
+  {
+    "index": 10,
+    "timestamp": "2026-10-15T15:14:01Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "a7a37f11fa916ed735d47a0d2998ea27e073918b793247374dd380f74cc1f668",
+      "case_id": null,
+      "risk_level": "REVIEW",
+      "anchored_at": "2026-10-15T15:14:01Z",
+      "file_analyzed": "border_permit_e746357fafca41928b583725e9a9c7ec.jpg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00af695eac2e150a7e0e0eb399a9ed9203f239d82e785a79c06f06b3bba01c02",
+    "nonce": 142,
+    "hash": "00becd292b51c56d8ae91a62df6a4023c5067bb07f7e9beb767661f4ab209230"
+=======
     "hash": "0b4b452e4ae311a90bd03a5369adcfb27611fc4b8252743970f35c10202bc35f"
   },
   {
@@ -569,5 +732,6 @@
     "previous_hash": "005ed3041f450b80e3c3a8495e0a087160d39143252f3665872f1fa5217c1970",
     "nonce": 139,
     "hash": "00b7dc4959e7c5eea918cc04b07b461ffa97611342c4d6b1adbecfc4b50ebc68"
+>>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
   }
 ]

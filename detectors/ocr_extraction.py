@@ -177,7 +177,7 @@ def _run_qwen(image_path: str) -> Dict[str, Any]:
     b64 = _image_to_b64(image_path)
     try:
         resp = client.chat.completions.create(
-            model=QWEN_MODEL,
+            model=os.getenv("KAVACH_QWEN_MODEL", "qwen/qwen3.8-27b"),
             messages=[
                 {"role": "system", "content": _QWEN_SYSTEM},
                 {
@@ -191,7 +191,7 @@ def _run_qwen(image_path: str) -> Dict[str, Any]:
                     ],
                 },
             ],
-            temperature=0.0,
+            temperature=0.1,
             max_tokens=4096,
             response_format={"type": "json_object"},
             timeout=GROQ_TIMEOUT,

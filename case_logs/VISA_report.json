@@ -2,6 +2,237 @@
   "engine": "KAVACH",
   "file_analyzed": "VISA.jpg",
   "live_image": null,
+<<<<<<< HEAD
+  "risk_level": "REVIEW",
+  "risk_reason": "Critical checks not available: ocr_extraction.",
+  "forensic_risk_score": 0.237,
+  "active_detectors_evaluated": 29,
+  "detector_signals": [
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.09,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 9%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.12,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 1.84.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 6.97. Normal multi-stage JPEG compression curve.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No candidates: {\"error\": {\"code\": 404, \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API ",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; face match skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; liveness skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No live image provided; duplicate-ID skipped.",
+      "status": "unavailable"
+    }
+  ],
+  "rag_context": {},
+  "image_fingerprint": "5db2b19120b565f50e5a3a106986eef67d9c83ba353ba78a03864b4ad0dfee46",
+  "integrity_seal": {
+    "report_hash": "75652ecc305c452a4be177f2ae9909c1ffac612a31a5a76313b02bf8f1d17308",
+    "signature": "aed3be472cab74165702d86a77412a2c4953ba5bfbfdbb26b73a29b4c0cb22aa5cfc7c2bbd13d1718df0c0a3581ee5cbce2baea7a4a4f968eed307c9ba8fe07d21a78fe2f0642d36495d7924ee14280f6cc97f8eeee9c30465484cf120270a0985b31084ddf431397ca3f6bda70de9ab07ea8bdc928b23a8e3fc6337571a4f7c3925c128fe09d3c1cf2de254bf1dfc1fa76a9b2629678f308930be18c07ba5e88c0281812d8ab743a14560831532c15557f1c7438c7b40ccb2d4edd54b93ba0580aeb390da5e82f381cf42c21ed94d8a7523fe2f73799ac392a68ee8297dfbc5d3f282079afa68cf79903f226bcaa6feed3401336ad022596611196377c518f2",
+    "signed_at": "2026-10-04T14:10:20Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 5,
+    "block_hash": "00168ccd0b3d4aeae4a62e31f9bc5e0c137ebd1691e7e81ced16c7528613e5c2",
+    "previous_hash": "0083121ab5c7f254e7a9f800586caa9fe617e08443f4ad82c9ba2c41b5016e39",
+    "timestamp": "2026-10-04T14:10:20Z",
+    "report_hash": "75652ecc305c452a4be177f2ae9909c1ffac612a31a5a76313b02bf8f1d17308",
+    "difficulty": 2
+  },
+  "human_summary": "VISA.jpg | \u001b[33mNeeds review\u001b[0m | Critical checks not available: ocr_extraction."
+=======
   "risk_level": "RESCAN",
   "risk_reason": "Image clarity too low; rescan recommended.",
   "forensic_risk_score": null,
@@ -18,4 +249,5 @@
   ],
   "rag_context": {},
   "human_summary": "YELLOW | REVIEW | VISA.jpg\nWhy: KAVACH recommends a RESCAN as the image clarity is too low (42.0%), which hinders reliable OCR.\n\nOfficer checklist:\n[ ] Manually verify all biographical data and visa details against the physical document.\n[ ] Examine the physical visa for any signs of tampering or poor print quality.\n[ ] Confirm the traveler's identity against the photo on the physical visa.\n[ ] Consider re-scanning the document for a clearer image.\nSignals: clarity_check=failed"
+>>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
 }

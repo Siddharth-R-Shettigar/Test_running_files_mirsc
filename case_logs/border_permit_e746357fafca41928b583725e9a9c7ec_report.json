@@ -1,0 +1,234 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "border_permit_e746357fafca41928b583725e9a9c7ec.jpg",
+  "live_image": "face_a9e0f336089345f58e046d216fa7acc5.jpeg",
+  "risk_level": "REVIEW",
+  "risk_reason": "Critical checks not available: ocr_extraction.",
+  "forensic_risk_score": 0.328,
+  "active_detectors_evaluated": 29,
+  "detector_signals": [
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Document type unknown; MRZ pipeline skipped.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.26,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 26%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.02,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.24.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 0.35. Suspicious uniform compression grid detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "inpainting",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No candidates: {\"error\": {\"code\": 404, \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API ",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Detector unavailable (import or call failed).",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Duplicate identity check crashed during execution: opencv-python is not installed; duplicate identity check unavailable.",
+      "status": "failed"
+    }
+  ],
+  "rag_context": {},
+  "image_fingerprint": "09c7ca8cb69e40329c375614a5f26c1d55e3e743e0b0632152de71d8929179cf",
+  "integrity_seal": {
+    "report_hash": "a7a37f11fa916ed735d47a0d2998ea27e073918b793247374dd380f74cc1f668",
+    "signature": "bdba96355f9d8545aa05d68eb5f04ddbe372da7fd456f147af3af993ac302a9c2d9f19e12f16adead76651cf79f4ee46d64782c31bcddb389f4d69d5e8ee203e92204ddace2c86dcb41fad0a03974f01b07c473712acd688e6284b079bd5b84882821721744ed7d046afb7b80b6666904b478329580865dc71f76df426cebc999301e68de14bbb5d8b87f55516ef8b3bdfb08e0ec46fd02e4fffb9c7aec4dd9803c0ae83c3150ddde161fe3f535330abddd43b46feae361c12160147586f2879cb05b08357864414e7b46c498c9a2debc20de8eacac6620359599b4b33ff1133d4c67ba9786dc13faf637431fb488ffe86f14dca0bffd9b1f0f1ea13387e655d",
+    "signed_at": "2026-10-15T15:14:01Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 10,
+    "block_hash": "00becd292b51c56d8ae91a62df6a4023c5067bb07f7e9beb767661f4ab209230",
+    "previous_hash": "00af695eac2e150a7e0e0eb399a9ed9203f239d82e785a79c06f06b3bba01c02",
+    "timestamp": "2026-10-15T15:14:01Z",
+    "report_hash": "a7a37f11fa916ed735d47a0d2998ea27e073918b793247374dd380f74cc1f668",
+    "difficulty": 2
+  },
+  "human_summary": "border_permit_e746357fafca41928b583725e9a9c7ec.jpg | \u001b[33mNeeds review\u001b[0m | Critical checks not available: ocr_extraction."
+}

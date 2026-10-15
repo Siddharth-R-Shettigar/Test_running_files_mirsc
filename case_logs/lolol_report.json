@@ -4,7 +4,11 @@
   "live_image": null,
   "risk_level": "REVIEW",
   "risk_reason": "Critical checks not available: ocr_extraction.",
+<<<<<<< HEAD
+  "forensic_risk_score": 0.416,
+=======
   "forensic_risk_score": 0.447,
+>>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
   "active_detectors_evaluated": 30,
   "detector_signals": [
     {
@@ -160,10 +164,17 @@
     },
     {
       "detector_name": "vision_llm_sanity_analysis",
+<<<<<<< HEAD
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No candidates: {\"error\": {\"code\": 404, \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API ",
+      "status": "unavailable"
+=======
       "score": 0.7,
       "confidence": "high",
       "explanation": "The image quality is extremely poor and blurry, making it impossible to perform a thorough examination for subtle tampering or fraud. This severe lack of clarity presents a high risk of undetected alterations, as key security features and text details cannot be verified confidently.",
       "status": "flagged"
+>>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
     },
     {
       "detector_name": "photo_patch_forensics",
@@ -225,13 +236,29 @@
   "rag_context": {},
   "image_fingerprint": "97490cff6b3ad09a9c49e1089b038364d434ed7a59093c4ef20da1cb39042c67",
   "integrity_seal": {
+<<<<<<< HEAD
+    "report_hash": "8cd134b9dfa0b1f3be2e0e3631830b58483f23b7bacf3e8d5d2fdbab933eea47",
+    "signature": "492f6664191603fc574cab06e3907e34737d0b05549b5f20728964fe44b24725a7dc12c73888c0a3ccb967a0bced20aa88a4279a40484d29804af9b7eabcf3ea9312e33917ccb4fd77a842907039c5980750e01321070ba4a37f01996476fb64eb6b8319a770a97e30af6f785aa34806e5cb788f187282362f87b818b87c1bbb25f5b48507934d674515fac0fcb2d613395e2edbf03bba6c946ae3d74c92048b286c03d8344b4ed9eba5858438aca402c7e44c69726c8e6b863c84109d2a01bf38b38f3c4e587d3401869a2d42943f3bdcaef27b3335776b25bb13733ae86608242a3c0de0801f810044de381608409e5f8b9859fbf67abbb5ff5f18f26817fb",
+    "signed_at": "2026-10-04T13:54:40Z",
+=======
     "report_hash": "1378a7815530c8238007ea877a10011e92843d979c8c12ce2d9f61844c3bd713",
     "signature": "d6c32a34f5359bce8a0d9893deeee7f07b6cd84ffbc4d56d8d775ec3894bcc63ea3abbaa6a46fdcd314b72ee4cfca75ba88a04f23f43a6712a1776ad4bb530d6484959e94174ebdbd80e6aa4ceedb18038dc362f4eb2535a8fceb467fef3194f46f079b725b0fed7bf8728fdb93942069d5686f12a0adda27acbb908c257f86f7aba61c0f6ae4b28feecc4a71f3014f84cb692760150cf7da062014e095bcaf0d24fab06a7cc600254ecbf40a7fde2e72ff11ff0a0efe49e974ff0cbd21ed39843cbc3ea0fa0fcd93355fab96030b02f7359a9d1be1bd81c43521f3965b4fae5fe85b46fd3499ebb9239cdabbb6bd070c467503fcb0288f0b3260186cba9299b",
     "signed_at": "2026-09-21T00:58:57Z",
+>>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
     "algorithm": "RSA-PKCS1v15-SHA256",
     "verified": true
   },
   "blockchain_anchor": {
+<<<<<<< HEAD
+    "block_index": 4,
+    "block_hash": "0083121ab5c7f254e7a9f800586caa9fe617e08443f4ad82c9ba2c41b5016e39",
+    "previous_hash": "0031bf36de1a3cc79c889b8149692576b9a48add3bf2edea1fc330ca9acd1f5c",
+    "timestamp": "2026-10-04T13:54:40Z",
+    "report_hash": "8cd134b9dfa0b1f3be2e0e3631830b58483f23b7bacf3e8d5d2fdbab933eea47",
+    "difficulty": 2
+  },
+  "human_summary": "lolol.jpeg | \u001b[33mNeeds review\u001b[0m | Bayer CFA grid residual ratio computed at 8.15. Lacks physical camera Bayer filter demosaicing signature."
+=======
     "block_index": 3,
     "block_hash": "0031bf36de1a3cc79c889b8149692576b9a48add3bf2edea1fc330ca9acd1f5c",
     "previous_hash": "00d30e9efb24035fca8357edec9c77155e1d69dec0d94dde03865c4f5c8b8135",
@@ -240,4 +267,5 @@
     "difficulty": 2
   },
   "human_summary": "YELLOW | REVIEW | lolol.jpeg\nWhy: Critical document text extraction failed, and multiple forensic indicators suggest the image may be digitally altered or synthesized.\n\nOfficer checklist:\n[ ] Manually verify all document details against the presented physical document.\n[ ] Carefully examine the physical document for signs of tampering, alteration, or counterfeiting.\n[ ] Confirm the photo on the document matches the individual, as automated face verification was skipped.\n[ ] Pay close attention to any anomalies in the document's design or feel, as forensic analysis suggests potential digital manipulation.\nSignals: ocr_extraction=failed cfa_demosaicing_analysis=flagged jpeg_ghost_analysis=flagged inpainting_trace_analysis=flagged vision_llm_sanity_analysis=flagged"
+>>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
 }
