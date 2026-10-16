@@ -32,23 +32,31 @@ def run_hf_ai_detector(image_path):
         }
 
     try:
+        import torch
+        torch.set_num_threads(2)
+
         image = Image.open(image_path).convert("RGB")
+        max_dim = 1024
+        if max(image.size) > max_dim:
+            image.thumbnail((max_dim, max_dim), Image.Resampling.BILINEAR)
+
         scores = []
 
-        for model_name in MODEL_CHECKPOINTS:
-            try:
-                pipe = _get_pipeline(model_name)
-                predictions = pipe(image)
+        with torch.inference_mode():
+            for model_name in MODEL_CHECKPOINTS:
+                try:
+                    pipe = _get_pipeline(model_name)
+                    predictions = pipe(image)
 
-                fake_score = 0.0
-                for pred in predictions:
-                    label = pred["label"].lower()
-                    if "artificial" in label or "fake" in label or "ai" in label or "generator" in label:
-                        fake_score = max(fake_score, float(pred["score"]))
+                    fake_score = 0.0
+                    for pred in predictions:
+                        label = pred["label"].lower()
+                        if "artificial" in label or "fake" in label or "ai" in label or "generator" in label:
+                            fake_score = max(fake_score, float(pred["score"]))
 
-                scores.append(fake_score)
-            except Exception:
-                continue
+                    scores.append(fake_score)
+                except Exception:
+                    continue
 
         if not scores:
             return {

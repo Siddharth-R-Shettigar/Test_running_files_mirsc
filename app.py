@@ -480,6 +480,8 @@ def _execute_case_analysis(case_id, available_docs, face_path, done_event):
                         active_document=None,
                         active_detector=None,
                     )
+                import gc
+                gc.collect()
 
         if merged_risk_scores:
             final_score = sum(merged_risk_scores) / len(merged_risk_scores)
@@ -761,5 +763,11 @@ def _warm_models():
         print(f"[KAVACH] Warmup skipped: {e}", flush=True)
 
 if __name__ == "__main__":
-    threading.Thread(target=_warm_models, daemon=True).start()
-    app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)
+    debug_mode = os.environ.get("FLASK_DEBUG", "0").strip().lower() in ("1", "true")
+    use_reloader = os.environ.get("FLASK_USE_RELOADER", "0").strip().lower() in ("1", "true")
+
+    # In reloader mode, only start the warmup in the child worker process
+    if not use_reloader or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
+        threading.Thread(target=_warm_models, daemon=True).start()
+
+    app.run(host="0.0.0.0", port=5000, debug=debug_mode, use_reloader=use_reloader, threaded=True)
