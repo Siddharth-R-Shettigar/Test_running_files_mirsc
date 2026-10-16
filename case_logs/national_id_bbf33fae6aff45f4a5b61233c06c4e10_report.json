@@ -1,0 +1,228 @@
+{
+  "engine": "KAVACH",
+  "file_analyzed": "national_id_bbf33fae6aff45f4a5b61233c06c4e10.png",
+  "live_image": "face_074c6991aa1d4a9da654c673d599c782.jpg",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "Multiple strong forensic anomalies: cfa_demosaicing_analysis, resampling_interpolation_analysis, frequency_domain_fft, photo_patch_forensics.",
+  "forensic_risk_score": 0.646,
+  "active_detectors_evaluated": 28,
+  "detector_signals": [
+    {
+      "detector_name": "clarity_check",
+      "score": 0.067,
+      "confidence": "high",
+      "explanation": "Image clarity is 93.3% (93-100%). Excellent quality – running PaddleOCR only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "ocr_extraction",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No text extracted by any engine",
+      "status": "failed",
+      "fields": [],
+      "mrz_lines": []
+    },
+    {
+      "detector_name": "document_classifier",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Empty OCR text (User uploaded category: 'id_card')",
+      "status": "unavailable",
+      "doc_type": "unknown",
+      "needs_mrz": false
+    },
+    {
+      "detector_name": "mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "field_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "ocr_mrz_consistency",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Not applicable: 'id_card' does not carry an MRZ strip.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "cfa_demosaicing_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 5.62. Lacks physical camera Bayer filter demosaicing signature.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 3134.77). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 180.43 dB. High-frequency grid noise detected.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "hf_vision_transformer",
+      "score": 0.13,
+      "confidence": "high",
+      "explanation": "Ensemble of 2 Hugging Face Vision Transformers evaluated synthetic probability at 13%.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "photo_patch_forensics",
+      "score": 0.405,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.12.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 931.93). Image shows signs of).",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1822.69).",
+      "status": "passed"
+    },
+    {
+      "detector_name": "exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "c2pa",
+      "score": 0.95,
+      "confidence": "high",
+      "explanation": "Valid C2PA Content Credentials found: File explicitly signed as AI/synthetic creation.",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "ela_compression",
+      "score": 0.08,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 1.17.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 5.53 bits. Standard natural RGB channel distribution.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.94. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "vision_llm_sanity_analysis",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "Vision LLM unavailable after key rotation. Last error: No candidates: {\"error\": {\"code\": 404, \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API ",
+      "status": "unavailable"
+    },
+    {
+      "detector_name": "microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed"
+    },
+    {
+      "detector_name": "rainbow_gradient",
+      "score": 0.65,
+      "confidence": "low",
+      "explanation": "SUSPICIOUS — possible CMYK print",
+      "status": "flagged"
+    },
+    {
+      "detector_name": "guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=8.77, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "hologram_shift",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=45.7, val_std=53.0, hue_std=34.4). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "face_verification",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.3261 (match threshold: 0.4). Faces match — likely the same person.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "liveness_analysis",
+      "score": 0.178,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.31, Color inconsistency: 0.02.",
+      "status": "passed"
+    },
+    {
+      "detector_name": "duplicate_identity_check",
+      "score": 0.788,
+      "confidence": "high",
+      "explanation": "No duplicate identity detected. Closest match under a different ID ('face_82de9a263b9949dfad52e50194e78b4a') had similarity 0.7885, below the 0.85 threshold.",
+      "status": "passed"
+    }
+  ],
+  "rag_context": {},
+  "image_fingerprint": "b187e90c3e315321b61809a0e21961137ff8bdc79ac04b6c30192bacc5a64fdc",
+  "integrity_seal": {
+    "report_hash": "fec63611bfe3b9875b430eb486f5271519712445bf3721577409bbcb466dc5ec",
+    "signature": "42b8650e7dbb01283bbfe1ce1c0a23d13cdce2d914bb56b86647d11c0fff50f7bfcad3848aedc8f32500940d9742cf3d4b783541667596cb98f37e3425fb402cb0200cc7d19631152eb0c2af5e39ad51398655f99973ee2dfb6d272117c4f3770b36ae96a685f99fedb62a4bfa1c1caa9821ee2ec70ee8bb05298d737025b0e28c233e4674fbb15bc7bd3849eda50a846a508a3c98f5d905d6682243c47dbe2b88846bf5f9f04e9e4b3c33fff1bfc17fad06909c7238e80672204f68b2caf22a6af10c668675b3019f72b1805b4980aab1d7292d545f6a1eb4857875ef2a4da21f73bc2700151b249af85ff3c2f5c546c0e65db578aac4d57eeedfa1189166a0",
+    "signed_at": "2026-10-16T00:21:34Z",
+    "algorithm": "RSA-PKCS1v15-SHA256",
+    "verified": true
+  },
+  "blockchain_anchor": {
+    "block_index": 8,
+    "block_hash": "00d052b8104301f7ae0d2039b5bf23153f5b28532ff6917aadb54edf41c2d594",
+    "previous_hash": "00bbae8087f9512e0bc4b6ec92845eb8911405f472c24c0ce0a8091c58ab0b42",
+    "timestamp": "2026-10-16T00:21:34Z",
+    "report_hash": "fec63611bfe3b9875b430eb486f5271519712445bf3721577409bbcb466dc5ec",
+    "difficulty": 2
+  }
+}
