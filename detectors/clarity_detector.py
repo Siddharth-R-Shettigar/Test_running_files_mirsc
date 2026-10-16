@@ -7,11 +7,6 @@ import glob
 import cv2
 import numpy as np
 
-try:
-    from detectors.ocr_extraction import extract_text
-except Exception:
-    extract_text = None
-
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -34,19 +29,6 @@ THRESHOLD_ACCEPTABLE = 0.60
 
 def _clamp(value, low=0.0, high=1.0):
     return max(low, min(high, value))
-
-
-def _normalize_confidence(value):
-    if value is None:
-        return 0.0
-    try:
-        value = float(value)
-    except Exception:
-        return 0.0
-    if value > 1.0:
-        value = value / 100.0
-    return _clamp(value)
-
 
 
 # Checkpoints the resolution curve is designed to pass through exactly.
@@ -182,30 +164,18 @@ def check_image_clarity(image_path, debug=False):
 
         heuristic_score = _heuristic_score(img, debug=debug)
 
-        ocr_confidence = 0.0
-        if extract_text is not None:
-            try:
-                ocr_result = extract_text(image_path) or {}
-                ocr_confidence = _normalize_confidence(ocr_result.get("confidence", 0.0))
-            except Exception:
-                ocr_confidence = 0.0
-
-        if ocr_confidence > 0:
-            clarity_score = 0.55 * heuristic_score + 0.45 * ocr_confidence
-        else:
-            clarity_score = heuristic_score
-
+        clarity_score = heuristic_score
         clarity_score = _clamp(clarity_score)
         clarity_percent = round(clarity_score * 100, 1)
 
         if clarity_percent >= 93:
-            band, action, status, confidence = "93-100%", "paddle_only", "passed", "high"
+            band, action, status, confidence = "93-100%", "high_quality", "passed", "high"
             explanation = (f"Image clarity is {clarity_percent}% ({band}). "
-                           "Excellent quality – running PaddleOCR only.")
+                           "Excellent quality – sharp contrast and optimal focus.")
         elif clarity_percent >= 60:
-            band, action, status, confidence = "60-93%", "paddle_plus_ai", "passed", "medium"
+            band, action, status, confidence = "60-93%", "standard_quality", "passed", "medium"
             explanation = (f"Image clarity is {clarity_percent}% ({band}). "
-                           "Acceptable quality – running PaddleOCR + AI post-processing.")
+                           "Acceptable quality – sufficient contrast for document analysis.")
         else:
             band, action, status, confidence = "below 60%", "reject", "failed", "low"
             explanation = (f"Image clarity is {clarity_percent}% ({band}). "

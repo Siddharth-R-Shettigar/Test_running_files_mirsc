@@ -385,9 +385,20 @@ def _normalize_doc_type(doc_type):
 # Main analysis
 # ---------------------------------------------------------------------------
 
-def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
+def analyze_media(image_path, live_image_path=None, expected_doc_type=None, progress_callback=None):
     if not os.path.exists(image_path):
         return {"error": f"File {image_path} not found."}
+
+    def _notify(event, name, payload=None):
+        if progress_callback:
+            try:
+                progress_callback(event, {
+                    "detector_name": name,
+                    "file": os.path.basename(image_path),
+                    **(payload or {})
+                })
+            except Exception as cb_err:
+                print(f"[WARNING] progress_callback error: {cb_err}", file=sys.stderr)
 
     ext = os.path.splitext(image_path)[1].lower()
     is_jpeg = ext in [".jpg", ".jpeg"]
@@ -398,6 +409,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
 
     # ----- 0) Clarity / rescan gate -----
     if check_image_clarity is not None:
+        _notify("detector_start", "clarity_check")
         clarity_sig = _run_safe(
             check_image_clarity,
             image_path,
@@ -405,6 +417,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
             score_means_risk=False,
         )
         signals.append(clarity_sig)
+        _notify("detector_complete", "clarity_check", {"signal": clarity_sig})
         if clarity_sig.get("status") == "failed":
             return {
                 "engine": "KAVACH",
@@ -421,6 +434,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
 
     # ----- 1) OCR -----
     ocr_raw = None
+    _notify("detector_start", "ocr_extraction")
     if extract_text is not None:
         try:
             ocr_raw = extract_text(image_path)
@@ -434,7 +448,9 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                 "mrz_lines": [],
             }
 
-    signals.append(_normalize("ocr_extraction", ocr_raw, score_means_risk=False))
+    ocr_sig = _normalize("ocr_extraction", ocr_raw, score_means_risk=False)
+    signals.append(ocr_sig)
+    _notify("detector_complete", "ocr_extraction", {"signal": ocr_sig})
 
     ocr_text = ""
     if isinstance(ocr_raw, dict):
@@ -453,6 +469,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
 
     norm_expected = _normalize_doc_type(expected_doc_type) if expected_doc_type else None
 
+    _notify("detector_start", "document_classifier")
     if classify_document is not None:
         clf_raw = _run_safe(
             classify_document,
@@ -462,6 +479,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
             score_means_risk=False,
         )
         signals.append(clf_raw)
+        _notify("detector_complete", "document_classifier", {"signal": clf_raw})
         classified_type = _normalize_doc_type(clf_raw.get("doc_type", "unknown")) or "unknown"
 
         if norm_expected:
@@ -520,6 +538,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
     ocr_fields_for_consistency = {}
 
     if run_mrz_pipeline:
+        _notify("detector_start", "mrz_parser")
         mrz_raw = None
         if parse_mrz is not None and len(mrz_lines) >= 2:
             try:
@@ -546,7 +565,9 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                 "issues": ["Two MRZ lines are required."],
             }
 
-        signals.append(_normalize("mrz_parser", mrz_raw, score_means_risk=False))
+        mrz_sig = _normalize("mrz_parser", mrz_raw, score_means_risk=False)
+        signals.append(mrz_sig)
+        _notify("detector_complete", "mrz_parser", {"signal": mrz_sig})
 
         if mrz_fields:
             ocr_fields_for_consistency = {
@@ -557,16 +578,17 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                 "nationality": mrz_fields.get("nationality") or mrz_fields.get("country_code") or "",
             }
 
+        _notify("detector_start", "field_validator")
         if validate_document_fields is not None and mrz_fields:
-            signals.append(_run_safe(
+            fv_sig = _run_safe(
                 validate_document_fields,
                 mrz_fields,
                 doc_type,
                 detector_name="field_validator",
                 score_means_risk=False,
-            ))
+            )
         else:
-            signals.append(_normalize(
+            fv_sig = _normalize(
                 "field_validator",
                 {
                     "status": "unavailable",
@@ -575,18 +597,21 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                     "explanation": f"Skipped; '{doc_type}' needs MRZ but parsing yielded no fields.",
                 },
                 score_means_risk=False,
-            ))
+            )
+        signals.append(fv_sig)
+        _notify("detector_complete", "field_validator", {"signal": fv_sig})
 
+        _notify("detector_start", "ocr_mrz_consistency")
         if check_ocr_mrz_consistency is not None and mrz_fields:
-            signals.append(_run_safe(
+            omc_sig = _run_safe(
                 check_ocr_mrz_consistency,
                 ocr_fields_for_consistency,
                 mrz_fields,
                 detector_name="ocr_mrz_consistency",
                 score_means_risk=False,
-            ))
+            )
         else:
-            signals.append(_normalize(
+            omc_sig = _normalize(
                 "ocr_mrz_consistency",
                 {
                     "status": "unavailable",
@@ -595,7 +620,9 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                     "explanation": "Skipped; no MRZ fields to cross-check against.",
                 },
                 score_means_risk=False,
-            ))
+            )
+        signals.append(omc_sig)
+        _notify("detector_complete", "ocr_mrz_consistency", {"signal": omc_sig})
 
     else:
         skip_reason = (
@@ -604,7 +631,7 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
             else "Document type unknown; MRZ pipeline skipped."
         )
         for name in ("mrz_parser", "field_validator", "ocr_mrz_consistency"):
-            signals.append(_normalize(
+            sig = _normalize(
                 name,
                 {
                     "status": "unavailable",
@@ -613,9 +640,12 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                     "explanation": skip_reason,
                 },
                 score_means_risk=False,
-            ))
+            )
+            signals.append(sig)
+            _notify("detector_complete", name, {"signal": sig})
 
     # ----- 4) National ID validation -----
+    _notify("detector_start", "national_id_validator")
     national_hits = _find_national_ids(ocr_text)
     if validate_national_id is not None and national_hits:
         id_type, id_value = national_hits[0]
@@ -629,9 +659,9 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                 raw["confidence"] = "high"
             if "detector_name" not in raw:
                 raw["detector_name"] = "national_id_validator"
-            signals.append(_normalize("national_id_validator", raw, score_means_risk=False))
+            nid_sig = _normalize("national_id_validator", raw, score_means_risk=False)
         except Exception as e:
-            signals.append(_normalize(
+            nid_sig = _normalize(
                 "national_id_validator",
                 {
                     "status": "failed",
@@ -640,9 +670,9 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                     "explanation": str(e),
                 },
                 score_means_risk=False,
-            ))
+            )
     else:
-        signals.append(_normalize(
+        nid_sig = _normalize(
             "national_id_validator",
             {
                 "status": "unavailable",
@@ -651,7 +681,9 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                 "explanation": "No Aadhaar/PAN pattern found in OCR text.",
             },
             score_means_risk=False,
-        ))
+        )
+    signals.append(nid_sig)
+    _notify("detector_complete", "national_id_validator", {"signal": nid_sig})
 
     # ----- 5) Forensics (sequential, with updated weights & low-confidence adjustment) -----
     forensic_pipeline = [
@@ -684,8 +716,10 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
         if req_jpeg and not is_jpeg:
             continue
 
+        _notify("detector_start", name)
         sig = _run_safe(fn, image_path, detector_name=name, score_means_risk=True)
         signals.append(sig)
+        _notify("detector_complete", name, {"signal": sig})
 
         if weight > 0 and sig.get("status") not in ("failed", "unavailable"):
             w = weight * (0.5 if sig.get("confidence") == "low" else 1.0)
@@ -748,32 +782,43 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
 
     # ----- 6) Face stack (needs live image) -----
     if live_image_path and os.path.exists(live_image_path):
-        signals.append(_run_safe(
+        _notify("detector_start", "face_verification")
+        sig_fv = _run_safe(
             run_face_verification,
             image_path,
             live_image_path,
             detector_name="face_verification",
             score_means_risk=True,
-        ))
-        signals.append(_run_safe(
+        )
+        signals.append(sig_fv)
+        _notify("detector_complete", "face_verification", {"signal": sig_fv})
+
+        _notify("detector_start", "liveness_analysis")
+        sig_live = _run_safe(
             run_liveness_detection,
             live_image_path,
             detector_name="liveness_analysis",
             score_means_risk=True,
-        ))
-        signals.append(_run_safe(
+        )
+        signals.append(sig_live)
+        _notify("detector_complete", "liveness_analysis", {"signal": sig_live})
+
+        _notify("detector_start", "duplicate_identity_check")
+        sig_dup = _run_safe(
             run_duplicate_id_detector,
             live_image_path,
             detector_name="duplicate_identity_check",
             score_means_risk=True,
-        ))
+        )
+        signals.append(sig_dup)
+        _notify("detector_complete", "duplicate_identity_check", {"signal": sig_dup})
     else:
         for name, expl in [
             ("face_verification", "No live image provided; face match skipped."),
             ("liveness_analysis", "No live image provided; liveness skipped."),
             ("duplicate_identity_check", "No live image provided; duplicate-ID skipped."),
         ]:
-            signals.append(_normalize(
+            sig_un = _normalize(
                 name,
                 {
                     "status": "unavailable",
@@ -782,7 +827,9 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
                     "explanation": expl,
                 },
                 score_means_risk=True,
-            ))
+            )
+            signals.append(sig_un)
+            _notify("detector_complete", name, {"signal": sig_un})
 
     level, reason = _risk_level(signals, forensic_risk)
 
@@ -821,11 +868,16 @@ def analyze_media(image_path, live_image_path=None, expected_doc_type=None):
     return report
 
 
-def analyze_file(path, live_image_path=None, expected_doc_type=None):
+def analyze_file(path, live_image_path=None, expected_doc_type=None, progress_callback=None):
     ext = os.path.splitext(path)[1].lower()
     image_exts = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tiff"}
     if ext in image_exts:
-        return analyze_media(path, live_image_path=live_image_path, expected_doc_type=expected_doc_type)
+        return analyze_media(
+            path,
+            live_image_path=live_image_path,
+            expected_doc_type=expected_doc_type,
+            progress_callback=progress_callback,
+        )
     return {"error": f"Unsupported file type: {ext}"}
 
 

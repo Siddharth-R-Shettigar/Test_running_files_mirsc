@@ -111,6 +111,9 @@
           <header class="phase-processing-head">
             <h2>Screening in Progress</h2>
             <p>Running multi-spectral forensic verification models</p>
+            <p id="analysisStatus" role="status" aria-live="polite">
+              Preparing analysis. Keep this page open while checks run.
+            </p>
           </header>
 
           <div class="detector-stream" id="detectorStream">
@@ -212,14 +215,13 @@
 
     // ── 1. DETECTOR LIST DEFINITION ──────────────────────────────────
     const DETECTORS = [
-      { id: 'clarity',   name: 'Clarity & Exposure Calibration' },
-      { id: 'mrz',       name: 'ICAO MRZ Checksums & Formatting' },
-      { id: 'ocr',       name: 'OCR Semantic Cross-Validation' },
-      { id: 'substrate', name: 'Document Guilloche & Substrate' },
-      { id: 'patch',     name: 'Photo-Patch Forensics & Splice' },
-      { id: 'copymove',  name: 'Neural Copy-Move Clone Detector' },
-      { id: 'vision',    name: 'Illumination Consistency Pass' },
-      { id: 'face',      name: 'Biometric 1:1 Live Face Match' }
+      { id: 'clarity',   name: 'Clarity & Exposure Calibration',       matches: ['clarity_check'] },
+      { id: 'mrz',       name: 'ICAO MRZ Checksums & Formatting',       matches: ['mrz_parser', 'field_validator'] },
+      { id: 'ocr',       name: 'OCR & Document Classification',         matches: ['ocr_extraction', 'ocr_mrz_consistency', 'document_classifier', 'national_id_validator'] },
+      { id: 'substrate', name: 'Document Guilloche & Substrate',         matches: ['microtext_analysis', 'rainbow_gradient', 'guilloche_pattern', 'hologram_shift'] },
+      { id: 'patch',     name: 'Photo-Patch Forensics & Splice',         matches: ['photo_patch_forensics', 'ela_compression', 'resampling_interpolation_analysis', 'inpainting', 'blur_sharpness_analysis', 'cfa_demosaicing_analysis', 'jpeg_ghost_analysis', 'copy_move_forgery'] },
+      { id: 'vision',    name: 'AI Synthesis & Signal Analysis',         matches: ['hf_vision_transformer', 'vision_llm_sanity_analysis', 'frequency_domain_fft', 'histogram_color_forensics', 'exiftool', 'c2pa', 'jpeg_quantization_analysis', 'phash'] },
+      { id: 'face',      name: 'Biometric 1:1 Live Face Match',          matches: ['face_verification', 'liveness_analysis', 'duplicate_identity_check'] }
     ];
 
     const streamContainer = document.getElementById('detectorStream');
@@ -234,10 +236,26 @@
     const scoreEl         = document.getElementById('riskScore');
     const whyEl           = document.getElementById('verdictWhy');
     const checklistEl     = document.getElementById('checklistEl');
+    const analysisStatus   = document.getElementById('analysisStatus');
 
-    if (!streamContainer || !resultCard || !phaseScan || !phaseResult) {
+    if (!streamContainer || !resultCard || !phaseScan || !phaseResult || !analysisStatus) {
       console.error('[KAVACH] result page missing required DOM nodes');
       return;
+    }
+
+    function setDetectorState(detector, status, label) {
+      const index = DETECTORS.findIndex((item) => item.id === detector.id);
+      if (index < 0) return;
+      const row = document.getElementById(`row-${index}`);
+      const tag = document.getElementById(`tag-${index}`);
+      if (!row || !tag) return;
+      row.classList.add('visible');
+      row.classList.remove('running', 'done', 'issue', 'waiting');
+      if (status === 'running') row.classList.add('running');
+      else if (status === 'done' || status === 'issue') row.classList.add('done');
+      else if (status === 'waiting') row.classList.add('waiting');
+      if (status === 'issue') row.classList.add('issue');
+      tag.textContent = label;
     }
 
     // Build detector DOM rows
@@ -247,67 +265,76 @@
       row.id = `row-${i}`;
       row.innerHTML = `
         <span>${d.name}</span>
-        <span class="detector-tag" id="tag-${i}">Queued</span>
+        <span class="detector-tag" id="tag-${i}">Waiting</span>
       `;
       streamContainer.appendChild(row);
+      row.classList.add('visible');
     });
 
-    const sleep = ms => new Promise(res => setTimeout(res, ms));
+    const clarityCheckedDuringCapture = {{ 'true' if session.get('captures') else 'false' }};
+    if (clarityCheckedDuringCapture) {
+      setDetectorState(DETECTORS[0], 'done', '✓ Passed');
+    }
 
-    // ── 2. PACED ANIMATION: DETECTORS COMPLETE ONE-BY-ONE ───────────
-    async function animateDetectors() {
-      for (let i = 0; i < DETECTORS.length; i++) {
-        const row = document.getElementById(`row-${i}`);
-        const tag = document.getElementById(`tag-${i}`);
-
-        row.classList.add('visible');
-        row.classList.add('running');
-        tag.textContent = 'Running…';
-
-        // Paced interval: 300ms - 380ms
-        await sleep(320);
-
-        row.classList.remove('running');
-        row.classList.add('done');
-        tag.textContent = '✓';
-        tag.setAttribute('title', 'Detector completed');
+    async function fetchCaseResult() {
+      try {
+        const res = await fetch('{{ url_for("api_run_case") }}', {
+          credentials: 'same-origin'
+        });
+        if (!res.ok) {
+          console.warn(`Direct case fetch returned HTTP ${res.status}; continuing with live progress polling.`);
+          return null;
+        }
+        const data = await res.json();
+        if (data && data.status === 'running') {
+          return null;
+        }
+        return data;
+      } catch (err) {
+        console.warn('Direct case fetch caught error (will track progress via polling):', err);
+        return null;
       }
     }
 
-    // ── 3. TIMEOUT-SAFE FETCH: CALLS /api/run_case WITH 10S ABORT ────
-    async function fetchCaseResult() {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 300000); // 3 minutes
+    async function fetchProgress() {
+      const res = await fetch('{{ url_for("api_run_case_progress") }}', {
+        credentials: 'same-origin',
+        cache: 'no-store'
+      });
+      if (!res.ok) throw new Error(`Progress request failed (HTTP ${res.status})`);
+      return await res.json();
+    }
 
-      try {
-        const res = await fetch('{{ url_for("api_run_case") }}', {
-          signal: controller.signal,
-          credentials: 'same-origin'
+    function updateDetectorProgress(signals, activeDetector) {
+      const activeNormalized = String(activeDetector || '').toLowerCase();
+
+      for (const detector of DETECTORS) {
+        const matching = signals.filter((signal) => {
+          const name = String(signal.detector_name || signal.raw_detector_name || '').toLowerCase();
+          return detector.matches.some((part) => name.includes(part));
         });
-        clearTimeout(timeoutId);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return await res.json();
-      } catch (err) {
-        console.warn('API fetch aborted or failed, using robust demo payload:', err);
-        // Fallback demo payload so UI NEVER hangs
-        return {
-          color: 'yellow',
-          title: 'NEEDS REVIEW',
-          label: 'REVIEW',
-          risk_pct: 50.0,
-          case_id: '',  // none — PDF disabled
-          why: 'Live analysis did not finish in time or failed. Open Case logs if a case was saved, or re-run with documents captured.',
-          checklist: [
-            'Confirm at least one document was captured (not face only)',
-            'Check server terminal for errors',
-            'Retry with KAVACH_FAST_UI=1 for UI demo, or fix full engine path'
-          ]
-        };
+
+        if (detector.id === 'clarity' && clarityCheckedDuringCapture) {
+          setDetectorState(detector, 'done', '✓ Passed');
+          continue;
+        }
+
+        if (matching.length > 0) {
+          const hasIssue = matching.some((signal) => ['flagged', 'failed'].includes(String(signal.status).toLowerCase()));
+          const allUnavailable = matching.every((signal) => String(signal.status).toLowerCase() === 'unavailable');
+          const label = allUnavailable ? 'N/A' : (hasIssue ? 'Review' : '✓ Passed');
+          setDetectorState(detector, hasIssue ? 'issue' : 'done', label);
+        } else if (activeNormalized && detector.matches.some((part) => activeNormalized.includes(part))) {
+          setDetectorState(detector, 'running', 'Running…');
+        } else {
+          setDetectorState(detector, 'waiting', 'Waiting');
+        }
       }
     }
 
     // ── 4. RENDER VERDICT WITH ORBITING CONTINUOUS GRADIENT ──────────
     function renderVerdict(data) {
+      if (!data) return;
       const color = (data.color || 'yellow').toLowerCase();
       let iconSvg = '';
       let toneClass = 'tone-yellow';
@@ -377,59 +404,89 @@
       // 6. Switch Phases
       phaseScan.hidden = true;
       phaseResult.hidden = false;
-
-<<<<<<< HEAD
-      // 7. Wire Download Report — PDF if case_id known, else JSON fallback
-      btnDownload.onclick = () => {
-        const caseId = data.case_id || '';
-        if (caseId) {
-          window.location.href = `/api/report/${encodeURIComponent(caseId)}.pdf`;
-          return;
-        }
-  // Should almost never happen after the FAST_UI fix
-        alert('No case id for this result. Re-run scan or open Case logs.');
-      };
-=======
-      // 7. Verdict rendering is complete.
->>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
     }
 
     // ── 5. MAIN EXECUTION PIPELINE ──────────────────────────────────
     (async function () {
+      const startedAt = Date.now();
+      const elapsedTimer = setInterval(() => {
+        const elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000);
+        const minutes = Math.floor(elapsedSeconds / 60);
+        const seconds = String(elapsedSeconds % 60).padStart(2, '0');
+        const timeStr = minutes ? `${minutes}:${seconds}` : `${seconds}s`;
+        const currentText = analysisStatus.textContent || '';
+        if (!currentText.includes('Analyzing') && !currentText.includes('Analyzed')) {
+          analysisStatus.textContent = `Analysis is running (${timeStr}). Keep this page open.`;
+        }
+      }, 1000);
+
+      // Trigger /api/run_case asynchronously in background
+      let directCaseData = null;
+      fetchCaseResult().then((res) => {
+        if (res && res.title) {
+          directCaseData = res;
+        }
+      }).catch((e) => {
+        console.warn('Initial case result fetch caught error (polling continues):', e);
+      });
+
+      let completedVerdict = null;
+
       try {
-        await animateDetectors();
+        while (!completedVerdict) {
+          try {
+            const progress = await fetchProgress();
+            updateDetectorProgress(progress.detector_signals || [], progress.active_detector);
+
+            if (progress.status === 'complete' && progress.result) {
+              completedVerdict = progress.result;
+              break;
+            } else if (progress.status === 'failed') {
+              throw new Error(progress.error || 'Forensic analysis encountered a server error.');
+            }
+
+            if (directCaseData) {
+              completedVerdict = directCaseData;
+              break;
+            }
+
+            if (progress.documents_total) {
+              const completed = progress.documents_completed || 0;
+              const total = progress.documents_total;
+              const docName = progress.active_document ? progress.active_document.replace(/_/g, ' ') : '';
+              const detName = progress.active_detector ? ` (${progress.active_detector.replace(/_/g, ' ')})` : '';
+
+              if (progress.active_document) {
+                analysisStatus.textContent = `Analyzing ${docName}${detName} — ${completed} of ${total} documents processed.`;
+              } else {
+                analysisStatus.textContent = `Processed ${completed} of ${total} documents. Finalizing verdict...`;
+              }
+            }
+          } catch (progressError) {
+            console.warn('Could not refresh analysis progress:', progressError);
+            if (directCaseData) {
+              completedVerdict = directCaseData;
+              break;
+            }
+          }
+
+          if (!completedVerdict) {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+          }
+        }
+
+        clearInterval(elapsedTimer);
+        const finalProgress = await fetchProgress().catch(() => null);
+        if (finalProgress && finalProgress.detector_signals) {
+          updateDetectorProgress(finalProgress.detector_signals, null);
+        }
+        renderVerdict(completedVerdict);
       } catch (e) {
-        console.warn('animateDetectors', e);
-      }
-      let caseData = null;
-      try {
-        caseData = await fetchCaseResult();
-      } catch (e) {
-        console.warn('fetchCaseResult', e);
-      }
-      if (!caseData) {
-        caseData = {
-          color: 'yellow',
-          title: 'NEEDS REVIEW',
-          label: 'REVIEW',
-          risk_pct: 46.0,
-          why: 'Demo fallback — automated screening UI path.',
-          checklist: [
-            'Compare document photo to the person present',
-            'Re-check MRZ / printed fields',
-            'Inspect photo area if face forensics flagged'
-          ]
-        };
-      }
-      try {
-        renderVerdict(caseData);
-      } catch (e) {
-        console.error('renderVerdict failed', e);
-        // last resort: force show result shell
-        if (phaseScan) phaseScan.hidden = true;
-        if (phaseResult) phaseResult.hidden = false;
-        if (titleEl) titleEl.textContent = caseData.title || 'NEEDS REVIEW';
-        if (scoreEl) scoreEl.textContent = (caseData.risk_pct != null ? caseData.risk_pct : 46) + '%';
+        clearInterval(elapsedTimer);
+        console.error('Analysis failed:', e);
+        document.querySelector('.phase-processing-head h2').textContent = 'Analysis could not be completed';
+        analysisStatus.textContent = `${e.message || 'The analysis request failed.'} Check the server terminal, then return to scanning and retry.`;
+        analysisStatus.setAttribute('role', 'alert');
       }
     })();
 

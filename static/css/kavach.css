@@ -1526,13 +1526,27 @@ input:-webkit-autofill:focus,
   min-width: 24px;
   height: 22px;
   padding: 0 8px;
+}
+
+.detector-row.issue {
+  border-color: rgba(245, 158, 11, 0.45);
+}
+
+.detector-row.issue .detector-tag {
+  background: rgba(245, 158, 11, 0.16);
+  color: #b45309;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(16, 185, 129, 0.45);
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.18);
 }
 
+/* Waiting state — detector not yet started */
+.detector-row.waiting .detector-tag {
+  color: var(--text-muted);
+  opacity: 0.65;
+}
 /* Phase B: Final Verdict */
 .phase-verdict {
   animation: verdict-fade-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;

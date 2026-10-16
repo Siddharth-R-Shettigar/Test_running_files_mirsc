@@ -8,8 +8,8 @@ import base64
 import logging
 import os
 import re
+import threading
 import time
-from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -22,10 +22,13 @@ logger = logging.getLogger("kavach.ocr")
 # Config (env overrides)
 # ---------------------------------------------------------------------------
 OCR_BACKENDS = os.getenv("KAVACH_OCR_BACKENDS", "easyocr,paddle,qwen").lower().split(",")
-OCR_LANGS = os.getenv("KAVACH_OCR_LANGS", "en,hi,mr,bn,ta,te,kn,gu,pa").split(",")
+OCR_LANGS = [
+    language.strip().lower()
+    for language in os.getenv("KAVACH_OCR_LANGS", "en,hi,mr").split(",")
+    if language.strip() and language.strip().lower() not in {"gu", "pa"}
+]
 QWEN_MODEL = os.getenv("KAVACH_QWEN_MODEL", "qwen/qwen3.8-27b")
 GROQ_TIMEOUT = float(os.getenv("KAVACH_GROQ_TIMEOUT", "25"))
-LOCAL_TIMEOUT = float(os.getenv("KAVACH_LOCAL_OCR_TIMEOUT", "20"))
 MAX_IMAGE_SIDE = int(os.getenv("KAVACH_OCR_MAX_SIDE", "2048"))
 USE_GPU = os.getenv("KAVACH_OCR_GPU", "0") == "1"
 
@@ -34,42 +37,150 @@ USE_GPU = os.getenv("KAVACH_OCR_GPU", "0") == "1"
 # ---------------------------------------------------------------------------
 _easy_reader = None
 _paddle_ocr = None
-_groq_client = None
+_groq_clients: Dict[str, Any] = {}
+_groq_key_index = 0
+_groq_key_lock = threading.Lock()
+_groq_key_count = 0
+
+
+def _groq_api_keys() -> List[str]:
+    numbered_keys = []
+    for name, value in os.environ.items():
+        match = re.fullmatch(r"GROQ_API_KEY_(\d+)", name)
+        if match and value.strip():
+            numbered_keys.append((int(match.group(1)), value.strip()))
+
+    keys = [value for _, value in sorted(numbered_keys)]
+    keys.extend(
+        value.strip()
+        for value in (os.getenv("GROQ_API_KEYS") or "").split(",")
+        if value.strip()
+    )
+    single_key = (os.getenv("GROQ_API_KEY") or "").strip()
+    if single_key:
+        keys.append(single_key)
+    return list(dict.fromkeys(keys))
 
 
 def _get_easyocr():
     global _easy_reader
     if _easy_reader is None:
-        import easyocr
-        langs = [l.strip() for l in OCR_LANGS if l.strip()]
-        _easy_reader = easyocr.Reader(langs, gpu=USE_GPU, verbose=False)
-    return _easy_reader
+        try:
+            import easyocr
+            langs = [l.strip() for l in OCR_LANGS if l.strip()]
+            _easy_reader = easyocr.Reader(langs or ["en"], gpu=USE_GPU, verbose=False)
+        except Exception as e:
+            logger.warning("EasyOCR init with %s failed (%s); falling back to ['en']", OCR_LANGS, e)
+            try:
+                import easyocr
+                _easy_reader = easyocr.Reader(["en"], gpu=USE_GPU, verbose=False)
+            except Exception as e2:
+                logger.warning("EasyOCR unavailable: %s", e2)
+                _easy_reader = False
+    return _easy_reader if _easy_reader is not False else None
 
 
 def _get_paddle():
     global _paddle_ocr
     if _paddle_ocr is None:
         try:
+            import paddle  # noqa: F401
             from paddleocr import PaddleOCR
-            # New PaddleOCR: no use_gpu, no show_log
             _paddle_ocr = PaddleOCR(use_angle_cls=True, lang="en")
         except Exception as e:
-            logger.warning("PaddleOCR unavailable: %s", e)
+            logger.info("PaddleOCR engine unavailable (paddlepaddle not installed or failed: %s)", e)
             _paddle_ocr = False
     return _paddle_ocr if _paddle_ocr is not False else None
 
 
-def _get_groq():
-    global _groq_client
-    if _groq_client is None:
-        api_key = os.getenv("GROQ_API_KEY")
-        if not api_key:
-            logger.warning("GROQ_API_KEY missing – Qwen OCR disabled")
-            _groq_client = False
-            return None
+def _get_groq_client(api_key: str):
+    client = _groq_clients.get(api_key)
+    if client is None:
         from groq import Groq
-        _groq_client = Groq(api_key=api_key)
-    return _groq_client if _groq_client is not False else None
+        client = Groq(api_key=api_key, timeout=GROQ_TIMEOUT, max_retries=0)
+        _groq_clients[api_key] = client
+    return client
+
+
+def _starting_groq_key_index(key_count: int) -> int:
+    global _groq_key_index, _groq_key_count
+    with _groq_key_lock:
+        if _groq_key_count != key_count:
+            _groq_key_count = key_count
+            _groq_key_index = 0
+        start = _groq_key_index % key_count
+        _groq_key_index = (start + 1) % key_count
+        return start
+
+
+def _should_rotate_key(error: Exception) -> bool:
+    """Determine whether an error is key- or quota-related and warrants rotating to another Groq key."""
+    status_code = getattr(error, "status_code", None)
+    if status_code in (429, 401, 403, 500, 502, 503, 504):
+        return True
+    err_type = type(error).__name__
+    if err_type in ("APIConnectionError", "APITimeoutError", "RateLimitError", "AuthenticationError", "InternalServerError"):
+        return True
+    msg = str(error).lower()
+    return any(p in msg for p in ["rate limit", "quota", "too many requests", "invalid api key", "unauthorized", "timed out", "timeout"])
+
+
+def _parse_qwen_response(raw: str) -> Dict[str, Any]:
+    """Resiliently parse Qwen OCR output into dict with lines and mrz_candidates."""
+    if not raw or not raw.strip():
+        return {"lines": [], "mrz_candidates": []}
+
+    import json
+
+    # 1. Direct JSON parse
+    try:
+        data = json.loads(raw.strip())
+        if isinstance(data, dict):
+            return data
+    except Exception:
+        pass
+
+    # 2. Extract markdown code block
+    m = re.search(r"```(?:json)?\s*(\{[\s\S]*?\})\s*```", raw, re.DOTALL)
+    if m:
+        try:
+            data = json.loads(m.group(1))
+            if isinstance(data, dict):
+                return data
+        except Exception:
+            pass
+
+    # 3. Extract outer braces
+    brace_start = raw.find("{")
+    brace_end = raw.rfind("}")
+    if brace_start != -1 and brace_end > brace_start:
+        try:
+            data = json.loads(raw[brace_start:brace_end + 1])
+            if isinstance(data, dict):
+                return data
+        except Exception:
+            pass
+
+    # 4. Fallback line-by-line regex extraction
+    lines = []
+    m_lines = re.search(r'"lines"\s*:\s*\[([\s\S]*?)\]', raw)
+    if m_lines:
+        items = re.findall(r'"([^"\\]*(?:\\.[^"\\]*)*)"', m_lines.group(1))
+        lines = [item.strip() for item in items if item.strip()]
+
+    if not lines:
+        for l in raw.splitlines():
+            clean = l.strip().strip(",\"'[]")
+            if clean and not clean.startswith(("{", "}", "```", '"lines"', '"mrz_candidates"', '"language_hint"')):
+                lines.append(clean)
+
+    mrz_lines = []
+    m_mrz = re.search(r'"mrz_candidates"\s*:\s*\[([\s\S]*?)\]', raw)
+    if m_mrz:
+        items = re.findall(r'"([^"\\]*(?:\\.[^"\\]*)*)"', m_mrz.group(1))
+        mrz_lines = [item.strip() for item in items if item.strip()]
+
+    return {"lines": lines, "mrz_candidates": mrz_lines}
 
 
 # ---------------------------------------------------------------------------
@@ -160,48 +271,139 @@ _QWEN_SYSTEM = """You are an expert document OCR system for identity documents (
 Extract ALL visible text exactly as printed. Preserve original language (Hindi, Tamil, etc.).
 Return ONLY valid JSON with this schema:
 {
-  "full_text": "concatenated readable text",
   "lines": ["line1", "line2", ...],
   "mrz_candidates": ["possible MRZ lines if any"],
   "language_hint": "en|hi|..."
 }
-Do not invent text. If a region is unreadable mark it as [ILLEGIBLE].
+Do not include a duplicate full_text field. Keep each visible text line separate.
+Do not invent text. Skip unreadable fragments rather than expanding them.
 """
 
 
 def _run_qwen(image_path: str) -> Dict[str, Any]:
-    client = _get_groq()
-    if client is None:
+    api_keys = _groq_api_keys()
+    if not api_keys:
+        logger.warning("No Groq API key configured – Qwen OCR disabled")
         return {"fields": [], "mrz_lines": [], "error": "no_groq"}
 
     b64 = _image_to_b64(image_path)
-    try:
-        resp = client.chat.completions.create(
-            model=os.getenv("KAVACH_QWEN_MODEL", "qwen/qwen3.8-27b"),
-            messages=[
-                {"role": "system", "content": _QWEN_SYSTEM},
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": "Perform precise OCR on this identity document image."},
-                        {
-                            "type": "image_url",
-                            "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
-                        },
-                    ],
-                },
-            ],
-            temperature=0.1,
-            max_tokens=4096,
-            response_format={"type": "json_object"},
-            timeout=GROQ_TIMEOUT,
-        )
-        raw = resp.choices[0].message.content or "{}"
-        import json
-        data = json.loads(raw)
-    except Exception as e:
-        logger.warning("Qwen OCR failed: %s", e)
-        return {"fields": [], "mrz_lines": [], "error": str(e)}
+    start_index = _starting_groq_key_index(len(api_keys))
+    last_error = None
+    data = None
+
+    for offset in range(len(api_keys)):
+        key_index = (start_index + offset) % len(api_keys)
+        masked_key = f"...{api_keys[key_index][-6:]}" if len(api_keys[key_index]) >= 6 else "key"
+        logger.info("Qwen OCR attempting Groq key %d/%d (%s)...", key_index + 1, len(api_keys), masked_key)
+
+        try:
+            client = _get_groq_client(api_keys[key_index])
+            resp = client.chat.completions.create(
+                model=QWEN_MODEL,
+                messages=[
+                    {"role": "system", "content": _QWEN_SYSTEM},
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": "Perform precise OCR on this identity document image."},
+                            {
+                                "type": "image_url",
+                                "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
+                            },
+                        ],
+                    },
+                ],
+                temperature=0.1,
+                max_completion_tokens=2500,
+                response_format={"type": "json_object"},
+                timeout=GROQ_TIMEOUT,
+            )
+            raw = resp.choices[0].message.content or "{}"
+            data = _parse_qwen_response(raw)
+            logger.info(
+                "Qwen OCR succeeded using Groq key %d/%d (%s): extracted %d lines, %d MRZ candidates",
+                key_index + 1,
+                len(api_keys),
+                masked_key,
+                len(data.get("lines") or []),
+                len(data.get("mrz_candidates") or []),
+            )
+            break
+        except Exception as e:
+            last_error = e
+            err_str = str(e)
+
+            # If Groq failed because strict JSON mode hit token limit, retry immediately without JSON restriction
+            if "json_validate_failed" in err_str or "completion hit max completion tokens" in err_str:
+                logger.warning(
+                    "Groq key %d/%d (%s) encountered json_validate_failed. Retrying with free-form text format...",
+                    key_index + 1,
+                    len(api_keys),
+                    masked_key,
+                )
+                try:
+                    resp = client.chat.completions.create(
+                        model=QWEN_MODEL,
+                        messages=[
+                            {"role": "system", "content": _QWEN_SYSTEM},
+                            {
+                                "role": "user",
+                                "content": [
+                                    {"type": "text", "text": "Perform precise OCR on this identity document image. Return valid JSON lines."},
+                                    {
+                                        "type": "image_url",
+                                        "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
+                                    },
+                                ],
+                            },
+                        ],
+                        temperature=0.1,
+                        max_completion_tokens=2500,
+                        timeout=GROQ_TIMEOUT,
+                    )
+                    raw = resp.choices[0].message.content or ""
+                    data = _parse_qwen_response(raw)
+                    if data.get("lines") or data.get("mrz_candidates"):
+                        logger.info(
+                            "Free-form Qwen retry succeeded on key %d/%d (%s) with %d lines, %d MRZ candidates.",
+                            key_index + 1,
+                            len(api_keys),
+                            masked_key,
+                            len(data.get("lines") or []),
+                            len(data.get("mrz_candidates") or []),
+                        )
+                        break
+                except Exception as retry_err:
+                    logger.warning("Free-form Qwen retry failed on key %d/%d (%s): %s", key_index + 1, len(api_keys), masked_key, retry_err)
+
+            if _should_rotate_key(e):
+                logger.warning(
+                    "Qwen OCR request with Groq key %d/%d (%s) failed (%s: %s). Rotating to next key...",
+                    key_index + 1,
+                    len(api_keys),
+                    masked_key,
+                    type(e).__name__,
+                    e,
+                )
+                if getattr(e, "status_code", None) == 429:
+                    time.sleep(1.2)
+                continue
+            else:
+                logger.warning(
+                    "Qwen OCR request with Groq key %d/%d (%s) failed with non-rotatable error: %s",
+                    key_index + 1,
+                    len(api_keys),
+                    masked_key,
+                    e,
+                )
+                break
+
+    if data is None:
+        return {
+            "fields": [],
+            "mrz_lines": [],
+            "error": str(last_error or "Qwen OCR request failed"),
+        }
 
     fields = []
     for line in data.get("lines") or []:
@@ -278,31 +480,53 @@ def extract_text(image_path: str) -> Dict[str, Any]:
 
     local_fields: List[Dict] = []
     qwen_data: Dict = {"fields": [], "mrz_lines": []}
+    if "qwen" in OCR_BACKENDS:
+        try:
+            qwen_data = _run_qwen(image_path)
+            if qwen_data.get("fields") or qwen_data.get("mrz_lines"):
+                result["engines_used"].append("qwen")
+                logger.info(
+                    "Qwen OCR active for %s: %d text fields, %d MRZ lines found.",
+                    os.path.basename(image_path),
+                    len(qwen_data.get("fields", [])),
+                    len(qwen_data.get("mrz_lines", [])),
+                )
+            else:
+                reason = qwen_data.get("error") or "0 fields returned"
+                logger.warning(
+                    "Qwen OCR yielded no usable text for %s (reason: %s); trying configured local OCR backups: %s",
+                    os.path.basename(image_path),
+                    reason,
+                    [b for b in OCR_BACKENDS if b != "qwen"],
+                )
+        except Exception as e:
+            logger.warning(
+                "Qwen OCR failed for %s (%s); trying configured local OCR backups",
+                os.path.basename(image_path),
+                e,
+            )
 
-    with ThreadPoolExecutor(max_workers=3) as pool:
-        futures = {}
+    if not qwen_data.get("fields") and not qwen_data.get("mrz_lines"):
+        local_backends = []
         if "easyocr" in OCR_BACKENDS:
-            futures["easy"] = pool.submit(_run_easyocr, thresh)
+            local_backends.append(("easy", lambda: _run_easyocr(thresh)))
         if "paddle" in OCR_BACKENDS:
-            futures["paddle"] = pool.submit(_run_paddle, color)
-        if "qwen" in OCR_BACKENDS:
-            futures["qwen"] = pool.submit(_run_qwen, image_path)
+            local_backends.append(("paddle", lambda: _run_paddle(color)))
 
-        for name, fut in futures.items():
+        for name, run_backend in local_backends:
             try:
-                data = fut.result(timeout=LOCAL_TIMEOUT if name != "qwen" else GROQ_TIMEOUT)
-                if name == "qwen":
-                    qwen_data = data
-                    result["engines_used"].append("qwen")
-                else:
-                    local_fields.extend(data)
+                logger.info("Executing local OCR engine '%s' for %s...", name, os.path.basename(image_path))
+                fields = run_backend()
+                if fields:
+                    local_fields.extend(fields)
                     result["engines_used"].append(name)
-            except FuturesTimeout:
-                logger.warning("%s timed out", name)
+                    logger.info("Local OCR engine '%s' extracted %d fields.", name, len(fields))
+                else:
+                    logger.info("Local OCR engine '%s' extracted 0 fields.", name)
             except Exception as e:
-                logger.warning("%s failed: %s", name, e)
+                logger.warning("Local OCR engine '%s' failed: %s", name, e)
 
-    all_fields = _merge_fields(local_fields, qwen_data.get("fields", []))
+    all_fields = _merge_fields(qwen_data.get("fields", []), local_fields)
     mrz_lines = _detect_mrz_lines(all_fields, qwen_data.get("mrz_lines", []))
 
     result["fields"] = all_fields

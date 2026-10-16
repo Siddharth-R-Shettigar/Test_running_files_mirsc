@@ -1,6 +1,11 @@
 import os
+import logging
 from PIL import Image
-from transformers import pipeline
+
+os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+os.environ.setdefault("HF_HUB_DISABLE_IMPLICIT_TOKEN", "1")
+
+logger = logging.getLogger("kavach.hf_ai")
 
 MODEL_CHECKPOINTS = [
     "umm-maybe/AI-image-detector",
@@ -11,6 +16,8 @@ _PIPELINE_CACHE = {}
 
 def _get_pipeline(model_name):
     if model_name not in _PIPELINE_CACHE:
+        from transformers import pipeline
+        print(f"[HF_DETECTOR] Initializing Vision Transformer weights for {model_name}...", flush=True)
         _PIPELINE_CACHE[model_name] = pipeline("image-classification", model=model_name)
     return _PIPELINE_CACHE[model_name]
 

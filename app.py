@@ -3,6 +3,8 @@ import os
 import uuid
 import json
 import sys
+import glob
+import threading
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -25,6 +27,10 @@ except Exception as e:
     CRYPTO_AVAILABLE = False
 
 OFFICER_PASSWORD = os.environ.get("KAVACH_PASSWORD", "kavach2026")
+CASE_PROGRESS = {}
+CASE_PROGRESS_LOCK = threading.Lock()
+CASE_EVENTS = {}
+CASE_THREADS = {}
 
 SCAN_STEPS = [
     {"key": "face", "title": "Face capture", "blurb": "Centre the face. Even light, no heavy glare."},
@@ -304,22 +310,21 @@ def scan_capture():
     path = os.path.join(UPLOAD_FOLDER, name)
     f.save(path)
 
-    # Clarity check
+    # Clarity check (non-fatal — only block if check definitively fails)
     try:
         from detectors.clarity_detector import check_image_clarity
         clarity_res = check_image_clarity(path)
         if clarity_res.get("status") == "failed":
             if os.path.exists(path):
                 os.remove(path)
-            err_msg = f"Image clarity too low ({clarity_res.get('clarity_percent', 0)}%). Please capture a sharper image."
+            err_msg = f"Image clarity too low ({clarity_res.get('clarity_percent', 0):.0f}%). Please capture a sharper image."
             return redirect(url_for("scan", error=err_msg))
     except Exception as e:
-        print(f"[WARNING] Clarity pre-check error: {e}", file=sys.stderr)
-        if os.path.exists(path):
-            os.remove(path)
-        return redirect(url_for("scan", error="Image check unavailable. Please try again."))
+        print(f"[WARNING] Clarity pre-check error (image kept): {e}", file=sys.stderr)
+        # Do NOT delete file or abort — continue with the capture
 
-    # Face presence check
+
+    # Face presence check (only hard-block on definitive no-face, not on detector crash)
     if step["key"] == "face":
         try:
             from detectors.face_verification_engine import check_face_presence
@@ -329,10 +334,8 @@ def scan_capture():
                     os.remove(path)
                 return redirect(url_for("scan", error=face_msg))
         except Exception as e:
-            print(f"[WARNING] Face presence pre-check error: {e}", file=sys.stderr)
-            if os.path.exists(path):
-                os.remove(path)
-            return redirect(url_for("scan", error=f"Face check error: {e}"))
+            print(f"[WARNING] Face presence pre-check error (image kept): {e}", file=sys.stderr)
+            # Do NOT delete file or abort — continue with the capture
 
     captures = dict(session.get("captures") or {})
     captures[step["key"]] = path
@@ -378,12 +381,154 @@ def scan_reset():
     return redirect(url_for("scan"))
 
 
+def _execute_case_analysis(case_id, available_docs, face_path, done_event):
+    with CASE_PROGRESS_LOCK:
+        CASE_PROGRESS[case_id] = {
+            "status": "running",
+            "documents_completed": 0,
+            "documents_total": len(available_docs),
+            "active_document": None,
+            "active_detector": None,
+            "detector_signals": [],
+            "result": None,
+            "error": None,
+        }
+
+    merged_signals = []
+    merged_risk_scores = []
+    merged_risk_level = "REVIEW"
+    merged_risk_reason = "Automated multi-document screening complete."
+
+    try:
+        from kavach_engine import analyze_media
+    except Exception as e:
+        print(f"[ERROR] Could not import kavach_engine: {e}", flush=True)
+        with CASE_PROGRESS_LOCK:
+            CASE_PROGRESS[case_id].update(status="failed", error="Analysis engine could not be loaded.")
+        done_event.set()
+        return
+
+    try:
+        for document_number, (doc_key, doc_path) in enumerate(available_docs, start=1):
+            with CASE_PROGRESS_LOCK:
+                CASE_PROGRESS[case_id]["active_document"] = doc_key
+
+            def _make_progress_cb(current_doc_key):
+                def _cb(event_type, data):
+                    with CASE_PROGRESS_LOCK:
+                        prog = CASE_PROGRESS.get(case_id)
+                        if not prog:
+                            return
+                        if event_type == "detector_start":
+                            prog["active_detector"] = data.get("detector_name")
+                        elif event_type == "detector_complete":
+                            prog["active_detector"] = None
+                            sig = data.get("signal")
+                            if sig:
+                                sig_c = dict(sig)
+                                sig_c["detector_name"] = f"[{current_doc_key}] {sig.get('detector_name', 'detector')}"
+                                sig_c["raw_detector_name"] = sig.get("detector_name")
+                                prog["detector_signals"].append(sig_c)
+                return _cb
+
+            try:
+                print(f"[KAVACH] Analyzing {doc_key}: {doc_path}", flush=True)
+                doc_report = analyze_media(
+                    image_path=str(doc_path),
+                    live_image_path=str(face_path) if face_path and os.path.exists(str(face_path)) else None,
+                    expected_doc_type=doc_key,
+                    progress_callback=_make_progress_cb(doc_key),
+                )
+
+                safe = os.path.splitext(os.path.basename(str(doc_path)))[0]
+                os.makedirs("case_logs", exist_ok=True)
+                log_path = os.path.join("case_logs", f"{safe}_report.json")
+                with open(log_path, "w", encoding="utf-8") as fh:
+                    json.dump(doc_report, fh, indent=2, ensure_ascii=False)
+
+                if isinstance(doc_report, dict):
+                    for sig in (doc_report.get("detector_signals") or []):
+                        if isinstance(sig, dict):
+                            sig_c = dict(sig)
+                            sig_c["detector_name"] = f"[{doc_key}] {sig.get('detector_name', 'detector')}"
+                            sig_c["raw_detector_name"] = sig.get("detector_name")
+                            merged_signals.append(sig_c)
+
+                    score = doc_report.get("forensic_risk_score", 0.5)
+                    try:
+                        merged_risk_scores.append(float(score))
+                    except (TypeError, ValueError):
+                        merged_risk_scores.append(0.5)
+
+                    doc_rl = str(doc_report.get("risk_level", "REVIEW")).upper()
+                    if doc_rl in ("HIGH RISK", "HIGH_RISK"):
+                        merged_risk_level = "HIGH RISK"
+                        merged_risk_reason = f"[{doc_key}] {doc_report.get('risk_reason', '')}"
+                    elif doc_rl == "PASS" and merged_risk_level != "HIGH RISK":
+                        merged_risk_level = "PASS"
+                        merged_risk_reason = doc_report.get("risk_reason", "All checks passed.")
+
+            except Exception as e:
+                print(f"[ERROR] Failed analyzing {doc_key}: {e}", flush=True)
+                import traceback
+                traceback.print_exc()
+                continue
+            finally:
+                with CASE_PROGRESS_LOCK:
+                    CASE_PROGRESS[case_id].update(
+                        documents_completed=document_number,
+                        active_document=None,
+                        active_detector=None,
+                    )
+
+        if merged_risk_scores:
+            final_score = sum(merged_risk_scores) / len(merged_risk_scores)
+        else:
+            final_score = 0.5
+
+        final_report = {
+            "engine": "KAVACH",
+            "case_id": case_id,
+            "risk_level": merged_risk_level,
+            "risk_reason": merged_risk_reason,
+            "forensic_risk_score": round(final_score, 3),
+            "detector_signals": merged_signals,
+            "human_summary": merged_risk_reason,
+            "documents_analysed": [k for k, _ in available_docs],
+        }
+
+        os.makedirs("case_logs", exist_ok=True)
+        try:
+            with open(os.path.join("case_logs", f"{case_id}_report.json"), "w", encoding="utf-8") as fh:
+                json.dump(final_report, fh, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"[WARNING] could not save case log: {e}", flush=True)
+
+        ui = _map_result_ui(final_report)
+        ui["case_id"] = case_id
+
+        with CASE_PROGRESS_LOCK:
+            CASE_PROGRESS[case_id].update(
+                status="complete",
+                result=ui,
+                active_document=None,
+                active_detector=None,
+            )
+
+    except Exception as exc:
+        print(f"[ERROR] Background analysis failed: {exc}", flush=True)
+        import traceback
+        traceback.print_exc()
+        with CASE_PROGRESS_LOCK:
+            CASE_PROGRESS[case_id].update(status="failed", error=str(exc))
+    finally:
+        done_event.set()
+
+
 @app.route("/api/run_case")
 def api_run_case():
-<<<<<<< HEAD
     # ── FAST UI demo: return immediately without ML ──────────────────────────
-    if os.environ.get("KAVACH_FAST_UI", "1").strip() != "0":
-        import uuid
+    if os.environ.get("KAVACH_FAST_UI", "0").strip() == "1":
         case_id = f"case_{uuid.uuid4().hex[:12]}"
         demo_report = {
             "engine": "KAVACH-FAST-UI",
@@ -412,15 +557,13 @@ def api_run_case():
         session["last_case_id"] = case_id
         session["last_result_ui"] = ui
         return jsonify(ui)
-=======
-    case_id = session.get("case_id") or f"case_{uuid.uuid4().hex[:12]}"
-    session["case_id"] = case_id
-    os.makedirs("case_logs", exist_ok=True)
->>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
 
-    # ---------- REAL ANALYSIS (Fast UI is now OFF) ----------
+    # ---------- REAL ANALYSIS (Fast UI is OFF) ----------
     if not session.get("logged_in"):
         return jsonify({"error": "not logged in"}), 401
+
+    case_id = session.get("case_id") or f"case_{uuid.uuid4().hex[:12]}"
+    session["case_id"] = case_id
 
     captures = session.get("captures") or {}
     face_path = session.get("face_path") or captures.get("face")
@@ -447,95 +590,59 @@ def api_run_case():
         session["last_case_id"] = case_id
         return jsonify(ui)
 
-    # ---------- Run the real engine (FAST - no subprocess) ----------
-    merged_signals = []
-    merged_risk_scores = []
-    merged_risk_level = "REVIEW"
-    merged_risk_reason = "Automated multi-document screening complete."
+    with CASE_PROGRESS_LOCK:
+        prog = CASE_PROGRESS.get(case_id)
+        if prog and prog.get("status") == "complete" and prog.get("result"):
+            session["last_case_id"] = case_id
+            session["last_result_ui"] = prog["result"]
+            return jsonify(prog["result"])
+        if prog and prog.get("status") == "failed":
+            return jsonify({"error": prog.get("error", "Analysis failed")}), 500
 
-    try:
-        from kavach_engine import analyze_media
-    except Exception as e:
-        print(f"[ERROR] Could not import kavach_engine: {e}")
-        ui = _map_result_ui(fallback)
-        ui["case_id"] = case_id
-        return jsonify(ui)
+    done_event = CASE_EVENTS.get(case_id)
+    if not done_event or case_id not in CASE_PROGRESS:
+        done_event = threading.Event()
+        CASE_EVENTS[case_id] = done_event
+        t = threading.Thread(
+            target=_execute_case_analysis,
+            args=(case_id, available_docs, face_path, done_event),
+            daemon=True,
+        )
+        CASE_THREADS[case_id] = t
+        t.start()
 
-    for doc_key, doc_path in available_docs:
-        try:
-            print(f"[KAVACH] Analyzing {doc_key}: {doc_path}")
-            doc_report = analyze_media(
-                image_path=str(doc_path),
-                live_image_path=str(face_path) if face_path and os.path.exists(str(face_path)) else None,
-                expected_doc_type=doc_key
-            )
+    # Wait up to 12s so fast runs return synchronously, but NEVER block long enough to cause a proxy 502!
+    done = done_event.wait(timeout=12.0)
+    with CASE_PROGRESS_LOCK:
+        prog = CASE_PROGRESS.get(case_id, {})
+        if done and prog.get("status") == "complete" and prog.get("result"):
+            session["last_case_id"] = case_id
+            session["last_result_ui"] = prog["result"]
+            return jsonify(prog["result"])
+        if done and prog.get("status") == "failed":
+            return jsonify({"error": prog.get("error", "Analysis failed")}), 500
 
-            # Save individual report
-            safe = os.path.splitext(os.path.basename(str(doc_path)))[0]
-            log_path = os.path.join("case_logs", f"{safe}_report.json")
-            with open(log_path, "w", encoding="utf-8") as fh:
-                json.dump(doc_report, fh, indent=2, ensure_ascii=False)
-
-            if isinstance(doc_report, dict):
-                for sig in (doc_report.get("detector_signals") or []):
-                    if isinstance(sig, dict):
-                        sig = dict(sig)
-                        sig["detector_name"] = f"[{doc_key}] {sig.get('detector_name', 'detector')}"
-                        merged_signals.append(sig)
-
-                score = doc_report.get("forensic_risk_score", 0.5)
-                try:
-                    merged_risk_scores.append(float(score))
-                except (TypeError, ValueError):
-                    merged_risk_scores.append(0.5)
-
-                doc_rl = str(doc_report.get("risk_level", "REVIEW")).upper()
-                if doc_rl in ("HIGH RISK", "HIGH_RISK"):
-                    merged_risk_level = "HIGH RISK"
-                    merged_risk_reason = f"[{doc_key}] {doc_report.get('risk_reason', '')}"
-                elif doc_rl == "PASS" and merged_risk_level != "HIGH RISK":
-                    merged_risk_level = "PASS"
-                    merged_risk_reason = doc_report.get("risk_reason", "All checks passed.")
-
-        except Exception as e:
-            print(f"[ERROR] Failed analyzing {doc_key}: {e}")
-            import traceback
-            traceback.print_exc()
-            continue
-
-    # Final risk score
-    if merged_risk_scores:
-        final_score = sum(merged_risk_scores) / len(merged_risk_scores)
-    else:
-        final_score = 0.5
-
-    final_report = {
-        "engine": "KAVACH",
+    # Still running in background: return 200 with status="running"
+    return jsonify({
+        "status": "running",
         "case_id": case_id,
-        "risk_level": merged_risk_level,
-        "risk_reason": merged_risk_reason,
-        "forensic_risk_score": round(final_score, 3),
-        "detector_signals": merged_signals,
-        "human_summary": merged_risk_reason,
-        "documents_analysed": [k for k, _ in available_docs],
-    }
-
-    # Save final case report
-    try:
-        with open(os.path.join("case_logs", f"{case_id}_report.json"), "w", encoding="utf-8") as fh:
-            json.dump(final_report, fh, indent=2, ensure_ascii=False)
-    except Exception as e:
-        print(f"[WARNING] could not save case log: {e}")
-
-    ui = _map_result_ui(final_report)
-    ui["case_id"] = case_id
-    session["last_case_id"] = case_id
-    session["last_result_ui"] = ui
-
-    return jsonify(ui)
+        "message": "Analysis is actively executing in background."
+    }), 200
 
 
-<<<<<<< HEAD
+@app.route("/api/run_case/progress")
+def api_run_case_progress():
+    if not session.get("logged_in"):
+        return jsonify({"error": "not logged in"}), 401
+
+    case_id = session.get("case_id") or session.get("last_case_id")
+    with CASE_PROGRESS_LOCK:
+        progress = CASE_PROGRESS.get(case_id)
+        if progress is None:
+            return jsonify({"status": "not_started"}), 200
+        return jsonify(dict(progress))
+
+
 # ── GET /api/cases ─────────────────────────────────────────────────────────────
 @app.route("/api/cases")
 def api_cases():
@@ -621,18 +728,17 @@ def api_report_pdf(case_id):
     except Exception as exc:
         return jsonify({"error": f"Could not read report: {exc}"}), 500
 
+    from flask import send_file
+    import tempfile
+
     try:
         from report_generator import generate_case_report_pdf, REPORTLAB_AVAILABLE
-        if REPORTLAB_AVAILABLE:
-            pdf_path = os.path.join("case_logs", f"{case_id}_report.pdf")
-            generate_case_report_pdf(merged_or_demo_report, pdf_path)
-    except Exception:
-        pass  # on-demand route still works
     except ImportError:
         return jsonify({"error": "report_generator module not found."}), 501
 
-    import tempfile
-    from flask import send_file
+    if not REPORTLAB_AVAILABLE:
+        return jsonify({"error": "ReportLab not installed; PDF generation unavailable."}), 501
+
     try:
         with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
             tmp_path = tmp.name
@@ -654,7 +760,6 @@ def _warm_models():
     except Exception as e:
         print(f"[KAVACH] Warmup skipped: {e}", flush=True)
 
-=======
->>>>>>> 0bdc654de15147c51ef5327f18fcafd0cf2b8192
 if __name__ == "__main__":
+    threading.Thread(target=_warm_models, daemon=True).start()
     app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)
