@@ -1,5 +1,5 @@
 {
   "name": "KAVACH Dev Environment",
   "image": "mcr.microsoft.com/devcontainers/python:3.10",
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y libimage-exiftool-perl && pip install -r requirements.txt"
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y libimage-exiftool-perl libgl1 libglib2.0-0 && pip install -r requirements.txt"
 }
