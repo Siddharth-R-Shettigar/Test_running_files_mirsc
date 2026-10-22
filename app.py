@@ -5,9 +5,21 @@ import json
 import sys
 import glob
 import threading
+import signal
 from dotenv import load_dotenv
 
 load_dotenv()
+
+def _signal_handler(sig, frame):
+    sig_name = "SIGTERM" if sig == signal.SIGTERM else "SIGINT"
+    print(f"\n[KAVACH] Caught {sig_name} (signal {sig}). Shutting down gracefully...", flush=True)
+    sys.exit(0)
+
+try:
+    signal.signal(signal.SIGTERM, _signal_handler)
+    signal.signal(signal.SIGINT, _signal_handler)
+except Exception:
+    pass
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "kavach-dev-secret-change-me")
@@ -759,6 +771,11 @@ def _warm_models():
         print("[KAVACH] Warming engine imports...", flush=True)
         import kavach_engine  # noqa: F401
         print("[KAVACH] Engine import done.", flush=True)
+        try:
+            from detectors.face_app_singleton import get_face_app
+            get_face_app()
+        except Exception as fe:
+            print(f"[KAVACH] Face warmup skipped: {fe}", flush=True)
     except Exception as e:
         print(f"[KAVACH] Warmup skipped: {e}", flush=True)
 

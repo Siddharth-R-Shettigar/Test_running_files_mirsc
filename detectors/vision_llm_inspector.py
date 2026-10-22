@@ -49,7 +49,7 @@ def _call_gemini(api_key: str, model: str, encoded_image: str, mime: str, prompt
         url,
         json=payload,
         headers={"Content-Type": "application/json"},
-        timeout=60,
+        timeout=15,
     )
     # 429 / quota → signal caller to rotate
     if res.status_code == 429:
@@ -89,7 +89,7 @@ Respond STRICTLY with a raw JSON object (no markdown, no backticks):
         model = gemini_model_name()
 
         # Try several keys if one is rate-limited or fails hard
-        max_attempts = 19
+        max_attempts = 4
         last_error = "No GEMINI API keys configured."
         used = set()
 

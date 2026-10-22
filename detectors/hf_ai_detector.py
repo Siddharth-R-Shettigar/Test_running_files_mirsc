@@ -9,7 +9,6 @@ logger = logging.getLogger("kavach.hf_ai")
 
 MODEL_CHECKPOINTS = [
     "umm-maybe/AI-image-detector",
-    "Organika/sdxl-detector"
 ]
 
 _PIPELINE_CACHE = {}

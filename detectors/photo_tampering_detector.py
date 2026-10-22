@@ -15,20 +15,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 from detectors.ela_detector import run_ela_detector
 from detectors.resampling_detector import run_resampling_detector
 
-
-_FACE_APP = None
-
-
-def _get_face_app():
-    """Load InsightFace once and reuse it (same idea as face_verification_engine)."""
-    global _FACE_APP
-    if _FACE_APP is None:
-        from insightface.app import FaceAnalysis
-        _FACE_APP = FaceAnalysis(name="buffalo_l")
-        # ctx_id=-1 means CPU
-        _FACE_APP.prepare(ctx_id=-1, det_size=(640, 640))
-    return _FACE_APP
-
+from detectors.face_app_singleton import get_face_app as _get_face_app
 
 def _largest_face_box(image_bgr, pad_ratio=0.15):
     """

@@ -358,17 +358,7 @@ def run_duplicate_id_detector(image_path: str) -> dict:
         )
 
 
-_FACE_APP = None
-
-
-def _get_face_app():
-    """Lazily loads and caches the InsightFace model (loaded once per process)."""
-    global _FACE_APP
-    if _FACE_APP is None:
-        from insightface.app import FaceAnalysis
-        _FACE_APP = FaceAnalysis(name="buffalo_l")
-        _FACE_APP.prepare(ctx_id=-1, det_size=(640, 640))
-    return _FACE_APP
+from detectors.face_app_singleton import get_face_app as _get_face_app
 
 
 # ---------------------------------------------------------------------

@@ -10,32 +10,26 @@ os.environ["ORT_LOGGING_LEVEL"] = "3"
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-_FACE_APP = None
-
-def _get_face_app():
-    """Loads the InsightFace ArcFace model once and reuses it across calls."""
-    global _FACE_APP
-    if _FACE_APP is None:
-        from insightface.app import FaceAnalysis
-        _FACE_APP = FaceAnalysis(name='buffalo_l')
-        _FACE_APP.prepare(ctx_id=-1, det_size=(640, 640))  # ctx_id=-1 -> CPU (no GPU assumed)
-    return _FACE_APP
-
+from detectors.face_app_singleton import get_face_app as _get_face_app
 
 def _get_largest_face_embedding(image_path):
-    img = cv2.imread(image_path)
-    if img is None:
-        return None, "Could not read image file."
+    try:
+        img = cv2.imread(image_path)
+        if img is None:
+            return None, "Could not read image file."
 
-    app = _get_face_app()
-    faces = app.get(img)
+        app = _get_face_app()
+        faces = app.get(img)
 
-    if not faces:
-        return None, "No face detected in image."
+        if not faces:
+            return None, "No face detected in image."
 
-    # If multiple faces are found, use the largest bounding box (most likely the primary subject)
-    largest_face = max(faces, key=lambda f: (f.bbox[2] - f.bbox[0]) * (f.bbox[3] - f.bbox[1]))
-    return largest_face.normed_embedding, None  # already L2-normalized 512-D vector
+        # If multiple faces are found, use the largest bounding box (most likely the primary subject)
+        largest_face = max(faces, key=lambda f: (f.bbox[2] - f.bbox[0]) * (f.bbox[3] - f.bbox[1]))
+        return largest_face.normed_embedding, None  # already L2-normalized 512-D vector
+    except Exception as e:
+        return None, f"Face embedding extraction error: {e}"
+
 
 
 _CASCADES = []
