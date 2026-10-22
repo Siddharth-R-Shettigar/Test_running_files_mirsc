@@ -233,5 +233,37 @@
     "previous_hash": "0001367d1633b57f6ca6806a84592941b2d988d665f20582a59654c818ef4dc6",
     "nonce": 148,
     "hash": "005e45a99bb6736b7aeef57abb560fe9c1d95122eecebc61bf4d792cf1ba7328"
+  },
+  {
+    "index": 15,
+    "timestamp": "2026-10-22T13:25:04Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "b326151acdacdf723bfcadb7209c035420a1f61e8b9f84619255a06993c056b0",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-10-22T13:25:04Z",
+      "file_analyzed": "passport_c2f09c7b305142af96480cee75f59ab8.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "005e45a99bb6736b7aeef57abb560fe9c1d95122eecebc61bf4d792cf1ba7328",
+    "nonce": 117,
+    "hash": "00521212ae1dd20d81257855da3c3394750f8c442d75c9e71ea5242fbdda7521"
+  },
+  {
+    "index": 16,
+    "timestamp": "2026-10-22T13:31:44Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "17f6bc1c0d2d9ce6b85d4760acfd992455e5f9258040f8441a29edeb7253902d",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-10-22T13:31:44Z",
+      "file_analyzed": "passport_c2f09c7b305142af96480cee75f59ab8.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00521212ae1dd20d81257855da3c3394750f8c442d75c9e71ea5242fbdda7521",
+    "nonce": 42,
+    "hash": "007700ffca7b20aa375102e12d18ae7842b009d38e566f2a995e36ca2e7cf51f"
   }
 ]

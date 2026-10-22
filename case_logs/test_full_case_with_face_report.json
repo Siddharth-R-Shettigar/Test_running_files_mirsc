@@ -1,0 +1,417 @@
+{
+  "engine": "KAVACH",
+  "case_id": "test_full_case_with_face",
+  "risk_level": "HIGH RISK",
+  "risk_reason": "[passport] Multiple strong forensic anomalies: jpeg_ghost_analysis, resampling_interpolation_analysis, frequency_domain_fft, photo_patch_forensics.",
+  "forensic_risk_score": 0.79,
+  "detector_signals": [
+    {
+      "detector_name": "[passport] clarity_check",
+      "score": 0.019,
+      "confidence": "high",
+      "explanation": "Image clarity is 98.1% (93-100%). Excellent quality – sharp contrast and optimal focus.",
+      "status": "passed",
+      "raw_detector_name": "clarity_check"
+    },
+    {
+      "detector_name": "[passport] ocr_extraction",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Hybrid OCR completed",
+      "status": "passed",
+      "fields": [
+        {
+          "text": "भारत गणराज्य REPUBLIC OF INDIA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "पासपोर्ट / PASSPORT",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "प्रकार / Type",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "P",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "देश कोड / Country Code",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "IND",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "पासपोर्ट नं. / Passport No.",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Z78456231",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "उपनाम / Surname",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "KARTHIK",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "दिया गया नाम / Given Name(s)",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "ANANYA",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "राष्ट्रीयता / Nationality",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "INDIAN",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "लिंग / Sex",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "F",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "जन्म तिथि / Date of Birth",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "14/03/2003",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "जन्म स्थान / Place of Birth",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "VELLORE, TAMIL NADU",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "होल्डर का हस्ताक्षर / Holder's Signature",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "Ananya Karthik",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "जारी करने का स्थान / Place of Issue",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "CHENNAI",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "जारी करने की तिथि / Date of Issue",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "28/06/2025",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "समाप्ति की तिथि / Date of Expiry",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "27/06/2035",
+          "confidence": 0.92,
+          "source": "qwen"
+        },
+        {
+          "text": "सत्यमेव जयते",
+          "confidence": 0.92,
+          "source": "qwen"
+        }
+      ],
+      "mrz_lines": [
+        "P<INDKARTHIK<<ANANYA<<<<<<<<<<<<<<<<<<<<<<<",
+        "Z78456231<7IND0303142F3506278<<<<<<<<<<<<<<4"
+      ],
+      "raw_detector_name": "ocr_extraction"
+    },
+    {
+      "detector_name": "[passport] document_classifier",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Classified as passport (score=12.5) (User uploaded category: 'passport')",
+      "status": "passed",
+      "doc_type": "passport",
+      "needs_mrz": true,
+      "raw_detector_name": "document_classifier"
+    },
+    {
+      "detector_name": "[passport] mrz_parser",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "MRZ parsing error: invalid literal for int() with base 10: '<'",
+      "status": "unavailable",
+      "fields": {
+        "doc_type": "P",
+        "country_code": "IND",
+        "surname": "KARTHIK",
+        "given_names": "ANANYA",
+        "passport_number": "Z78456231"
+      },
+      "issues": [
+        "invalid literal for int() with base 10: '<'"
+      ],
+      "raw_detector_name": "mrz_parser"
+    },
+    {
+      "detector_name": "[passport] field_validator",
+      "score": 0.7,
+      "confidence": "medium",
+      "explanation": "Missing mandatory fields for passport: dob, expiry",
+      "status": "flagged",
+      "raw_detector_name": "field_validator"
+    },
+    {
+      "detector_name": "[passport] ocr_mrz_consistency",
+      "score": 0.25,
+      "confidence": "high",
+      "explanation": "Visual OCR and MRZ fields are consistent",
+      "status": "passed",
+      "mismatches": [],
+      "raw_detector_name": "ocr_mrz_consistency"
+    },
+    {
+      "detector_name": "[passport] national_id_validator",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No Aadhaar/PAN pattern found in OCR text.",
+      "status": "unavailable",
+      "raw_detector_name": "national_id_validator"
+    },
+    {
+      "detector_name": "[passport] cfa_demosaicing_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Bayer CFA grid residual ratio computed at 14.3. Periodic camera sensor demosaicing pattern detected.",
+      "status": "passed",
+      "raw_detector_name": "cfa_demosaicing_analysis"
+    },
+    {
+      "detector_name": "[passport] jpeg_ghost_analysis",
+      "score": 0.85,
+      "confidence": "medium",
+      "explanation": "JPEG Ghost variance computed at 1.25. Suspicious uniform compression grid detected.",
+      "status": "flagged",
+      "raw_detector_name": "jpeg_ghost_analysis"
+    },
+    {
+      "detector_name": "[passport] resampling_interpolation_analysis",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "Periodic interpolation artifacts detected (metric: 2226.72). Image shows signs of AI upscaling or non-native resampling.",
+      "status": "flagged",
+      "raw_detector_name": "resampling_interpolation_analysis"
+    },
+    {
+      "detector_name": "[passport] frequency_domain_fft",
+      "score": 0.8,
+      "confidence": "medium",
+      "explanation": "FFT spectral power calculated at 182.48 dB. High-frequency grid noise detected.",
+      "status": "flagged",
+      "raw_detector_name": "frequency_domain_fft"
+    },
+    {
+      "detector_name": "[passport] hf_vision_transformer",
+      "score": 0.09,
+      "confidence": "high",
+      "explanation": "Ensemble of 1 Hugging Face Vision Transformers evaluated synthetic probability at 8%.",
+      "status": "passed",
+      "raw_detector_name": "hf_vision_transformer"
+    },
+    {
+      "detector_name": "[passport] photo_patch_forensics",
+      "score": 0.405,
+      "confidence": "high",
+      "explanation": "Photo-patch forensics on document face crop. ELA score=0.01 (Error Level Analysis computed pixel difference variance of 0.12.). Resampling score=0.8 (Periodic interpolation artifacts detected (metric: 600.42). Image shows signs of).",
+      "status": "flagged",
+      "raw_detector_name": "photo_patch_forensics"
+    },
+    {
+      "detector_name": "[passport] blur_sharpness_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Standard physical lens focus distribution (sharpness metric: 1655.37).",
+      "status": "passed",
+      "raw_detector_name": "blur_sharpness_analysis"
+    },
+    {
+      "detector_name": "[passport] exiftool",
+      "score": 0.35,
+      "confidence": "low",
+      "explanation": "No camera EXIF metadata found. Common on scans and shared files; weak signal only.",
+      "status": "passed",
+      "raw_detector_name": "exiftool"
+    },
+    {
+      "detector_name": "[passport] c2pa",
+      "score": 0.5,
+      "confidence": "low",
+      "explanation": "No C2PA Content Credentials manifest found (typical for standard or unsigned media).",
+      "status": "unavailable",
+      "raw_detector_name": "c2pa"
+    },
+    {
+      "detector_name": "[passport] ela_compression",
+      "score": 0.03,
+      "confidence": "medium",
+      "explanation": "Error Level Analysis computed pixel difference variance of 0.5.",
+      "status": "passed",
+      "raw_detector_name": "ela_compression"
+    },
+    {
+      "detector_name": "[passport] histogram_color_forensics",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Color channel entropy computed at 6.25 bits. Standard natural RGB channel distribution.",
+      "status": "passed",
+      "raw_detector_name": "histogram_color_forensics"
+    },
+    {
+      "detector_name": "[passport] copy_move_forgery",
+      "score": 0.0,
+      "confidence": "medium",
+      "explanation": "Found 0 suspicious duplicated feature clusters. No duplicate region cloning detected.",
+      "status": "passed",
+      "raw_detector_name": "copy_move_forgery"
+    },
+    {
+      "detector_name": "[passport] perceptual_hashing",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Generated perceptual signatures for duplicate cross-referencing.",
+      "status": "passed",
+      "raw_detector_name": "perceptual_hashing"
+    },
+    {
+      "detector_name": "[passport] jpeg_quantization_analysis",
+      "score": 0.6,
+      "confidence": "medium",
+      "explanation": "Missing standard JPEG quantization tables.",
+      "status": "flagged",
+      "raw_detector_name": "jpeg_quantization_analysis"
+    },
+    {
+      "detector_name": "[passport] inpainting_trace_analysis",
+      "score": 0.15,
+      "confidence": "medium",
+      "explanation": "Inpainting edge boundary dispersion ratio computed at 1.72. Uniform pixel edge continuity verified across image patches.",
+      "status": "passed",
+      "raw_detector_name": "inpainting_trace_analysis"
+    },
+    {
+      "detector_name": "[passport] vision_llm_sanity_analysis",
+      "score": 0.8,
+      "confidence": "high",
+      "explanation": "The most significant red flag is the 'Date of Issue' being in the future (28/06/2025), which is highly anomalous for a genuine document. The photograph also shows characteristics consistent with an AI-generated image, and there is a slight misalignment in the Machine Readable Zone.",
+      "status": "flagged",
+      "raw_detector_name": "vision_llm_sanity_analysis"
+    },
+    {
+      "detector_name": "[passport] microtext_analysis",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "MICROTEXT PRESENT — document likely genuine",
+      "status": "passed",
+      "raw_detector_name": "microtext_analysis"
+    },
+    {
+      "detector_name": "[passport] rainbow_gradient",
+      "score": 0.25,
+      "confidence": "low",
+      "explanation": "GENUINE GRADIENT",
+      "status": "passed",
+      "raw_detector_name": "rainbow_gradient"
+    },
+    {
+      "detector_name": "[passport] guilloche_pattern",
+      "score": 0.0,
+      "confidence": "low",
+      "explanation": "Background frequency energy=8.68, pattern integrity≈1.00. Single-frame phone capture; sensitive to focus and compression.",
+      "status": "passed",
+      "raw_detector_name": "guilloche_pattern"
+    },
+    {
+      "detector_name": "[passport] hologram_shift",
+      "score": 0.327,
+      "confidence": "low",
+      "explanation": "Single-frame foil proxy (sat_std=29.2, val_std=27.7, hue_std=5.6). True kinegram needs multi-angle capture; this is not a lab hologram verification.",
+      "status": "passed",
+      "raw_detector_name": "hologram_shift"
+    },
+    {
+      "detector_name": "[passport] face_verification",
+      "score": 0.1,
+      "confidence": "high",
+      "explanation": "Cosine distance: 0.1429 (match threshold: 0.4). Faces match — likely the same person.",
+      "status": "passed",
+      "raw_detector_name": "face_verification"
+    },
+    {
+      "detector_name": "[passport] liveness_analysis",
+      "score": 0.185,
+      "confidence": "high",
+      "explanation": "Spoof verdict: 'live'. FFT high-freq energy: 0.32, Color inconsistency: 0.01.",
+      "status": "passed",
+      "raw_detector_name": "liveness_analysis"
+    },
+    {
+      "detector_name": "[passport] duplicate_identity_check",
+      "score": 0.849,
+      "confidence": "medium",
+      "explanation": "No duplicate identity detected. Closest match under a different ID ('face_82de9a263b9949dfad52e50194e78b4a') had similarity 0.8488, below the 0.85 threshold.",
+      "status": "passed",
+      "raw_detector_name": "duplicate_identity_check"
+    }
+  ],
+  "human_summary": "[passport] Multiple strong forensic anomalies: jpeg_ghost_analysis, resampling_interpolation_analysis, frequency_domain_fft, photo_patch_forensics.",
+  "documents_analysed": [
+    "passport"
+  ]
+}
