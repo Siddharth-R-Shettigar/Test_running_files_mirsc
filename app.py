@@ -127,6 +127,67 @@ def scan():
     )
 
 
+def _parse_officer_summary(text):
+    """
+    Split llm_fusion generate_human_summary output into:
+      why (short prose only), checklist (list of strings without [ ]).
+    """
+    if not isinstance(text, str) or not text.strip():
+        return None, None
+
+    raw = text.strip()
+    why = None
+    checklist = []
+
+    # Normalize line breaks (models sometimes use spaces only)
+    lines = [ln.strip() for ln in raw.replace("\r\n", "\n").split("\n") if ln.strip()]
+
+    # Drop leading "RED | HIGH RISK | …" / "GREEN | PASS | …" header line
+    if lines and "|" in lines[0] and any(
+        k in lines[0].upper() for k in ("RED", "YELLOW", "GREEN", "PASS", "REVIEW", "HIGH RISK")
+    ):
+        lines = lines[1:]
+
+    body = "\n".join(lines)
+
+    # Extract Why: … (until Officer checklist / Signals)
+    import re
+    m_why = re.search(
+        r"(?:^|\n)\s*Why:\s*(.+?)(?=\n\s*Officer checklist:|\n\s*Signals:|$)",
+        "\n" + body,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    if m_why:
+        why = re.sub(r"\s+", " ", m_why.group(1)).strip()
+    else:
+        # Fallback: strip header-ish prefixes from a single blob
+        why = re.sub(
+            r"^\s*(RED|YELLOW|GREEN)\s*\|\s*(HIGH RISK|REVIEW|PASS)\s*\|?\s*[^\n]*",
+            "",
+            body,
+            flags=re.IGNORECASE,
+        )
+        why = re.sub(r"(?i)Officer checklist:.*", "", why, flags=re.DOTALL)
+        why = re.sub(r"(?i)Signals:.*", "", why, flags=re.DOTALL)
+        why = re.sub(r"(?i)^\s*Why:\s*", "", why).strip()
+        why = re.sub(r"\s+", " ", why).strip() or None
+
+    # Extract [ ] checklist items
+    for m in re.finditer(r"\[\s*\]\s*(.+?)(?=\s*\[\s*\]|\s*Signals:|$)", body, flags=re.IGNORECASE | re.DOTALL):
+        item = re.sub(r"\s+", " ", m.group(1)).strip(" \t-•")
+        if item and len(item) > 3:
+            checklist.append(item[:200])
+
+    if not checklist:
+        for ln in lines:
+            if re.match(r"^\[\s*\]\s*", ln):
+                item = re.sub(r"^\[\s*\]\s*", "", ln).strip()
+                if item:
+                    checklist.append(item[:200])
+
+    return why, (checklist if checklist else None)
+
+
 def _map_result_ui(report):
     if not isinstance(report, dict):
         report = {}
@@ -150,22 +211,34 @@ def _map_result_ui(report):
     except (TypeError, ValueError):
         risk_pct = 0.0
 
-    why = (
+    raw_summary = (
         report.get("human_summary")
         or report.get("risk_reason")
         or report.get("reasoning")
         or "Automated screening complete."
     )
+
+    parsed_why, parsed_checklist = _parse_officer_summary(raw_summary)
+    why = parsed_why or (
+        report.get("risk_reason")
+        if report.get("risk_reason") and "Why:" not in str(report.get("human_summary") or "")
+        else None
+    ) or "Automated screening complete."
+
     if isinstance(why, str) and len(why) > 500:
         why = why[:497].rstrip() + "…"
 
-    checklist = report.get("officer_checklist") or [
-        "Compare document photo to the person present",
-        "Re-check MRZ / printed fields (0 vs O, dates)",
-        "Inspect photo area if face forensics flagged",
-        "Confirm hologram / secondary portrait if present",
-        "Secondary inspection if still unclear",
-    ]
+    checklist = (
+        report.get("officer_checklist")
+        or parsed_checklist
+        or [
+            "Compare document photo to the person present",
+            "Re-check MRZ / printed fields (0 vs O, dates)",
+            "Inspect photo area if face forensics flagged",
+            "Confirm hologram / secondary portrait if present",
+            "Secondary inspection if still unclear",
+        ]
+    )
 
     signals = []
     for s in (report.get("detector_signals") or [])[:8]:
