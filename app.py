@@ -151,13 +151,13 @@ def _map_result_ui(report):
         risk_pct = 0.0
 
     why = (
-        report.get("risk_reason")
-        or report.get("human_summary")
+        report.get("human_summary")
+        or report.get("risk_reason")
         or report.get("reasoning")
         or "Automated screening complete."
     )
-    if isinstance(why, str) and len(why) > 280:
-        why = why[:277].rstrip() + "…"
+    if isinstance(why, str) and len(why) > 500:
+        why = why[:497].rstrip() + "…"
 
     checklist = report.get("officer_checklist") or [
         "Compare document photo to the person present",
@@ -333,8 +333,6 @@ def scan_capture():
             return redirect(url_for("scan", error=err_msg))
     except Exception as e:
         print(f"[WARNING] Clarity pre-check error (image kept): {e}", file=sys.stderr)
-        # Do NOT delete file or abort — continue with the capture
-
 
     # Face presence check (only hard-block on definitive no-face, not on detector crash)
     if step["key"] == "face":
@@ -347,7 +345,6 @@ def scan_capture():
                 return redirect(url_for("scan", error=face_msg))
         except Exception as e:
             print(f"[WARNING] Face presence pre-check error (image kept): {e}", file=sys.stderr)
-            # Do NOT delete file or abort — continue with the capture
 
     captures = dict(session.get("captures") or {})
     captures[step["key"]] = path
@@ -507,9 +504,15 @@ def _execute_case_analysis(case_id, available_docs, face_path, done_event):
             "risk_reason": merged_risk_reason,
             "forensic_risk_score": round(final_score, 3),
             "detector_signals": merged_signals,
-            "human_summary": merged_risk_reason,
             "documents_analysed": [k for k, _ in available_docs],
         }
+
+        try:
+            from llm_fusion import generate_human_summary
+            final_report["human_summary"] = generate_human_summary(final_report)
+        except Exception as e:
+            print(f"[WARNING] human summary failed: {e}", flush=True)
+            final_report["human_summary"] = merged_risk_reason
 
         os.makedirs("case_logs", exist_ok=True)
         try:
@@ -541,7 +544,6 @@ def _execute_case_analysis(case_id, available_docs, face_path, done_event):
 
 @app.route("/api/run_case")
 def api_run_case():
-    # ── FAST UI demo: return immediately without ML ──────────────────────────
     if os.environ.get("KAVACH_FAST_UI", "0").strip() == "1":
         case_id = f"case_{uuid.uuid4().hex[:12]}"
         demo_report = {
@@ -572,7 +574,6 @@ def api_run_case():
         session["last_result_ui"] = ui
         return jsonify(ui)
 
-    # ---------- REAL ANALYSIS (Fast UI is OFF) ----------
     if not session.get("logged_in"):
         return jsonify({"error": "not logged in"}), 401
 
@@ -625,7 +626,6 @@ def api_run_case():
         CASE_THREADS[case_id] = t
         t.start()
 
-    # Wait up to 12s so fast runs return synchronously, but NEVER block long enough to cause a proxy 502!
     done = done_event.wait(timeout=12.0)
     with CASE_PROGRESS_LOCK:
         prog = CASE_PROGRESS.get(case_id, {})
@@ -636,7 +636,6 @@ def api_run_case():
         if done and prog.get("status") == "failed":
             return jsonify({"error": prog.get("error", "Analysis failed")}), 500
 
-    # Still running in background: return 200 with status="running"
     return jsonify({
         "status": "running",
         "case_id": case_id,
@@ -657,10 +656,8 @@ def api_run_case_progress():
         return jsonify(dict(progress))
 
 
-# ── GET /api/cases ─────────────────────────────────────────────────────────────
 @app.route("/api/cases")
 def api_cases():
-    """List all case_logs/*_report.json with optional blockchain integrity check."""
     if not session.get("logged_in"):
         return jsonify({"error": "not logged in"}), 401
 
@@ -712,7 +709,7 @@ def api_cases():
             "date": mtime,
             "officer": session.get("officer_email", "officer@agency.gov.in"),
             "verdict": verdict,
-            "summary": (rep.get("risk_reason") or "")[:200],
+            "summary": (rep.get("human_summary") or rep.get("risk_reason") or "")[:200],
             "integrity": integrity,
             "filename": os.path.basename(fpath),
         })
@@ -720,10 +717,8 @@ def api_cases():
     return jsonify({"cases": cases_out})
 
 
-# ── GET /api/report/<case_id>.pdf ──────────────────────────────────────────────
 @app.route("/api/report/<case_id>.pdf")
 def api_report_pdf(case_id):
-    """Stream a PDF forensic report for the given case_id."""
     if not session.get("logged_in"):
         return jsonify({"error": "not logged in"}), 401
 
@@ -783,7 +778,6 @@ if __name__ == "__main__":
     debug_mode = os.environ.get("FLASK_DEBUG", "0").strip().lower() in ("1", "true")
     use_reloader = os.environ.get("FLASK_USE_RELOADER", "0").strip().lower() in ("1", "true")
 
-    # In reloader mode, only start the warmup in the child worker process
     if not use_reloader or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
         threading.Thread(target=_warm_models, daemon=True).start()
 
