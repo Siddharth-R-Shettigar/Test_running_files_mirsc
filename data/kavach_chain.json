@@ -265,5 +265,53 @@
     "previous_hash": "00521212ae1dd20d81257855da3c3394750f8c442d75c9e71ea5242fbdda7521",
     "nonce": 42,
     "hash": "007700ffca7b20aa375102e12d18ae7842b009d38e566f2a995e36ca2e7cf51f"
+  },
+  {
+    "index": 17,
+    "timestamp": "2026-10-22T13:42:34Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "b4af72c9a665a0086e01c3bcec456c76c381c1c5edfd67b2e1771e44144ea8f2",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-10-22T13:42:34Z",
+      "file_analyzed": "lolol.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "007700ffca7b20aa375102e12d18ae7842b009d38e566f2a995e36ca2e7cf51f",
+    "nonce": 697,
+    "hash": "006f3b9154cbfe5c75c65e2dd44ba653add5c6968f1fd7db20b87985dd8814f3"
+  },
+  {
+    "index": 18,
+    "timestamp": "2026-10-22T13:43:28Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "95cb77bce99ea36373e5ebd5f78af534add87bf51f5e29f0eccb48d178d6af19",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-10-22T13:43:28Z",
+      "file_analyzed": "lolol.jpeg",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "006f3b9154cbfe5c75c65e2dd44ba653add5c6968f1fd7db20b87985dd8814f3",
+    "nonce": 144,
+    "hash": "00651076577f1e592b07c087ea3f9b8cfac304cee448125f4b1d28fb34244617"
+  },
+  {
+    "index": 19,
+    "timestamp": "2026-10-22T14:07:03Z",
+    "data": {
+      "type": "report_anchor",
+      "report_hash": "b4900117cc5b7a457f1d47774cde8d4f34f44a65a0c5378f55d82844f733fc2b",
+      "case_id": null,
+      "risk_level": "HIGH RISK",
+      "anchored_at": "2026-10-22T14:07:03Z",
+      "file_analyzed": "aadhaar.png",
+      "engine": "KAVACH"
+    },
+    "previous_hash": "00651076577f1e592b07c087ea3f9b8cfac304cee448125f4b1d28fb34244617",
+    "nonce": 549,
+    "hash": "00745f18a05231f59dfa2a16f3774aec1746bb14efdb9c9f827aff07fcda3d2a"
   }
 ]
