@@ -43,4 +43,5 @@ cryptography>=42.0.0
 
 # Optional but used in some detectors / future
 # google-genai          # only if you switch vision_llm to the official SDK
-# reportlab             # if you enable PDF report generation
+# reportlab
+reportlab>=4.0.0
